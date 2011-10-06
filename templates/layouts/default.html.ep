@@ -1,4 +1,34 @@
-<!doctype html><html>
-  <head><title><%= title %></title></head>
-  <body><%= content %></body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+
+	<title>after5detroit.com</title>
+
+	<!-- Stylesheet -->
+
+	<link rel="stylesheet" type="text/css" href="/after5detroit.css">
+
+	<!-- Dojo 1.6 JavaScript Framework -->
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"></script>
+
+        <script type="text/javascript">//<![CDATA[
+
+	    dojo.require("dojo.parser");
+
+        //]]></script>
+
+    </head>
+
+    <body>
+
+        <img src="header.png" />
+
+        <!-- Page Content -->
+
+        <%= content %>
+
+    </body>
+
 </html>

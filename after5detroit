@@ -1,24 +1,54 @@
 #!/usr/bin/env perl
+
+#use local::lib 'lib';
+
+use Modern::Perl;
+
 use Mojolicious::Lite;
 
-# Documentation browser under "/perldoc" (this plugin requires Perl 5.10)
-plugin 'PODRenderer';
+get '/' => sub {
 
-get '/welcome' => sub {
-  my $self = shift;
-  $self->render('index');
+    my $self = shift;
+    $self->render('home', layout => 'default');
+
 };
 
+#### Pages...
+
+get '/home' => sub {
+
+    my $self = shift;
+    $self->render('home', layout => 'default');
+
+} => 'home';
+
+get '/live' => sub {
+
+    my $self = shift;
+    $self->render('live', layout => 'default');
+
+} => 'live';
+
+get '/work' => sub {
+
+    my $self = shift;
+    $self->render('work', layout => 'default');
+
+} => 'work';
+
+get '/play' => sub {
+
+    my $self = shift;
+    $self->render('play', layout => 'default');
+
+} => 'play';
+
+get '/photos' => sub {
+
+    my $self = shift;
+    $self->render('photos', layout => 'default');
+
+} => 'photos';
+
+app->secret('after5detroit');
 app->start;
-__DATA__
-
-@@ index.html.ep
-% layout 'default';
-% title 'Welcome';
-Welcome to Mojolicious!
-
-@@ layouts/default.html.ep
-<!doctype html><html>
-  <head><title><%= title %></title></head>
-  <body><%= content %></body>
-</html>
