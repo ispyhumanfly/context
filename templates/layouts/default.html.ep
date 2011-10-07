@@ -5,29 +5,30 @@
 
 	<title>after5detroit.com</title>
 
-	<!-- Stylesheet -->
-
 	<link rel="stylesheet" type="text/css" href="/after5detroit.css">
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/nihilo/nihilo.css">
 
-	<!-- Dojo 1.6 JavaScript Framework -->
-
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6/dojo/dojo.xd.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
 
         <script type="text/javascript">//<![CDATA[
 
-	    dojo.require("dojo.parser");
+            dojo.require("dijit.layout.BorderContainer");
 
         //]]></script>
 
     </head>
 
-    <body>
+    <body class="nihilo">
 
-        <img src="header.png" />
+        <div dojoType="dijit.layout.BorderContainer" class="body_container">
 
-        <!-- Page Content -->
+            <img src="header.png" />
 
-        <%= content %>
+            <%= content %>
+
+            <img src="footer.png" />
+
+        </div>
 
     </body>
 

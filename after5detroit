@@ -1,54 +1,56 @@
 #!/usr/bin/env perl
 
-#use local::lib 'lib';
-
 use Modern::Perl;
-
 use Mojolicious::Lite;
 
-get '/' => sub {
+get '/:after5page' => [after5page => qr/\w*/] => sub {
 
     my $self = shift;
-    $self->render('home', layout => 'default');
 
-};
+    given ($self->param('after5page')) {
 
-#### Pages...
+        ## /live
+        when ('live') {
+            $self->render('live', layout => 'default');
+        }
 
-get '/home' => sub {
+        ## /work
+        when ('work') {
+            $self->render('work', layout => 'default');
+        }
 
-    my $self = shift;
-    $self->render('home', layout => 'default');
+        ## /play
+        when ('play') {
+            $self->render('play', layout => 'default');
+        }
 
-} => 'home';
+        ## /photos
+        when ('photos') {
+            $self->render('photos', layout => 'default');
+        }
 
-get '/live' => sub {
+        default {
+            $self->render('index', layout => 'default');
+        }
 
-    my $self = shift;
-    $self->render('live', layout => 'default');
+    }
 
-} => 'live';
+} => 'after5page';
 
-get '/work' => sub {
 
-    my $self = shift;
-    $self->render('work', layout => 'default');
-
-} => 'work';
-
-get '/play' => sub {
-
-    my $self = shift;
-    $self->render('play', layout => 'default');
-
-} => 'play';
-
-get '/photos' => sub {
+post '/:after5form' => [after5form => qr/\w+/] => sub {
 
     my $self = shift;
-    $self->render('photos', layout => 'default');
 
-} => 'photos';
+    given ($self->param('after5form')) {
 
-app->secret('after5detroit');
+        default {
+            $self->redirect_to('after5page');
+        }
+
+    }
+
+} => 'after5form';
+
+app->secret('after5detroit.com');
 app->start;
