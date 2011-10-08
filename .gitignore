@@ -11,3 +11,4 @@ Makefile*
 MANIFEST*
 !MANIFEST.SKIP
 pm_to_blib
+*.bak

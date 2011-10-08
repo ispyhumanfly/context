@@ -5,7 +5,7 @@
 
 	<title>after5detroit.com</title>
 
-	<link rel="stylesheet" type="text/css" href="/after5detroit.css">
+	<link rel="stylesheet" type="text/css" href="/after5default.css">
         <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/nihilo/nihilo.css">
 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
@@ -20,13 +20,30 @@
 
     <body class="nihilo">
 
-        <div dojoType="dijit.layout.BorderContainer" class="body_container">
+        <div class="body_container" dojoType="dijit.layout.BorderContainer">
 
-            <img src="header.png" />
+            <div class="header_container">
+
+
+            </div>
+
+            <div id="navigation_container">
+
+                <ul>
+                    <li><a href="/live">Live</a></li>
+                    <li><a href="/work">Work</a></li>
+                    <li><a href="/play">Play</a></li>
+                    <li><a href="/photos">Photos</a></li>
+                </ul>
+
+            </div>
 
             <%= content %>
 
-            <img src="footer.png" />
+            <div class="footer_container">
+
+
+            </div>
 
         </div>
 
