@@ -2,55 +2,148 @@
 
 use Modern::Perl;
 use Mojolicious::Lite;
+use Crypt::SaltedHash;
+use Try::Tiny;
+use DateTime;
 
-get '/:after5page' => [after5page => qr/\w*/] => sub {
+use lib 'lib';
+use After5::Model;
 
-    my $self = shift;
+our $MODEL = After5::Model->connect('dbi:SQLite:after5detroit.db');
 
-    given ($self->param('after5page')) {
-
-        ## /live
-        when ('live') {
-            $self->render('live', layout => 'default');
-        }
-
-        ## /work
-        when ('work') {
-            $self->render('work', layout => 'default');
-        }
-
-        ## /play
-        when ('play') {
-            $self->render('play', layout => 'default');
-        }
-
-        ## /photos
-        when ('photos') {
-            $self->render('photos', layout => 'default');
-        }
-
-        default {
-            $self->render('index', layout => 'default');
-        }
-
-    }
-
-} => 'after5page';
-
-
-post '/:after5form' => [after5form => qr/\w+/] => sub {
+get '/:after5template' => [after5template => qr/\w*/] => sub {
 
     my $self = shift;
 
-    given ($self->param('after5form')) {
+    $self->{'MODEL'} = $MODEL;
 
-        default {
-            $self->redirect_to('after5page');
+    given ($self->param('after5template')) {
+
+        when (/\w+/) {
+
+            try { $self->render($_); } finally { $self->render('home'); }
         }
 
+        default {
+            $self->render('home');
+        }
     }
 
-} => 'after5form';
+} => 'after5template';
+
+any '/control/:after5control' => [after5control => qr/\w*/] => sub {
+
+    my $self = shift;
+
+    $self->{'MODEL'} = $MODEL;
+
+    given ($self->param('after5control')) {
+
+        when ('settings') {
+
+            if ($self->param('password_1') eq $self->param('password_2')) {
+
+                try {
+
+                    $self->{'MODEL'}->resultset('Settings')->update(
+                        {
+                            admin => $self->param('admin')
+                        }
+                    );
+
+                    if ($self->param('password_1') ne '') {
+
+                        my $crypt =
+                          Crypt::SaltedHash->new(algorithm => 'SHA-256');
+                        $crypt->add($self->param('password_1'));
+
+                        my $password = $crypt->generate;
+
+                        $self->{'MODEL'}->resultset('Settings')
+                          ->update({password => $password});
+                    }
+
+                    $self->{'MODEL'}->resultset('Settings')
+                      ->update({about => $self->param('about')});
+                }
+
+                finally {
+
+                    return $self->render('control');
+                }
+            }
+        }
+
+        when ('content') {
+
+            try {
+
+                $MODEL->resultset('Content')->create(
+
+                    {   title => $self->param('title'),
+                        body => $self->param('body'),
+                        tags => $self->param('tags'),
+                        cities => $self->param('cities'),
+                        datetime => DateTime->now,
+                    }
+                );
+            }
+
+            finally {
+
+                return $self->render('control');
+            }
+        }
+
+        when ('ads') {
+
+        }
+
+        when ('login') {
+
+            if (($self->param('admin')) and ($self->param('password'))) {
+
+                try {
+
+                    my @settings =
+                      $self->{'MODEL'}->resultset('Settings')
+                      ->search({admin => $self->param('admin')});
+
+                    for (@settings) {
+
+                        if (Crypt::SaltedHash->validate(
+                                $_->password, $self->param('password')
+                            )
+                          )
+                        {
+
+                            $self->session(admin => $_->admin);
+                            $self->render('control');
+                        }
+                    }
+                }
+
+                finally {
+
+                    return $self->render('control');
+                }
+            }
+            return $self->render('control')
+        }
+
+        when ('logout') {
+
+            $self->session(expires => 1);
+            $self->redirect_to('after5template');
+        }
+
+        default {
+
+            return $self->render('control')
+        }
+    }
+
+} => 'after5control';
 
 app->secret('after5detroit.com');
 app->start;

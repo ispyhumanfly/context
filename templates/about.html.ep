@@ -1,0 +1,14 @@
+% title 'About';
+% layout 'default';
+
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<% my $settings = $self->{MODEL}->resultset('Settings')->first; %>
+
+<div>
+
+    <%= $settings->about %>
+
+</div>

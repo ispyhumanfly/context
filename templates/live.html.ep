@@ -1,9 +1,12 @@
+% title 'Live';
+% layout 'default';
+
 <script type="text/javascript">//<![CDATA[
 
 //]]></script>
 
 <div>
 
-    <!-- Put something here... -->
+    <blockquote><%= title %> content will eventually go here.</blockquote>
 
 </div>

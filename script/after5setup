@@ -1,0 +1,33 @@
+#!/usr/bin/env perl
+
+use Modern::Perl;
+use Crypt::SaltedHash;
+use DateTime;
+
+use lib 'lib';
+use After5::Model;
+
+our $MODEL = After5::Model->connect("dbi:SQLite:after5detroit.db");
+$MODEL->create_ddl_dir('SQLite', '', 'script/');
+
+system 'sqlite3 after5detroit.db < script/After5-Model-1.0a-SQLite.sql';
+
+### Setup Settings...
+
+$MODEL->resultset('Settings')->create(
+
+    {   admin => 'after5admin',
+        password => salt_password('admin123'),
+        about => 'Something about After5.',
+        datetime => DateTime->now,
+    }
+);
+
+sub salt_password {
+
+    my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
+    $crypt->add(shift);
+
+    return $crypt->generate;
+
+}

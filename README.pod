@@ -1,0 +1,33 @@
+=pod
+
+=encoding utf8
+
+=head1 NAME
+
+After5Detroit
+
+=head1 SYNOPSIS
+
+	./after5detroit daemon
+
+=head1 DESCRIPTION
+
+The source code for after5detroit.com
+
+=head2 CPAN Setup
+
+	cpanm -l lib/ Modern::Perl Mojolicious::Lite DBIx::Class::Candy DateTime::Format::SQLite Crypt::SaltedHash
+
+=head1 BUGS
+
+	http://github.com/ispyhumanfly/after5detroit/issues
+
+=head1 SEE ALSO
+
+	http://github.com/ispyhumanfly/after5detroit/wiki
+
+=head1 LICENSE
+
+This is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+
+=cut
