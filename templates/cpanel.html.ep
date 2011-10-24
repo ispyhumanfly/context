@@ -1,0 +1,215 @@
+% title 'CPanel';
+% layout 'default';
+
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.layout.TabContainer");
+    dojo.require("dijit.layout.ContentPane");
+    dojo.require("dijit.form.Textarea");
+    dojo.require("dijit.TitlePane");
+    dojo.require("dijit.form.MultiSelect");
+    dojo.require("dijit.Dialog");
+    dojo.require("dijit.Menu");
+
+    <% unless ( $self->session('admin') ) { %>
+
+    dojo.addOnLoad(function() {
+
+        dijit.byId("dialog_login").show();
+
+    });
+
+    <% } %>
+
+//]]></script>
+
+<div dojoType="dijit.layout.ContentPane" region="center" style="height: 500px;">
+
+    <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="left">
+
+        <% if ( $self->session('admin') ) { %>
+
+        <div dojoType="dijit.layout.ContentPane" title="Content" selected="true">
+
+            <% for ( my @content = $self->{MODEL}->resultset('Content')->all ) { %>
+
+            <div dojoType="dijit.TitlePane" title="<%= $_->title %>">
+
+                <%= $_->datetime %>
+
+                <%= $_->body %>
+
+                <%= $_->tags %>
+
+                <br />
+
+                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content/remove?id=<%= $_->id %>" method="POST">
+
+                    <button dojoType="dijit.form.Button" type="submit">Remove</button>
+
+                </div>
+
+            </div>
+
+            <br />
+
+            <% } %>
+
+        </div>
+
+        <div dojoType="dijit.layout.ContentPane" title="Ads">
+
+            Here is where you will manage the ad images and their placement.
+
+        </div>
+
+        <% } %>
+
+    </div>
+
+</div>
+
+<!-- CPanel Menu -->
+
+<div id="cpanel_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
+
+    <div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog_settings').show();">
+        Update Settings
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog_content').show();">
+        Add Content
+    </div>
+
+    <div dojoType="dijit.MenuSeparator"></div>
+
+    <% for (1..4) { %>
+
+    <div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog_<%= $_ %>').show();">
+        Dummy Item <%= $_ %>
+    </div>
+
+    <% } %>
+
+</div>
+
+<!-- CPanel Login -->
+
+<div id="dialog_login" dojoType="dijit.Dialog" title="CPanel Login">
+
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/login" method="POST">
+
+        Admin: <div dojoType="dijit.form.TextBox" name="admin"></div>
+
+        <br />
+        <br />
+
+        Password: <div dojoType="dijit.form.TextBox" name="password" type="password"></div>
+
+        <button dojoType="dijit.form.Button" type="submit">Login</button>
+
+    </div>
+</div>
+
+<!-- Update Settings -->
+
+<div id="dialog_settings" dojoType="dijit.Dialog" title="Update Settings" style="width: 800px; height: 600px;">
+
+    <% my $settings = $self->{MODEL}->resultset('Settings')->first; %>
+
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/settings" method="POST">
+
+        Admin: <div dojoType="dijit.form.TextBox" name="admin" value="<%= $settings->admin %>"></div>
+
+        <br />
+        <br />
+
+        New Password: <div dojoType="dijit.form.TextBox" name="password_1" type="password"></div>
+
+        ... Again: <div dojoType="dijit.form.TextBox" name="password_2" type="password"></div>
+
+        <br />
+        <br />
+
+        About: <textarea dojoType="dijit.form.Textarea" name="about" style="width: 400px;"><%= $settings->about %></textarea>
+
+        <br />
+        <br />
+
+        <button dojoType="dijit.form.Button" type="submit">Update</button>
+
+    </div>
+
+</div>
+
+<!-- Add Content -->
+
+<div id="dialog_content" dojoType="dijit.Dialog" title="Add Content" style="width: 800px; height: 600px;">
+
+    <div style="width: inherit; height: 550px;">
+
+        <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content" method="POST">
+
+            Title:
+            <div dojoType="dijit.form.TextBox" name="title" value=""></div>
+
+            <br />
+            <br />
+
+            Body:
+            <textarea dojoType="dijit.form.Textarea" name="body" style="width: 400px;"></textarea>
+
+            <br />
+            <br />
+
+            Tags:
+            <select dojoType="dijit.form.MultiSelect" name="tags" size="4">
+
+                <option value="on_tap">
+                    On Tap
+                </option>
+
+                <option value="featured">
+                    Featured
+                </option>
+
+                <option value="example" selected>
+                    Example
+                </option>
+
+            </select>
+
+            <br />
+            <br />
+
+            Cities:
+            <select dojoType="dijit.form.MultiSelect" name="cities" size="4">
+
+                <option value="birmingham">
+                    Birmingham
+                </option>
+
+                <option value="detroit">
+                    Detroit
+                </option>
+
+                <option value="ferndale">
+                    Ferndale
+                </option>
+
+                <option value="royal_oak" selected>
+                    Royal Oak
+                </option>
+
+            </select>
+
+            <br />
+            <br />
+
+            <button dojoType="dijit.form.Button" type="submit">Create</button>
+
+        </div>
+
+    </div>
+
+</div>

@@ -5,8 +5,28 @@
 
 //]]></script>
 
-<div>
+<div class="content_left">
 
     <blockquote><%= title %> content will eventually go here.</blockquote>
+
+</div>
+
+<div class="content_right">
+
+    <h1>Example</h1>
+
+    <% for (1...5) { %>
+
+    <p>Some stuff goes here</p>
+
+    <% } %>
+
+    <h1>Example</h1>
+
+    <% for (1...5) { %>
+
+    <p>Some stuff goes here</p>
+
+    <% } %>
 
 </div>

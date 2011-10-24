@@ -13,12 +13,32 @@
         <script type="text/javascript">//<![CDATA[
 
             dojo.require("dijit.layout.BorderContainer");
+            dojo.require("dijit.form.Form");
+            dojo.require("dijit.form.TextBox");
+            dojo.require("dijit.form.Button");
+
+            dojo.addOnLoad(_initLoader);
+
+	    function _initLoader() {
+
+	      var loader  = dojo.byId("content_loader");
+
+	      dojo.fadeOut({
+		node: loader, duration: 200, onEnd: function() {
+		  loader.style.display = "none";
+		}
+	      }).play(200);
+	    }
 
         //]]></script>
 
     </head>
 
     <body class="nihilo">
+
+        <!-- Content Loader -->
+
+	<div id="content_loader"><div id="content_loader_inner"><img src='/ajax-loader.gif' /></div></div>
 
         <div id="header_container">
 
@@ -33,11 +53,32 @@
                 <li><a href="/work">Work</a></li>
                 <li><a href="/play">Play</a></li>
                 <li><a href="/photos">Photos</a></li>
+
+                <% if ( $self->session('admin') ) { %>
+
+                <li><a href="/cpanel">CPanel</a></li>
+                <li><a href="/cpanel/logout">Logout</a></li>
+
+                <% } %>
+
             </ul>
 
         </div>
 
-        <div class="content_container">
+        <div id="content_container">
+
+            <div class="ad_space">
+
+                <p>Ad content will eventually go here.</p>
+
+            </div>
+
+            <div dojoType="dijit.form.Form" class="search" encType="multipart/form-data" action="/search/show" method="POST">
+
+                <div dojoType="dijit.form.TextBox" name="string" placeholder="Looking for something?"></div>
+                <button dojoType="dijit.form.Button" type="submit">Search</button>
+
+            </div>
 
             <%= content %>
 

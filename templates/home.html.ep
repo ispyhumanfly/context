@@ -5,9 +5,11 @@
 
 //]]></script>
 
-<div>
+<div class="content_left">
 
-    <blockquote>
+    <h1>Features</h1>
+
+    <p>
 
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis, orci aliquet iaculis porttitor, erat ligula fringilla ligula, quis dapibus purus orci id risus. Fusce orci orci, tincidunt id convallis sit amet, lacinia adipiscing erat. Proin at enim mi, at ultrices arcu. Quisque convallis porttitor nisl. Nullam risus libero, fermentum et consectetur in, iaculis nec orci. Sed ut libero vestibulum tellus rutrum eleifend quis vel dui. Proin laoreet semper congue. Curabitur metus odio, tempus sodales suscipit ut, cursus ut metus. Maecenas porttitor pharetra eros, quis semper nibh pulvinar ac. Suspendisse in cursus tellus. Curabitur dolor purus, feugiat consequat ornare sed, pulvinar sed odio. Etiam elementum mi nec dui imperdiet id ultrices nunc facilisis. Etiam eu nunc a augue varius tincidunt. Nulla facilisi. Nunc feugiat diam ac sem tempor varius. Vivamus felis est, ultricies ac blandit ut, sollicitudin non nulla.
 
@@ -15,6 +17,26 @@
 
         Aliquam erat volutpat. Nullam in odio libero, et interdum metus. Sed sed lectus dui, quis dignissim eros. Aenean dictum arcu suscipit dolor accumsan sed dictum felis varius. Sed ac nunc eros. Suspendisse ut lorem eu tortor eleifend rhoncus. Aenean nulla magna, gravida ut pretium a, auctor ac lorem. Vivamus commodo tortor at ante posuere in venenatis magna egestas. Aliquam consectetur diam ut ipsum eleifend non fringilla elit molestie. In tellus odio, auctor vel sodales sed, eleifend at risus.
 
-    </blockquote>
+    </p>
+
+</div>
+
+<div class="content_right">
+
+    <h1>Example</h1>
+
+    <% for (1...5) { %>
+
+    <p>Some stuff goes here</p>
+
+    <% } %>
+
+    <h1>Example</h1>
+
+    <% for (1...5) { %>
+
+    <p>Some stuff goes here</p>
+
+    <% } %>
 
 </div>

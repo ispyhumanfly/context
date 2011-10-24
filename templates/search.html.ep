@@ -1,4 +1,4 @@
-% title 'Live';
+% title 'Search';
 % layout 'default';
 
 <script type="text/javascript">//<![CDATA[
@@ -7,7 +7,15 @@
 
 <div class="content_left">
 
-    <blockquote><%= title %> content will eventually go here.</blockquote>
+    <h1>Results</h1>
+
+    <% for ( my @content = $self->{MODEL}->resultset('Content')->all ) { %>
+
+    <h2><%= $_->title %></h2>
+
+    <p><%= $_->body %></p>
+
+    <% } %>
 
 </div>
 

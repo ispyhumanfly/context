@@ -11,15 +11,22 @@ use After5::Model;
 
 our $MODEL = After5::Model->connect('dbi:SQLite:after5detroit.db');
 
+### After5 Templates
+
 get '/:after5template' => [after5template => qr/\w*/] => sub {
 
     my $self = shift;
-
     $self->{'MODEL'} = $MODEL;
 
     given ($self->param('after5template')) {
 
         when (/\w+/) {
+
+            return $self->redirect_to('search_show')
+              if $_ eq 'search';
+
+            return $self->redirect_to('cpanel_show')
+              if $_ eq 'cpanel';
 
             try { $self->render($_); } finally { $self->render('home'); }
         }
@@ -31,119 +38,147 @@ get '/:after5template' => [after5template => qr/\w*/] => sub {
 
 } => 'after5template';
 
-any '/control/:after5control' => [after5control => qr/\w*/] => sub {
+### After5 Search
+
+any '/search/show' => sub {
+
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
+
+    return $self->render('search');
+
+} => 'search_show';
+
+### After5 Control Panel
+
+get '/cpanel/show' => sub {
+
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
+
+    return $self->render('cpanel');
+
+} => 'cpanel_show';
+
+any '/cpanel/settings' => sub {
 
     my $self = shift;
 
-    $self->{'MODEL'} = $MODEL;
+    try {
 
-    given ($self->param('after5control')) {
+        $MODEL->resultset('Settings')
+          ->update({admin => $self->param('admin')});
 
-        when ('settings') {
+        if (    ($self->param('password_1') ne '')
+            and ($self->param('password_1') eq $self->param('password_2')))
+        {
 
-            if ($self->param('password_1') eq $self->param('password_2')) {
+            my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
+            $crypt->add($self->param('password_1'));
 
-                try {
+            my $password = $crypt->generate;
 
-                    $self->{'MODEL'}->resultset('Settings')->update(
-                        {
-                            admin => $self->param('admin')
-                        }
-                    );
+            $MODEL->resultset('Settings')->update({password => $password});
+        }
 
-                    if ($self->param('password_1') ne '') {
+        $MODEL->resultset('Settings')
+          ->update({about => $self->param('about')});
+    }
 
-                        my $crypt =
-                          Crypt::SaltedHash->new(algorithm => 'SHA-256');
-                        $crypt->add($self->param('password_1'));
+    finally {
 
-                        my $password = $crypt->generate;
+        $self->redirect_to('cpanel_show');
+    }
 
-                        $self->{'MODEL'}->resultset('Settings')
-                          ->update({password => $password});
-                    }
+} => 'cpanel_settings';
 
-                    $self->{'MODEL'}->resultset('Settings')
-                      ->update({about => $self->param('about')});
-                }
+any '/cpanel/content' => sub {
 
-                finally {
+    my $self = shift;
 
-                    return $self->render('control');
-                }
+    try {
+
+        $MODEL->resultset('Content')->create(
+
+            {   title    => $self->param('title'),
+                body     => $self->param('body'),
+                tags     => $self->param('tags'),
+                cities   => $self->param('cities'),
+                datetime => DateTime->now,
             }
-        }
+        );
+    }
 
-        when ('content') {
+    finally {
 
-            try {
+        $self->redirect_to('cpanel_show');
+    }
 
-                $MODEL->resultset('Content')->create(
+} => 'cpanel_content';
 
-                    {   title => $self->param('title'),
-                        body => $self->param('body'),
-                        tags => $self->param('tags'),
-                        cities => $self->param('cities'),
-                        datetime => DateTime->now,
-                    }
-                );
+any '/cpanel/content/remove' => sub {
+
+    my $self = shift;
+
+    try {
+
+        $MODEL->resultset('Content')->delete({ id => $self->param('id')});
+
+    }
+
+    finally {
+
+        $self->redirect_to('cpanel_show');
+    }
+
+};
+
+any '/cpanel/ads' => sub {
+
+    my $self = shift;
+    return $self->redirect_to('cpanel_show');
+
+} => 'cpanel_ads';
+
+any '/cpanel/login' => sub {
+
+    my $self = shift;
+
+    try {
+
+        my @settings =
+          $MODEL->resultset('Settings')
+          ->search({admin => $self->param('admin')});
+
+        for (@settings) {
+
+            if (Crypt::SaltedHash->validate(
+                    $_->password, $self->param('password')
+                )
+              )
+            {
+
+                $self->session(admin => $_->admin);
+                $self->redirect_to('cpanel_show');
             }
-
-            finally {
-
-                return $self->render('control');
-            }
-        }
-
-        when ('ads') {
-
-        }
-
-        when ('login') {
-
-            if (($self->param('admin')) and ($self->param('password'))) {
-
-                try {
-
-                    my @settings =
-                      $self->{'MODEL'}->resultset('Settings')
-                      ->search({admin => $self->param('admin')});
-
-                    for (@settings) {
-
-                        if (Crypt::SaltedHash->validate(
-                                $_->password, $self->param('password')
-                            )
-                          )
-                        {
-
-                            $self->session(admin => $_->admin);
-                            $self->render('control');
-                        }
-                    }
-                }
-
-                finally {
-
-                    return $self->render('control');
-                }
-            }
-            return $self->render('control')
-        }
-
-        when ('logout') {
-
-            $self->session(expires => 1);
-            $self->redirect_to('after5template');
-        }
-
-        default {
-
-            return $self->render('control')
         }
     }
 
-} => 'after5control';
+    finally {
+
+        $self->redirect_to('cpanel_show');
+    }
+
+} => 'cpanel_login';
+
+any '/cpanel/logout' => sub {
+
+    my $self = shift;
+
+    $self->session(expires => 1)
+      and return $self->redirect_to('after5template');
+
+} => 'cpanel_logout';
 
 app->secret('after5detroit.com');
 app->start;

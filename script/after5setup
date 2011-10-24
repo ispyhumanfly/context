@@ -16,7 +16,7 @@ system 'sqlite3 after5detroit.db < script/After5-Model-1.0a-SQLite.sql';
 
 $MODEL->resultset('Settings')->create(
 
-    {   admin => 'after5admin',
+    {   admin => 'admin',
         password => salt_password('admin123'),
         about => 'Something about After5.',
         datetime => DateTime->now,
