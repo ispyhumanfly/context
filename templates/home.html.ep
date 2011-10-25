@@ -1,5 +1,7 @@
 % title 'Home';
 % layout 'default';
+%
+% my @content = $self->{MODEL}->resultset('Content')->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -7,33 +9,50 @@
 
 <div class="content_left">
 
-    <h1>Features</h1>
+    <h1>Featured</h1>
 
-    <p>
+    <% for (@content) { %>
 
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum mollis, orci aliquet iaculis porttitor, erat ligula fringilla ligula, quis dapibus purus orci id risus. Fusce orci orci, tincidunt id convallis sit amet, lacinia adipiscing erat. Proin at enim mi, at ultrices arcu. Quisque convallis porttitor nisl. Nullam risus libero, fermentum et consectetur in, iaculis nec orci. Sed ut libero vestibulum tellus rutrum eleifend quis vel dui. Proin laoreet semper congue. Curabitur metus odio, tempus sodales suscipit ut, cursus ut metus. Maecenas porttitor pharetra eros, quis semper nibh pulvinar ac. Suspendisse in cursus tellus. Curabitur dolor purus, feugiat consequat ornare sed, pulvinar sed odio. Etiam elementum mi nec dui imperdiet id ultrices nunc facilisis. Etiam eu nunc a augue varius tincidunt. Nulla facilisi. Nunc feugiat diam ac sem tempor varius. Vivamus felis est, ultricies ac blandit ut, sollicitudin non nulla.
+        <% if ( $_->tags =~ /featured/g ) { %>
 
-        Aenean eget metus et diam molestie rhoncus nec id elit. Nam sagittis sollicitudin tellus, volutpat congue mi vestibulum sed. Proin nibh urna, fringilla sed consequat id, sodales eu urna. Etiam nulla mi, vulputate et vehicula a, consequat in est. Suspendisse et dui vel ipsum sodales eleifend id sed tortor. Sed fringilla, enim quis tempus molestie, nibh lacus condimentum ipsum, nec facilisis nisi augue non leo. Morbi ac felis sit amet libero laoreet suscipit a a sapien. Mauris nisi dolor, facilisis vitae imperdiet nec, hendrerit in nisl. Vestibulum nisi enim, tincidunt eu vestibulum id, adipiscing eu arcu. Nam et lectus leo.
+        <h3><%= $_->title %></h3>
 
-        Aliquam erat volutpat. Nullam in odio libero, et interdum metus. Sed sed lectus dui, quis dignissim eros. Aenean dictum arcu suscipit dolor accumsan sed dictum felis varius. Sed ac nunc eros. Suspendisse ut lorem eu tortor eleifend rhoncus. Aenean nulla magna, gravida ut pretium a, auctor ac lorem. Vivamus commodo tortor at ante posuere in venenatis magna egestas. Aliquam consectetur diam ut ipsum eleifend non fringilla elit molestie. In tellus odio, auctor vel sodales sed, eleifend at risus.
+        <p><%= $_->body %></p>
 
-    </p>
+        <% } %>
+    <% } %>
+
+    <h1>Live</h1>
+
+    <% for (@content) { %>
+
+        <% if (($_->tags =~ /featured/g ) and ($_->type =~ /place/g )) { %>
+
+        <h3><%= $_->title %></h3>
+
+        <p><%= $_->body %></p>
+
+        <% } %>
+    <% } %>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Example</h1>
+    <h1>On Tap</h1>
 
-    <% for (1...5) { %>
+    <% for (@content) { %>
 
-    <p>Some stuff goes here</p>
+        <% if (($_->tags =~ /on_tap/g ) and ($_->type =~ /event/g )) { %>
 
+        <p><%= $_->title %></p>
+
+        <% } %>
     <% } %>
 
-    <h1>Example</h1>
+    <h1>Photos </h1>
 
-    <% for (1...5) { %>
+    <% for (@content) { %>
 
     <p>Some stuff goes here</p>
 

@@ -100,10 +100,11 @@ any '/cpanel/content' => sub {
 
         $MODEL->resultset('Content')->create(
 
-            {   title    => $self->param('title'),
-                body     => $self->param('body'),
+            {   type     => $self->param('type'),
                 tags     => $self->param('tags'),
                 cities   => $self->param('cities'),
+                title    => $self->param('title'),
+                body     => $self->param('body'),
                 datetime => DateTime->now,
             }
         );
@@ -122,7 +123,7 @@ any '/cpanel/content/remove' => sub {
 
     try {
 
-        $MODEL->resultset('Content')->delete({ id => $self->param('id')});
+        $MODEL->resultset('Content')->delete({ id => "$self->param('id')" });
 
     }
 
