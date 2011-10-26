@@ -11,54 +11,91 @@ use After5::Model;
 
 our $MODEL = After5::Model->connect('dbi:SQLite:after5detroit.db');
 
-### After5 Templates
+any '/' => sub {
 
-get '/:after5template' => [after5template => qr/\w*/] => sub {
+    my $self = shift;
+    return $self->redirect_to('home');
+
+};
+
+### After5 Pages
+
+get '/home' => sub {
 
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
 
-    given ($self->param('after5template')) {
+    return $self->render('home');
 
-        when (/\w+/) {
+} => 'home';
 
-            return $self->redirect_to('search_show')
-              if $_ eq 'search';
+get '/live' => sub {
 
-            return $self->redirect_to('cpanel_show')
-              if $_ eq 'cpanel';
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
 
-            try { $self->render($_); } finally { $self->render('home'); }
-        }
+    return $self->render('live');
 
-        default {
-            $self->render('home');
-        }
-    }
+} => 'live';
 
-} => 'after5template';
+get '/work' => sub {
 
-### After5 Search
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
 
-any '/search/show' => sub {
+    return $self->render('work');
+
+} => 'work';
+
+get '/play' => sub {
+
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
+
+    return $self->render('play');
+
+} => 'play';
+
+get '/photos' => sub {
+
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
+
+    return $self->render('photos');
+
+} => 'photos';
+
+### After5 Functions
+
+any '/search' => sub {
 
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
 
     return $self->render('search');
 
-} => 'search_show';
+} => 'search';
+
+any '/more' => sub {
+
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
+
+    return $self->render('more');
+
+} => 'more';
+
 
 ### After5 Control Panel
 
-get '/cpanel/show' => sub {
+get '/cpanel' => sub {
 
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
 
     return $self->render('cpanel');
 
-} => 'cpanel_show';
+} => 'cpanel';
 
 any '/cpanel/settings' => sub {
 
@@ -87,7 +124,7 @@ any '/cpanel/settings' => sub {
 
     finally {
 
-        $self->redirect_to('cpanel_show');
+        $self->redirect_to('cpanel');
     }
 
 } => 'cpanel_settings';
@@ -112,7 +149,7 @@ any '/cpanel/content' => sub {
 
     finally {
 
-        $self->redirect_to('cpanel_show');
+        $self->redirect_to('cpanel');
     }
 
 } => 'cpanel_content';
@@ -129,7 +166,7 @@ any '/cpanel/content/remove' => sub {
 
     finally {
 
-        $self->redirect_to('cpanel_show');
+        $self->redirect_to('cpanel');
     }
 
 };
@@ -137,7 +174,7 @@ any '/cpanel/content/remove' => sub {
 any '/cpanel/ads' => sub {
 
     my $self = shift;
-    return $self->redirect_to('cpanel_show');
+    return $self->redirect_to('cpanel');
 
 } => 'cpanel_ads';
 
@@ -160,14 +197,14 @@ any '/cpanel/login' => sub {
             {
 
                 $self->session(admin => $_->admin);
-                $self->redirect_to('cpanel_show');
+                $self->redirect_to('cpanel');
             }
         }
     }
 
     finally {
 
-        $self->redirect_to('cpanel_show');
+        $self->redirect_to('cpanel');
     }
 
 } => 'cpanel_login';
@@ -177,7 +214,7 @@ any '/cpanel/logout' => sub {
     my $self = shift;
 
     $self->session(expires => 1)
-      and return $self->redirect_to('after5template');
+      and return $self->redirect_to('home');
 
 } => 'cpanel_logout';
 

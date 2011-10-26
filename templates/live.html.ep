@@ -15,7 +15,7 @@
 
         <% if (($_->tags =~ /featured/g ) and ($_->type =~ /event/g )) { %>
 
-        <h3><%= $_->title %></h3>
+        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
 
         <p><%= $_->body %></p>
 
@@ -28,7 +28,7 @@
 
         <% if (($_->tags =~ /featured/g ) and ($_->type =~ /place/g )) { %>
 
-        <h3><%= $_->title %></h3>
+        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
 
         <p><%= $_->body %></p>
 

@@ -38,7 +38,7 @@
 
         <!-- Content Loader -->
 
-	<div id="content_loader"><div id="content_loader_inner"><img src='/ajax-loader.gif' /></div></div>
+	<div id="content_loader"><div id="content_loader_inner"><img src='/loader.gif' /></div></div>
 
         <div id="header_container">
 
@@ -73,7 +73,7 @@
 
             </div>
 
-            <div dojoType="dijit.form.Form" class="search" encType="multipart/form-data" action="/search/show" method="POST">
+            <div dojoType="dijit.form.Form" class="search" encType="multipart/form-data" action="/search" method="POST">
 
                 <div dojoType="dijit.form.TextBox" name="string" placeholder="Looking for something?"></div>
                 <button dojoType="dijit.form.Button" type="submit">Search</button>
