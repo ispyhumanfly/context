@@ -163,6 +163,12 @@ body {
     width: 75%;
 }
 
+#content_container .content_left span {
+
+    color: #263c27;
+    font-size: small;
+}
+
 #content_container .content_right {
 
     clear: right;

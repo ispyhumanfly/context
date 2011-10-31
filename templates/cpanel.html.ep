@@ -23,49 +23,42 @@
 
 //]]></script>
 
-<div dojoType="dijit.layout.ContentPane" region="center" style="height: 1200px;">
+<% if ( $self->session('admin') ) { %>
 
-    <div dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;" tabPosition="left">
+<div class="content_left">
 
-        <% if ( $self->session('admin') ) { %>
+    <h1>All Content</h1>
 
-        <div dojoType="dijit.layout.ContentPane" title="Content" selected="true">
+    <% for ( my @content = $self->{MODEL}->resultset('Content')->all ) { %>
 
-            <% for ( my @content = $self->{MODEL}->resultset('Content')->all ) { %>
+    <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
 
-            <div dojoType="dijit.TitlePane" title="<%= $_->title %>">
+    <a href="#" onclick="">Edit</a>
+    <a href="/cpanel/content/remove?id=<%= $_->id %>" onclick="">Remove</a>
 
-                <%= $_->datetime %>
+    <% } %>
 
-                <%= $_->body %>
+    <h1>All Ads</h1>
 
-                <%= $_->tags %>
+    <% for (my @ads = $self->{MODEL}->resultset('Ads')->all) { %>
 
-                <br />
+    <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
 
-                <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content/remove?id=<%= $_->id %>" method="POST">
+    <a href="#" onclick="">Manage</a>
 
-                    <button dojoType="dijit.form.Button" type="submit">Remove</button>
+    <% } %>
 
-                </div>
+</div>
 
-            </div>
+<div class="content_right">
 
-            <br />
+    <h1>Recent</h1>
 
-            <% } %>
+    <% for (1...10) { %>
 
-        </div>
+    <p>Some stuff goes here</p>
 
-        <div dojoType="dijit.layout.ContentPane" title="Ads">
-
-            Here is where you will manage the ad images and their placement.
-
-        </div>
-
-        <% } %>
-
-    </div>
+    <% } %>
 
 </div>
 
@@ -93,6 +86,8 @@
 
 </div>
 
+<% } %>
+
 <!-- CPanel Login -->
 
 <div id="dialog_login" dojoType="dijit.Dialog" title="CPanel Login">
@@ -110,6 +105,8 @@
 
     </div>
 </div>
+
+<% if ( $self->session('admin') ) { %>
 
 <!-- Update Settings -->
 
@@ -233,3 +230,5 @@
     </div>
 
 </div>
+
+<% } %>

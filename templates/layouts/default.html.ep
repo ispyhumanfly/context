@@ -75,7 +75,7 @@
 
             <div dojoType="dijit.form.Form" class="search" encType="multipart/form-data" action="/search" method="POST">
 
-                <div dojoType="dijit.form.TextBox" name="string" placeholder="Looking for something?"></div>
+                <div dojoType="dijit.form.TextBox" name="string" placeholder=" Looking for something?"></div>
                 <button dojoType="dijit.form.Button" type="submit">Search</button>
 
             </div>

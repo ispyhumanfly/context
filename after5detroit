@@ -15,7 +15,6 @@ any '/' => sub {
 
     my $self = shift;
     return $self->redirect_to('home');
-
 };
 
 ### After5 Pages
@@ -101,6 +100,8 @@ any '/cpanel/settings' => sub {
 
     my $self = shift;
 
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
     try {
 
         $MODEL->resultset('Settings')
@@ -133,6 +134,8 @@ any '/cpanel/content' => sub {
 
     my $self = shift;
 
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
     try {
 
         $MODEL->resultset('Content')->create(
@@ -158,15 +161,16 @@ any '/cpanel/content/remove' => sub {
 
     my $self = shift;
 
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
     try {
 
-        $MODEL->resultset('Content')->delete({ id => "$self->param('id')" });
-
+	$MODEL->resultset('Content')->search({ id => $self->param('id') })->delete;
     }
 
     finally {
 
-        $self->redirect_to('cpanel');
+	$self->redirect_to('cpanel');
     }
 
 };
