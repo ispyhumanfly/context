@@ -10,6 +10,8 @@
     dojo.require("dijit.form.MultiSelect");
     dojo.require("dijit.Dialog");
     dojo.require("dijit.Menu");
+    dojo.require("dijit.form.DateTextBox");
+    dojo.require("dijit.form.TimeTextBox");
 
     <% unless ( $self->session('admin') ) { %>
 
@@ -33,8 +35,8 @@
 
     <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
 
-    <a href="#" onclick="">Edit</a>
-    <a href="/cpanel/content/remove?id=<%= $_->id %>" onclick="">Remove</a>
+    <a href="/cpanel/content/form?mode=update&id=<%= $_->id %>">Update</a>
+    <a href="/cpanel/content/remove?id=<%= $_->id %>">Remove</a>
 
     <% } %>
 
@@ -44,7 +46,8 @@
 
     <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
 
-    <a href="#" onclick="">Manage</a>
+    <a href="/cpanel/ads/form?mode=update&id=<%= $_->id %>">Update</a>
+    <a href="/cpanel/ads/remove?id=<%= $_->id %>">Remove</a>
 
     <% } %>
 
@@ -70,8 +73,12 @@
         Update Settings
     </div>
 
-    <div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog_content').show();">
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/cpanel/content/form?mode=create';">
         Add Content
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/cpanel/ads/form?mode=create';">
+        Add Ads
     </div>
 
     <div dojoType="dijit.MenuSeparator"></div>
@@ -134,98 +141,6 @@
         <br />
 
         <button dojoType="dijit.form.Button" type="submit">Update</button>
-
-    </div>
-
-</div>
-
-<!-- Add Content -->
-
-<div id="dialog_content" dojoType="dijit.Dialog" title="Add Content" style="width: 800px; height: 600px;">
-
-    <div style="width: inherit; height: 550px;">
-
-        <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content" method="POST">
-
-            Type:
-            <select dojoType="dijit.form.MultiSelect" name="type" size="4">
-
-                <option value="article" selected="true">
-                    Article
-                </option>
-
-                <option value="place">
-                    Place
-                </option>
-
-                <option value="event">
-                    Event
-                </option>
-
-            </select>
-
-            <br />
-            <br />
-
-            Tags:
-            <select dojoType="dijit.form.MultiSelect" name="tags" size="4">
-
-                <option value="on_tap">
-                    On Tap
-                </option>
-
-                <option value="featured">
-                    Featured
-                </option>
-
-                <option value="example" selected>
-                    Example
-                </option>
-
-            </select>
-
-            <br />
-            <br />
-
-            Title:
-            <div dojoType="dijit.form.TextBox" name="title" value=""></div>
-
-            <br />
-            <br />
-
-            Body:
-            <textarea dojoType="dijit.form.Textarea" name="body" style="width: 400px;"></textarea>
-
-            <br />
-            <br />
-
-            Cities:
-            <select dojoType="dijit.form.MultiSelect" name="cities" size="4">
-
-                <option value="birmingham">
-                    Birmingham
-                </option>
-
-                <option value="detroit">
-                    Detroit
-                </option>
-
-                <option value="ferndale">
-                    Ferndale
-                </option>
-
-                <option value="royal_oak" selected>
-                    Royal Oak
-                </option>
-
-            </select>
-
-            <br />
-            <br />
-
-            <button dojoType="dijit.form.Button" type="submit">Create</button>
-
-        </div>
 
     </div>
 

@@ -1,7 +1,7 @@
 % title 'Home';
 % layout 'default';
 %
-% my @content = $self->{MODEL}->resultset('Content')->all;
+% my @content = $self->{MODEL}->resultset('Content')->search({ pages => {like => '%home%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -17,6 +17,12 @@
 
         <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
 
+	<% for ( split /\s+/, $_->photos ) { %>
+	
+	<img src="<%= $_ %>" style="width:100px; height:auto;" />
+	
+	<% } %>
+
         <p><%= $_->body %></p>
 
         <% } %>
@@ -26,9 +32,15 @@
 
     <% for (@content) { %>
 
-        <% if (($_->tags =~ /featured/g ) and ($_->type =~ /place/g )) { %>
+        <% if (($_->tags =~ /featured/g ) and ($_->types =~ /place/g )) { %>
 
         <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+
+	<% for ( split /\s+/, $_->photos ) { %>
+	
+	<img src="<%= $_ %>" style="width:100px; height:auto;" />
+	
+	<% } %>
 
         <p><%= $_->body %></p>
 
@@ -43,7 +55,7 @@
 
     <% for (@content) { %>
 
-        <% if (($_->tags =~ /on_tap/g ) and ($_->type =~ /event/g )) { %>
+        <% if (($_->tags =~ /on_tap/g ) and ($_->types =~ /event/g )) { %>
 
         <p><%= $_->title %></p>
 

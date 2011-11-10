@@ -2,6 +2,7 @@
 
 use Modern::Perl;
 use Mojolicious::Lite;
+use REST::Google::Search qw/ LOCAL /;
 use Crypt::SaltedHash;
 use Try::Tiny;
 use DateTime;
@@ -64,7 +65,25 @@ get '/photos' => sub {
 
 } => 'photos';
 
-### After5 Functions
+get '/about' => sub {
+
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
+
+    return $self->render('about');
+
+} => 'about';
+
+get '/:page/:item' => [page => qr/\w+/, item => qr/\w+/] => sub {
+
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
+
+    my $page_item = $self->param('page') . '_' . $self->param('item');
+    
+    return $self->render($page_item);
+    
+} => 'page_item';
 
 any '/search' => sub {
 
@@ -84,7 +103,6 @@ any '/more' => sub {
 
 } => 'more';
 
-
 ### After5 Control Panel
 
 get '/cpanel' => sub {
@@ -96,39 +114,7 @@ get '/cpanel' => sub {
 
 } => 'cpanel';
 
-any '/cpanel/settings' => sub {
-
-    my $self = shift;
-
-    return $self->redirect_to('cpanel') unless $self->session('admin');
-
-    try {
-
-        $MODEL->resultset('Settings')
-          ->update({admin => $self->param('admin')});
-
-        if (    ($self->param('password_1') ne '')
-            and ($self->param('password_1') eq $self->param('password_2')))
-        {
-
-            my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
-            $crypt->add($self->param('password_1'));
-
-            my $password = $crypt->generate;
-
-            $MODEL->resultset('Settings')->update({password => $password});
-        }
-
-        $MODEL->resultset('Settings')
-          ->update({about => $self->param('about')});
-    }
-
-    finally {
-
-        $self->redirect_to('cpanel');
-    }
-
-} => 'cpanel_settings';
+## CPanel: Content
 
 any '/cpanel/content' => sub {
 
@@ -136,16 +122,39 @@ any '/cpanel/content' => sub {
 
     return $self->redirect_to('cpanel') unless $self->session('admin');
 
+    my (@tags, @cities, @types, @interests, @pages, @photos);
+
+    push @tags,      $_ for $self->param('tags');
+    push @cities,    $_ for $self->param('cities');
+    push @types,     $_ for $self->param('types');
+    push @interests, $_ for $self->param('interests');
+    push @pages,     $_ for $self->param('pages');
+
+    push @photos, content_photo($self->req->upload('photo1'))
+      if $self->req->upload('photo1');
+
+    push @photos, content_photo($self->req->upload('photo2'))
+      if $self->req->upload('photo2');
+
+    push @photos, content_photo($self->req->upload('photo3'))
+      if $self->req->upload('photo3');
+
+    push @photos, content_photo($self->req->upload('photo4'))
+      if $self->req->upload('photo4');
+
     try {
 
         $MODEL->resultset('Content')->create(
 
-            {   type     => $self->param('type'),
-                tags     => $self->param('tags'),
-                cities   => $self->param('cities'),
-                title    => $self->param('title'),
-                body     => $self->param('body'),
-                datetime => DateTime->now,
+            {   types     => "@types",
+                tags      => "@tags",
+                cities    => "@cities",
+                pages     => "@pages",
+                interests => "@interests",
+                title     => $self->param('title'),
+                body      => $self->param('body'),
+                photos    => "@photos",
+                datetime  => DateTime->now,
             }
         );
     }
@@ -157,6 +166,71 @@ any '/cpanel/content' => sub {
 
 } => 'cpanel_content';
 
+any '/cpanel/content/form' => sub {
+
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
+
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
+    return $self->render('cpanel_content_form');
+
+} => 'cpanel_content_form';
+
+any '/cpanel/content/update' => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
+    my (@tags, @cities, @types, @interests, @pages, @photos);
+
+    push @tags,      $_ for $self->param('tags');
+    push @cities,    $_ for $self->param('cities');
+    push @types,     $_ for $self->param('types');
+    push @interests, $_ for $self->param('interests');
+    push @pages,     $_ for $self->param('pages');
+
+    push @photos, content_photo($self->req->upload('photo1'))
+      if $self->req->upload('photo1');
+
+    push @photos, content_photo($self->req->upload('photo2'))
+      if $self->req->upload('photo2');
+
+    push @photos, content_photo($self->req->upload('photo3'))
+      if $self->req->upload('photo3');
+
+    push @photos, content_photo($self->req->upload('photo4'))
+      if $self->req->upload('photo4');
+
+    $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->update({photos => "@photos", datetime => DateTime->now})
+      if scalar @photos >= 1;
+
+    try {
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update(
+
+            {   types     => "@types",
+                tags      => "@tags",
+                cities    => "@cities",
+                pages     => "@pages",
+                title     => $self->param('title'),
+                body      => $self->param('body'),
+                interests => "@interests",
+                datetime  => DateTime->now,
+            }
+          );
+    }
+
+    finally {
+
+        $self->redirect_to('cpanel');
+    }
+
+};
+
 any '/cpanel/content/remove' => sub {
 
     my $self = shift;
@@ -165,22 +239,101 @@ any '/cpanel/content/remove' => sub {
 
     try {
 
-	$MODEL->resultset('Content')->search({ id => $self->param('id') })->delete;
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->delete;
     }
 
     finally {
 
-	$self->redirect_to('cpanel');
+        $self->redirect_to('cpanel');
     }
 
 };
 
+## CPanel: Ads
+
 any '/cpanel/ads' => sub {
 
     my $self = shift;
-    return $self->redirect_to('cpanel');
+
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+    
+    try {
+        
+        my $photo = ads_photo($self->req->upload('photo'));
+        
+        $MODEL->resultset('Ads')->create(
+        
+            {   title      => $self->param('title'),
+                pages      => $self->param('pages'),
+                photo      => $photo,
+                datetime   => DateTime->now,
+            }
+        );
+    }
+
+    finally {
+
+        $self->redirect_to('cpanel');
+    }
 
 } => 'cpanel_ads';
+
+any '/cpanel/ads/form' => sub {
+
+    my $self = shift;
+    $self->{'MODEL'} = $MODEL;
+
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
+    return $self->render('cpanel_ads_form');
+
+} => 'cpanel_ads_form';
+
+any '/cpanel/ads/update' => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
+    try {
+
+        $MODEL->resultset('Ads')->search({id => $self->param('id')})->update(
+
+            {   title      => $self->param('title'),
+                page       => $self->param('page'),
+                photo      => $self->param('photo'),
+                datetime   => DateTime->now,
+            }
+        );
+    }
+
+    finally {
+
+        $self->redirect_to('cpanel');
+    }
+
+};
+
+any '/cpanel/ads/remove' => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
+    try {
+
+        $MODEL->resultset('Ads')->search({id => $self->param('id')})->delete;
+    }
+
+    finally {
+
+        $self->redirect_to('cpanel');
+    }
+
+};
+
+## CPanel: After5 Admin
 
 any '/cpanel/login' => sub {
 
@@ -221,6 +374,82 @@ any '/cpanel/logout' => sub {
       and return $self->redirect_to('home');
 
 } => 'cpanel_logout';
+
+any '/cpanel/settings' => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
+    try {
+
+        $MODEL->resultset('Settings')
+          ->update({admin => $self->param('admin')});
+
+        if (    ($self->param('password_1') ne '')
+            and ($self->param('password_1') eq $self->param('password_2')))
+        {
+
+            my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
+            $crypt->add($self->param('password_1'));
+
+            my $password = $crypt->generate;
+
+            $MODEL->resultset('Settings')->update({password => $password});
+        }
+
+        $MODEL->resultset('Settings')
+          ->update({about => $self->param('about')});
+    }
+
+    finally {
+
+        $self->redirect_to('cpanel');
+    }
+
+} => 'cpanel_settings';
+
+### After5 Tools
+
+sub content_photo {
+
+    my $upload = shift;
+
+    my $photo_name = DateTime->now;
+
+    my $path = "/photos/content/$photo_name.img";
+
+    $upload->move_to('public' . $path);
+
+    sleep(1) and return $path;
+}
+
+sub ads_photo {
+
+    my $upload = shift;
+
+    my $photo_name = DateTime->now;
+
+    my $path = "/photos/ads/$photo_name.img";
+
+    $upload->move_to('public' . $path);
+
+    return $path;
+}
+
+sub google_local {
+
+    REST::Google::Search->service(LOCAL);
+
+    my $response = REST::Google::Search->new(q => shift);
+
+    if ($response->responseStatus == 200) {
+
+        my $data = $response->responseData;
+        return $data->results;
+    }
+
+}
 
 app->secret('after5detroit.com');
 app->start;

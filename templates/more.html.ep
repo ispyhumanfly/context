@@ -17,6 +17,12 @@
 
     <h2>On <%= $_->datetime->day_name %> ...</h2>
 
+    <% for ( split /\s+/, $_->photos ) { %>
+        
+    <img src="<%= $_ %>" style="width:200px; height:auto;" />
+    
+    <% } %>
+
     <p><%= $_->body %></p>
 
     <% } %>

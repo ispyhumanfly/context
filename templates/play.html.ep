@@ -1,7 +1,7 @@
 % title 'Play';
 % layout 'default';
 %
-% my @content = $self->{MODEL}->resultset('Content')->all;
+% my @content = $self->{MODEL}->resultset('Content')->search({ pages => {like => '%play%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -13,9 +13,34 @@
 
     <% for (@content) { %>
 
-        <% if (($_->tags =~ /featured/g ) and ($_->type =~ /event/g )) { %>
+        <% if (($_->tags =~ /featured/g ) and ($_->types =~ /event/g )) { %>
 
         <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+
+	<% for ( split /\s+/, $_->photos ) { %>
+	
+	<img src="<%= $_ %>" style="width:100px; height:auto;" />
+	
+	<% } %>
+
+        <p><%= $_->body %></p>
+
+        <% } %>
+    <% } %>
+
+    <h1>The Buzz</h1>
+
+    <% for (@content) { %>
+
+        <% if (($_->tags =~ /the_buzz/g ) and ($_->pages =~ /play/g )) { %>
+
+        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+
+	<% for ( split /\s+/, $_->photos ) { %>
+	
+	<img src="<%= $_ %>" style="width:100px; height:auto;" />
+	
+	<% } %>
 
         <p><%= $_->body %></p>
 
@@ -26,9 +51,15 @@
 
     <% for (@content) { %>
 
-        <% if (($_->tags =~ /featured/g ) and ($_->type =~ /place/g )) { %>
+        <% if (($_->tags =~ /try_this/g ) and ($_->types =~ /place/g )) { %>
 
         <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+
+	<% for ( split /\s+/, $_->photos ) { %>
+	
+	<img src="<%= $_ %>" style="width:100px; height:auto;" />
+	
+	<% } %>
 
         <p><%= $_->body %></p>
 
@@ -39,11 +70,11 @@
 
 <div class="content_right">
 
-    <h1>On Tap</h1>
+    <h1>Events</h1>
 
     <% for (@content) { %>
 
-        <% if (($_->tags =~ /on_tap/g ) and ($_->type =~ /event/g )) { %>
+        <% if (($_->pages =~ /play/g ) and ($_->types =~ /event/g )) { %>
 
         <p><%= $_->title %></p>
 

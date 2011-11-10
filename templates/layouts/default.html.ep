@@ -36,9 +36,13 @@
 
     <body class="nihilo">
 
-        <!-- Content Loader -->
+	<div id="content_loader">
+	    <div id="content_loader_inner">
 
-	<div id="content_loader"><div id="content_loader_inner"><img src='/loader.gif' /></div></div>
+		<img src='/loader.gif' />
+
+	    </div>
+	</div>
 
         <div id="header_container">
 
@@ -57,7 +61,6 @@
                 <% if ( $self->session('admin') ) { %>
 
                 <li><a href="/cpanel">CPanel</a></li>
-                <li><a href="/cpanel/logout">Logout</a></li>
 
                 <% } %>
 
@@ -84,9 +87,66 @@
 
         </div>
 
-        <div class="footer_container">
+        <div id="footer_container">
 
+	    <div>
+		<ul>
+		    <li><a href="/live" style="font-weight: bold; font-size: medium;">Live</a></li>
+		    <li><a href="/live/birmingham">Birmingham</a></li>
+		    <li><a href="/live/detroit">Detroit</a></li>
+		    <li><a href="/live/ferndale">Ferndale</a></li>
+		    <li><a href="/live/royal_oak">Royal Oak</a></li>
+    
+		</ul>
+	    </div>
+	    
+	    <div>
+		<ul>
+		    <li><a href="/work" style="font-weight: bold; font-size: medium;">Work</a></li>
+		    <li><a href="/work/careers">Careers</a></li>
+		    <li><a href="/work/professional">Professional</a></li>
+		    <li><a href="/work/development">Development</a></li>
+		</ul>
+	    </div>
 
+	    <div>
+		<ul>
+		    <li><a href="/play" style="font-weight: bold; font-size: medium;">Play</a></li>
+		    <li><a href="/play/people">People</a></li>
+		    <li><a href="/play/places">Places</a></li>
+		    <li><a href="/play/buzz">Buzz</a></li>
+		    <li><a href="/play/events">Events</a></li>    
+		</ul>
+	    </div>
+
+	    <div>
+		<ul>
+		    <li><a href="/photos" style="font-weight: bold; font-size: medium;">Photos</a></li>    
+		</ul>
+	    </div>
+
+	    <div>
+		<ul>
+		    <li><a href="/about" style="font-weight: bold; font-size: medium;">About</a></li>
+		    <li><a href="/about/contact">Contact</a></li>
+		    <li><a href="/about/newsletter">Newsletter</a></li>
+		</ul>
+	    
+	    </div>
+	    
+	    <% if ( $self->session('admin') ) { %>
+	    
+	    <div>
+		<ul>
+		    <li><a href="/cpanel" style="font-weight: bold; font-size: medium;">CPanel</a></li>
+		    <li><a href="/cpanel/content/form?mode=create">Add Content</a></li>
+		    <li><a href="/cpanel/ads/form?mode=create">Add Ads</a></li>
+		    <li><a href="/cpanel/logout">Logout</a></li>
+		</ul>
+	    </div>
+
+	    <% } %>
+	    
         </div>
 
     </body>

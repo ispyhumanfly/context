@@ -1,0 +1,388 @@
+% title 'Content Form';
+% layout 'default';
+%
+% my $content = $self->{MODEL}->resultset('Content')->search({ id => $self->param('id')})->single;
+
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.form.Textarea");
+    dojo.require("dijit.form.DateTextBox");
+    dojo.require("dijit.form.TimeTextBox");
+    dojo.require("dijit.form.MultiSelect");
+
+//]]></script>
+
+<div class="content_left">
+
+    <% if ( $self->param('mode') eq 'create' ) { %>
+    
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content" method="POST">
+    
+    <% } elsif ( $self->param('mode') eq 'update' ) { %>
+
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content/update?id=<%= $content->id %>" method="POST">
+
+    <% } %>
+	
+	<% if ( $self->param('mode') eq 'create' ) { %>
+	
+	<h1>Title</h1>
+	
+	<div dojoType="dijit.form.TextBox" name="title" value=""></div>
+    
+	
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h1>Title</h1>
+	
+	<div dojoType="dijit.form.TextBox" name="title" value="<%= $content->title %>"></div>
+    
+	<% } %>
+    
+	<br />
+	<br />
+    
+	<% if ( $self->param('mode') eq 'create' ) { %>
+	
+	<h1>Body</h1>
+	
+	<textarea dojoType="dijit.form.Textarea" name="body" style="width: 400px;"></textarea>
+	
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h1>Body</h1>
+	
+	<textarea dojoType="dijit.form.Textarea" name="body" style="width: 400px;"><%= $content->body %></textarea>
+	
+	<% } %>
+	    
+	<br />
+	<br />
+
+	<% if ( $self->param('mode') eq 'create' ) { %>
+    
+	<h1>Interests</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="interests" size="4">
+	
+	    <option value="dining" selected>
+		dining
+	    </option>
+	
+	    <option value="nightlife">
+		nightlife
+	    </option>
+	
+	    <option value="activities">
+		activities
+	    </option>
+
+	    <option value="living">
+		living
+	    </option>
+	
+	</select>
+	
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h1>Interests</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="interests" size="4">
+
+    	    <option value="dining" <%= 'selected' if $content->interests =~ /dining/g %>>
+		dining
+	    </option>
+	
+	    <option value="nightlife" <%= 'selected' if $content->interests =~ /nightlife/g %>>
+		nightlife
+	    </option>
+	
+	    <option value="activities" <%= 'selected' if $content->interests =~ /activities/g %>>
+		activities
+	    </option>
+
+	    <option value="living" <%= 'selected' if $content->interests =~ /living/g %>>
+		living
+	    </option>
+
+	</select>
+	
+	<% } %>
+	
+	<br />
+	<br />
+
+	<% if ( $self->param('mode') eq 'create' ) { %>
+    
+	<h1>Pages</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="pages" size="4">
+	
+	    <option value="home" selected>
+		home
+	    </option>
+	
+	    <option value="live">
+		live
+	    </option>
+	
+	    <option value="work">
+		work
+	    </option>
+
+	    <option value="play">
+		play
+	    </option>
+
+	    <option value="photos">
+		photos
+	    </option>
+	
+	</select>
+	
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h1>Pages</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="pages" size="4">
+
+    	    <option value="home" <%= 'selected' if $content->pages =~ /home/g %>>
+		home
+	    </option>
+	
+	    <option value="live" <%= 'selected' if $content->pages =~ /live/g %>>
+		live
+	    </option>
+	
+	    <option value="work" <%= 'selected' if $content->pages =~ /work/g %>>
+		work
+	    </option>
+
+	    <option value="play" <%= 'selected' if $content->pages =~ /play/g %>>
+		play
+	    </option>
+
+	    <option value="photos" <%= 'selected' if $content->pages =~ /photos/g %>>
+		photos
+	    </option>
+
+	</select>
+	
+	<% } %>
+	
+	<br />
+	<br />
+	
+	<% if ( $self->param('mode') eq 'create' ) { %>
+    
+	<h1>Types</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="types" size="4">
+	
+	    <option value="article" selected>
+		article
+	    </option>
+	
+	    <option value="place">
+		place
+	    </option>
+	
+	    <option value="event">
+		event
+	    </option>
+
+	    <option value="gallery">
+		gallery
+	    </option>
+	
+	</select>
+	
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h1>Types</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="types" size="4">
+    
+	    <option value="article" <%= 'selected' if $content->types =~ /article/g %>>
+		article
+	    </option>
+    
+	    <option value="place" <%= 'selected' if $content->types =~ /place/g %>>
+		place
+	    </option>
+    
+	    <option value="event" <%= 'selected' if $content->types =~ /event/g %>>
+		event
+	    </option>
+
+	    <option value="gallery" <%= 'selected' if $content->types =~ /gallery/g %>>
+		gallery
+	    </option>
+    
+	</select>
+	
+	<% } %>
+	
+	<br />
+	<br />
+    
+	<% if ( $self->param('mode') eq 'create' ) { %>
+	
+	<h1>Tags</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="tags" size="4">
+	
+	    <option value="on_tap">
+		on_tap
+	    </option>
+	
+	    <option value="featured" selected>
+		featured
+	    </option>
+	
+	    <option value="the_buzz">
+		the_buzz
+	    </option>
+
+	    <option value="try_this">
+		try_this
+	    </option>
+	
+	</select>
+	
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h1>Tags</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="tags" size="4">
+	
+	    <option value="on_tap" <%= 'selected' if $content->tags =~ /on_tap/g %>>
+		on_tap
+	    </option>
+	
+	    <option value="featured" <%= 'selected' if $content->tags =~ /featured/g %>>
+		featured
+	    </option>
+
+	    <option value="the_buzz" <%= 'selected' if $content->tags =~ /the_buzz/g %>>
+		the_buzz
+	    </option>
+	
+	    <option value="try_this" <%= 'selected' if $content->tags =~ /try_this/g %>>
+		try_this
+	    </option>
+	
+	</select>
+	
+	<% } %>
+	
+	<br />
+	<br />    
+    
+	<% if ( $self->param('mode') eq 'create' ) { %>
+    
+	<h1>Cities</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="cities" size="4">
+	
+	    <option value="birmingham">
+		birmingham
+	    </option>
+	
+	    <option value="detroit">
+		detroit
+	    </option>
+	
+	    <option value="ferndale">
+		ferndale
+	    </option>
+	
+	    <option value="royal_oak" selected>
+		royal_oak
+	    </option>
+	
+	</select>    
+	
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h1>Cities</h1>
+	
+	<select dojoType="dijit.form.MultiSelect" multiple="true" name="cities" size="4">
+	
+	    <option value="birmingham" <%= 'selected' if $content->cities =~ /birmingham/g %>>
+		birmingham
+	    </option>
+	
+	    <option value="detroit" <%= 'selected' if $content->cities =~ /detroit/g %>>
+		detroit
+	    </option>
+	
+	    <option value="ferndale" <%= 'selected' if $content->cities =~ /ferndale/g %>>
+		ferndale
+	    </option>
+	
+	    <option value="royal_oak" <%= 'selected' if $content->cities =~ /royal_oak/g %>>
+		royal_oak
+	    </option>
+	
+	</select>
+    
+	<% } %>
+	
+	<br />
+	<br />
+
+	<% if ( $self->param('mode') eq 'create' ) { %>
+
+	<h1>Photo</h1>
+	
+        <input type="file" name="photo1" size="100000000000">    
+        <input type="file" name="photo2" size="100000000000">    
+        <input type="file" name="photo3" size="100000000000">    
+        <input type="file" name="photo4" size="100000000000">    
+    
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+	
+	<h1>Photos</h1>
+
+	<% for ( split /\s+/, $content->photos ) { %>
+	
+	<img src="<%= $_ %>" style="width:auto; height:300px;" />
+	
+	<% } %>
+	
+        <input type="file" name="photo1" size="100000000000">    
+        <input type="file" name="photo2" size="100000000000">    
+        <input type="file" name="photo3" size="100000000000">    
+        <input type="file" name="photo4" size="100000000000">    
+    
+	<% } %>
+
+	<br />
+	<br />
+    
+	<% if ( $self->param('mode') eq 'create' ) { %>
+	
+	<button dojoType="dijit.form.Button" type="submit">Create</button>
+	
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<button dojoType="dijit.form.Button" type="submit">Update</button>
+	
+	<% } %>
+    
+    </div>
+
+</div>
+
+<div class="content_right">
+
+    <h1>Recent</h1>
+
+    <% for (1...10) { %>
+
+    <p>Some stuff goes here</p>
+
+    <% } %>
+
+</div>

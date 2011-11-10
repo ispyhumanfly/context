@@ -1,5 +1,7 @@
 % title 'Photos';
 % layout 'default';
+%
+% my @content = $self->{MODEL}->resultset('Content')->search({ types => {like => '%gallery%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -7,7 +9,20 @@
 
 <div class="content_left">
 
-    <blockquote><%= title %> content will eventually go here.</blockquote>
+    <h1>Recent Galleries</h1>
+
+    <% for my $gallery (@content) { %>
+
+	<% for ( split /\s+/, $gallery->photos ) { %>
+	
+        <a href="/more?id=<%= $gallery->id %>">
+            
+            <img src="<%= $_ %>" style="width:300px; height:auto;" />
+	</a>
+        
+	<% } %>
+
+    <% } %>
 
 </div>
 
