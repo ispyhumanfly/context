@@ -15,21 +15,31 @@
     <h1>Search Results</h1>
 
     <% for (@content) { %>
+        
+        <h4><%= $_->title %></h4>
 
-        <% if (($_->title =~ m/$string/ ) or ($_->body =~ m/$string/ )) { %>
+        <p>
+            <% for ( split /\s+/, $_->photos ) { %>
+            
+            <img class="para_image_left_search" src="<%= $_ %>" />
+            
+            <% last; %>
+            
+            <% } %>
+                
+            <%= substr( $_->body, 0, 100 ) %>
+        
+        </p>
+        
+        <div class="read_more_right">
+            <a href="/more?id=<%= $_->id %>&back=live">Read More...</a>
+        </div>
+        
+        <hr />
 
-        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
-
-	<% for ( split /\s+/, $_->photos ) { %>
-	
-	<img src="<%= $_ %>" style="width:50px; height:auto;" />
-	
-	<% } %>
-
-        <p><%= $_->body %></p>
-
-        <% } %>
     <% } %>
+
+    <h2>Back</h2>
 
 </div>
 

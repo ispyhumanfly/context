@@ -1,5 +1,7 @@
-% title 'Buzz';
+% title 'The Buzz';
 % layout 'default';
+%
+% my @content = $self->{MODEL}->resultset('Content')->search({ tags => {like => '%the_buzz%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -7,26 +9,39 @@
 
 <div class="content_left">
 
-    <blockquote><%= title %> content will eventually go here.</blockquote>
+    <h1>The Buzz</h1>
+
+    <% for (@content) { %>
+
+        <% if ( $_->tags =~ /featured/g ) { %>
+
+        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+
+	<% for ( split /\s+/, $_->photos ) { %>
+	
+	<img src="<%= $_ %>" style="width:100px; height:auto;" />
+	
+	<% } %>
+
+        <p><%= $_->body %></p>
+
+        <% } %>
+    <% } %>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Example</h1>
+    <h1>More Buzz</h1>
 
-    <% for (1...5) { %>
+    <% for (@content) { %>
 
-    <p>Some stuff goes here</p>
+        <% if ( $_->tags =~ /the_buzz/g ) { %>
 
-    <% } %>
-
-    <h1>Example</h1>
-
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
+        <p><%= $_->title %></p>
+        
+        <% } %>
+    
     <% } %>
 
 </div>

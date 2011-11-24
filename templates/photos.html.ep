@@ -1,7 +1,7 @@
 % title 'Photos';
 % layout 'default';
 %
-% my @content = $self->{MODEL}->resultset('Content')->search({ types => {like => '%gallery%'} })->all;
+% my @content = $self->{MODEL}->resultset('Content')->search({ pages => {like => '%photos%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -13,16 +13,22 @@
 
     <% for my $gallery (@content) { %>
 
-	<% for ( split /\s+/, $gallery->photos ) { %>
+        <% if ( $gallery->types =~ /gallery/g ) { %>
 	
-        <a href="/more?id=<%= $gallery->id %>">
+            <% for ( split /\s+/, $gallery->photos ) { %>
             
-            <img src="<%= $_ %>" style="width:300px; height:auto;" />
-	</a>
-        
-	<% } %>
+            <a href="/more?id=<%= $gallery->id %>&back=photos">
+                
+                <img src="<%= $_ %>" style="width: 100px; height: 100px;" />
+            </a>
+            
+            <% } %>
 
+        <% } %>
+    
     <% } %>
+
+    <h2>More Galleries</h2>
 
 </div>
 

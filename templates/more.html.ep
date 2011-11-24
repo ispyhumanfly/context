@@ -13,19 +13,30 @@
 
     <% for (@content) { %>
 
-    <h1><%= $_->title %></h1>
+        <h1><%= $_->title %></h1>
 
-    <h2>On <%= $_->datetime->day_name %> ...</h2>
-
-    <% for ( split /\s+/, $_->photos ) { %>
+        <p>
+            <% for ( split /\s+/, $_->photos ) { %>
+            
+            <img class="para_image_left" src="<%= $_ %>" />
+            
+            <% last; %>
+            
+            <% } %>
+                
+            <%= $_->body %>
         
-    <img src="<%= $_ %>" style="width:200px; height:auto;" />
-    
+        </p>
+
+        <% for ( split /\s+/, $_->photos ) { %>
+        
+        <img src="<%= $_ %>" style="width: 100px; height: 100px;"/>
+        
+        <% } %>
+        
     <% } %>
 
-    <p><%= $_->body %></p>
-
-    <% } %>
+    <h2><a href="/<%= $self->param('back') %>">Back</a></h2>
 
 </div>
 

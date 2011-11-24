@@ -15,18 +15,42 @@
 
         <% if (($_->tags =~ /featured/g ) and ($_->types =~ /event/g )) { %>
 
-        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+        <div style="padding-bottom: 50px;">
 
-	<% for ( split /\s+/, $_->photos ) { %>
-	
-	<img src="<%= $_ %>" style="width:100px; height:auto;" />
-	
-	<% } %>
+	    <p>
+		<% for ( split /\s+/, $_->photos ) { %>
 
-        <p><%= $_->body %></p>
+		<img class="para_image_left" src="<%= $_ %>" />
+
+		<% last; %>
+
+		<% } %>
+
+		<h3><%= $_->title %></h3>
+
+		<%= substr( $_->body, 0, 200 ) . '...' %>
+
+	    </p>
+
+	    <% for ( split /\s+/, $_->photos ) { %>
+
+	    <img src="<%= $_ %>" style="width: 50px; height: 50px;"/>
+
+	    <% } %>
+
+	    <div class="read_more_right">
+
+		<a href="/more?id=<%= $_->id %>&back=live">Read More...</a>
+
+	    </div>
+        </div>
 
         <% } %>
     <% } %>
+
+    <br />
+
+    <h2>More City Life</h2>
 
     <h1>Featured Lifestyle</h1>
 
@@ -34,18 +58,22 @@
 
         <% if (($_->tags =~ /featured/g ) and ($_->types =~ /place/g )) { %>
 
-        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+        <h3><a href="/more?id=<%= $_->id %>&back=live"><%= $_->title %></a></h3>
 
 	<% for ( split /\s+/, $_->photos ) { %>
-	
+
 	<img src="<%= $_ %>" style="width:100px; height:auto;" />
-	
+
 	<% } %>
 
-        <p><%= $_->body %></p>
+        <p><%= substr( $_->body, 0, 200 ) . '...' %></p>
 
         <% } %>
     <% } %>
+
+    <br />
+
+    <h2>More Lifestyle</h2>
 
 </div>
 

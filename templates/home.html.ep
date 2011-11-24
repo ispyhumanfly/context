@@ -5,68 +5,116 @@
 
 <script type="text/javascript">//<![CDATA[
 
+      dojo.require("dojox.widget.Calendar");
+
 //]]></script>
 
 <div class="content_left">
-
-    <h1>Featured</h1>
 
     <% for (@content) { %>
 
         <% if ( $_->tags =~ /featured/g ) { %>
 
-        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+	    <% for ( split /\s+/, $_->photos ) { %>
 
-	<% for ( split /\s+/, $_->photos ) { %>
-	
-	<img src="<%= $_ %>" style="width:100px; height:auto;" />
-	
+	    <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+		<img class="para_image_left" src="<%= $_ %>" />
+	    </a>
+
+            <% last; #JUST SHOW ONE %>
+
+            <% } %>
+
+	    <h1>Features</h1>
+
+	    <h3><%= $_->title %></h3>
+
+	    <%= substr( $_->body, 0, 300 ) . '...' %>
+
+	    <div class="read_more_right">
+		<a href="/more?id=<%= $_->id %>">Read More...</a>
+	    </div>
+
 	<% } %>
 
-        <p><%= $_->body %></p>
+    <% last; #JUST SHOW ONE %>
 
-        <% } %>
     <% } %>
 
-    <h1>Live</h1>
+    <% for my $featured (@content) { %>
+
+        <% if ( $featured->tags =~ /featured/g ) { %>
+
+            <% for ( split /\s+/, $featured->photos ) { %>
+
+	    <a dojoType="dojox.image.Lightbox" group="all" href="<%= $_ %>">
+		<img style="width: 50px; height: 50px;" src="<%= $_ %>" />
+	    </a>
+
+            <% } %>
+
+        <% } %>
+
+    <% } %>
+
+    <h2>More Features</h2>
 
     <% for (@content) { %>
 
-        <% if (($_->tags =~ /featured/g ) and ($_->types =~ /place/g )) { %>
+    <div id="featured_<%= $_->id %>">
 
-        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+        <% if (($_->tags =~ /featured/g) and ($_->types =~ /place/g )) { %>
 
-	<% for ( split /\s+/, $_->photos ) { %>
-	
-	<img src="<%= $_ %>" style="width:100px; height:auto;" />
-	
-	<% } %>
+            <% for ( split /\s+/, $_->photos ) { %>
 
-        <p><%= $_->body %></p>
+	    <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+		<img class="para_image_left" src="<%= $_ %>" />
+	    </a>
+
+            <% last; #JUST SHOW ONE %>
+
+            <% } %>
+
+	    <h1>City Life</h1>
+
+	    <h3><%= $_->title %></h3>
+
+	<%= substr( $_->body, 0, 300 ) . '...' %>
+
+        <div class="read_more_right">
+            <a href="/more?id=<%= $_->id %>">Read More...</a>
+        </div>
 
         <% } %>
+
+    </div>
+
+    <% last; #JUST SHOW ONE %>
+
     <% } %>
+
+    <h2>More City Life</h2>
 
 </div>
 
 <div class="content_right">
 
-    <h1>On Tap</h1>
+    <h1>Events</h1>
 
-    <% for (@content) { %>
+    <div dojoType="dojox.widget.Calendar" style="padding: 0px 10px 10px 10px;"></div>
 
-        <% if (($_->tags =~ /on_tap/g ) and ($_->types =~ /event/g )) { %>
+    <h1>Galleries</h1>
 
-        <p><%= $_->title %></p>
+    <% for my $gallery (@content) { %>
 
-        <% } %>
-    <% } %>
+	<% for ( split /\s+/, $gallery->photos ) { %>
 
-    <h1>Photos </h1>
+        <a href="/more?id=<%= $gallery->id %>">
 
-    <% for (@content) { %>
+            <img src="<%= $_ %>" style="width:75px; height:auto;" />
+	</a>
 
-    <p>Some stuff goes here</p>
+	<% } %>
 
     <% } %>
 

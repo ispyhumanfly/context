@@ -1,5 +1,7 @@
 % title 'Places';
 % layout 'default';
+%
+% my @content = $self->{MODEL}->resultset('Content')->search({ types => {like => '%place%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -7,13 +9,46 @@
 
 <div class="content_left">
 
-    <blockquote><%= title %> content will eventually go here.</blockquote>
+    <h1>Try This</h1>
+
+    <% for (@content) { %>
+
+        <% if ( $_->tags =~ /try_this/g ) { %>
+
+        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+
+	<% for ( split /\s+/, $_->photos ) { %>
+	
+	<img src="<%= $_ %>" style="width:100px; height:auto;" />
+	
+	<% } %>
+
+        <p><%= $_->body %></p>
+
+        <% } %>
+    <% } %>
+
+    <h1>More Places</h1>
+
+    <% for (@content) { %>
+
+        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+    
+        <% for ( split /\s+/, $_->photos ) { %>
+        
+        <img src="<%= $_ %>" style="width:100px; height:auto;" />
+        
+        <% } %>
+    
+        <p><%= $_->body %></p>
+
+    <% } %>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Example</h1>
+    <h1>Search Places</h1>
 
     <% for (1...5) { %>
 
@@ -21,12 +56,16 @@
 
     <% } %>
 
-    <h1>Example</h1>
+    <h1>Get the Buzz</h1>
 
-    <% for (1...5) { %>
+    <% for (@content) { %>
 
-    <p>Some stuff goes here</p>
+        <% if ( $_->tags =~ /the_buzz/g ) { %>
 
+        <p><%= $_->title %></p>
+        
+        <% } %>
+    
     <% } %>
 
 </div>

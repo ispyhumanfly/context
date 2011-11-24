@@ -1,34 +1,28 @@
 % title 'About';
 % layout 'default';
+%
+% my $settings = $self->{MODEL}->resultset('Settings')->first;
 
 <script type="text/javascript">//<![CDATA[
 
 //]]></script>
 
-<% my $settings = $self->{MODEL}->resultset('Settings')->first; %>
+<div class="content_left">
 
-<div>
+    <h1>About Us</h1>
 
-    <%= $settings->about %>
+    <p><%= $settings->about %></p>
 
+    <h1>Press</h1>
+
+    <p></p>
+
+    <h2>More</h2>
+    
 </div>
 
 <div class="content_right">
 
-    <h1>Example</h1>
-
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
-    <% } %>
-
-    <h1>Example</h1>
-
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
-    <% } %>
+    <h1>More Info</h1>
 
 </div>

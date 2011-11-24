@@ -1,5 +1,7 @@
 % title 'Royal Oak';
 % layout 'default';
+%
+% my @content = $self->{MODEL}->resultset('Content')->search({ cities => {like => '%royal_oak%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -7,26 +9,58 @@
 
 <div class="content_left">
 
-    <blockquote><%= title %> content will eventually go here.</blockquote>
+    <h1>City Life</h1>
+
+    <% for (@content) { %>
+
+        <% for ( split /\s+/, $_->photos ) { %>
+
+            <img class="para_image_right" src="<%= $_ %>" />
+
+            <% last; #JUST SHOW ONE %>
+
+	<% } %>
+
+	<% last; #JUST SHOW ONE %>
+
+    <% } %>
+
+    <h3>Royal Oak</h3>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dui nunc, porta at volutpat quis, rhoncus non quam. Morbi non sollicitudin nibh. Nam sem felis, posuere nec posuere et, porttitor eu nibh. Proin viverra, sapien ut tincidunt fermentum, mi eros imperdiet nisl, id consectetur mi est eu massa. Fusce velit quam, pretium iaculis ullamcorper eget, sagittis ac ipsum. Pellentesque lobortis lacus sit amet leo sollicitudin vitae fermentum est pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse sed dui a nibh faucibus volutpat ut sodales dolor. Sed dapibus felis non ipsum rhoncus ullamcorper fermentum erat fringilla. Maecenas egestas auctor nunc pretium tristique. Nulla eu lorem sem, in ultricies leo. Nulla iaculis tincidunt arcu id posuere. </p>
+
+    <h1>Featured Lifestyle</h1>
+
+    <% for (@content) { %>
+
+        <% if ( ($_->tags =~ /featured/g) and ($_->interests =~ /living/g) ) { %>
+
+        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+
+	<% for ( split /\s+/, $_->photos ) { %>
+
+	<img src="<%= $_ %>" style="width:100px; height:auto;" />
+
+	<% } %>
+
+        <p><%= $_->body %></p>
+
+        <% } %>
+    <% } %>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Example</h1>
+    <h1>Neighbors</h1>
 
-    <% for (1...5) { %>
+    <% for (@content) { %>
 
-    <p>Some stuff goes here</p>
+        <% if (($_->cities =~ /birmingham/g ) and ($_->types =~ /place/g )) { %>
 
-    <% } %>
+        <p><%= $_->title %></p>
 
-    <h1>Example</h1>
-
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
+        <% } %>
     <% } %>
 
 </div>

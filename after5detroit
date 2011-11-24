@@ -25,6 +25,9 @@ get '/home' => sub {
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
 
+    # Ad Content
+    $self->{'ad_content'} = 'home';
+
     return $self->render('home');
 
 } => 'home';
@@ -33,6 +36,9 @@ get '/live' => sub {
 
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
+
+    # Ad Content
+    $self->{'ad_content'} = 'live';
 
     return $self->render('live');
 
@@ -43,6 +49,9 @@ get '/work' => sub {
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
 
+    # Ad Content
+    $self->{'ad_content'} = 'work';
+
     return $self->render('work');
 
 } => 'work';
@@ -51,6 +60,9 @@ get '/play' => sub {
 
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
+
+    # Ad Content
+    $self->{'ad_content'} = 'play';
 
     return $self->render('play');
 
@@ -61,6 +73,9 @@ get '/photos' => sub {
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
 
+    # Ad Content
+    $self->{'ad_content'} = 'photos';
+
     return $self->render('photos');
 
 } => 'photos';
@@ -69,6 +84,9 @@ get '/about' => sub {
 
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
+
+    # Ad Content
+    $self->{'ad_content'} = 'about';
 
     return $self->render('about');
 
@@ -79,16 +97,22 @@ get '/:page/:item' => [page => qr/\w+/, item => qr/\w+/] => sub {
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
 
+    # Ad Content
+    $self->{'ad_content'} = $self->param('page');
+
     my $page_item = $self->param('page') . '_' . $self->param('item');
-    
+
     return $self->render($page_item);
-    
+
 } => 'page_item';
 
 any '/search' => sub {
 
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
+
+    # Ad Content
+    $self->{'ad_content'} = 'search';
 
     return $self->render('search');
 
@@ -98,6 +122,9 @@ any '/more' => sub {
 
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
+
+    # Ad Content
+    $self->{'ad_content'} = 'more';
 
     return $self->render('more');
 
@@ -109,6 +136,9 @@ get '/cpanel' => sub {
 
     my $self = shift;
     $self->{'MODEL'} = $MODEL;
+
+    # Ad Content
+    $self->{'ad_content'} = ''; # Setting this blank...
 
     return $self->render('cpanel');
 
@@ -130,16 +160,16 @@ any '/cpanel/content' => sub {
     push @interests, $_ for $self->param('interests');
     push @pages,     $_ for $self->param('pages');
 
-    push @photos, content_photo($self->req->upload('photo1'))
+    push @photos, process_photo($self->req->upload('photo1'))
       if $self->req->upload('photo1');
 
-    push @photos, content_photo($self->req->upload('photo2'))
+    push @photos, process_photo($self->req->upload('photo2'))
       if $self->req->upload('photo2');
 
-    push @photos, content_photo($self->req->upload('photo3'))
+    push @photos, process_photo($self->req->upload('photo3'))
       if $self->req->upload('photo3');
 
-    push @photos, content_photo($self->req->upload('photo4'))
+    push @photos, process_photo($self->req->upload('photo4'))
       if $self->req->upload('photo4');
 
     try {
@@ -151,9 +181,9 @@ any '/cpanel/content' => sub {
                 cities    => "@cities",
                 pages     => "@pages",
                 interests => "@interests",
+                photos    => "@photos",
                 title     => $self->param('title'),
                 body      => $self->param('body'),
-                photos    => "@photos",
                 datetime  => DateTime->now,
             }
         );
@@ -191,16 +221,16 @@ any '/cpanel/content/update' => sub {
     push @interests, $_ for $self->param('interests');
     push @pages,     $_ for $self->param('pages');
 
-    push @photos, content_photo($self->req->upload('photo1'))
+    push @photos, process_photo($self->req->upload('photo1'))
       if $self->req->upload('photo1');
 
-    push @photos, content_photo($self->req->upload('photo2'))
+    push @photos, process_photo($self->req->upload('photo2'))
       if $self->req->upload('photo2');
 
-    push @photos, content_photo($self->req->upload('photo3'))
+    push @photos, process_photo($self->req->upload('photo3'))
       if $self->req->upload('photo3');
 
-    push @photos, content_photo($self->req->upload('photo4'))
+    push @photos, process_photo($self->req->upload('photo4'))
       if $self->req->upload('photo4');
 
     $MODEL->resultset('Content')->search({id => $self->param('id')})
@@ -216,9 +246,9 @@ any '/cpanel/content/update' => sub {
                 tags      => "@tags",
                 cities    => "@cities",
                 pages     => "@pages",
+                interests => "@interests",
                 title     => $self->param('title'),
                 body      => $self->param('body'),
-                interests => "@interests",
                 datetime  => DateTime->now,
             }
           );
@@ -241,89 +271,6 @@ any '/cpanel/content/remove' => sub {
 
         $MODEL->resultset('Content')->search({id => $self->param('id')})
           ->delete;
-    }
-
-    finally {
-
-        $self->redirect_to('cpanel');
-    }
-
-};
-
-## CPanel: Ads
-
-any '/cpanel/ads' => sub {
-
-    my $self = shift;
-
-    return $self->redirect_to('cpanel') unless $self->session('admin');
-    
-    try {
-        
-        my $photo = ads_photo($self->req->upload('photo'));
-        
-        $MODEL->resultset('Ads')->create(
-        
-            {   title      => $self->param('title'),
-                pages      => $self->param('pages'),
-                photo      => $photo,
-                datetime   => DateTime->now,
-            }
-        );
-    }
-
-    finally {
-
-        $self->redirect_to('cpanel');
-    }
-
-} => 'cpanel_ads';
-
-any '/cpanel/ads/form' => sub {
-
-    my $self = shift;
-    $self->{'MODEL'} = $MODEL;
-
-    return $self->redirect_to('cpanel') unless $self->session('admin');
-
-    return $self->render('cpanel_ads_form');
-
-} => 'cpanel_ads_form';
-
-any '/cpanel/ads/update' => sub {
-
-    my $self = shift;
-
-    return $self->redirect_to('cpanel') unless $self->session('admin');
-
-    try {
-
-        $MODEL->resultset('Ads')->search({id => $self->param('id')})->update(
-
-            {   title      => $self->param('title'),
-                page       => $self->param('page'),
-                photo      => $self->param('photo'),
-                datetime   => DateTime->now,
-            }
-        );
-    }
-
-    finally {
-
-        $self->redirect_to('cpanel');
-    }
-
-};
-
-any '/cpanel/ads/remove' => sub {
-
-    my $self = shift;
-
-    return $self->redirect_to('cpanel') unless $self->session('admin');
-
-    try {
-
-        $MODEL->resultset('Ads')->search({id => $self->param('id')})->delete;
     }
 
     finally {
@@ -366,7 +313,7 @@ any '/cpanel/login' => sub {
 
 } => 'cpanel_login';
 
-any '/cpanel/logout' => sub {
+get '/cpanel/logout' => sub {
 
     my $self = shift;
 
@@ -411,7 +358,7 @@ any '/cpanel/settings' => sub {
 
 ### After5 Tools
 
-sub content_photo {
+sub process_photo {
 
     my $upload = shift;
 
@@ -422,19 +369,6 @@ sub content_photo {
     $upload->move_to('public' . $path);
 
     sleep(1) and return $path;
-}
-
-sub ads_photo {
-
-    my $upload = shift;
-
-    my $photo_name = DateTime->now;
-
-    my $path = "/photos/ads/$photo_name.img";
-
-    $upload->move_to('public' . $path);
-
-    return $path;
 }
 
 sub google_local {

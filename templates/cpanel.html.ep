@@ -33,21 +33,10 @@
 
     <% for ( my @content = $self->{MODEL}->resultset('Content')->all ) { %>
 
-    <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+    <h3><a href="/more?id=<%= $_->id %>&back=cpanel"><%= $_->title %></a></h3>
 
     <a href="/cpanel/content/form?mode=update&id=<%= $_->id %>">Update</a>
     <a href="/cpanel/content/remove?id=<%= $_->id %>">Remove</a>
-
-    <% } %>
-
-    <h1>All Ads</h1>
-
-    <% for (my @ads = $self->{MODEL}->resultset('Ads')->all) { %>
-
-    <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
-
-    <a href="/cpanel/ads/form?mode=update&id=<%= $_->id %>">Update</a>
-    <a href="/cpanel/ads/remove?id=<%= $_->id %>">Remove</a>
 
     <% } %>
 
@@ -75,10 +64,6 @@
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/cpanel/content/form?mode=create';">
         Add Content
-    </div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/cpanel/ads/form?mode=create';">
-        Add Ads
     </div>
 
     <div dojoType="dijit.MenuSeparator"></div>
