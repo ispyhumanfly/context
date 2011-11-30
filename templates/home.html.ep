@@ -1,7 +1,5 @@
 % title 'Home';
 % layout 'default';
-%
-% my @content = $self->{MODEL}->resultset('Content')->search({ pages => {like => '%home%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -11,89 +9,61 @@
 
 <div class="content_left">
 
-    <% for (@content) { %>
+    <% for my $features (@{$self->{FEATURES}}) { %>
 
-        <% if ( $_->tags =~ /featured/g ) { %>
+	<% for ( split /\s+/, $features->photos ) { %>
 
-	    <% for ( split /\s+/, $_->photos ) { %>
+	<a dojoType="dojox.image.Lightbox" title="<%= $features->title %>" href="<%= $_ %>">
+	    <img class="para_image_left" src="<%= $_ %>" />
+	</a>
 
-	    <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
-		<img class="para_image_left" src="<%= $_ %>" />
-	    </a>
-
-            <% last; #JUST SHOW ONE %>
-
-            <% } %>
-
-	    <h1>Features</h1>
-
-	    <h3><%= $_->title %></h3>
-
-	    <%= substr( $_->body, 0, 300 ) . '...' %>
-
-	    <div class="read_more_right">
-		<a href="/more?id=<%= $_->id %>">Read More...</a>
-	    </div>
+	<% last; #JUST SHOW ONE %>
 
 	<% } %>
 
-    <% last; #JUST SHOW ONE %>
+	<div class="h1_spacer"><h1>Features</h1></div>
+
+	<h2><%= $features->title %></h2>
+
+	<p><%= substr( $features->body, 0, 500 ) . '...' %></p>
+
+	<div class="read_more_right">
+	    <a href="/more?id=<%= $features->id %>">Read More...</a>
+	</div>
+
+	<% last; #JUST SHOW ONE %>
 
     <% } %>
 
-    <% for my $featured (@content) { %>
+    <h3><a href="/more?featured=all">More Features</a></h3>
 
-        <% if ( $featured->tags =~ /featured/g ) { %>
+    <% for my $city_life (@{$self->{CITY_LIFE}}) { %>
 
-            <% for ( split /\s+/, $featured->photos ) { %>
+	<% for ( split /\s+/, $city_life->photos ) { %>
 
-	    <a dojoType="dojox.image.Lightbox" group="all" href="<%= $_ %>">
-		<img style="width: 50px; height: 50px;" src="<%= $_ %>" />
-	    </a>
+	<a dojoType="dojox.image.Lightbox" title="<%= $city_life->title %>" href="<%= $_ %>">
+	    <img class="para_image_left" src="<%= $_ %>" />
+	</a>
 
-            <% } %>
+        <% last; #JUST SHOW ONE %>
 
-        <% } %>
+	<% } %>
 
-    <% } %>
+	<div class="h1_spacer"><h1>City Life</h1></div>
 
-    <h2>More Features</h2>
+	<h2><%= $city_life->title %></h2>
 
-    <% for (@content) { %>
+	<p><%= substr( $city_life->body, 0, 500 ) . '...' %></p>
 
-    <div id="featured_<%= $_->id %>">
+	<div class="read_more_right">
+	    <a href="/more?id=<%= $city_life->id %>">Read More...</a>
+	</div>
 
-        <% if (($_->tags =~ /featured/g) and ($_->types =~ /place/g )) { %>
-
-            <% for ( split /\s+/, $_->photos ) { %>
-
-	    <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
-		<img class="para_image_left" src="<%= $_ %>" />
-	    </a>
-
-            <% last; #JUST SHOW ONE %>
-
-            <% } %>
-
-	    <h1>City Life</h1>
-
-	    <h3><%= $_->title %></h3>
-
-	<%= substr( $_->body, 0, 300 ) . '...' %>
-
-        <div class="read_more_right">
-            <a href="/more?id=<%= $_->id %>">Read More...</a>
-        </div>
-
-        <% } %>
-
-    </div>
-
-    <% last; #JUST SHOW ONE %>
+	<% last; #JUST SHOW ONE %>
 
     <% } %>
 
-    <h2>More City Life</h2>
+    <h3><a href="/more?living=all">More City Life</a></h3>
 
 </div>
 
@@ -101,11 +71,13 @@
 
     <h1>Events</h1>
 
-    <div dojoType="dojox.widget.Calendar" style="padding: 0px 10px 10px 10px;"></div>
+    <div class="event_calendar">
+	<div dojoType="dojox.widget.Calendar"></div>
+    </div>
 
     <h1>Galleries</h1>
 
-    <% for my $gallery (@content) { %>
+    <% for my $gallery (@{$self->{GALLERIES}}) { %>
 
 	<% for ( split /\s+/, $gallery->photos ) { %>
 

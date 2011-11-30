@@ -26,6 +26,24 @@
 
 	<% if ( $self->param('mode') eq 'create' ) { %>
 
+	<h1>Author</h1>
+
+	<div dojoType="dijit.form.TextBox" name="author" value=""></div>
+
+
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+
+	<h1>Author</h1>
+
+	<div dojoType="dijit.form.TextBox" name="author" value="<%= $content->author %>"></div>
+
+	<% } %>
+
+	<br />
+	<br />
+
+	<% if ( $self->param('mode') eq 'create' ) { %>
+
 	<h1>Title</h1>
 
 	<div dojoType="dijit.form.TextBox" name="title" value=""></div>
@@ -89,19 +107,19 @@
 
 	<select dojoType="dijit.form.MultiSelect" multiple="true" name="interests" size="4">
 
-    	    <option value="dining" <%= 'selected' if $content->interests =~ /dining/g %>>
+    	    <option value="dining" <%= 'selected' if $content->interests =~ m/dining/i %>>
 		dining
 	    </option>
 
-	    <option value="nightlife" <%= 'selected' if $content->interests =~ /nightlife/g %>>
+	    <option value="nightlife" <%= 'selected' if $content->interests =~ m/nightlife/i %>>
 		nightlife
 	    </option>
 
-	    <option value="activities" <%= 'selected' if $content->interests =~ /activities/g %>>
+	    <option value="activities" <%= 'selected' if $content->interests =~ m/activities/i %>>
 		activities
 	    </option>
 
-	    <option value="living" <%= 'selected' if $content->interests =~ /living/g %>>
+	    <option value="living" <%= 'selected' if $content->interests =~ m/living/i %>>
 		living
 	    </option>
 
@@ -158,35 +176,35 @@
 
 	<select dojoType="dijit.form.MultiSelect" multiple="true" name="pages" size="4">
 
-    	    <option value="home" <%= 'selected' if $content->pages =~ /home/g %>>
+    	    <option value="home" <%= 'selected' if $content->pages =~ m/home/i %>>
 		home
 	    </option>
 
-	    <option value="live" <%= 'selected' if $content->pages =~ /live/g %>>
+	    <option value="live" <%= 'selected' if $content->pages =~ m/live/i %>>
 		live
 	    </option>
 
-	    <option value="work" <%= 'selected' if $content->pages =~ /work/g %>>
+	    <option value="work" <%= 'selected' if $content->pages =~ m/work/i %>>
 		work
 	    </option>
 
-	    <option value="play" <%= 'selected' if $content->pages =~ /play/g %>>
+	    <option value="play" <%= 'selected' if $content->pages =~ m/play/i %>>
 		play
 	    </option>
 
-	    <option value="photos" <%= 'selected' if $content->pages =~ /photos/g %>>
+	    <option value="photos" <%= 'selected' if $content->pages =~ m/photos/i %>>
 		photos
 	    </option>
 
-	    <option value="about" <%= 'selected' if $content->pages =~ /about/g %>>
+	    <option value="about" <%= 'selected' if $content->pages =~ m/about/i %>>
 		about
 	    </option>
 
-	    <option value="photos" <%= 'selected' if $content->pages =~ /search/g %>>
+	    <option value="photos" <%= 'selected' if $content->pages =~ m/search/i %>>
 		search
 	    </option>
 
-	    <option value="play" <%= 'selected' if $content->pages =~ /more/g %>>
+	    <option value="play" <%= 'selected' if $content->pages =~ m/more/i %>>
 		more
 	    </option>
 
@@ -219,6 +237,10 @@
 		gallery
 	    </option>
 
+	    <option value="people">
+		people
+	    </option>
+
 	    <option value="ad">
 		ad
 	    </option>
@@ -231,23 +253,27 @@
 
 	<select dojoType="dijit.form.MultiSelect" multiple="true" name="types" size="4">
 
-	    <option value="article" <%= 'selected' if $content->types =~ /article/g %>>
+	    <option value="article" <%= 'selected' if $content->types =~ m/article/i %>>
 		article
 	    </option>
 
-	    <option value="place" <%= 'selected' if $content->types =~ /place/g %>>
+	    <option value="place" <%= 'selected' if $content->types =~ m/place/i %>>
 		place
 	    </option>
 
-	    <option value="event" <%= 'selected' if $content->types =~ /event/g %>>
+	    <option value="event" <%= 'selected' if $content->types =~ m/event/i %>>
 		event
 	    </option>
 
-	    <option value="gallery" <%= 'selected' if $content->types =~ /gallery/g %>>
+	    <option value="gallery" <%= 'selected' if $content->types =~ m/gallery/i %>>
 		gallery
 	    </option>
 
-	    <option value="ad" <%= 'selected' if $content->types =~ /ad/g %>>
+	    <option value="people" <%= 'selected' if $content->types =~ m/people/i %>>
+		people
+	    </option>
+
+	    <option value="ad" <%= 'selected' if $content->types =~ m/ad/i %>>
 		ad
 	    </option>
 
@@ -288,19 +314,19 @@
 
 	<select dojoType="dijit.form.MultiSelect" multiple="true" name="tags" size="4">
 
-	    <option value="on_tap" <%= 'selected' if $content->tags =~ /on_tap/g %>>
+	    <option value="on_tap" <%= 'selected' if $content->tags =~ m/on_tap/i %>>
 		on_tap
 	    </option>
 
-	    <option value="featured" <%= 'selected' if $content->tags =~ /featured/g %>>
+	    <option value="featured" <%= 'selected' if $content->tags =~ m/featured/i %>>
 		featured
 	    </option>
 
-	    <option value="the_buzz" <%= 'selected' if $content->tags =~ /the_buzz/g %>>
+	    <option value="the_buzz" <%= 'selected' if $content->tags =~ m/the_buzz/i %>>
 		the_buzz
 	    </option>
 
-	    <option value="try_this" <%= 'selected' if $content->tags =~ /try_this/g %>>
+	    <option value="try_this" <%= 'selected' if $content->tags =~ m/try_this/i %>>
 		try_this
 	    </option>
 
@@ -341,19 +367,19 @@
 
 	<select dojoType="dijit.form.MultiSelect" multiple="true" name="cities" size="4">
 
-	    <option value="birmingham" <%= 'selected' if $content->cities =~ /birmingham/g %>>
+	    <option value="birmingham" <%= 'selected' if $content->cities =~ m/birmingham/i %>>
 		birmingham
 	    </option>
 
-	    <option value="detroit" <%= 'selected' if $content->cities =~ /detroit/g %>>
+	    <option value="detroit" <%= 'selected' if $content->cities =~ m/detroit/i %>>
 		detroit
 	    </option>
 
-	    <option value="ferndale" <%= 'selected' if $content->cities =~ /ferndale/g %>>
+	    <option value="ferndale" <%= 'selected' if $content->cities =~ m/ferndale/i %>>
 		ferndale
 	    </option>
 
-	    <option value="royal_oak" <%= 'selected' if $content->cities =~ /royal_oak/g %>>
+	    <option value="royal_oak" <%= 'selected' if $content->cities =~ m/royal_oak/i %>>
 		royal_oak
 	    </option>
 

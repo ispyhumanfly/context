@@ -1,7 +1,5 @@
 % title 'Play';
 % layout 'default';
-%
-% my @content = $self->{MODEL}->resultset('Content')->search({ pages => {like => '%play%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -9,139 +7,66 @@
 
 <div class="content_left">
 
-    <% for (@content) { %>
+    <% for my $features (@{$self->{FEATURES}}) { %>
 
-    <div id="featured_<%= $_->id %>">
+	<% for ( split /\s+/, $features->photos ) { %>
 
-        <% if ( ($_->tags =~ /featured/g) and ($_->types =~ /article/g) ) { %>
+	<a dojoType="dojox.image.Lightbox" title="<%= $features->title %>" href="<%= $_ %>">
+	    <img class="para_image_left" src="<%= $_ %>" />
+	</a>
 
-        <% for ( split /\s+/, $_->photos ) { %>
-
-            <img class="para_image_left" src="<%= $_ %>" />
-
-            <% last; #JUST SHOW ONE %>
-
-            <% } %>
-
-	    <h1>Features</h1>
-
-	    <img class="para_arrow_left" src="/ArrowGraphic.png">PEOPLE</img>
-
-	    <h3><%= $_->title %></h3>
-
-            <%= $_->body %>
-
-	    <div class="read_more_right">
-		<a href="/more?id=<%= $_->id %>">Read More...</a>
-	    </div>
+        <% last; #JUST SHOW ONE %>
 
         <% } %>
 
-    </div>
+	<div class="h1_spacer"><h1>Features</h1></div>
+
+	<img class="para_arrow_left" src="/ArrowGraphic.png">PEOPLE</img>
+
+	<h2><%= $features->title %></h2>
+
+	<p><%= substr( $features->body, 0, 500 ) . '...' %></p>
+
+	<div class="read_more_right">
+	    <a href="/more?id=<%= $features->id %>">Read More...</a>
+	</div>
 
     <% last; #JUST SHOW ONE %>
 
     <% } %>
 
-    This will be the pagination controls when finished.
+    <% for my $buzz (@{$self->{BUZZ}}) { %>
 
-    <% for my $featured (@content) { %>
+	<% for ( split /\s+/, $buzz->photos ) { %>
 
-        <% if ( $featured->tags =~ /featured/g ) { %>
+	<a dojoType="dojox.image.Lightbox" title="<%= $buzz->title %>" href="<%= $_ %>">
+	    <img class="para_image_left" src="<%= $_ %>" />
+	</a>
 
-            <% for ( split /\s+/, $featured->photos ) { %>
-
-            <a href="#">
-
-                <img src="<%= $_ %>" style="width: 50px; height: 50px;"/>
-
-            </a>
-
-            <% } %>
+        <% last; #JUST SHOW ONE %>
 
         <% } %>
 
-    <% } %>
+	<img class="para_arrow_left" src="/ArrowGraphic.png">THE BUZZ</img>
 
-    <% for (@content) { %>
+	<h2><%= $buzz->title %></h2>
 
-    <div id="featured_<%= $_->id %>">
+	<p><%= substr( $buzz->body, 0, 500 ) . '...' %></p>
 
-        <% if (($_->tags =~ /the_buzz/g) and ($_->tags =~ /featured/g)) { %>
-
-        <% for ( split /\s+/, $_->photos ) { %>
-
-            <img class="para_image_left" src="<%= $_ %>" />
-
-            <% last; #JUST SHOW ONE %>
-
-            <% } %>
-
-	    <img class="para_arrow_left" src="/ArrowGraphic.png">THE BUZZ</img>
-
-	    <h3><%= $_->title %></h3>
-
-            <%= $_->body %>
-
-	    <div class="read_more_right">
-		<a href="/more?id=<%= $_->id %>">Read More...</a>
-	    </div>
-
-        <% } %>
-
-    </div>
+	<div class="read_more_right">
+	    <a href="/more?id=<%= $buzz->id %>">Read More...</a>
+	</div>
 
     <% last; #JUST SHOW ONE %>
 
     <% } %>
 
-    <% for (@content) { %>
-
-    <div id="featured_<%= $_->id %>">
-
-        <% if (($_->tags =~ /try_this/g) and ($_->types =~ /place/g)) { %>
-
-        <% for ( split /\s+/, $_->photos ) { %>
-
-            <img class="para_image_left" src="<%= $_ %>" />
-
-            <% last; #JUST SHOW ONE %>
-
-            <% } %>
-
-	    <h1>Places</h1>
-
-	    <img class="para_arrow_left" src="/ArrowGraphic.png">TRY THIS</img>
-
-	    <h3><%= $_->title %></h3>
-
-            <%= $_->body %>
-
-	    <div class="read_more_right">
-		<a href="/more?id=<%= $_->id %>">Read More...</a>
-	    </div>
-
-        <% } %>
-
-    </div>
-
-    <% last; #JUST SHOW ONE %>
-
-    <% } %>
+    <h3>More Features</h3>
 
 </div>
 
 <div class="content_right">
 
     <h1>Events</h1>
-
-    <% for (@content) { %>
-
-        <% if ( $_->types =~ /event/g ) { %>
-
-        <p><%= $_->title %></p>
-
-        <% } %>
-    <% } %>
 
 </div>

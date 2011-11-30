@@ -1,7 +1,5 @@
 % title 'Live';
 % layout 'default';
-%
-% my @content = $self->{MODEL}->resultset('Content')->search({ pages => {like => '%live%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -9,85 +7,40 @@
 
 <div class="content_left">
 
-    <h1>City Life</h1>
+    <% for my $city_life (@{$self->{'CITY_LIFE'}}) { %>
 
-    <% for (@content) { %>
+        <% for ( split /\s+/, $city_life->photos ) { %>
 
-        <% if (($_->tags =~ /featured/g ) and ($_->types =~ /event/g )) { %>
+        <a dojoType="dojox.image.Lightbox" title="<%= $city_life->title %>" href="<%= $_ %>">
+            <img class="para_image_left" src="<%= $_ %>" />
+        </a>
 
-        <div style="padding-bottom: 50px;">
+        <% last; #JUST SHOW ONE %>
 
-	    <p>
-		<% for ( split /\s+/, $_->photos ) { %>
+        <% } %>
 
-		<img class="para_image_left" src="<%= $_ %>" />
+        <div class="h1_spacer"><h1>City Life</h1></div>
 
-		<% last; %>
+        <h2><%= $city_life->title %></h2>
 
-		<% } %>
+        <p><%= substr( $city_life->body, 0, 300 ) . '...' %></p>
 
-		<h3><%= $_->title %></h3>
-
-		<%= substr( $_->body, 0, 200 ) . '...' %>
-
-	    </p>
-
-	    <% for ( split /\s+/, $_->photos ) { %>
-
-	    <img src="<%= $_ %>" style="width: 50px; height: 50px;"/>
-
-	    <% } %>
-
-	    <div class="read_more_right">
-
-		<a href="/more?id=<%= $_->id %>&back=live">Read More...</a>
-
-	    </div>
+        <div class="read_more_right">
+            <a href="/more?id=<%= $city_life->id %>">Read More...</a>
         </div>
 
-        <% } %>
+    <% last; #JUST SHOW ONE %>
+
     <% } %>
 
-    <br />
+    <h3>More City Life</h3>
 
-    <h2>More City Life</h2>
-
-    <h1>Featured Lifestyle</h1>
-
-    <% for (@content) { %>
-
-        <% if (($_->tags =~ /featured/g ) and ($_->types =~ /place/g )) { %>
-
-        <h3><a href="/more?id=<%= $_->id %>&back=live"><%= $_->title %></a></h3>
-
-	<% for ( split /\s+/, $_->photos ) { %>
-
-	<img src="<%= $_ %>" style="width:100px; height:auto;" />
-
-	<% } %>
-
-        <p><%= substr( $_->body, 0, 200 ) . '...' %></p>
-
-        <% } %>
-    <% } %>
-
-    <br />
-
-    <h2>More Lifestyle</h2>
+    <h3>More Lifestyle</h3>
 
 </div>
 
 <div class="content_right">
 
     <h1>Neighbors</h1>
-
-    <% for (@content) { %>
-
-        <% if (($_->tags =~ /featured/g ) and ($_->types =~ /place/g )) { %>
-
-        <p><%= $_->title %></p>
-
-        <% } %>
-    <% } %>
 
 </div>

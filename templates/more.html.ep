@@ -1,9 +1,5 @@
 % title 'More';
 % layout 'default';
-%
-% my $id  = $self->param('id') if $self->param('id');
-%
-% my @content = $self->{MODEL}->resultset('Content')->search({id => $id });
 
 <script type="text/javascript">//<![CDATA[
 
@@ -11,32 +7,44 @@
 
 <div class="content_left">
 
-    <% for (@content) { %>
+    <% for my $more (@{$self->{MORE}}) { %>
 
-        <h1><%= $_->title %></h1>
-
-        <p>
-            <% for ( split /\s+/, $_->photos ) { %>
-            
-            <img class="para_image_left" src="<%= $_ %>" />
-            
-            <% last; %>
-            
-            <% } %>
-                
-            <%= $_->body %>
+        <h1><%= $more->title %></h1>
         
+        <p>
+            
+            <% for ( split /\s+/, $more->photos ) { %>
+
+            <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+		<img class="para_image_left" src="<%= $_ %>" />
+	    </a>
+
+            <% last; %>
+
+            <% } %>
+            
+            <span style="font-size: smaller; font-style: italic; padding-bottom: 25px;">
+                By <%= $more->author %> on <%= $more->datetime %>
+            </span>
+            
+            <br />
+            <br />
+                    
+            <%= $more->body %>
+            
         </p>
 
-        <% for ( split /\s+/, $_->photos ) { %>
-        
-        <img src="<%= $_ %>" style="width: 100px; height: 100px;"/>
-        
+        <% for ( split /\s+/, $more->photos ) { %>
+
+        <a dojoType="dojox.image.Lightbox" group="all" title="<%= $more->title %>" href="<%= $_ %>">
+	    <img style="width: 100px; height: 100px;" src="<%= $_ %>" />
+	</a>
+
         <% } %>
-        
+
     <% } %>
 
-    <h2><a href="/<%= $self->param('back') %>">Back</a></h2>
+    <h3><a href="/<%= $self->param('back') %>">Back</a></h3>
 
 </div>
 

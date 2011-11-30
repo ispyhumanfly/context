@@ -33,10 +33,12 @@
 
     <% for ( my @content = $self->{MODEL}->resultset('Content')->all ) { %>
 
-    <h3><a href="/more?id=<%= $_->id %>&back=cpanel"><%= $_->title %></a></h3>
+    <h2><a href="/more?id=<%= $_->id %>&back=cpanel"><%= $_->title %></a></h2>
 
-    <a href="/cpanel/content/form?mode=update&id=<%= $_->id %>">Update</a>
-    <a href="/cpanel/content/remove?id=<%= $_->id %>">Remove</a>
+    <h3>
+	<a href="/cpanel/content/form?mode=update&id=<%= $_->id %>">Update</a>
+	<a href="/cpanel/content/remove?id=<%= $_->id %>">Remove</a>
+    </h3>
 
     <% } %>
 

@@ -23,10 +23,38 @@ any '/' => sub {
 get '/home' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
-    # Ad Content
-    $self->{'ad_content'} = 'home';
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%home%'}, types => {like => '%ad%'}})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Features
+    my @features =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%home%'}, tags => {like => '%featured%'}},
+        {order_by => 'id DESC'})->all;
+
+    $self->{'FEATURES'} = \@features;
+
+    # City Life
+    my @city_life =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%home%'}, interests => {like => '%living%'}},
+        {order_by => 'id DESC'})->all;
+
+    $self->{'CITY_LIFE'} = \@city_life;
+
+    # Galleries
+    my @galleries =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%home%'}, types => {like => '%gallery%'}},
+        {order_by => 'id DESC'})->all;
+
+    $self->{'GALLERIES'} = \@galleries;
 
     return $self->render('home');
 
@@ -35,10 +63,23 @@ get '/home' => sub {
 get '/live' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
-    # Ad Content
-    $self->{'ad_content'} = 'live';
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # City Life
+    my @city_life = $MODEL->resultset('Content')->search(
+        {pages    => {like => '%play%'}},
+        {types    => {like => '%event%'}},
+        {tags     => {like => '%featured%'}},
+        {order_by => 'id DESC'}
+    )->all;
+
+    $self->{'CITY_LIFE'} = \@city_life;
 
     return $self->render('live');
 
@@ -47,10 +88,13 @@ get '/live' => sub {
 get '/work' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
-    # Ad Content
-    $self->{'ad_content'} = 'work';
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%work%'}, types => {like => '%ad%'}})->all;
+
+    $self->{'ADS'} = \@ads;
 
     return $self->render('work');
 
@@ -59,10 +103,32 @@ get '/work' => sub {
 get '/play' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
-    # Ad Content
-    $self->{'ad_content'} = 'play';
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Features
+    my @features = $MODEL->resultset('Content')->search(
+        {pages    => {like => '%play%'}},
+        {types    => {like => '%people%'}},
+        {tags     => {like => '%featured%'}},
+        {order_by => 'id DESC'}
+    )->all;
+
+    $self->{'FEATURES'} = \@features;
+
+    # Buzz
+    my @buzz = $MODEL->resultset('Content')->search(
+        {pages    => {like => '%play%'}},
+        {tags     => {like => '%the_buzz%'}},
+        {order_by => 'id DESC'}
+    )->all;
+
+    $self->{'BUZZ'} = \@buzz;
 
     return $self->render('play');
 
@@ -71,10 +137,14 @@ get '/play' => sub {
 get '/photos' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
-    # Ad Content
-    $self->{'ad_content'} = 'photos';
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%photos%'}, types => {like => '%ad%'}})
+      ->all;
+
+    $self->{'ADS'} = \@ads;
 
     return $self->render('photos');
 
@@ -83,10 +153,14 @@ get '/photos' => sub {
 get '/about' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
-    # Ad Content
-    $self->{'ad_content'} = 'about';
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%about%'}, types => {like => '%ad%'}})
+      ->all;
+
+    $self->{'ADS'} = \@ads;
 
     return $self->render('about');
 
@@ -95,10 +169,16 @@ get '/about' => sub {
 get '/:page/:item' => [page => qr/\w+/, item => qr/\w+/] => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
-    # Ad Content
-    $self->{'ad_content'} = $self->param('page');
+    my $page = $self->param('page');
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%$page%'}, types => {like => '%ad%'}})
+      ->all;
+
+    $self->{'ADS'} = \@ads;
 
     my $page_item = $self->param('page') . '_' . $self->param('item');
 
@@ -121,10 +201,38 @@ any '/search' => sub {
 any '/more' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
-    # Ad Content
-    $self->{'ad_content'} = 'more';
+    my (@ads, @more);
+
+    # Ads
+    @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%more%'}, types => {like => '%ad%'}})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    if ($self->param('id')) {
+
+        @more =
+          $MODEL->resultset('Content')->search({id => $self->param('id')});
+        $self->{'MORE'} = \@more;
+    }
+
+    if ($self->param('featured')) {
+
+        @more =
+          $MODEL->resultset('Content')
+          ->search({tags => {like => '%featured%'}});
+        $self->{'MORE'} = \@more;
+    }
+
+    if ($self->param('living')) {
+
+        @more =
+          $MODEL->resultset('Content')
+          ->search({interests => {like => '%living%'}});
+        $self->{'MORE'} = \@more;
+    }
 
     return $self->render('more');
 
@@ -138,7 +246,7 @@ get '/cpanel' => sub {
     $self->{'MODEL'} = $MODEL;
 
     # Ad Content
-    $self->{'ad_content'} = ''; # Setting this blank...
+    $self->{'ad_content'} = '';    # Setting this blank...
 
     return $self->render('cpanel');
 
@@ -215,11 +323,63 @@ any '/cpanel/content/update' => sub {
 
     my (@tags, @cities, @types, @interests, @pages, @photos);
 
-    push @tags,      $_ for $self->param('tags');
-    push @cities,    $_ for $self->param('cities');
-    push @types,     $_ for $self->param('types');
-    push @interests, $_ for $self->param('interests');
-    push @pages,     $_ for $self->param('pages');
+    if ($self->param('author')) {
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({author => $self->param('author')});
+    }
+
+    if ($self->param('title')) {
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({title => $self->param('title')});
+    }
+
+    if ($self->param('body')) {
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({body => $self->param('body')});
+    }
+
+    if ($self->param('interests')) {
+
+        push @interests, $_ for $self->param('interests');
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({interests => "@interests"});
+    }
+
+    if ($self->param('pages')) {
+
+        push @pages, $_ for $self->param('pages');
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({pages => "@pages"});
+    }
+
+    if ($self->param('types')) {
+
+        push @types, $_ for $self->param('types');
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({types => "@types"});
+    }
+
+    if ($self->param('tags')) {
+
+        push @tags, $_ for $self->param('tags');
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({tags => "@tags"});
+    }
+
+    if ($self->param('cities')) {
+
+        push @cities, $_ for $self->param('cities');
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({cities => "@cities"});
+    }
 
     push @photos, process_photo($self->req->upload('photo1'))
       if $self->req->upload('photo1');
@@ -239,19 +399,25 @@ any '/cpanel/content/update' => sub {
 
     try {
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update(
+#
+# 	if($self->param('address')) {
+#
+# 	    my @results = google_local($self->param('address'));
+#
+# 	    for (@results) {
+#
+# 		$MODEL->resultset('Content')->search({id => $self->param('id')})
+# 		->update(
+#
+# 		    {   address => $self->param('address'),
+# 			lat => $_->lat,
+# 			lng => $_->lng,
+# 			datetime => DateTime->now,
+# 		    }
+# 		);
+# 	    }
+# 	}
 
-            {   types     => "@types",
-                tags      => "@tags",
-                cities    => "@cities",
-                pages     => "@pages",
-                interests => "@interests",
-                title     => $self->param('title'),
-                body      => $self->param('body'),
-                datetime  => DateTime->now,
-            }
-          );
     }
 
     finally {
@@ -384,6 +550,24 @@ sub google_local {
     }
 
 }
+
+sub randomize_content {
+
+    my @array = shift;
+    my $i     = $#array;
+    my $j;
+
+    for my $item (@array) {
+
+        --$i;
+        $j = int rand($i + 1);
+        next if $i == $j;
+        @array[$i, $j] = @array[$j, $i];
+    }
+    return \@array;
+
+}
+
 
 app->secret('after5detroit.com');
 app->start;
