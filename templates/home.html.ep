@@ -4,6 +4,7 @@
 <script type="text/javascript">//<![CDATA[
 
       dojo.require("dojox.widget.Calendar");
+      dojo.require("dojox.widget.FisheyeList");
 
 //]]></script>
 
@@ -11,6 +12,8 @@
 
     <% for my $features (@{$self->{FEATURES}}) { %>
 
+        <% next if $features->types =~ m/ad|gallery/i; %>
+        
 	<% for ( split /\s+/, $features->photos ) { %>
 
 	<a dojoType="dojox.image.Lightbox" title="<%= $features->title %>" href="<%= $_ %>">
@@ -21,21 +24,132 @@
 
 	<% } %>
 
-	<div class="h1_spacer"><h1>Features</h1></div>
+	<div class="h1_spacer"><a href="/play"><h1>Features</h1></a></div>
 
-	<h2><%= $features->title %></h2>
+	<h2><a href="/more?id=<%= $features->id %>&back=home"><%= $features->title %></a></h2>
 
 	<p><%= substr( $features->body, 0, 500 ) . '...' %></p>
 
 	<div class="read_more_right">
-	    <a href="/more?id=<%= $features->id %>">Read More...</a>
+	    <a href="/more?id=<%= $features->id %>&back=home">Read More...</a>
 	</div>
+
+        <div dojoType="dojox.widget.FisheyeList"
+		itemWidth="100" itemHeight="100"
+		itemMaxWidth="175" itemMaxHeight="175"
+		orientation="horizontal"
+		effectUnits="2"
+		itemPadding="5"
+		attachEdge="left"
+		labelEdge="bottom"
+		id="content_fisheye" style="clear: both;">
+	
+            <% for my $features (@{$self->{FEATURES}}) { %>
+
+                <% next if $features->types =~ m/ad|gallery/i; %>
+
+                <% for ( split /\s+/, $features->photos ) { %>
+                
+                <div dojoType="dojox.widget.FisheyeListItem"
+                        id="<%= $features->id %>"        
+                        label="<%= $features->title %>"
+                        onclick="window.location='/more?id=<%= $features->id %>&back=home'"
+                        iconSrc="<%= $_ %>">
+                </div>
+                
+                <% last; #JUST SHOW ONE %>
+                
+                <% } %>
+            
+            <% } %>
+    
+        </div>
 
 	<% last; #JUST SHOW ONE %>
 
     <% } %>
+    
+    <div class="position_container">
 
-    <h3><a href="/more?featured=all">More Features</a></h3>
+    <% for my $positions (@{$self->{POSITIONS}}) { %>
+        
+        <% if ( $positions->position == 1 ) { %>
+        
+            <hr />
+        
+            <% for ( split /\s+/, $positions->photos ) { %>
+    
+            <a dojoType="dojox.image.Lightbox" title="<%= $positions->title %>" href="<%= $_ %>">
+                <img class="position_image_left" src="<%= $_ %>" />
+            </a>
+    
+            <% last; #JUST SHOW ONE %>
+    
+            <% } %>
+
+            <h2><a href="/more?id=<%= $positions->id %>&back=home"><%= $positions->title %></a></h2>
+        
+            <p><%= substr( $positions->body, 0, 100 ) . '...' %><p>
+        
+            <div class="read_more_right">
+                <a href="/more?id=<%= $positions->id %>&back=home">Read More...</a>
+            </div>
+        
+        <% } %>
+
+        <% if ( $positions->position == 2 ) { %>
+        
+            <hr />
+        
+            <% for ( split /\s+/, $positions->photos ) { %>
+    
+            <a dojoType="dojox.image.Lightbox" title="<%= $positions->title %>" href="<%= $_ %>">
+                <img class="position_image_left" src="<%= $_ %>" />
+            </a>
+    
+            <% last; #JUST SHOW ONE %>
+    
+            <% } %>
+
+            <h2><a href="/more?id=<%= $positions->id %>&back=home"><%= $positions->title %></a></h2>
+        
+            <p><%= substr( $positions->body, 0, 100 ) . '...' %><p>
+        
+            <div class="read_more_right">
+                <a href="/more?id=<%= $positions->id %>&back=home">Read More...</a>
+            </div>
+        
+        <% } %>
+
+        <% if ( $positions->position == 3 ) { %>
+        
+            <hr />
+        
+            <% for ( split /\s+/, $positions->photos ) { %>
+    
+            <a dojoType="dojox.image.Lightbox" title="<%= $positions->title %>" href="<%= $_ %>">
+                <img class="position_image_left" src="<%= $_ %>" />
+            </a>
+    
+            <% last; #JUST SHOW ONE %>
+    
+            <% } %>
+
+            <h2><a href="/more?id=<%= $positions->id %>&back=home"><%= $positions->title %></a></h2>
+        
+            <p><%= substr( $positions->body, 0, 100 ) . '...' %><p>
+        
+            <div class="read_more_right">
+                <a href="/more?id=<%= $positions->id %>&back=home">Read More...</a>
+            </div>
+        
+        <% } %>
+        
+    <% } %>
+
+    </div>
+    
+    <h3><a href="/more?featured=all&back=home">More Features</a></h3>
 
     <% for my $city_life (@{$self->{CITY_LIFE}}) { %>
 
@@ -49,45 +163,50 @@
 
 	<% } %>
 
-	<div class="h1_spacer"><h1>City Life</h1></div>
+	<div class="h1_spacer"><a href="/live"><h1>City Life</h1></a></div>
 
-	<h2><%= $city_life->title %></h2>
+	<h2><a href="/more?id=<%= $city_life->id %>&back=home"><%= $city_life->title %></a></h2>
 
 	<p><%= substr( $city_life->body, 0, 500 ) . '...' %></p>
 
 	<div class="read_more_right">
-	    <a href="/more?id=<%= $city_life->id %>">Read More...</a>
+	    <a href="/more?id=<%= $city_life->id %>&back=home">Read More...</a>
 	</div>
 
 	<% last; #JUST SHOW ONE %>
 
     <% } %>
 
-    <h3><a href="/more?living=all">More City Life</a></h3>
+    <h3><a href="/more?living=all&back=home">More City Life</a></h3>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Events</h1>
+    <a href="/play/events"><h1>Events</h1></a>
 
     <div class="event_calendar">
 	<div dojoType="dojox.widget.Calendar"></div>
     </div>
 
-    <h1>Galleries</h1>
+    <a href="/photos"><h1>Galleries</h1></a>
 
-    <% for my $gallery (@{$self->{GALLERIES}}) { %>
+    <% for my $galleries (@{$self->{GALLERIES}}) { %>
+        
+        <% next if $galleries->types =~ m/ad/i; %>
 
-	<% for ( split /\s+/, $gallery->photos ) { %>
-
-        <a href="/more?id=<%= $gallery->id %>">
-
-            <img src="<%= $_ %>" style="width:75px; height:auto;" />
-	</a>
-
-	<% } %>
-
+        <% for ( split /\s+/, $galleries->photos ) { %>
+        
+        <img style="float: right; width: 75px; height: 75px; padding: 5px;" src="<%= $_ %>"/>
+        
+        <% last; #JUST SHOW ONE %>
+        
+        <% } %>
+        
+        <p><%= $galleries->body %><p>
+        
+        <hr />
+    
     <% } %>
 
 </div>

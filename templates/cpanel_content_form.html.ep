@@ -5,18 +5,19 @@
 
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require("dijit.form.TextBox");
     dojo.require("dijit.form.Textarea");
     dojo.require("dijit.form.DateTextBox");
     dojo.require("dijit.form.TimeTextBox");
     dojo.require("dijit.form.MultiSelect");
-
+    
 //]]></script>
 
 <div class="content_left">
 
     <% if ( $self->param('mode') eq 'create' ) { %>
 
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content" method="POST">
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content/create" method="POST">
 
     <% } elsif ( $self->param('mode') eq 'update' ) { %>
 
@@ -76,7 +77,7 @@
 
 	<br />
 	<br />
-
+	
 	<% if ( $self->param('mode') eq 'create' ) { %>
 
 	<h1>Interests</h1>
@@ -389,6 +390,52 @@
 
 	<br />
 	<br />
+
+	<% if ( $self->param('mode') eq 'create' ) { %>
+
+	<h1>Position</h1>
+
+	<select dojoType="dijit.form.MultiSelect" multiple="false" name="position" size="4">
+
+	    <option value="1" selected>
+		1
+	    </option>
+
+	    <option value="2">
+		2
+	    </option>
+
+	    <option value="3">
+		3
+	    </option>
+
+	</select>
+
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+
+	<h1>Position</h1>
+
+	<select dojoType="dijit.form.MultiSelect" multiple="false" name="position" size="4">
+
+    	    <option value="1" <%= 'selected' if $content->position =~ m/1/i %>>
+		1
+	    </option>
+
+	    <option value="2" <%= 'selected' if $content->position =~ m/2/i %>>
+		2
+	    </option>
+
+	    <option value="3" <%= 'selected' if $content->position =~ m/3/i %>>
+		3
+	    </option>
+
+	</select>
+
+	<% } %>
+
+	<br />
+	<br />
+
 
 	<% if ( $self->param('mode') eq 'create' ) { %>
 

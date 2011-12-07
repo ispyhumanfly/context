@@ -27,10 +27,10 @@
 	      var loader  = dojo.byId("content_loader");
 
 	      dojo.fadeOut({
-		node: loader, duration: 200, onEnd: function() {
+		node: loader, duration: 250, onEnd: function() {
 		  loader.style.display = "none";
 		}
-	      }).play(200);
+	      }).play(100);
 	    }
 
         //]]></script>
@@ -42,7 +42,7 @@
 	<div id="content_loader">
 	    <div id="content_loader_inner">
 
-		<img src='/Loader.png' />
+		<!--<img src='/Loader.png' />-->
 
 	    </div>
 	</div>
@@ -122,15 +122,14 @@
 		<ul>
 		    <li><a href="/work" style="font-weight: bold; font-size: medium;">Work</a></li>
 		    <li><a href="/work/careers">Careers</a></li>
-		    <li><a href="/work/professional">Professional</a></li>
-		    <li><a href="/work/development">Development</a></li>
+		    <li><a href="/work/professional_development">Professional Development</a></li>
 		</ul>
 	    </div>
 
 	    <div>
 		<ul>
 		    <li><a href="/play" style="font-weight: bold; font-size: medium;">Play</a></li>
-		    <li><a href="/play/people">People</a></li>
+		    <li><a href="/play/features">Features</a></li>
 		    <li><a href="/play/places">Places</a></li>
 		    <li><a href="/play/buzz">Buzz</a></li>
 		    <li><a href="/play/events">Events</a></li>
@@ -163,7 +162,7 @@
 	    </div>
 
 	    <% } %>
-
+	    
         </div>
 
     </body>

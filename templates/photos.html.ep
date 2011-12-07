@@ -1,9 +1,9 @@
 % title 'Photos';
 % layout 'default';
-%
-% my @content = $self->{MODEL}->resultset('Content')->search({ pages => {like => '%photos%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
+
+    dojo.require("dojox.widget.FisheyeList");
 
 //]]></script>
 
@@ -11,43 +11,44 @@
 
     <h1>Recent Galleries</h1>
 
-    <% for my $gallery (@content) { %>
+        <% for my $galleries (@{$self->{GALLERIES}}) { %>
 
-        <% if ( $gallery->types =~ /gallery/g ) { %>
-	
-            <% for ( split /\s+/, $gallery->photos ) { %>
+            <% next if $galleries->types =~ m/ad/i; %>
+
+            <% for ( split /\s+/, $galleries->photos ) { %>
             
-            <a href="/more?id=<%= $gallery->id %>&back=photos">
-                
-                <img src="<%= $_ %>" style="width: 100px; height: 100px;" />
+            <a dojoType="dojox.image.Lightbox" title="<%= $galleries->title %>" group="<%= $galleries->title %>" href="<%= $_ %>">
+                <img style="width: 100px; height: 100px;" src="<%= $_ %>" />
             </a>
             
             <% } %>
-
+        
         <% } %>
-    
-    <% } %>
 
-    <h2>More Galleries</h2>
+    <h3><a href="/more?galleries=all&back=photos">More Galleries</a></h3>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Example</h1>
+    <h1>Galleries</h1>
 
-    <% for (1...5) { %>
+    <% for my $galleries (@{$self->{GALLERIES}}) { %>
+        
+        <% next if $galleries->types =~ m/ad/i; %>
 
-    <p>Some stuff goes here</p>
-
-    <% } %>
-
-    <h1>Example</h1>
-
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
+        <% for ( split /\s+/, $galleries->photos ) { %>
+        
+        <img style="float: right; width: 75px; height: 75px; padding: 5px;" src="<%= $_ %>"/>
+        
+        <% last; #JUST SHOW ONE %>
+        
+        <% } %>
+        
+        <p><%= $galleries->body %><p>
+        
+        <hr />
+    
     <% } %>
 
 </div>

@@ -8,6 +8,8 @@
 
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require("dijit.form.Select");
+
 //]]></script>
 
 <div class="content_left">
@@ -16,49 +18,91 @@
 
     <% for (@content) { %>
         
-        <h4><%= $_->title %></h4>
+        <% next unless ($_->title =~ m/$string/i or $_->body =~ m/$string/i); %>
+        
+        <h2><%= $_->title %></h2>
 
         <p>
             <% for ( split /\s+/, $_->photos ) { %>
             
-            <img class="para_image_left_search" src="<%= $_ %>" />
+            <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+		<img class="para_image_left_search" src="<%= $_ %>" />
+	    </a>
             
             <% last; %>
             
             <% } %>
                 
-            <%= substr( $_->body, 0, 100 ) %>
+            <p><%= substr( $_->body, 0, 100 ) . '...' %></p>
         
         </p>
         
         <div class="read_more_right">
-            <a href="/more?id=<%= $_->id %>&back=live">Read More...</a>
+            <a href="/more?id=<%= $_->id %>&back=search">Read More...</a>
         </div>
         
         <hr />
-
+        
     <% } %>
 
-    <h2>Back</h2>
+    <h3><a href="/<%= $self->param('back') %>">Back</a></h3>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Example</h1>
+    <h1>Search Places</h1>
 
-    <% for (1...5) { %>
+    <p>Search below for your perfect night out or new favorite hotspot.</p>
+    
+    <div dojoType="dijit.form.Form" class="search_places_right" encType="multipart/form-data" action="/search?back=home" method="POST">
 
-    <p>Some stuff goes here</p>
+        <p>
+            
+            <label>City</label>
+            
+            <select dojoType="dijit.form.Select" name="city" style="width: 150px;">
+                
+                <option value="birmingham">
+                    Birmingham
+                </option>
+                <option value="detroit">
+                    Detroit
+                </option>
+                <option value="ferndale">
+                    Ferndale
+                </option>
+                <option value="royal_oak">
+                    Royal Oak
+                </option>
+            </select>    
 
-    <% } %>
+        </p>
+        
+        <p>
+                
+            <label>Interest</label>
+            
+            <select dojoType="dijit.form.Select" name="interest" style="width: 150px;">
+                
+                <option value="dining">
+                    Dining
+                </option>
+                <option value="nightlife">
+                    Nightlife
+                </option>
+                <option value="activities">
+                    Activities
+                </option>
+                <option value="living">
+                    Living
+                </option>
+                
+            </select>    
 
-    <h1>Example</h1>
+        </p>
+        
+        <button dojoType="dijit.form.Button" type="submit">Search</button>
 
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
-    <% } %>
-
+    </div>
 </div>

@@ -3,12 +3,15 @@
 
 <script type="text/javascript">//<![CDATA[
 
+
 //]]></script>
 
 <div class="content_left">
 
     <% for my $city_life (@{$self->{'CITY_LIFE'}}) { %>
 
+        <% next if $city_life->types =~ m/ad|gallery/i; %>
+        
         <% for ( split /\s+/, $city_life->photos ) { %>
 
         <a dojoType="dojox.image.Lightbox" title="<%= $city_life->title %>" href="<%= $_ %>">
@@ -21,21 +24,49 @@
 
         <div class="h1_spacer"><h1>City Life</h1></div>
 
-        <h2><%= $city_life->title %></h2>
+        <h2><a href="/more?id=<%= $city_life->id %>&back=live"><%= $city_life->title %></a></h2>
 
         <p><%= substr( $city_life->body, 0, 300 ) . '...' %></p>
 
         <div class="read_more_right">
-            <a href="/more?id=<%= $city_life->id %>">Read More...</a>
+            <a href="/more?id=<%= $city_life->id %>&back=live">Read More...</a>
         </div>
 
     <% last; #JUST SHOW ONE %>
 
     <% } %>
 
-    <h3>More City Life</h3>
+    <h3><a href="/more?place=all&back=home">More City Life</a></h3>
 
-    <h3>More Lifestyle</h3>
+    <% for my $lifestyle (@{$self->{'LIFESTYLE'}}) { %>
+    
+        <% next if $lifestyle->types =~ m/ad|gallery/i; %>
+
+        <% for ( split /\s+/, $lifestyle->photos ) { %>
+
+        <a dojoType="dojox.image.Lightbox" title="<%= $lifestyle->title %>" href="<%= $_ %>">
+            <img class="para_image_left" src="<%= $_ %>" />
+        </a>
+
+        <% last; #JUST SHOW ONE %>
+
+        <% } %>
+
+        <div class="h1_spacer"><h1>Lifestyle</h1></div>
+
+        <h2><a href="/more?id=<%= $lifestyle->id %>&back=live"><%= $lifestyle->title %></a></h2>
+
+        <p><%= substr( $lifestyle->body, 0, 300 ) . '...' %></p>
+
+        <div class="read_more_right">
+            <a href="/more?id=<%= $lifestyle->id %>&back=live">Read More...</a>
+        </div>
+
+    <% last; #JUST SHOW ONE %>
+
+    <% } %>
+
+    <h3><a href="/more?living=all&back=home">More Lifestyle</a></h3>
 
 </div>
 

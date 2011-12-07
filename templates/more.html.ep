@@ -9,6 +9,8 @@
 
     <% for my $more (@{$self->{MORE}}) { %>
 
+        <% unless ($self->param('galleries')) { next if $more->types =~ m/ad|gallery/i }; %>
+        
         <h1><%= $more->title %></h1>
         
         <p>
@@ -23,25 +25,45 @@
 
             <% } %>
             
-            <span style="font-size: smaller; font-style: italic; padding-bottom: 25px;">
-                By <%= $more->author %> on <%= $more->datetime %>
+            <span class="author">
+                By <%= $more->author %>
             </span>
             
             <br />
             <br />
-                    
-            <%= $more->body %>
             
-        </p>
+            <%= $more->body %>
 
+        </p>
+        
         <% for ( split /\s+/, $more->photos ) { %>
 
-        <a dojoType="dojox.image.Lightbox" group="all" title="<%= $more->title %>" href="<%= $_ %>">
-	    <img style="width: 100px; height: 100px;" src="<%= $_ %>" />
-	</a>
+            <a dojoType="dojox.image.Lightbox" group="<%= $more->id %>" href="<%= $_ %>">
+		<img class="more_thumbnails_left" src="<%= $_ %>" />
+	    </a>
 
         <% } %>
 
+        <span class="social_sharing">
+
+            <a href="http://www.facebook.com/sharer.php?u=http://after5detroit.dyndns.org:3000/more?id=<%= $more->id %>&t=<%= $more->title %>" target="_blank">
+                <img src="/FacebookShare.png" alt="Facebook"/>
+            </a>
+        
+            <a href="http://www.twitter.com/home?status=<%= $more->title %>,+http://after5detroit.dyndns.org:3000/more?id=<%= $more->id %>" target="_blank">
+                <img src="/TwitterShare.png" alt="Twitter"/>
+            </a>
+        
+            <a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.dyndns.org:3000/more?id=<%= $more->id %>" target="_blank">
+                <img src="/DiggShare.png" alt="Digg"/>
+            </a>
+        
+            <a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.dyndns.org:3000/more?id=<%= $more->id %>" target="_blank">
+                <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+            </a>
+            
+        </span>
+        
     <% } %>
 
     <h3><a href="/<%= $self->param('back') %>">Back</a></h3>
