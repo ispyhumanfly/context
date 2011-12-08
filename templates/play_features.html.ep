@@ -1,4 +1,4 @@
-% title 'People';
+% title 'Features';
 % layout 'default';
 %
 % my @content = $self->{MODEL}->resultset('Content')->search({ types => {like => '%article%'} })->all;

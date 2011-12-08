@@ -3,7 +3,6 @@
 !.perltidyrc
 *~
 ai
-lib
 blib
 Makefile*
 !Makefile.PL
