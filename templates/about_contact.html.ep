@@ -1,7 +1,5 @@
 % title 'Contact';
 % layout 'default';
-%
-% my $settings = $self->{MODEL}->resultset('Settings')->first;
 
 <script type="text/javascript">//<![CDATA[
 

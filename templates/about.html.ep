@@ -1,7 +1,5 @@
 % title 'About';
 % layout 'default';
-%
-% my $settings = $self->{MODEL}->resultset('Settings')->first;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -10,8 +8,6 @@
 <div class="content_left">
 
     <h1>About Us</h1>
-
-    <p><%= $settings->about %></p>
 
     <h1>Press</h1>
 

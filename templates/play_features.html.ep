@@ -1,7 +1,5 @@
-% title 'Features';
+% title 'Play';
 % layout 'default';
-%
-% my @content = $self->{MODEL}->resultset('Content')->search({ types => {like => '%article%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -11,33 +9,10 @@
 
     <h1>Features</h1>
 
-    <% for (@content) { %>
-
-        <% if ( $_->tags =~ /feature/g ) { %>
-
-        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
-
-	<% for ( split /\s+/, $_->photos ) { %>
-
-	<img src="<%= $_ %>" style="width:100px; height:auto;" />
-
-	<% } %>
-
-        <p><%= substr( $_->body, 0, 200 ) . '...' %></p>
-
-        <% } %>
-    <% } %>
-
 </div>
 
 <div class="content_right">
 
     <h1>Past Articles</h1>
-
-    <% for (@content) { %>
-
-    <p><%= $_->title %></p>
-
-    <% } %>
 
 </div>

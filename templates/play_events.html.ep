@@ -1,7 +1,5 @@
-% title 'Events';
+% title 'Play';
 % layout 'default';
-%
-% my @content = $self->{MODEL}->resultset('Content')->search({ types => {like => '%event%'} })->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -11,61 +9,26 @@
 
     <h1>Featured Event</h1>
 
-    <% for (@content) { %>
+    <img class="para_image_right" src="" />
 
-        <% if ( $_->tags =~ /featured/g ) { %>
+    <h2><a href="/more?id=#">Title</a></h3>
 
-        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
-
-	<% for ( split /\s+/, $_->photos ) { %>
-	
-	<img src="<%= $_ %>" style="width:100px; height:auto;" />
-	
-	<% } %>
-
-        <p><%= $_->body %></p>
-
-        <% } %>
-    <% } %>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dui nunc, porta at volutpat quis, rhoncus non quam. Morbi non sollicitudin nibh. Nam sem felis, posuere nec posuere et, porttitor eu nibh. Proin viverra, sapien ut tincidunt fermentum, mi eros imperdiet nisl, id consectetur mi est eu massa. Fusce velit quam, pretium iaculis ullamcorper eget, sagittis ac ipsum. Pellentesque lobortis lacus sit amet leo sollicitudin vitae fermentum est pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse sed dui a nibh faucibus volutpat ut sodales dolor. Sed dapibus felis non ipsum rhoncus ullamcorper fermentum erat fringilla. Maecenas egestas auctor nunc pretium tristique. Nulla eu lorem sem, in ultricies leo. Nulla iaculis tincidunt arcu id posuere. </p>
 
     <h1>Upcoming Events</h1>
 
-    <% for (@content) { %>
+    <img class="para_image_right" src="" />
 
-        <h3><a href="/more?id=<%= $_->id %>"><%= $_->title %></a></h3>
+    <h2><a href="/more?id=#">Title</a></h3>
+
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dui nunc, porta at volutpat quis, rhoncus non quam. Morbi non sollicitudin nibh. Nam sem felis, posuere nec posuere et, porttitor eu nibh. Proin viverra, sapien ut tincidunt fermentum, mi eros imperdiet nisl, id consectetur mi est eu massa. Fusce velit quam, pretium iaculis ullamcorper eget, sagittis ac ipsum. Pellentesque lobortis lacus sit amet leo sollicitudin vitae fermentum est pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse sed dui a nibh faucibus volutpat ut sodales dolor. Sed dapibus felis non ipsum rhoncus ullamcorper fermentum erat fringilla. Maecenas egestas auctor nunc pretium tristique. Nulla eu lorem sem, in ultricies leo. Nulla iaculis tincidunt arcu id posuere. </p>
     
-        <% for ( split /\s+/, $_->photos ) { %>
-        
-        <img src="<%= $_ %>" style="width:100px; height:auto;" />
-        
-        <% } %>
-    
-        <p><%= $_->body %></p>
-
-    <% } %>
-
 </div>
 
 <div class="content_right">
 
     <h1>On Tap</h1>
-
-    <% for (@content) { %>
-
-        <% if ( $_->tags =~ /on_tap/g ) { %>
-
-        <p><%= $_->title %></p>
-        
-        <% } %>
     
-    <% } %>
-
     <h1>Giveaways</h1>
-
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
-    <% } %>
 
 </div>

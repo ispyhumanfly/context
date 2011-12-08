@@ -102,6 +102,50 @@ get '/live' => sub {
 
 } => 'live';
 
+get '/live/birmingham' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'live_birmingham';
+
+get '/live/detroit' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'live_detroit';
+
+get '/live/ferndale' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'live_ferndale';
+
+get '/live/royal_oak' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'live_royal_oak';
+
 get '/work' => sub {
 
     my $self = shift;
@@ -116,6 +160,28 @@ get '/work' => sub {
     return $self->render('work');
 
 } => 'work';
+
+get '/work/careers' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%work%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'work_careers';
+
+get '/work/professional_development' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%work%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'work_professional_development';
 
 get '/play' => sub {
 
@@ -161,6 +227,50 @@ get '/play' => sub {
 
 } => 'play';
 
+get '/play/features' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'play_features';
+
+get '/play/places' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'play_places';
+
+get '/play/buzz' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'play_buzz';
+
+get '/play/events' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'play_events';
+
 get '/photos' => sub {
 
     my $self = shift;
@@ -200,25 +310,27 @@ get '/about' => sub {
 
 } => 'about';
 
-get '/:page/:item' => [page => qr/\w+/, item => qr/\w+/] => sub {
+get '/about/contact' => sub {
 
     my $self = shift;
-
-    my $page = $self->param('page');
 
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%$page%'}, types => {like => '%ad%'}},
-        {order_by => 'id DESC'})->all;
+      ->search({pages => {like => 'about'}, types => {like => '%ad%'}})->all;    
+    
+} => 'about_contact';
 
-    $self->{'ADS'} = \@ads;
+get '/about/newsletter' => sub {
 
-    my $page_item = $self->param('page') . '_' . $self->param('item');
+    my $self = shift;
 
-    return $self->render($page_item);
-
-} => 'page_item';
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%about%'}, types => {like => '%ad%'}})->all;    
+    
+} => 'about_newsletter';
 
 any '/search' => sub {
 

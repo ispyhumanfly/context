@@ -215,7 +215,8 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
-    width: 375px; height: 375px;
+    width: 300px;
+    height: 300px;
 }
 
 #content_container .para_image_left_search {
