@@ -26,7 +26,7 @@
 
         <h2><a href="/more?id=<%= $city_life->id %>&back=live"><%= $city_life->title %></a></h2>
 
-        <p><%= substr( $city_life->body, 0, 300 ) . '...' %></p>
+        <p><%== HTML::FormatText->format_string(substr( $city_life->body, 0, 800 )) . '...' %></p>
 
         <div class="read_more_right">
             <a href="/more?id=<%= $city_life->id %>&back=live">Read More...</a>
@@ -56,7 +56,7 @@
 
         <h2><a href="/more?id=<%= $lifestyle->id %>&back=live"><%= $lifestyle->title %></a></h2>
 
-        <p><%= substr( $lifestyle->body, 0, 300 ) . '...' %></p>
+        <p><%== HTML::FormatText->format_string(substr( $lifestyle->body, 0, 800 )) . '...' %></p>
 
         <div class="read_more_right">
             <a href="/more?id=<%= $lifestyle->id %>&back=live">Read More...</a>
@@ -74,4 +74,42 @@
 
     <h1>Neighbors</h1>
 
+    <div class="content_right_padding">
+        
+        <% my $neighbors_counter; %>
+        
+        <% for my $neighbors (@{$self->{NEIGHBORS}}) { %>
+        
+            <% $neighbors_counter++; %>
+            
+            <% next if $neighbors_counter > 3; %>
+        
+            <% next if $neighbors->types =~ m/ad/i; %>
+    
+            <% for ( split /\s+/, $neighbors->photos ) { %>
+            
+            <a dojoType="dojox.image.Lightbox" group="block_photos" title="<%= $neighbors->title %>" href="<%= $_ %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+            <p><%== HTML::FormatText->format_string(substr( $neighbors->body, 0, 75 )) . '...' %><p>
+            
+            <div class="read_more_left">
+                <a href="/more?id=<%= $neighbors->id %>&back=home">View Gallery...</a>
+            </div>
+    
+            <% if ($neighbors_counter < 3) { %>
+            
+            <hr />
+            
+            <% } %>
+        
+        <% } %>
+
+    </div>
+    
 </div>

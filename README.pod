@@ -16,7 +16,7 @@ The source code for after5detroit.com
 
 =head2 CPAN Setup
 
-	cpanm -l lib/ Modern::Perl Mojolicious::Lite DBIx::Class::Candy DateTime::Format::SQLite Crypt::SaltedHash
+	cpanm -S Modern::Perl Mojolicious::Lite DBIx::Class::Candy DateTime::Format::SQLite Crypt::SaltedHash Try::Tiny HTML::FormatText
 
 =head1 BUGS
 

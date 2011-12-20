@@ -4,7 +4,8 @@ use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
 use Crypt::SaltedHash;
 use Try::Tiny;
-use DateTime;
+use DateTime::Format::ISO8601;
+use HTML::FormatText;
 
 use lib 'lib';
 use After5::Model;
@@ -42,9 +43,11 @@ get '/home' => sub {
     $self->{'FEATURES'} = \@features;
 
     # Features by Position
-    my @positions =
-      $MODEL->resultset('Content')->search({pages => {like => '%home%'}})
-      ->all;
+    my @positions = $MODEL->resultset('Content')->search(
+        {   pages    => {like => '%home%'},
+            position => {like => ['%1%', '%2%', '%3%']}
+        }
+    )->all;
 
     $self->{'POSITIONS'} = \@positions;
 
@@ -82,8 +85,7 @@ get '/live' => sub {
 
     # City Life
     my @city_life = $MODEL->resultset('Content')->search(
-        {pages     => {like => '%live%'}},
-        {interests => {like => '%living%'}},
+        {pages     => {like => '%live%'}, interests => {like => '%living%'}},
         {order_by  => 'id DESC'}
     )->all;
 
@@ -91,12 +93,19 @@ get '/live' => sub {
 
     # Lifestyle
     my @lifestyle = $MODEL->resultset('Content')->search(
-        {pages    => {like => '%live%'}},
-        {types    => {like => '%place%'}},
+        {pages    => {like => '%live%'}, types    => {like => '%place%'}},
         {order_by => 'id DESC'}
     )->all;
 
     $self->{'LIFESTYLE'} = \@lifestyle;
+
+    # Neighbors
+    my @neighbors = $MODEL->resultset('Content')->search(
+        {pages    => {like => '%live%'}, types    => {like => '%people%'}},
+        {order_by => 'id DESC'}
+    )->all;
+
+    $self->{'NEIGHBORS'} = \@neighbors;
 
     return $self->render('live');
 
@@ -109,8 +118,8 @@ get '/live/birmingham' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;
+
 } => 'live_birmingham';
 
 get '/live/detroit' => sub {
@@ -120,8 +129,8 @@ get '/live/detroit' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;
+
 } => 'live_detroit';
 
 get '/live/ferndale' => sub {
@@ -131,8 +140,8 @@ get '/live/ferndale' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;
+
 } => 'live_ferndale';
 
 get '/live/royal_oak' => sub {
@@ -142,8 +151,8 @@ get '/live/royal_oak' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => '%live%'}, types => {like => '%ad%'}})->all;
+
 } => 'live_royal_oak';
 
 get '/work' => sub {
@@ -168,8 +177,8 @@ get '/work/careers' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%work%'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => '%work%'}, types => {like => '%ad%'}})->all;
+
 } => 'work_careers';
 
 get '/work/professional_development' => sub {
@@ -179,8 +188,8 @@ get '/work/professional_development' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%work%'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => '%work%'}, types => {like => '%ad%'}})->all;
+
 } => 'work_professional_development';
 
 get '/play' => sub {
@@ -196,9 +205,7 @@ get '/play' => sub {
 
     # Features
     my @features = $MODEL->resultset('Content')->search(
-        {pages    => {like => '%play%'}},
-        {types    => {like => '%people%'}},
-        {tags     => {like => '%featured%'}},
+        {pages    => {like => '%play%'}, types => {like => '%people%'}, tags => {like => '%featured%'}},
         {order_by => 'id DESC'}
     )->all;
 
@@ -206,8 +213,7 @@ get '/play' => sub {
 
     # Buzz
     my @buzz = $MODEL->resultset('Content')->search(
-        {pages    => {like => '%play%'}},
-        {tags     => {like => '%the_buzz%'}},
+        {pages    => {like => '%play%'}, tags => {like => '%the_buzz%'}},
         {order_by => 'id DESC'}
     )->all;
 
@@ -215,13 +221,19 @@ get '/play' => sub {
 
     # Places
     my @places = $MODEL->resultset('Content')->search(
-        {pages    => {like => '%play%'}},
-        {types    => {like => '%place%'}},
-        {tags     => {like => '%try_this%'}},
+        {pages    => {like => '%play%'}, types    => {like => '%place%'}, tags => {like => '%try_this%'}},
         {order_by => 'id DESC'}
     )->all;
 
     $self->{'PLACES'} = \@places;
+
+    # Events
+    my @events =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%home%'}, types => {like => '%event%'}},
+        {order_by => 'id DESC'})->all;
+
+    $self->{'EVENTS'} = \@events;
 
     return $self->render('play');
 
@@ -234,8 +246,26 @@ get '/play/features' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;    
+      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;
+
+    # Features
+    my @features = $MODEL->resultset('Content')->search(
+        {types => {like => '%people%'}, tags => {like => '%featured%'}},
+        {page => 1, rows => 1, order_by => 'id DESC'},
+    )->all;
+
+    $self->{'FEATURES'} = \@features;
+
+    # Past Articles
+    my @past_articles = $MODEL->resultset('Content')->search(
+        {types => {like => '%people%'}, tags => {like => '%featured%'}},
+        {page => 1, rows => 5, order_by => 'id DESC'},
+    )->all;
+
+    $self->{'PAST_ARTICLES'} = \@past_articles;
     
+    return $self->render('play_features');
+
 } => 'play_features';
 
 get '/play/places' => sub {
@@ -245,8 +275,25 @@ get '/play/places' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;
+
+    # Try This!
+    my @try_this = $MODEL->resultset('Content')->search(
+        {types    => {like => '%place%'}, tags => {like => '%try_this%'}},
+        {order_by => 'id DESC'},
+    )->all;
+
+    $self->{'TRY_THIS'} = \@try_this;
+
+    # More Places
+    my @more_places = $MODEL->resultset('Content')->search(
+        {types => {like => '%place%'}}, {order_by => 'id DESC'},
+    )->all;
+
+    $self->{'MORE_PLACES'} = \@more_places;
+
+    return $self->render('play_places');
+
 } => 'play_places';
 
 get '/play/buzz' => sub {
@@ -256,7 +303,25 @@ get '/play/buzz' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;    
+      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;
+
+    # The Buzz
+    my @the_buzz = $MODEL->resultset('Content')->search(
+        {tags => {like => '%the_buzz%'}},
+        {page => 1, rows => 3, order_by => 'id DESC'},
+    )->all;
+
+    $self->{'THE_BUZZ'} = \@the_buzz;
+
+    # More Buzz
+    my @more_buzz = $MODEL->resultset('Content')->search(
+        {tags => {like => '%the_buzz%'}},
+        {page => 1, rows => 5, order_by => 'id DESC'},
+    )->all;
+
+    $self->{'MORE_BUZZ'} = \@more_buzz;
+
+    return $self->render('play_buzz');
     
 } => 'play_buzz';
 
@@ -267,8 +332,24 @@ get '/play/events' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => '%play%'}, types => {like => '%ad%'}})->all;
+
+    # Featured Event
+    my @featured_event = $MODEL->resultset('Content')->search(
+        {types    => {like => '%event%'}},
+        {tags     => {like => '%featured%'}},
+        {order_by => 'id DESC'}
+    )->all;
+
+    $self->{'FEATURED_EVENT'} = \@featured_event;
+
+    # Upcoming Events
+    my @upcoming_events =
+      $MODEL->resultset('Content')
+      ->search({types => {like => '%event%'}}, {order_by => 'id DESC'})->all;
+
+    $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
+
 } => 'play_events';
 
 get '/photos' => sub {
@@ -317,8 +398,8 @@ get '/about/contact' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => 'about'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => 'about'}, types => {like => '%ad%'}})->all;
+
 } => 'about_contact';
 
 get '/about/newsletter' => sub {
@@ -328,8 +409,9 @@ get '/about/newsletter' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%about%'}, types => {like => '%ad%'}})->all;    
-    
+      ->search({pages => {like => '%about%'}, types => {like => '%ad%'}})
+      ->all;
+
 } => 'about_newsletter';
 
 any '/search' => sub {
@@ -401,10 +483,18 @@ any '/more' => sub {
 get '/cpanel' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
     # Ad Content
     $self->{'ad_content'} = '';    # Setting this blank...
+
+    # Content
+    my @content =
+      $MODEL->resultset('Content')->search({}, {order_by => 'id DESC'})->all;
+    $self->{'CONTENT'} = \@content;
+
+    # Settings
+    my $settings = $MODEL->resultset('Settings')->first;
+    $self->{'SETTINGS'} = $settings;
 
     return $self->render('cpanel');
 
@@ -415,9 +505,22 @@ get '/cpanel' => sub {
 any '/cpanel/content/form' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
     return $self->redirect_to('cpanel') unless $self->session('admin');
+
+    # Ad Content
+    $self->{'ad_content'} = '';    # Setting this blank...
+
+    # Content
+    my $content =
+      $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->single;
+    $self->{'CONTENT'} = $content;
+
+    # Recent Content
+    my @recent_content =
+      $MODEL->resultset('Content')->search({}, {order_by => 'id DESC'})->all;
+    $self->{'RECENT_CONTENT'} = \@recent_content;
 
     return $self->render('cpanel_content_form');
 
@@ -440,6 +543,23 @@ any '/cpanel/content/create' => sub {
                 datetime => DateTime->now,
             }
         );
+
+        if (($self->param('start_date')) and ($self->param('start_time'))) {
+
+            my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
+                $self->param('start_date') . $self->param('start_time'));
+
+            $MODEL->resultset('Content')->search({id => $new_content->id})
+              ->update({start_datetime => $start_datetime});
+
+            my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
+                $self->param('stop_date') . $self->param('stop_time'));
+
+            $MODEL->resultset('Content')->search({id => $new_content->id})
+              ->update({stop_datetime => $stop_datetime});
+
+
+        }
 
         if ($self->param('body')) {
 
@@ -526,110 +646,107 @@ any '/cpanel/content/update' => sub {
 
     my (@tags, @cities, @types, @interests, @pages, @photos);
 
-    if ($self->param('author')) {
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({author => $self->param('author')});
-    }
-
-    if ($self->param('title')) {
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({title => $self->param('title')});
-    }
-
-    if ($self->param('body')) {
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({body => $self->param('body')});
-    }
-
-    if ($self->param('interests')) {
-
-        push @interests, $_ for $self->param('interests');
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({interests => "@interests"});
-    }
-
-    if ($self->param('pages')) {
-
-        push @pages, $_ for $self->param('pages');
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({pages => "@pages"});
-    }
-
-    if ($self->param('types')) {
-
-        push @types, $_ for $self->param('types');
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({types => "@types"});
-    }
-
-    if ($self->param('tags')) {
-
-        push @tags, $_ for $self->param('tags');
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({tags => "@tags"});
-    }
-
-    if ($self->param('cities')) {
-
-        push @cities, $_ for $self->param('cities');
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({cities => "@cities"});
-    }
-
-    if ($self->param('position')) {
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({position => $self->param('position')});
-    }
-
-    push @photos, process_photo($self->req->upload('photo1'))
-      if $self->req->upload('photo1');
-
-    push @photos, process_photo($self->req->upload('photo2'))
-      if $self->req->upload('photo2');
-
-    push @photos, process_photo($self->req->upload('photo3'))
-      if $self->req->upload('photo3');
-
-    push @photos, process_photo($self->req->upload('photo4'))
-      if $self->req->upload('photo4');
-
-    $MODEL->resultset('Content')->search({id => $self->param('id')})
-      ->update({photos => "@photos", datetime => DateTime->now})
-      if scalar @photos >= 1;
-
     try {
 
-#
-# 	if($self->param('address')) {
-#
-# 	    my @results = google_local($self->param('address'));
-#
-# 	    for (@results) {
-#
-# 		$MODEL->resultset('Content')->search({id => $self->param('id')})
-# 		->update(
-#
-# 		    {   address => $self->param('address'),
-# 			lat => $_->lat,
-# 			lng => $_->lng,
-# 			datetime => DateTime->now,
-# 		    }
-# 		);
-# 	    }
-# 	}
+        if (($self->param('start_date')) and ($self->param('start_time'))) {
 
-      }
+            my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
+                $self->param('start_date') . $self->param('start_time'));
 
-      finally {
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({start_datetime => $start_datetime});
+
+            my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
+                $self->param('stop_date') . $self->param('stop_time'));
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({stop_datetime => $stop_datetime});
+
+        }
+
+        if ($self->param('author')) {
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({author => $self->param('author')});
+        }
+
+        if ($self->param('title')) {
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({title => $self->param('title')});
+        }
+
+        if ($self->param('body')) {
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({body => $self->param('body')});
+        }
+
+        if ($self->param('interests')) {
+
+            push @interests, $_ for $self->param('interests');
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({interests => "@interests"});
+        }
+
+        if ($self->param('pages')) {
+
+            push @pages, $_ for $self->param('pages');
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({pages => "@pages"});
+        }
+
+        if ($self->param('types')) {
+
+            push @types, $_ for $self->param('types');
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({types => "@types"});
+        }
+
+        if ($self->param('tags')) {
+
+            push @tags, $_ for $self->param('tags');
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({tags => "@tags"});
+        }
+
+        if ($self->param('cities')) {
+
+            push @cities, $_ for $self->param('cities');
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({cities => "@cities"});
+        }
+
+        if ($self->param('position')) {
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({position => $self->param('position')});
+        }
+
+        push @photos, process_photo($self->req->upload('photo1'))
+          if $self->req->upload('photo1');
+
+        push @photos, process_photo($self->req->upload('photo2'))
+          if $self->req->upload('photo2');
+
+        push @photos, process_photo($self->req->upload('photo3'))
+          if $self->req->upload('photo3');
+
+        push @photos, process_photo($self->req->upload('photo4'))
+          if $self->req->upload('photo4');
+
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({photos => "@photos", datetime => DateTime->now})
+          if scalar @photos >= 1;
+
+    }
+
+    finally {
 
         $self->redirect_to('cpanel');
     }

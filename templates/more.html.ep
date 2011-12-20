@@ -9,16 +9,16 @@
 
     <% for my $more (@{$self->{MORE}}) { %>
 
-        <% unless ($self->param('galleries')) { next if $more->types =~ m/ad|gallery/i }; %>
+        <% unless ($self->param('galleries')) { next if $more->types =~ m/ad/i }; %>
         
-        <h1><%= $more->title %></h1>
+        <h1 style="clear: both;"><%= $more->title %></h1>
         
         <p>
             
             <% for ( split /\s+/, $more->photos ) { %>
 
             <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
-		<img class="para_image_left" src="<%= $_ %>" />
+		<img class="para_image_right" src="<%= $_ %>" />
 	    </a>
 
             <% last; %>
@@ -32,12 +32,18 @@
             <br />
             <br />
             
-            <%= $more->body %>
+            <%== $more->body; %>
 
         </p>
         
+        <% my $thumbmail_counter; %>
+        
         <% for ( split /\s+/, $more->photos ) { %>
 
+            <% $thumbmail_counter++; %>
+
+            <% next if $thumbmail_counter == 1; %>
+        
             <a dojoType="dojox.image.Lightbox" group="<%= $more->id %>" href="<%= $_ %>">
 		<img class="more_thumbnails_left" src="<%= $_ %>" />
 	    </a>

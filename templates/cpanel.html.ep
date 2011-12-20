@@ -29,31 +29,113 @@
 
 <div class="content_left">
 
-    <h1>All Content</h1>
+    <a href="/home"><h1>Home</h1></a>
 
-    <% for ( my @content = $self->{MODEL}->resultset('Content')->all ) { %>
+    <% for my $home ( @{$self->{CONTENT}} ) { %>
 
-    <h2><a href="/more?id=<%= $_->id %>&back=cpanel"><%= $_->title %></a></h2>
+        <% if ($home->pages =~ m/home/i ) { %>
+                
+        <h2><a href="/more?id=<%= $home->id %>&back=cpanel"><%= $home->title %></a></h2>
+    
+        <h3>
+            <a href="/cpanel/content/form?mode=update&id=<%= $home->id %>">Update</a>
+            <a href="/cpanel/content/remove?id=<%= $home->id %>">Remove</a>
+        </h3>
+    
+        <% } %>
+    
+    <% } %>
 
-    <h3>
-	<a href="/cpanel/content/form?mode=update&id=<%= $_->id %>">Update</a>
-	<a href="/cpanel/content/remove?id=<%= $_->id %>">Remove</a>
-    </h3>
+    <a href="/live"><h1>Live</h1></a>
 
+    <% for my $live ( @{$self->{CONTENT}} ) { %>
+
+        <% if ($live->pages =~ m/live/i ) { %>
+                
+        <h2><a href="/more?id=<%= $live->id %>&back=cpanel"><%= $live->title %></a></h2>
+    
+        <h3>
+            <a href="/cpanel/content/form?mode=update&id=<%= $live->id %>">Update</a>
+            <a href="/cpanel/content/remove?id=<%= $live->id %>">Remove</a>
+        </h3>
+    
+        <% } %>
+    
+    <% } %>
+
+    <a href="/work"><h1>Work</h1></a>
+
+    <% for my $work ( @{$self->{CONTENT}} ) { %>
+
+        <% if ($work->pages =~ m/work/i ) { %>
+                
+        <h2><a href="/more?id=<%= $work->id %>&back=cpanel"><%= $work->title %></a></h2>
+    
+        <h3>
+            <a href="/cpanel/content/form?mode=update&id=<%= $work->id %>">Update</a>
+            <a href="/cpanel/content/remove?id=<%= $work->id %>">Remove</a>
+        </h3>
+    
+        <% } %>
+    
+    <% } %>
+
+    <a href="/play"><h1>Play</h1></a>
+
+    <% for my $play ( @{$self->{CONTENT}} ) { %>
+
+        <% if ($play->pages =~ m/play/i ) { %>
+                
+        <h2><a href="/more?id=<%= $play->id %>&back=cpanel"><%= $play->title %></a></h2>
+    
+        <h3>
+            <a href="/cpanel/content/form?mode=update&id=<%= $play->id %>">Update</a>
+            <a href="/cpanel/content/remove?id=<%= $play->id %>">Remove</a>
+        </h3>
+    
+        <% } %>
+    
+    <% } %>
+
+    <a href="/photos"><h1>Photos</h1></a>
+
+    <% for my $photos ( @{$self->{CONTENT}} ) { %>
+
+        <% if ($photos->pages =~ m/photos/i ) { %>
+                
+        <h2><a href="/more?id=<%= $photos->id %>&back=cpanel"><%= $photos->title %></a></h2>
+    
+        <h3>
+            <a href="/cpanel/content/form?mode=update&id=<%= $photos->id %>">Update</a>
+            <a href="/cpanel/content/remove?id=<%= $photos->id %>">Remove</a>
+        </h3>
+    
+        <% } %>
+    
     <% } %>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Recent</h1>
+    <h1>Recent Content</h1>
 
-    <% for (1...10) { %>
+    <div class="content_right_padding">
+        
+        <% my $recent_counter; %>
+        
+        <% for my $recent_content ( @{$self->{CONTENT}} ) { %>
+    
+        <h4><a href="/cpanel/content/form?mode=update&id=<%= $recent_content->id %>"><%= substr( $recent_content->title, 0, 30 ) . '...' %></a></h4>
+    
+        <% $recent_counter++; %>
+        
+        <%  last if $recent_counter >= 30; %>
+        
+        <% } %>
 
-    <p>Some stuff goes here</p>
-
-    <% } %>
-
+    </div>
+    
 </div>
 
 <!-- CPanel Menu -->
@@ -106,11 +188,9 @@
 
 <div id="dialog_settings" dojoType="dijit.Dialog" title="Update Settings" style="width: 800px; height: 600px;">
 
-    <% my $settings = $self->{MODEL}->resultset('Settings')->first; %>
-
     <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/settings" method="POST">
 
-        Admin: <div dojoType="dijit.form.TextBox" name="admin" value="<%= $settings->admin %>"></div>
+        Admin: <div dojoType="dijit.form.TextBox" name="admin" value="<%= $self->{SETTINGS}->admin %>"></div>
 
         <br />
         <br />
@@ -122,7 +202,7 @@
         <br />
         <br />
 
-        About: <textarea dojoType="dijit.form.Textarea" name="about" style="width: 400px;"><%= $settings->about %></textarea>
+        About: <textarea dojoType="dijit.form.Textarea" name="about" style="width: 400px;"><%= $self->{SETTINGS}->about %></textarea>
 
         <br />
         <br />

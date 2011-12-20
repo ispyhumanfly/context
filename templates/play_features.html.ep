@@ -7,12 +7,111 @@
 
 <div class="content_left">
 
-    <h1>Features</h1>
+    <% for my $features (@{$self->{FEATURES}}) { %>
+
+        <% unless ($self->param('galleries')) { next if $features->types =~ m/ad|gallery/i }; %>
+        
+        <h1><%= $features->title %></h1>
+        
+        <p>
+            
+            <% for ( split /\s+/, $features->photos ) { %>
+
+            <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+		<img class="para_image_right" src="<%= $_ %>" />
+	    </a>
+
+            <% last; %>
+
+            <% } %>
+            
+            <span class="author">
+                By <%= $features->author %>
+            </span>
+            
+            <br />
+            <br />
+            
+            <%== $features->body %>
+
+        </p>
+        
+	<% my $thumbmail_counter; %>
+
+        <% for ( split /\s+/, $features->photos ) { %>
+
+            <% $thumbmail_counter++; %>
+
+            <% next if $thumbmail_counter == 1; %>
+
+            <a dojoType="dojox.image.Lightbox" group="<%= $features->id %>" href="<%= $_ %>">
+		<img class="more_thumbnails_left" src="<%= $_ %>" />
+	    </a>
+
+        <% } %>
+
+        <span class="social_sharing">
+
+            <a href="http://www.facebook.com/sharer.php?u=http://after5detroit.dyndns.org:3000/more?id=<%= $features->id %>&t=<%= $features->title %>" target="_blank">
+                <img src="/FacebookShare.png" alt="Facebook"/>
+            </a>
+        
+            <a href="http://www.twitter.com/home?status=<%= $features->title %>,+http://after5detroit.dyndns.org:3000/more?id=<%= $features->id %>" target="_blank">
+                <img src="/TwitterShare.png" alt="Twitter"/>
+            </a>
+        
+            <a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.dyndns.org:3000/more?id=<%= $features->id %>" target="_blank">
+                <img src="/DiggShare.png" alt="Digg"/>
+            </a>
+        
+            <a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.dyndns.org:3000/more?id=<%= $features->id %>" target="_blank">
+                <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+            </a>
+            
+        </span>
+        
+    <% } %>
+
+    <h3><a href="/play">Back to Play</a></h3>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Past Articles</h1>
+    <a href="/photos"><h1>Past Articles</h1></a>
 
+    <div class="content_right_padding">
+        
+        <% my $past_articles_counter; %>
+        
+        <% for my $past_articles (@{$self->{PAST_ARTICLES}}) { %>
+        
+            <% $past_articles_counter++; %>
+            
+	    <% next if $past_articles_counter == 1; %>
+            
+            <% next if $past_articles->types =~ m/ad/i; %>
+    
+            <% for ( split /\s+/, $past_articles->photos ) { %>
+            
+            <a dojoType="dojox.image.Lightbox" group="block_photos" title="<%= $past_articles->title %>" href="<%= $_ %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+            <p><%== HTML::FormatText->format_string(substr( $past_articles->body, 0, 75 )) . '...' %><p>
+            
+            <div class="read_more_left">
+                <a href="/more?id=<%= $past_articles->id %>&back=home">Read More...</a>
+            </div>
+                
+            <hr />
+        
+        <% } %>
+
+    </div>
+    
 </div>

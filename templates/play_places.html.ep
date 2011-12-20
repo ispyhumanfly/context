@@ -3,32 +3,91 @@
 
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require("dojox.widget.Calendar");
+
 //]]></script>
 
 <div class="content_left">
 
-    <h1>Try This</h1>
-
-    <img class="para_image_right" src="" />
-
-    <h2>Title</h2>
-	
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dui nunc, porta at volutpat quis, rhoncus non quam. Morbi non sollicitudin nibh. Nam sem felis, posuere nec posuere et, porttitor eu nibh. Proin viverra, sapien ut tincidunt fermentum, mi eros imperdiet nisl, id consectetur mi est eu massa. Fusce velit quam, pretium iaculis ullamcorper eget, sagittis ac ipsum. Pellentesque lobortis lacus sit amet leo sollicitudin vitae fermentum est pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse sed dui a nibh faucibus volutpat ut sodales dolor. Sed dapibus felis non ipsum rhoncus ullamcorper fermentum erat fringilla. Maecenas egestas auctor nunc pretium tristique. Nulla eu lorem sem, in ultricies leo. Nulla iaculis tincidunt arcu id posuere. </p>
-
-    <h1>Places</h1>
-
-    <img class="para_image_right" src="" />
-
-    <h2>Title</h2>
-	
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dui nunc, porta at volutpat quis, rhoncus non quam. Morbi non sollicitudin nibh. Nam sem felis, posuere nec posuere et, porttitor eu nibh. Proin viverra, sapien ut tincidunt fermentum, mi eros imperdiet nisl, id consectetur mi est eu massa. Fusce velit quam, pretium iaculis ullamcorper eget, sagittis ac ipsum. Pellentesque lobortis lacus sit amet leo sollicitudin vitae fermentum est pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse sed dui a nibh faucibus volutpat ut sodales dolor. Sed dapibus felis non ipsum rhoncus ullamcorper fermentum erat fringilla. Maecenas egestas auctor nunc pretium tristique. Nulla eu lorem sem, in ultricies leo. Nulla iaculis tincidunt arcu id posuere. </p>
-
-    <h3>Back to Play</h3>
+    <% for my $try_this (@{$self->{TRY_THIS}}) { %>
     
+        <h1>Try This!</h1>
+    
+	<% for ( split /\s+/, $try_this->photos ) { %>
+
+	<a dojoType="dojox.image.Lightbox" title="<%= $try_this->title %>" href="<%= $_ %>">
+	    <img class="para_image_left" src="<%= $_ %>" />
+	</a>
+
+        <% last; #JUST SHOW ONE %>
+
+        <% } %>
+
+        <h2><a href="/more?id=<%= $try_this->id %>&back=home"><%= $try_this->title %></a></h3>
+
+	<p><%== HTML::FormatText->format_string(substr( $try_this->body, 0, 500 )) . '...' %></p>
+
+	<div class="read_more_right">
+	    <a href="/more?id=<%= $try_this->id %>&back=home">Read More...</a>
+	</div>
+
+        <% last; #JUST SHOW ONE %>
+
+    <% } %>
+
+    <% my $more_places_counter; %>
+    
+    <% for my $more_places (@{$self->{MORE_PLACES}}) { %>
+    
+        <% $more_places_counter++; %>
+
+        <% next if $more_places_counter == 1; %>
+        
+        <% if ($more_places_counter == 2) { %>
+        
+        <h1 style="clear: both;">More Places</h1>
+        
+        <% } %>
+        
+        <% if ($more_places_counter > 2) { %>
+        
+        <hr />
+        
+        <% } %>
+        
+        <% for ( split /\s+/, $more_places->photos ) { %>
+
+        <a dojoType="dojox.image.Lightbox" title="<%= $more_places->title %>" href="<%= $_ %>">
+            <img class="position_image_left" src="<%= $_ %>" />
+        </a>
+
+        <% last; #JUST SHOW ONE %>
+
+        <% } %>
+
+        <h2><a href="/more?id=<%= $more_places->id %>&back=home"><%= $more_places->title %></a></h2>
+    
+        <p><%== HTML::FormatText->format_string(substr( $more_places->body, 0, 100 )) . '...' %></p>
+    
+        <div class="read_more_right">
+            <a href="/more?id=<%= $more_places->id %>&back=home">Read More...</a>
+        </div>
+        
+    <% } %>
+     
 </div>
 
 <div class="content_right">
 
-    <h1>Search Places</h1>
+    <h1>On Tap</h1>
+
+    <div class="content_right_padding">
+        
+        <p>A calendar will go here...</p>
+        
+    </div>
+
+    <h1>Giveaways</h1>
 
 </div>
+

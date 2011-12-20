@@ -9,7 +9,7 @@
 
     <% for my $features (@{$self->{FEATURES}}) { %>
 
-        <% next if $features->types =~ m/ad|gallery/i; %>
+        <% next if $features->types =~ m/ad|gallery|event/i; %>
         
 	<% for ( split /\s+/, $features->photos ) { %>
 
@@ -21,13 +21,13 @@
 
         <% } %>
 
-	<div class="h1_spacer"><h1>Features</h1></div>
+	<div class="h1_spacer"><a href="/play/features"><h1>Features</h1></a></div>
 
-	<img class="para_arrow_left" src="/ArrowGraphic.png">PEOPLE</img>
+	<a href="/play/features/"><img class="para_arrow_left" src="/ArrowGraphic.png">PEOPLE</img></a>
 
 	<h2><a href="/more?id=<%= $features->id %>&back=play"><%= $features->title %></a></h2>
 
-	<p><%= substr( $features->body, 0, 500 ) . '...' %></p>
+	<p><%== HTML::FormatText->format_string(substr( $features->body, 0, 800 )) . '...' %></p>
 
 	<div class="read_more_right">
 	    <a href="/more?id=<%= $features->id %>&back=play">Read More...</a>
@@ -37,9 +37,11 @@
 
     <% } %>
 
+    <div style="clear: both;"></div>
+
     <% for my $buzz (@{$self->{BUZZ}}) { %>
 
-        <% next if $buzz->types =~ m/ad|gallery/i; %>
+        <% next unless $buzz->tags =~ m/the_buzz/i; %>
         
 	<% for ( split /\s+/, $buzz->photos ) { %>
 
@@ -51,11 +53,11 @@
 
         <% } %>
 
-	<img class="para_arrow_left" src="/ArrowGraphic.png">THE BUZZ</img>
+	<a href="/play/buzz"><img class="para_arrow_left" src="/ArrowGraphic.png">THE BUZZ</img></a>
 
 	<h2><a href="/more?id=<%= $buzz->id %>&back=play"><%= $buzz->title %></a></h2>
 
-	<p><%= substr( $buzz->body, 0, 500 ) . '...' %></p>
+	<p><%== HTML::FormatText->format_string(substr( $buzz->body, 0, 500 )) . '...' %></p>
 
 	<div class="read_more_right">
 	    <a href="/more?id=<%= $buzz->id %>&back=play">Read More...</a>
@@ -65,11 +67,11 @@
 
     <% } %>
 
-    <h3><a href="/more?features=all&back=play">More Features</a></h3>
+    <h3><a href="/more?featured=all&back=play">More Features</a></h3>
 
     <% for my $places (@{$self->{PLACES}}) { %>
 
-        <% next if $places->types =~ m/ad|gallery/i; %>
+        <% next unless $places->tags =~ m/try_this/i; %>
         
 	<% for ( split /\s+/, $places->photos ) { %>
 
@@ -81,13 +83,13 @@
 
         <% } %>
 
-	<div class="h1_spacer"><h1>Places</h1></div>
+	<div class="h1_spacer"><a href="/play/places"><h1>Places</h1></a></div>
 
 	<img class="para_arrow_left" src="/ArrowGraphic.png">TRY THIS</img>
 
 	<h2><a href="/more?id=<%= $places->id %>&back=play"><%= $places->title %></a></h2>
 
-	<p><%= substr( $places->body, 0, 500 ) . '...' %></p>
+	<p><%== HTML::FormatText->format_string(substr( $places->body, 0, 500 )) . '...' %></p>
 
 	<div class="read_more_right">
 	    <a href="/more?id=<%= $places->id %>&back=play">Read More...</a>
@@ -97,12 +99,50 @@
 
     <% } %>
     
-    <h3><a href="/more?place=all&back=play">More Places</a></h3>
+    <h3><a href="/more?places=all&back=play">More Places</a></h3>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Events</h1>
+    <a href="/play/events"><h1>Events</h1></a>
+
+    <div class="content_right_padding">
+        
+        <% my $events_counter; %>
+        
+        <% for my $events (@{$self->{EVENTS}}) { %>
+        
+            <% $events_counter++; %>
+            
+            <% next if $events_counter > 3; %>
+        
+            <% next if $events->types =~ m/ad/i; %>
+    
+            <% for ( split /\s+/, $events->photos ) { %>
+            
+            <a dojoType="dojox.image.Lightbox" group="photos_right" title="<%= $events->title %>" href="<%= $_ %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+            <p><%== HTML::FormatText->format_string(substr( $events->body, 0, 75 )) . '...' %><p>
+            
+            <div class="read_more_left">
+                <a href="/more?id=<%= $events->id %>&back=home">Read More...</a>
+            </div>
+    
+            <% if ($events_counter < 3) { %>
+            
+            <hr />
+            
+            <% } %>
+        
+        <% } %>
+
+    </div>
 
 </div>

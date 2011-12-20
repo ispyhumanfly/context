@@ -3,8 +3,6 @@
 
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dojox.widget.FisheyeList");
-
 //]]></script>
 
 <div class="content_left">
@@ -33,22 +31,42 @@
 
     <h1>Galleries</h1>
 
-    <% for my $galleries (@{$self->{GALLERIES}}) { %>
+    <div class="content_right_padding">
         
-        <% next if $galleries->types =~ m/ad/i; %>
-
-        <% for ( split /\s+/, $galleries->photos ) { %>
+        <% my $galleries_counter; %>
         
-        <img style="float: right; width: 75px; height: 75px; padding: 5px;" src="<%= $_ %>"/>
+        <% for my $galleries (@{$self->{GALLERIES}}) { %>
         
-        <% last; #JUST SHOW ONE %>
+            <% $galleries_counter++; %>
+            
+            <% next if $galleries_counter > 5; %>
+        
+            <% next if $galleries->types =~ m/ad/i; %>
+    
+            <% for ( split /\s+/, $galleries->photos ) { %>
+            
+            <a dojoType="dojox.image.Lightbox" group="photos_right" title="<%= $galleries->title %>" href="<%= $_ %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+            <p><%= substr( $galleries->body, 0, 75 ) . '...' %><p>
+            
+            <div class="read_more_left">
+                <a href="/more?id=<%= $galleries->id %>&back=home">View Gallery...</a>
+            </div>
+    
+            <% if ($galleries_counter < 5) { %>
+            
+            <hr />
+            
+            <% } %>
         
         <% } %>
-        
-        <p><%= $galleries->body %><p>
-        
-        <hr />
-    
-    <% } %>
+
+    </div>
 
 </div>

@@ -1,5 +1,7 @@
 % title 'Play';
 % layout 'default';
+%
+% my $strip_html = HTML::Strip->new;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -7,20 +9,111 @@
 
 <div class="content_left">
 
-    <h1>The Buzz</h1>
+    <% for my $the_buzz (@{$self->{THE_BUZZ}}) { %>
 
-    <img class="para_image_right" src="" />
+        <% unless ($self->param('galleries')) { next if $the_buzz->types =~ m/ad|gallery/i }; %>
+        
+        <h1><%= $the_buzz->title %></h1>
+        
+        <p>
+            
+            <% for ( split /\s+/, $the_buzz->photos ) { %>
 
-    <h2>Title</h2>
-	
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dui nunc, porta at volutpat quis, rhoncus non quam. Morbi non sollicitudin nibh. Nam sem felis, posuere nec posuere et, porttitor eu nibh. Proin viverra, sapien ut tincidunt fermentum, mi eros imperdiet nisl, id consectetur mi est eu massa. Fusce velit quam, pretium iaculis ullamcorper eget, sagittis ac ipsum. Pellentesque lobortis lacus sit amet leo sollicitudin vitae fermentum est pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse sed dui a nibh faucibus volutpat ut sodales dolor. Sed dapibus felis non ipsum rhoncus ullamcorper fermentum erat fringilla. Maecenas egestas auctor nunc pretium tristique. Nulla eu lorem sem, in ultricies leo. Nulla iaculis tincidunt arcu id posuere. </p>
+            <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+		<img class="para_image_right" src="<%= $_ %>" />
+	    </a>
 
-    <h3>Back to Play</h3>
-    
+            <% last; %>
+
+            <% } %>
+            
+            <span class="author">
+                By <%= $the_buzz->author %>
+            </span>
+            
+            <br />
+            <br />
+            
+            <%== $the_buzz->body %>
+
+        </p>
+        
+        <% for ( split /\s+/, $the_buzz->photos ) { %>
+
+            <a dojoType="dojox.image.Lightbox" group="<%= $the_buzz->id %>" href="<%= $_ %>">
+		<img class="more_thumbnails_left" src="<%= $_ %>" />
+	    </a>
+
+        <% } %>
+
+        <span class="social_sharing">
+
+            <a href="http://www.facebook.com/sharer.php?u=http://after5detroit.dyndns.org:3000/more?id=<%= $the_buzz->id %>&t=<%= $the_buzz->title %>" target="_blank">
+                <img src="/FacebookShare.png" alt="Facebook"/>
+            </a>
+        
+            <a href="http://www.twitter.com/home?status=<%= $the_buzz->title %>,+http://after5detroit.dyndns.org:3000/more?id=<%= $the_buzz->id %>" target="_blank">
+                <img src="/TwitterShare.png" alt="Twitter"/>
+            </a>
+        
+            <a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.dyndns.org:3000/more?id=<%= $the_buzz->id %>" target="_blank">
+                <img src="/DiggShare.png" alt="Digg"/>
+            </a>
+        
+            <a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.dyndns.org:3000/more?id=<%= $the_buzz->id %>" target="_blank">
+                <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+            </a>
+            
+        </span>
+        
+    <% } %>
+
+    <h3><a href="/play">Back to Play</a></h3>
+
 </div>
 
 <div class="content_right">
 
-    <h1>More Buzz</h1>
+    <a href="/photos"><h1>More Buzz</h1></a>
 
+    <div class="content_right_padding">
+        
+        <% my $more_buzz_counter; %>
+        
+        <% for my $more_buzz (@{$self->{MORE_BUZZ}}) { %>
+        
+            <% $more_buzz_counter++; %>
+            
+	    <% next if $more_buzz_counter == 1; %>
+	    
+            <% next if $more_buzz_counter > 3; %>
+        
+            <% next if $more_buzz->types =~ m/ad/i; %>
+    
+            <% for ( split /\s+/, $more_buzz->photos ) { %>
+            
+            <a dojoType="dojox.image.Lightbox" group="block_photos" title="<%= $more_buzz->title %>" href="<%= $_ %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+            <p><%== $strip_html->parse(substr( $more_buzz->body, 0, 75 )) . '...' %><p>
+            
+            <div class="read_more_left">
+                <a href="/more?id=<%= $more_buzz->id %>&back=home">Read More...</a>
+            </div>
+    
+            <% if ($more_buzz_counter < 3) { %>
+            
+            <hr />
+            
+            <% } %>
+        
+        <% } %>
+
+    </div>
+    
 </div>

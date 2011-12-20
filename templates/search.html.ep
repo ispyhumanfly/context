@@ -20,7 +20,7 @@
         
         <% next unless ($_->title =~ m/$string/i or $_->body =~ m/$string/i); %>
         
-        <h2><%= $_->title %></h2>
+        <h2><a href="/more?id=<%= $_->id%>&back=search"><%= $_->title %></a></h2>
 
         <p>
             <% for ( split /\s+/, $_->photos ) { %>
@@ -33,7 +33,7 @@
             
             <% } %>
                 
-            <p><%= substr( $_->body, 0, 100 ) . '...' %></p>
+            <p><%= HTML::FormatText->format_string(substr( $_->body, 0, 300 )) . '...' %></p>
         
         </p>
         
