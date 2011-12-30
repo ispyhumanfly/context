@@ -22,23 +22,31 @@
         
         <h2><a href="/more?id=<%= $_->id%>&back=search"><%= $_->title %></a></h2>
 
-        <p>
-            <% for ( split /\s+/, $_->photos ) { %>
-            
-            <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
-		<img class="para_image_left_search" src="<%= $_ %>" />
-	    </a>
-            
-            <% last; %>
-            
-            <% } %>
-                
-            <p><%= HTML::FormatText->format_string(substr( $_->body, 0, 300 )) . '...' %></p>
+        <% for ( split /\s+/, $_->photos ) { %>
         
-        </p>
+        <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+            <img class="para_image_left_search" src="<%= $_ %>" />
+        </a>
         
+        <% last; %>
+        
+        <% } %>
+            
+        <p><%= HTML::FormatText->format_string(substr( $_->body, 0, 300 )) . '...' %></p>
+    
         <div class="read_more_right">
-            <a href="/more?id=<%= $_->id %>&back=search">Read More...</a>
+            
+        <% if ( $self->session('admin') ) { %>
+
+        <a href="/more?id=<%= $_->id %>">Read More |</a>
+        <a href="/cpanel/content/form?mode=update&id=<%= $_->id %>">Edit</a>        
+    
+        <% } else { %>
+    
+        <a href="/more?id=<%= $_->id %>">Read More...</a>
+        
+        <% } %>
+        
         </div>
         
         <hr />

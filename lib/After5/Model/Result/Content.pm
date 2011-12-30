@@ -9,22 +9,32 @@ column id => {
     is_auto_increment => 1,
 };
 
-column datetime => {
+column create_datetime => {
+
+    data_type => 'varchar',
+    size => 50,
+};
+
+column modified_datetime => {
 
     data_type => 'datetime',
     size => 50,
+    is_nullable => 1,
 };
 
 column author => {
 
     data_type => 'varchar',
     size => 100,
+    is_nullable => 1,
 };
 
 column title => {
 
     data_type => 'varchar',
     size => 100,
+    is_nullable => 1,
+
 };
 
 column types => {
@@ -69,6 +79,13 @@ column photos => {
     is_nullable => 1,
 };
 
+column videos => {
+
+    data_type => 'varchar',
+    size => 10000,
+    is_nullable => 1,
+};
+
 column body => {
 
     data_type => 'varchar',
@@ -88,6 +105,14 @@ column stop_datetime => {
     data_type => 'datetime',
     size => 100,
     is_nullable => 1,
+};
+
+column venue => {
+
+    data_type => 'varchar',
+    size => 200,
+    is_nullable => 1,
+
 };
 
 column address => {
@@ -118,6 +143,26 @@ column position => {
     is_nullable => 1,
 };
 
+column link => {
+
+    data_type => 'varchar',
+    size => 1000,
+    is_nullable => 1,
+};
+
+column views => {
+
+    data_type => 'int',
+    size => 1000000000000,
+    is_nullable => 1,
+};
+
+column clicks => {
+
+    data_type => 'int',
+    size => 1000000000000,
+    is_nullable => 1,
+};
 
 primary_key 'id';
 

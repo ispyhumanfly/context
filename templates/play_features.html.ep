@@ -12,30 +12,21 @@
         <% unless ($self->param('galleries')) { next if $features->types =~ m/ad|gallery/i }; %>
         
         <h1><%= $features->title %></h1>
-        
-        <p>
-            
-            <% for ( split /\s+/, $features->photos ) { %>
+    
+	<% for ( split /\s+/, $features->photos ) { %>
 
-            <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
-		<img class="para_image_right" src="<%= $_ %>" />
-	    </a>
+	<a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+	    <img class="para_image_right" src="<%= $_ %>" />
+	</a>
 
-            <% last; %>
+	<% last; %>
 
-            <% } %>
-            
-            <span class="author">
-                By <%= $features->author %>
-            </span>
-            
-            <br />
-            <br />
-            
-            <%== $features->body %>
+	<% } %>
+	
+	<h4>By <%= $features->author %></h4>
+	
+	<%== $features->body %>
 
-        </p>
-        
 	<% my $thumbmail_counter; %>
 
         <% for ( split /\s+/, $features->photos ) { %>
@@ -82,35 +73,31 @@
 
     <div class="content_right_padding">
         
-        <% my $past_articles_counter; %>
-        
-        <% for my $past_articles (@{$self->{PAST_ARTICLES}}) { %>
-        
-            <% $past_articles_counter++; %>
-            
-	    <% next if $past_articles_counter == 1; %>
-            
-            <% next if $past_articles->types =~ m/ad/i; %>
+    <% for my $past_articles (@{$self->{PAST_ARTICLES}}) { %>
     
-            <% for ( split /\s+/, $past_articles->photos ) { %>
-            
-            <a dojoType="dojox.image.Lightbox" group="block_photos" title="<%= $past_articles->title %>" href="<%= $_ %>">
-                <img class="block_thumbnails_right" src="<%= $_ %>"/>
-            </a>
-            
-            <% last; #JUST SHOW ONE %>
-            
-            <% } %>
-            
-            <p><%== HTML::FormatText->format_string(substr( $past_articles->body, 0, 75 )) . '...' %><p>
-            
-            <div class="read_more_left">
-                <a href="/more?id=<%= $past_articles->id %>&back=home">Read More...</a>
-            </div>
-                
-            <hr />
-        
-        <% } %>
+	<% next if $past_articles->types =~ m/ad/i; %>
+
+	<% for ( split /\s+/, $past_articles->photos ) { %>
+	
+	<a dojoType="dojox.image.Lightbox" group="block_photos" title="<%= $past_articles->title %>" href="<%= $_ %>">
+	    <img class="block_thumbnails_right" src="<%= $_ %>"/>
+	</a>
+	
+	<% last; #JUST SHOW ONE %>
+	
+	<% } %>
+	
+	<h4><%= $past_articles->title %></h4>
+	
+	<p><%== HTML::FormatText->format_string(substr( $past_articles->body, 0, 75 )) . '...' %><p>
+	
+	<div class="read_more_left">
+	    <a href="/more?id=<%= $past_articles->id %>&back=home">Read More...</a>
+	</div>
+	    
+	<hr />
+    
+    <% } %>
 
     </div>
     

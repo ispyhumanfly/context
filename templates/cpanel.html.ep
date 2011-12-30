@@ -38,7 +38,7 @@
         <h2><a href="/more?id=<%= $home->id %>&back=cpanel"><%= $home->title %></a></h2>
     
         <h3>
-            <a href="/cpanel/content/form?mode=update&id=<%= $home->id %>">Update</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $home->id %>">Edit</a>
             <a href="/cpanel/content/remove?id=<%= $home->id %>">Remove</a>
         </h3>
     
@@ -55,7 +55,7 @@
         <h2><a href="/more?id=<%= $live->id %>&back=cpanel"><%= $live->title %></a></h2>
     
         <h3>
-            <a href="/cpanel/content/form?mode=update&id=<%= $live->id %>">Update</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $live->id %>">Edit</a>
             <a href="/cpanel/content/remove?id=<%= $live->id %>">Remove</a>
         </h3>
     
@@ -72,7 +72,7 @@
         <h2><a href="/more?id=<%= $work->id %>&back=cpanel"><%= $work->title %></a></h2>
     
         <h3>
-            <a href="/cpanel/content/form?mode=update&id=<%= $work->id %>">Update</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $work->id %>">Edit</a>
             <a href="/cpanel/content/remove?id=<%= $work->id %>">Remove</a>
         </h3>
     
@@ -89,7 +89,7 @@
         <h2><a href="/more?id=<%= $play->id %>&back=cpanel"><%= $play->title %></a></h2>
     
         <h3>
-            <a href="/cpanel/content/form?mode=update&id=<%= $play->id %>">Update</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $play->id %>">Edit</a>
             <a href="/cpanel/content/remove?id=<%= $play->id %>">Remove</a>
         </h3>
     
@@ -106,8 +106,42 @@
         <h2><a href="/more?id=<%= $photos->id %>&back=cpanel"><%= $photos->title %></a></h2>
     
         <h3>
-            <a href="/cpanel/content/form?mode=update&id=<%= $photos->id %>">Update</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $photos->id %>">Edit</a>
             <a href="/cpanel/content/remove?id=<%= $photos->id %>">Remove</a>
+        </h3>
+    
+        <% } %>
+    
+    <% } %>
+
+    <a href="/about"><h1>About</h1></a>
+
+    <% for my $about ( @{$self->{CONTENT}} ) { %>
+
+        <% if ($about->pages =~ m/about/i ) { %>
+                
+        <h2><a href="/more?id=<%= $about->id %>&back=cpanel"><%= $about->title %></a></h2>
+    
+        <h3>
+            <a href="/cpanel/content/form?mode=update&id=<%= $about->id %>">Edit</a>
+            <a href="/cpanel/content/remove?id=<%= $about->id %>">Remove</a>
+        </h3>
+    
+        <% } %>
+    
+    <% } %>
+
+    <a href="#"><h1>None</h1></a>
+
+    <% for my $none ( @{$self->{CONTENT}} ) { %>
+
+        <% if ($none->pages =~ m/none/i ) { %>
+                
+        <h2><a href="/more?id=<%= $none->id %>&back=cpanel"><%= $none->title %></a></h2>
+    
+        <h3>
+            <a href="/cpanel/content/form?mode=update&id=<%= $none->id %>">Edit</a>
+            <a href="/cpanel/content/remove?id=<%= $none->id %>">Remove</a>
         </h3>
     
         <% } %>
@@ -118,23 +152,23 @@
 
 <div class="content_right">
 
-    <h1>Recent Content</h1>
+    <h1>Quick Edits</h1>
 
     <div class="content_right_padding">
         
-        <% my $recent_counter; %>
-        
-        <% for my $recent_content ( @{$self->{CONTENT}} ) { %>
+        <% for my $quick_edits ( @{$self->{QUICK_EDITS}} ) { %>
     
-        <h4><a href="/cpanel/content/form?mode=update&id=<%= $recent_content->id %>"><%= substr( $recent_content->title, 0, 30 ) . '...' %></a></h4>
+        <h4><a href="/cpanel/content/form?mode=update&id=<%= $quick_edits->id %>"><%= substr( $quick_edits->title, 0, 30 ) . '...' %></a></h4>
     
-        <% $recent_counter++; %>
-        
-        <%  last if $recent_counter >= 30; %>
-        
         <% } %>
 
     </div>
+    
+    <h1>Documentation</h1>
+
+    <div class="content_right_padding">
+
+    </div>    
     
 </div>
 
@@ -143,7 +177,7 @@
 <div id="cpanel_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
 
     <div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog_settings').show();">
-        Update Settings
+        Edit Settings
     </div>
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/cpanel/content/form?mode=create';">
@@ -184,9 +218,9 @@
 
 <% if ( $self->session('admin') ) { %>
 
-<!-- Update Settings -->
+<!-- Edit Settings -->
 
-<div id="dialog_settings" dojoType="dijit.Dialog" title="Update Settings" style="width: 800px; height: 600px;">
+<div id="dialog_settings" dojoType="dijit.Dialog" title="Edit Settings" style="width: 800px; height: 600px;">
 
     <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/settings" method="POST">
 
@@ -207,7 +241,7 @@
         <br />
         <br />
 
-        <button dojoType="dijit.form.Button" type="submit">Update</button>
+        <button dojoType="dijit.form.Button" type="submit">Edit</button>
 
     </div>
 

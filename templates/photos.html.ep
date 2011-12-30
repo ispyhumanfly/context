@@ -9,20 +9,44 @@
 
     <h1>Recent Galleries</h1>
 
+    <div id="gallery_container">
+
         <% for my $galleries (@{$self->{GALLERIES}}) { %>
 
             <% next if $galleries->types =~ m/ad/i; %>
 
             <% for ( split /\s+/, $galleries->photos ) { %>
             
-            <a dojoType="dojox.image.Lightbox" title="<%= $galleries->title %>" group="<%= $galleries->title %>" href="<%= $_ %>">
-                <img style="width: 100px; height: 100px;" src="<%= $_ %>" />
-            </a>
+            <div style="text-align: center;">
+                <a dojoType="dojox.image.Lightbox" title="<%= $galleries->title %>" group="<%= $galleries->title %>" href="<%= $_ %>">
+                    <img style="margin-top: 15px; width: 75%; height: auto;" src="<%= $_ %>" />
+                </a>
+            </div>
+            
+            <% last; JUST SHOW ONE %>
             
             <% } %>
+
+        <% last; JUST SHOW ONE %>
         
         <% } %>
+    
+    </div>
+    
+    <% for my $galleries (@{$self->{GALLERIES}}) { %>
 
+        <% next if $galleries->types =~ m/ad/i; %>
+
+        <% for ( split /\s+/, $galleries->photos ) { %>
+        
+        <a dojoType="dojox.image.Lightbox" title="<%= $galleries->title %>" group="<%= $galleries->title %>" href="<%= $_ %>">
+            <img style="width: 65px; height: 65px;" src="<%= $_ %>" />
+        </a>
+        
+        <% } %>
+    
+    <% } %>
+    
     <h3><a href="/more?galleries=all&back=photos">More Galleries</a></h3>
 
 </div>

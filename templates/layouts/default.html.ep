@@ -1,7 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
 
     <head>
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/> 
 
 	<title>after5detroit.com :: <%= title %></title>
 
@@ -9,7 +11,8 @@
         <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/nihilo/nihilo.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/image/resources/Lightbox.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/widget/Calendar/Calendar.css">
-
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/TextColor.css">
+  
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
 
         <script type="text/javascript">//<![CDATA[
@@ -70,6 +73,12 @@
 		    <% } %>
     
 		</ul>
+
+		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search?back=home" method="POST">
+    
+		    <input type="text" class="search_input_text" name="string" placeholder="Search After5..."></input>
+    
+		</div>
     
 	    </div>
 	    
@@ -95,14 +104,7 @@
 		    <% } %>
     
 		</div>
-    
-		<div dojoType="dijit.form.Form" class="search" encType="multipart/form-data" action="/search?back=home" method="POST">
-    
-		    <div dojoType="dijit.form.TextBox" name="string" placeholder=" Looking for something?"></div>
-		    <button dojoType="dijit.form.Button" type="submit">Search</button>
-    
-		</div>
-    
+        
 		<%= content %>
     
 	    </div>

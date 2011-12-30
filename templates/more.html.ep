@@ -11,31 +11,24 @@
 
         <% unless ($self->param('galleries')) { next if $more->types =~ m/ad/i }; %>
         
-        <h1 style="clear: both;"><%= $more->title %></h1>
+        <h1 style="clear: both;">Feature</h1>
+                
+        <% for ( split /\s+/, $more->photos ) { %>
+
+        <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+            <img class="para_image_right" src="<%= $_ %>" />
+        </a>
+
+        <% last; %>
+
+        <% } %>
         
-        <p>
-            
-            <% for ( split /\s+/, $more->photos ) { %>
+        <h2><%= $more->title %></h2>
 
-            <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
-		<img class="para_image_right" src="<%= $_ %>" />
-	    </a>
-
-            <% last; %>
-
-            <% } %>
-            
-            <span class="author">
-                By <%= $more->author %>
-            </span>
-            
-            <br />
-            <br />
-            
-            <%== $more->body; %>
-
-        </p>
+        <h4>By <%= $more->author %></h4>
         
+        <p><%== $more->body; %></p>
+
         <% my $thumbmail_counter; %>
         
         <% for ( split /\s+/, $more->photos ) { %>
@@ -72,7 +65,20 @@
         
     <% } %>
 
-    <h3><a href="/<%= $self->param('back') %>">Back</a></h3>
+    <h3>
+                
+        <% if ( $self->session('admin') ) { %>
+
+        <a href="javascript:history.go(-1)">Back | </a>
+        <a href="/cpanel/content/form?mode=update&id=<%= $self->param('id') %>" style="margin-left; 10px;">Edit</a>        
+        
+        <% } else { %>
+
+        <a href="javascript:history.go(-1)">Back</a>
+        
+        <% } %>
+    
+    </h3>
 
 </div>
 

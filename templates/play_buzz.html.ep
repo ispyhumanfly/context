@@ -1,7 +1,5 @@
 % title 'Play';
 % layout 'default';
-%
-% my $strip_html = HTML::Strip->new;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -100,7 +98,7 @@
             
             <% } %>
             
-            <p><%== $strip_html->parse(substr( $more_buzz->body, 0, 75 )) . '...' %><p>
+            <p><%== HTML::FormatText->format_string(substr( $more_buzz->body, 0, 75 )) . '...' %><p>
             
             <div class="read_more_left">
                 <a href="/more?id=<%= $more_buzz->id %>&back=home">Read More...</a>

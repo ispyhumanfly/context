@@ -27,17 +27,28 @@
 
 	<h2><a href="/more?id=<%= $features->id %>&back=play"><%= $features->title %></a></h2>
 
-	<p><%== HTML::FormatText->format_string(substr( $features->body, 0, 800 )) . '...' %></p>
+	<p><%== HTML::FormatText->format_string(substr( $features->body, 0, 500 )) . '...' %></p>
 
-	<div class="read_more_right">
-	    <a href="/more?id=<%= $features->id %>&back=play">Read More...</a>
-	</div>
+        <div class="read_more_right">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/more?id=<%= $features->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $features->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/more?id=<%= $features->id %>">Read More...</a>
+            
+            <% } %>
+
+        </div>
 
     <% last; #JUST SHOW ONE %>
 
     <% } %>
 
-    <div style="clear: both;"></div>
+    <hr style="clear: both;" />
 
     <% for my $buzz (@{$self->{BUZZ}}) { %>
 
@@ -59,9 +70,20 @@
 
 	<p><%== HTML::FormatText->format_string(substr( $buzz->body, 0, 500 )) . '...' %></p>
 
-	<div class="read_more_right">
-	    <a href="/more?id=<%= $buzz->id %>&back=play">Read More...</a>
-	</div>
+        <div class="read_more_right">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/more?id=<%= $buzz->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $buzz->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/more?id=<%= $buzz->id %>">Read More...</a>
+            
+            <% } %>
+
+        </div>
 
     <% last; #JUST SHOW ONE %>
 
@@ -91,9 +113,20 @@
 
 	<p><%== HTML::FormatText->format_string(substr( $places->body, 0, 500 )) . '...' %></p>
 
-	<div class="read_more_right">
-	    <a href="/more?id=<%= $places->id %>&back=play">Read More...</a>
-	</div>
+        <div class="read_more_right">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/more?id=<%= $places->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $places->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/more?id=<%= $places->id %>">Read More...</a>
+            
+            <% } %>
+
+        </div>
 
     <% last; #JUST SHOW ONE %>
 
@@ -132,7 +165,18 @@
             <p><%== HTML::FormatText->format_string(substr( $events->body, 0, 75 )) . '...' %><p>
             
             <div class="read_more_left">
-                <a href="/more?id=<%= $events->id %>&back=home">Read More...</a>
+    
+                <% if ( $self->session('admin') ) { %>
+    
+                <a href="/more?id=<%= $events->id %>">Read More |</a>
+                <a href="/cpanel/content/form?mode=update&id=<%= $events->id %>">Edit</a>        
+            
+                <% } else { %>
+            
+                <a href="/more?id=<%= $events->id %>">Read More...</a>
+                
+                <% } %>
+    
             </div>
     
             <% if ($events_counter < 3) { %>
