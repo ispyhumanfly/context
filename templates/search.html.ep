@@ -20,7 +20,7 @@
         
         <% next unless ($_->title =~ m/$string/i or $_->body =~ m/$string/i); %>
         
-        <h2><a href="/more?id=<%= $_->id%>&back=search"><%= $_->title %></a></h2>
+        <h2><a href="/more?id=<%= $_->id%>"><%= $_->title %></a></h2>
 
         <% for ( split /\s+/, $_->photos ) { %>
         

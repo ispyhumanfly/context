@@ -25,9 +25,9 @@
 
 	<a href="/play/features/"><img class="para_arrow_left" src="/ArrowGraphic.png">PEOPLE</img></a>
 
-	<h2><a href="/more?id=<%= $features->id %>&back=play"><%= $features->title %></a></h2>
+	<h2><a href="/more?id=<%= $features->id %>"><%= $features->title %></a></h2>
 
-	<p><%== HTML::FormatText->format_string(substr( $features->body, 0, 500 )) . '...' %></p>
+	<p class="para_text_right"><%== HTML::FormatText->format_string(substr( $features->body, 0, 500 )) . '...' %></p>
 
         <div class="read_more_right">
 
@@ -66,9 +66,9 @@
 
 	<a href="/play/buzz"><img class="para_arrow_left" src="/ArrowGraphic.png">THE BUZZ</img></a>
 
-	<h2><a href="/more?id=<%= $buzz->id %>&back=play"><%= $buzz->title %></a></h2>
+	<h2><a href="/more?id=<%= $buzz->id %>"><%= $buzz->title %></a></h2>
 
-	<p><%== HTML::FormatText->format_string(substr( $buzz->body, 0, 500 )) . '...' %></p>
+	<p class="para_text_right"><%== HTML::FormatText->format_string(substr( $buzz->body, 0, 500 )) . '...' %></p>
 
         <div class="read_more_right">
 
@@ -109,9 +109,9 @@
 
 	<img class="para_arrow_left" src="/ArrowGraphic.png">TRY THIS</img>
 
-	<h2><a href="/more?id=<%= $places->id %>&back=play"><%= $places->title %></a></h2>
+	<h2><a href="/more?id=<%= $places->id %>"><%= $places->title %></a></h2>
 
-	<p><%== HTML::FormatText->format_string(substr( $places->body, 0, 500 )) . '...' %></p>
+	<p class="para_text_right"><%== HTML::FormatText->format_string(substr( $places->body, 0, 500 )) . '...' %></p>
 
         <div class="read_more_right">
 
@@ -162,6 +162,8 @@
             
             <% } %>
             
+            <h4><%= $events->title %></h4>
+            
             <p><%== HTML::FormatText->format_string(substr( $events->body, 0, 75 )) . '...' %><p>
             
             <div class="read_more_left">
@@ -186,6 +188,31 @@
             <% } %>
         
         <% } %>
+
+        <div class="ad_space_block">
+    
+            <script type="text/javascript">//<![CDATA[
+            
+                var block_ads = new Array();
+    
+                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+                    <% for ( split /\s+/, $ad->photos ) { %>
+    
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+    
+                    <% last; # ONLY SHOW ONE %>
+    
+                    <% } %>
+    
+                <% } %>
+                
+                var random = Math.floor(Math.random() * block_ads.length);
+                document.write(block_ads[random]);
+    
+            //]]></script>
+            
+        </div>
 
     </div>
 

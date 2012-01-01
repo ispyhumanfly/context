@@ -22,12 +22,60 @@
         <% last; %>
 
         <% } %>
+
+        <% unless ($more->title eq '') { %>
         
         <h2><%= $more->title %></h2>
 
+        <% } %>
+    
+        <% unless ($more->author eq '') { %>
+        
         <h4>By <%= $more->author %></h4>
         
+        <% } %>
+        
+        <% unless ($more->body eq '') { %>
+        
         <p><%== $more->body; %></p>
+
+        <% } %>
+
+        <% unless ($more->venue eq '') { %>
+        
+        <p>Venue: <%= $more->venue %></p>
+        
+        <% } %>
+        
+        <% unless ($more->address eq '') { %>
+        
+        <p>Address: <%= $more->address %></p>
+        
+        <% } %>
+
+        <% unless (($more->lat <= 1) and ($more->lng <= 1)) { %>
+        
+        <p>Map: <%= $more->lat %>,<%= $more->lng %></p>
+        
+        <% } %>
+
+        <% unless ($more->link eq '') { %>
+        
+        <p>Link: <%= $more->link %></p>
+        
+        <% } %>
+
+        <% unless ($more->start_datetime eq '') { %>
+        
+        <p>Starts: <%= $more->start_datetime->datetime %></p>
+        
+        <% } %>
+
+        <% unless ($more->stop_datetime eq '') { %>
+        
+        <p>Stops: <%= $more->stop_datetime->datetime %></p>
+        
+        <% } %>
 
         <% my $thumbmail_counter; %>
         

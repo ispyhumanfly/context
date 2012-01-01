@@ -23,13 +23,34 @@
 
         <% } %>
 
-        <h2><a href="/more?id=<%= $try_this->id %>&back=home"><%= $try_this->title %></a></h3>
+        <h2><a href="/more?id=<%= $try_this->id %>"><%= $try_this->title %></a></h3>
 
-	<p><%== HTML::FormatText->format_string(substr( $try_this->body, 0, 500 )) . '...' %></p>
+	<p><%== HTML::FormatText->format_string($try_this->body) %></p>
 
-	<div class="read_more_right">
-	    <a href="/more?id=<%= $try_this->id %>&back=home">Read More...</a>
-	</div>
+        <div style="clear: both; padding-top: 10px;">
+            
+            <p>Address: <%= $try_this->address %></p>
+            
+            <p>Link: <%= $try_this->link %></p>
+    
+            <p>Map: <%= $try_this->lat %>,<%= $try_this->lng %></p>
+            
+        </div>
+        
+        <div class="read_more_right">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/more?id=<%= $try_this->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $try_this->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/more?id=<%= $try_this->id %>">Read More...</a>
+            
+            <% } %>
+
+        </div>
 
         <% last; #JUST SHOW ONE %>
 
@@ -65,12 +86,23 @@
 
         <% } %>
 
-        <h2><a href="/more?id=<%= $more_places->id %>&back=home"><%= $more_places->title %></a></h2>
+        <h2><a href="/more?id=<%= $more_places->id %>"><%= $more_places->title %></a></h2>
     
-        <p><%== HTML::FormatText->format_string(substr( $more_places->body, 0, 100 )) . '...' %></p>
+        <p><%== HTML::FormatText->format_string($more_places->body) %></p>
     
         <div class="read_more_right">
-            <a href="/more?id=<%= $more_places->id %>&back=home">Read More...</a>
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/more?id=<%= $more_places->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $more_places->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/more?id=<%= $more_places->id %>">Read More...</a>
+            
+            <% } %>
+
         </div>
         
     <% } %>
@@ -88,6 +120,31 @@
     </div>
 
     <h1>Giveaways</h1>
+
+    <div class="ad_space_block">
+
+        <script type="text/javascript">//<![CDATA[
+        
+            var block_ads = new Array();
+
+            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+
+                <% for ( split /\s+/, $ad->photos ) { %>
+
+                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+
+                <% last; # ONLY SHOW ONE %>
+
+                <% } %>
+
+            <% } %>
+            
+            var random = Math.floor(Math.random() * block_ads.length);
+            document.write(block_ads[random]);
+
+        //]]></script>
+        
+    </div>
 
 </div>
 

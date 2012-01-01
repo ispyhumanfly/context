@@ -74,7 +74,7 @@
     
 		</ul>
 
-		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search?back=home" method="POST">
+		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search" method="POST">
     
 		    <input type="text" class="search_input_text" name="string" placeholder="Search After5..."></input>
     
@@ -84,24 +84,28 @@
 	    
 	    <div id="content_container">
     
-		<div class="ad_space">
-    
-		    <% for my $ad (@{$self->{ADS}}) { %>
-    
-			<% for ( split /\s+/, $ad->photos ) { %>
-    
-			<a href="/more?id=<%= $ad->id %>">
-    
-			    <img src="<%= $_ %>" style="width: 728px; height: 90px;" />
-			</a>
-    
-			<% last; %>
-    
+		<div class="ad_space_header">
+
+		    <script type="text/javascript">//<![CDATA[
+		    
+			var header_ads = new Array();
+
+			<% for my $ad (@{$self->{ADS}}) { %>
+	
+			    <% for ( split /\s+/, $ad->photos ) { %>
+	
+			    header_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 728px; height: 90px;' /></a>");
+	
+			    <% last; # ONLY SHOW ONE %>
+	
+			    <% } %>
+	
 			<% } %>
-    
-		    <% last; %>
-    
-		    <% } %>
+			
+			var random = Math.floor(Math.random() * header_ads.length);
+			document.write(header_ads[random]);
+	    
+		    //]]></script>
     
 		</div>
         

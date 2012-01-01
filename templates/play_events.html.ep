@@ -25,8 +25,9 @@
 
         <h2><a href="/more?id=#"><%= $featured_event->title %></a></h3>
 
-        <p><%= $featured_event->body %></p>
+        <p><%== $featured_event->body %></p>
         
+        <p>Venue: <%= $featured_event->venue %></p>
         <p>Begins: <%= $featured_event->start_datetime %><p>
         <p>Ends: <%= $featured_event->stop_datetime %><p>
         
@@ -67,12 +68,13 @@
 
         <h2><a href="/more?id=<%= $upcoming_events->id %>&back=home"><%= $upcoming_events->title %></a></h2>
     
-        <p><%= substr( $upcoming_events->body, 0, 100 ) . '...' %><p>
+        <p><%== substr( $upcoming_events->body, 0, 100 ) . '...' %><p>
     
         <div class="read_more_right">
             <a href="/more?id=<%= $upcoming_events->id %>&back=home">Read More...</a>
         </div>
         
+        <p>Venue: <%= $upcoming_events->venue %> </p>
         <p>Begins: <%= $upcoming_events->start_datetime %><p>
         <p>Ends: <%= $upcoming_events->stop_datetime %><p>
 
@@ -91,5 +93,30 @@
     </div>
 
     <h1>Giveaways</h1>
+
+    <div class="ad_space_block">
+
+        <script type="text/javascript">//<![CDATA[
+        
+            var block_ads = new Array();
+
+            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+
+                <% for ( split /\s+/, $ad->photos ) { %>
+
+                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+
+                <% last; # ONLY SHOW ONE %>
+
+                <% } %>
+
+            <% } %>
+            
+            var random = Math.floor(Math.random() * block_ads.length);
+            document.write(block_ads[random]);
+
+        //]]></script>
+        
+    </div>
 
 </div>

@@ -112,20 +112,35 @@
     
     <h1 style="clear: both;">Press</h1>
     
-    <% for (1..7) { %>
+    <% for my $press (@{$self->{PRESS}}) { %>
     
-    <h4>Press Information Here</h4>
+    <h4><%= $press->title %></h4>
     
-    <p>
-        <img class="press_image_left" src="/press/Networking%202.0.jpg"/>
-        
-        A whole bunch of press information...A whole bunch of press information...A whole bunch of press information...A whole bunch of press information...A whole bunch of press information...A whole bunch of press information...A whole bunch of press information...
+    <% for ( split /\s+/, $press->photos ) { %>
 
-    </p>
-    
+    <a title="<%= $press->title %>" href="<%= $press->link %>">
+        <img class="position_image_left" src="<%= $_ %>" />
+    </a>
 
+    <% last; #JUST SHOW ONE %>
+
+    <% } %>
+
+    <p><%== HTML::FormatText->format_string($press->body) %><p>
+    
     <div class="read_more_right">
-        <a href="#">Read More...</a>
+
+        <% if ( $self->session('admin') ) { %>
+
+        <a href="/more?id=<%= $press->link %>">Read More |</a>
+        <a href="/cpanel/content/form?mode=update&id=<%= $press->id %>">Edit</a>        
+    
+        <% } else { %>
+    
+        <a href="<%= $press->link %>">Read More...</a>
+        
+        <% } %>
+
     </div>
 
     <hr />

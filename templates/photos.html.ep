@@ -91,6 +91,31 @@
         
         <% } %>
 
+        <div class="ad_space_block">
+    
+            <script type="text/javascript">//<![CDATA[
+            
+                var block_ads = new Array();
+    
+                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+                    <% for ( split /\s+/, $ad->photos ) { %>
+    
+                    block_ads.push("<a href='<%= $ad->link %>'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+    
+                    <% last; # ONLY SHOW ONE %>
+    
+                    <% } %>
+    
+                <% } %>
+                
+                var random = Math.floor(Math.random() * block_ads.length);
+                document.write(block_ads[random]);
+    
+            //]]></script>
+            
+        </div>
+
     </div>
 
 </div>

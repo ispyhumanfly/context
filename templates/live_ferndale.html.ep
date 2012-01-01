@@ -9,25 +9,17 @@
 
     <h1>City Life</h1>
 
-    <% for my $city_life (@{$self->{CITY_LIFE}}) { %>
-
-        <% next if $city_life->types =~ m/ad|gallery/i; %>
-        
-	<% for ( split /\s+/, $city_life->photos ) { %>
-
-	<a dojoType="dojox.image.Lightbox" title="<%= $city_life->title %>" href="<%= $_ %>">
-	    <img class="para_image_right" src="<%= $_ %>" />
-	</a>
-
-	<% last; #JUST SHOW ONE %>
-
-	<% } %>
-
-    <% } %>
+    <a dojoType="dojox.image.Lightbox" title="Ferndale, Michigan" href="/cities/ferndale/MainFerndalePhoto.jpg">
+        <img class="para_image_right" src="/cities/ferndale/MainFerndalePhoto.jpg" />
+    </a>
     
     <h2>Ferndale</h2>
     
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dui nunc, porta at volutpat quis, rhoncus non quam. Morbi non sollicitudin nibh. Nam sem felis, posuere nec posuere et, porttitor eu nibh. Proin viverra, sapien ut tincidunt fermentum, mi eros imperdiet nisl, id consectetur mi est eu massa. Fusce velit quam, pretium iaculis ullamcorper eget, sagittis ac ipsum. Pellentesque lobortis lacus sit amet leo sollicitudin vitae fermentum est pellentesque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse sed dui a nibh faucibus volutpat ut sodales dolor. Sed dapibus felis non ipsum rhoncus ullamcorper fermentum erat fringilla. Maecenas egestas auctor nunc pretium tristique. Nulla eu lorem sem, in ultricies leo. Nulla iaculis tincidunt arcu id posuere. </p>
+    <p>
+        They deem themselves “Funky Ferndale” and that’s a good description for this diverse city that holds a unique character all its own.  Ferndale has its share of popular bars and restaurants, but it also has become the go-to city for vintage shops and art galleries.
+        It offers its residents and visitors plenty of activities year round to enjoy, including the annual Blues Festival, DIY Fair and Art Show, as well as a hugely popular display of festivities surrounding the Woodward Dream Cruise.
+        Located just south of Royal Oak and a quick drive from downtown Detroit, the streets of Ferndale are always a beautiful sight with hanging lights in the winter and flower baskets in the summer, making it a place proud to be called home.
+    </p>
 
     <h1 style="clear: both;">Featured Lifestyle</h1>
     
@@ -47,9 +39,20 @@
 
 	<p><%== HTML::FormatText->format_string(substr( $featured_lifestyle->body, 0, 500 )) . '...' %></p>
 
-	<div class="read_more_right">
-	    <a href="/more?id=<%= $featured_lifestyle->id %>&back=home">Read More...</a>
-	</div>
+        <div class="read_more_right">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/more?id=<%= $featured_lifestyle->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $featured_lifestyle->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/more?id=<%= $featured_lifestyle->id %>">Read More...</a>
+            
+            <% } %>
+
+        </div>
 
     <% } %>
 
@@ -82,12 +85,48 @@
         <p><%== HTML::FormatText->format_string(substr( $neighbors->body, 0, 75 )) . '...' %><p>
         
         <div class="read_more_left">
-            <a href="/more?id=<%= $neighbors->id %>&back=home">Read More...</a>
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/more?id=<%= $neighbors->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $neighbors->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/more?id=<%= $neighbors->id %>">Read More...</a>
+            
+            <% } %>
+
         </div>
             
         <hr />
     
     <% } %>
+
+        <div class="ad_space_block">
+    
+            <script type="text/javascript">//<![CDATA[
+            
+                var block_ads = new Array();
+    
+                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+                    <% for ( split /\s+/, $ad->photos ) { %>
+    
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+    
+                    <% last; # ONLY SHOW ONE %>
+    
+                    <% } %>
+    
+                <% } %>
+                
+                var random = Math.floor(Math.random() * block_ads.length);
+                document.write(block_ads[random]);
+    
+            //]]></script>
+            
+        </div>
 
     </div>
 

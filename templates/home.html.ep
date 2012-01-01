@@ -10,13 +10,14 @@
 
 <div class="content_left">
 
-    <% for my $features (@{$self->{FEATURES}}) { %>
+    <% for my $play (@{$self->{PLAY}}) { %>
 
-        <% next if $features->types =~ m/ad|gallery/i; %>
+        <% next if $play->types =~ m/ad|gallery/i; %>
+        <% next if $play->position; %>
         
-	<% for ( split /\s+/, $features->photos ) { %>
+	<% for ( split /\s+/, $play->photos ) { %>
 
-	<a dojoType="dojox.image.Lightbox" title="<%= $features->title %>" href="<%= $_ %>">
+	<a dojoType="dojox.image.Lightbox" title="<%= $play->title %>" href="<%= $_ %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -26,20 +27,20 @@
 
 	<div class="h1_spacer"><a href="/play"><h1>Play</h1></a></div>
 
-	<h2><a href="/more?id=<%= $features->id %>"><%= $features->title %></a></h2>
+	<h2><a href="/more?id=<%= $play->id %>"><%= $play->title %></a></h2>
 
-	<p><%== HTML::FormatText->format_string(substr( $features->body, 0, 800 )) . '...' %></p>
+	<p class="para_text_right"><%== HTML::FormatText->format_string(substr( $play->body, 0, 600 )) . '...' %></p>
 
 	<div class="read_more_right">
             
             <% if ( $self->session('admin') ) { %>
 
-	    <a href="/more?id=<%= $features->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $features->id %>">Edit</a>        
+	    <a href="/more?id=<%= $play->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $play->id %>">Edit</a>        
         
             <% } else { %>
         
-	    <a href="/more?id=<%= $features->id %>">Read More...</a>
+	    <a href="/more?id=<%= $play->id %>">Read More...</a>
             
             <% } %>
             
@@ -160,11 +161,11 @@
     
     <h3><a href="/more?featured=all">More Features</a></h3>
 
-    <% for my $city_life (@{$self->{CITY_LIFE}}) { %>
+    <% for my $live (@{$self->{LIVE}}) { %>
 
-	<% for ( split /\s+/, $city_life->photos ) { %>
+	<% for ( split /\s+/, $live->photos ) { %>
 
-	<a dojoType="dojox.image.Lightbox" title="<%= $city_life->title %>" href="<%= $_ %>">
+	<a dojoType="dojox.image.Lightbox" title="<%= $live->title %>" href="<%= $_ %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -174,20 +175,20 @@
 
 	<div class="h1_spacer"><a href="/live"><h1>Live</h1></a></div>
 
-	<h2><a href="/more?id=<%= $city_life->id %>"><%= $city_life->title %></a></h2>
+	<h2><a href="/more?id=<%= $live->id %>"><%= $live->title %></a></h2>
 
-	<p><%== HTML::FormatText->format_string(substr( $city_life->body, 0, 500 )) . '...' %></p>
+	<p class="para_text_right"><%== HTML::FormatText->format_string(substr( $live->body, 0, 500 )) . '...' %></p>
 
             <div class="read_more_right">
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/more?id=<%= $city_life->id %>">Read More |</a>
-                <a href="/cpanel/content/form?mode=update&id=<%= $city_life->id %>">Edit</a>        
+                <a href="/more?id=<%= $live->id %>">Read More |</a>
+                <a href="/cpanel/content/form?mode=update&id=<%= $live->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/more?id=<%= $city_life->id %>">Read More...</a>
+                <a href="/more?id=<%= $live->id %>">Read More...</a>
                 
                 <% } %>
 
@@ -198,6 +199,45 @@
     <% } %>
 
     <h3><a href="/more?living=all">More City Life</a></h3>
+
+    <% for my $work (@{$self->{WORK}}) { %>
+
+	<% for ( split /\s+/, $work->photos ) { %>
+
+	<a dojoType="dojox.image.Lightbox" title="<%= $work->title %>" href="<%= $_ %>">
+	    <img class="para_image_left" src="<%= $_ %>" />
+	</a>
+
+        <% last; #JUST SHOW ONE %>
+
+	<% } %>
+
+	<div class="h1_spacer"><a href="/work"><h1>Work</h1></a></div>
+
+	<h2><a href="/more?id=<%= $work->id %>"><%= $work->title %></a></h2>
+
+	<p class="para_text_right"><%== HTML::FormatText->format_string($work->body) %></p>
+
+            <div class="read_more_right">
+
+                <% if ( $self->session('admin') ) { %>
+    
+                <a href="/more?id=<%= $work->id %>">Read More |</a>
+                <a href="/cpanel/content/form?mode=update&id=<%= $work->id %>">Edit</a>        
+            
+                <% } else { %>
+            
+                <a href="/more?id=<%= $work->id %>">Read More...</a>
+                
+                <% } %>
+
+            </div>
+
+	<% last; #JUST SHOW ONE %>
+
+    <% } %>
+
+    <h3><a href="/more?living=all">More Work</a></h3>
 
 </div>
 
@@ -275,5 +315,30 @@
         <% } %>
         
     </select>
-    
+
+    <div class="ad_space_block">
+
+        <script type="text/javascript">//<![CDATA[
+        
+            var block_ads = new Array();
+
+            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+
+                <% for ( split /\s+/, $ad->photos ) { %>
+
+                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+
+                <% last; # ONLY SHOW ONE %>
+
+                <% } %>
+
+            <% } %>
+            
+            var random = Math.floor(Math.random() * block_ads.length);
+            document.write(block_ads[random]);
+
+        //]]></script>
+        
+    </div>
+
 </div>

@@ -342,6 +342,10 @@
 	    <option value="try_this">
 		try_this
 	    </option>
+
+	    <option value="professional_group">
+		professional_group
+	    </option>
     
 	    <option value="networking">
 		networking
@@ -413,6 +417,10 @@
     
 	    <option value="try_this" <%= 'selected' if $self->{CONTENT}->tags =~ m/try_this/i %>>
 		try_this
+	    </option>
+
+	    <option value="professional_group" <%= 'selected' if $self->{CONTENT}->tags =~ m/professional_group/i %>>
+		professional_group
 	    </option>
     
 	    <option value="networking" <%= 'selected' if $self->{CONTENT}->tags =~ m/networking/i %>>
@@ -679,44 +687,68 @@
     
 	<h4>Start Date</h4>
 	
-	<input dojoType="dijit.form.DateTextBox" name="start_date" value="0000-00-00" />
+	<input dojoType="dijit.form.DateTextBox" name="start_date" value="" />
+
+	<h4>Start Time</h4>
+    
+	<input dojoType="dijit.form.TimeTextBox" name="start_time" value="" />
     
 	<h4>Stop Date</h4>
     
-	<input dojoType="dijit.form.DateTextBox" name="stop_date" value="0000-00-00" />
-    
-	<h4>Start Time</h4>
-    
-	<input dojoType="dijit.form.TimeTextBox" name="start_time" value="T00:00:00" />
-    
+	<input dojoType="dijit.form.DateTextBox" name="stop_date" value="" />
+        
 	<h4>Stop Time</h4>
     
-	<input dojoType="dijit.form.TimeTextBox" name="stop_time" value="T00:00:00" />
+	<input dojoType="dijit.form.TimeTextBox" name="stop_time" value="" />
     
     
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
     
-	    <% if ( $self->{CONTENT}->types =~ m/event/i ) { %>
-	    
+	    <% if ( $self->{CONTENT}->start_datetime ne '') { %>
+	
 	    <h4>Start Date</h4>
-    
+        
 	    <input dojoType="dijit.form.DateTextBox" name="start_date" value="<%= $self->{CONTENT}->start_datetime->ymd %>"/>
-    
-	    <h4>Stop Date</h4>
-    
-	    <input dojoType="dijit.form.DateTextBox" name="stop_date" value="<%= $self->{CONTENT}->stop_datetime->ymd %>"/>
-    
+
 	    <h4>Start Time</h4>
     
 	    <input dojoType="dijit.form.TimeTextBox" name="start_time" value="T<%= $self->{CONTENT}->start_datetime->hms %>"/>
+	    
+	    <% } else { %>
+	    
+	    <h4>Start Date</h4>
+	    
+	    <input dojoType="dijit.form.DateTextBox" name="start_date" value=""/>
+	    
+	    <h4>Start Time</h4>
     
+	    <input dojoType="dijit.form.TimeTextBox" name="start_time" value=""/>
+	    
+	    <% } %>
+	    
+
+	    <% if ( $self->{CONTENT}->stop_datetime ne '') { %>
+	    
+	    <h4>Stop Date</h4>
+	    
+	    <input dojoType="dijit.form.DateTextBox" name="stop_date" value="<%= $self->{CONTENT}->stop_datetime->ymd %>"/>
+
 	    <h4>Stop Time</h4>
     
 	    <input dojoType="dijit.form.TimeTextBox" name="stop_time" value="T<%= $self->{CONTENT}->stop_datetime->hms %>"/>
-    
-    
-	    <% } %>
+   	    
+	    <% } else { %>
+
+	    <h4>Stop Date</h4>
 	    
+	    <input dojoType="dijit.form.DateTextBox" name="stop_date" value="" />
+
+	    <h4>Stop Time</h4>
+    
+	    <input dojoType="dijit.form.TimeTextBox" name="stop_time" value="" />
+	    
+	    <% } %>
+       
 	<% } %>
 
 	<h3>&nbsp;</h3>

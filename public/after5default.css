@@ -195,7 +195,7 @@ body {
 
 #content_container .h1_spacer {
     margin-left: 386px;
-    width: 333px;
+    width: 280px;
 }
 
 #content_container h2 {
@@ -308,6 +308,12 @@ body {
     font-size: large;
 }
 
+#content_container .para_text_right {
+    
+    margin-left: 385px;
+    max-width: 300px;
+}
+
 #content_container .about_image_left {
 
     float: left;
@@ -383,7 +389,7 @@ body {
     border: 1px solid #1a3721; 
 }
 
-#content_container .ad_space {
+#content_container .ad_space_header {
 
     text-align: center;
     margin-bottom: 10px;
@@ -392,6 +398,13 @@ body {
     padding-top: 10px;
     border-left: 5px solid white;
     border-right: 5px solid white;
+}
+
+#content_container .ad_space_block {
+
+    text-align: center;
+    background-color: #e6e2e3;
+    margin-top: 15px;
 }
 
 #content_container .search_places_right {
@@ -403,9 +416,9 @@ body {
 #content_container .content_left {
 
     float: left;
-    width: 65%;
+    width: 64%;
     background-color: white;
-    border-left: 5px solid white;
+    border-left: 25px solid white;
     min-height: 600px;
 
 }
@@ -421,7 +434,7 @@ body {
     float: right;
     width: 30%;
     background-color: #e6e2e3;
-    border-right: 5px solid white;
+    border-right: 25px solid white;
     min-height: 800px;
 }
 

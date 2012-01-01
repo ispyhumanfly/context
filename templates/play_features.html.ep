@@ -60,10 +60,23 @@
             </a>
             
         </span>
+
+	<h3>
+		    
+	    <% if ( $self->session('admin') ) { %>
+    
+	    <a href="javascript:history.go(-1)">Back | </a>
+	    <a href="/cpanel/content/form?mode=update&id=<%= $features->id %>" style="margin-left; 10px;">Edit</a>        
+	    
+	    <% } else { %>
+    
+	    <a href="javascript:history.go(-1)">Back</a>
+	    
+	    <% } %>
+	
+	</h3>
         
     <% } %>
-
-    <h3><a href="/play">Back to Play</a></h3>
 
 </div>
 
@@ -91,13 +104,49 @@
 	
 	<p><%== HTML::FormatText->format_string(substr( $past_articles->body, 0, 75 )) . '...' %><p>
 	
-	<div class="read_more_left">
-	    <a href="/more?id=<%= $past_articles->id %>&back=home">Read More...</a>
-	</div>
+        <div class="read_more_left">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/more?id=<%= $past_articles->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $past_articles->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/more?id=<%= $past_articles->id %>">Read More...</a>
+            
+            <% } %>
+
+        </div>
 	    
 	<hr />
     
     <% } %>
+
+        <div class="ad_space_block">
+    
+            <script type="text/javascript">//<![CDATA[
+            
+                var block_ads = new Array();
+    
+                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+                    <% for ( split /\s+/, $ad->photos ) { %>
+    
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+    
+                    <% last; # ONLY SHOW ONE %>
+    
+                    <% } %>
+    
+                <% } %>
+                
+                var random = Math.floor(Math.random() * block_ads.length);
+                document.write(block_ads[random]);
+    
+            //]]></script>
+            
+        </div>
 
     </div>
     
