@@ -17,7 +17,7 @@
         
 	<% for ( split /\s+/, $play->photos ) { %>
 
-	<a dojoType="dojox.image.Lightbox" title="<%= $play->title %>" href="<%= $_ %>">
+	<a title="<%= $play->title %>" href="/more?id=<%= $play->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -29,7 +29,7 @@
 
 	<h2><a href="/more?id=<%= $play->id %>"><%= $play->title %></a></h2>
 
-	<p class="para_text_right"><%== HTML::FormatText->format_string(substr( $play->body, 0, 600 )) . '...' %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($play->body), 0, 600 ) . '...' %></p>
 
 	<div class="read_more_right">
             
@@ -55,12 +55,12 @@
     <% for my $positions (@{$self->{POSITIONS}}) { %>
         
         <% if ( $positions->position == 1 ) { %>
-        
+            
             <hr />
-        
+            
             <% for ( split /\s+/, $positions->photos ) { %>
     
-            <a dojoType="dojox.image.Lightbox" group="positioned" title="<%= $positions->title %>" href="<%= $_ %>">
+            <a title="<%= $positions->title %>" href="/more?id=<%= $positions->id %>">
                 <img class="position_image_left" src="<%= $_ %>" />
             </a>
     
@@ -70,7 +70,7 @@
 
             <h2><a href="/more?id=<%= $positions->id %>"><%= $positions->title %></a></h2>
         
-            <p><%== HTML::FormatText->format_string(substr( $positions->body, 0, 300 )) . '...' %><p>
+            <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ) . '...' %><p>
         
             <div class="read_more_right">
 
@@ -93,7 +93,7 @@
         
             <% for ( split /\s+/, $positions->photos ) { %>
     
-            <a dojoType="dojox.image.Lightbox" group="positioned" title="<%= $positions->title %>" href="<%= $_ %>">
+            <a title="<%= $positions->title %>" href="/more?id=<%= $positions->id %>">
                 <img class="position_image_left" src="<%= $_ %>" />
             </a>
     
@@ -103,7 +103,7 @@
 
             <h2><a href="/more?id=<%= $positions->id %>"><%= $positions->title %></a></h2>
         
-            <p><%== HTML::FormatText->format_string(substr( $positions->body, 0, 300 )) . '...' %><p>
+            <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ) . '...' %><p>
         
             <div class="read_more_right">
 
@@ -126,7 +126,7 @@
         
             <% for ( split /\s+/, $positions->photos ) { %>
     
-            <a dojoType="dojox.image.Lightbox" group="positioned" title="<%= $positions->title %>" href="<%= $_ %>">
+            <a title="<%= $positions->title %>" href="/more?id=<%= $positions->id %>">
                 <img class="position_image_left" src="<%= $_ %>" />
             </a>
     
@@ -136,7 +136,7 @@
 
             <h2><a href="/more?id=<%= $positions->id %>"><%= $positions->title %></a></h2>
         
-            <p><%== HTML::FormatText->format_string(substr( $positions->body, 0, 300 )) . '...' %><p>
+            <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ) . '...' %><p>
         
             <div class="read_more_right">
 
@@ -159,13 +159,20 @@
     
     </div>
     
-    <h3><a href="/more?featured=all">More Features</a></h3>
+    <h3>
+               
+        <a href="/play/features">People</a>,
+        <a href="/play/places">Places</a>,
+        <a href="/play/buzz">Articles</a>,
+        <a href="/play/events">Events</a>
+    
+    </h3>
 
     <% for my $live (@{$self->{LIVE}}) { %>
 
 	<% for ( split /\s+/, $live->photos ) { %>
 
-	<a dojoType="dojox.image.Lightbox" title="<%= $live->title %>" href="<%= $_ %>">
+	<a title="<%= $live->title %>" href="/more?id=<%= $live->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -177,7 +184,7 @@
 
 	<h2><a href="/more?id=<%= $live->id %>"><%= $live->title %></a></h2>
 
-	<p class="para_text_right"><%== HTML::FormatText->format_string(substr( $live->body, 0, 500 )) . '...' %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($live->body), 0, 500 ) . '...' %></p>
 
             <div class="read_more_right">
 
@@ -198,13 +205,18 @@
 
     <% } %>
 
-    <h3><a href="/more?living=all">More City Life</a></h3>
+    <h3>
+        <a href="/live/birmingham">Birmingham</a>,
+        <a href="/live/detroit">Detroit</a>,
+        <a href="/live/ferndale">Ferndale</a>,
+        <a href="/live/royal_oak">Royal Oak</a>
+    </h3>
 
     <% for my $work (@{$self->{WORK}}) { %>
 
 	<% for ( split /\s+/, $work->photos ) { %>
 
-	<a dojoType="dojox.image.Lightbox" title="<%= $work->title %>" href="<%= $_ %>">
+	<a title="<%= $work->title %>" href="/more?id=<%= $work->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -237,7 +249,10 @@
 
     <% } %>
 
-    <h3><a href="/more?living=all">More Work</a></h3>
+    <h3>
+        <a href="/work/careers">Job Listings</a>,
+        <a href="/work/professional_development">Professional Development</a>
+    </h3>
 
 </div>
 
@@ -267,7 +282,7 @@
     
             <% for ( split /\s+/, $galleries->photos ) { %>
             
-            <a dojoType="dojox.image.Lightbox" group="block_photos" title="<%= $galleries->title %>" href="<%= $_ %>">
+            <a title="<%= $galleries->title %>" href="/more?id=<%= $galleries->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -275,7 +290,7 @@
             
             <% } %>
             
-            <p><%== HTML::FormatText->format_string(substr( $galleries->body, 0, 75 )) . '...' %><p>
+            <div class="block_text"><%== substr( HTML::FormatText->format_string($galleries->body), 0, 75 ) . '...' %></div>
             
             <div class="read_more_left">
 
@@ -326,7 +341,7 @@
 
                 <% for ( split /\s+/, $ad->photos ) { %>
 
-                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
 
                 <% last; # ONLY SHOW ONE %>
 

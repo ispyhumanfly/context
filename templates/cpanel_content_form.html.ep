@@ -1,6 +1,10 @@
 % title 'Content Form';
 % layout 'default';
 
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/TextColor.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/PasteFromWord.css" />
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/Save.css" />
+
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dijit.form.TextBox");
@@ -10,12 +14,16 @@
     dojo.require("dijit.form.MultiSelect");
     dojo.require("dojox.form.DropDownSelect");
 
-    dojo.require("dojo.fx");
-    
     dojo.require("dijit.Editor");
+
     dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
     dojo.require("dijit._editor.plugins.LinkDialog");
+    dojo.require("dijit._editor.plugins.FontChoice");
+
+    dojo.require("dojox.editor.plugins.Save");
+    dojo.require("dojox.editor.plugins.PrettyPrint");
     dojo.require("dojox.editor.plugins.TextColor");
+    dojo.require("dojox.editor.plugins.PasteFromWord");
 
     <% if ($self->param('mode') eq 'create') { %>
     
@@ -30,6 +38,13 @@
     function update_content () {
 	
 	dojo.xhrPost({form: dojo.byId('content_form'), handleAs: 'text'});
+	window.location = "/cpanel/content/form?mode=update&id=<%= $self->{CONTENT}->id %>";
+    }
+    
+    function remove_photo (id, photo) {
+	
+	dojo.xhrPost({ url: '/cpanel/photo/remove', postData: 'id=' + id + '&photo=' + photo + '' })
+	//dojo.byId(photo).innerHTML = "";
 	window.location = "/cpanel/content/form?mode=update&id=<%= $self->{CONTENT}->id %>";
     }
     
@@ -95,13 +110,13 @@
 	
 	<h4>Body</h4>
 
-	<textarea dojoType="dijit.Editor" name="body"  extraPlugins="['AlwaysShowToolbar', 'createLink', 'unlink', 'insertImage','foreColor', 'hiliteColor']"></textarea>
+	<textarea dojoType="dijit.Editor" name="body"  extraPlugins="[{name: 'save', url: '/cpanel/content/update'}, 'prettyprint', 'AlwaysShowToolbar', 'pastefromword', 'createLink', 'unlink', 'insertImage','foreColor', 'hiliteColor', 'fontName', 'fontSize', 'formatBlock']"></textarea>
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
 
 	<h4 style="clear: both;">Body</h4>
 
-	<textarea dojoType="dijit.Editor" name="body"  extraPlugins="['AlwaysShowToolbar', 'createLink', 'unlink', 'insertImage', 'foreColor', 'hiliteColor']" value="<%= $self->{CONTENT}->body %>"><%= $self->{CONTENT}->body %></textarea>
+	<textarea dojoType="dijit.Editor" name="body"  extraPlugins="[{name: 'save', url: '/cpanel/content/update'}, 'prettyprint', 'AlwaysShowToolbar', 'pastefromword', 'createLink', 'unlink', 'insertImage', 'foreColor', 'hiliteColor', 'fontName', 'fontSize', 'formatBlock']" value="<%= $self->{CONTENT}->body %>"><%= $self->{CONTENT}->body %></textarea>
 	
 	<% } %>
 
@@ -122,7 +137,7 @@
 	    <span value="<%= $_ %>">
 		<img src="<%= $_ %>" style="width: 50px; height: 50px;"/>
 	    </span>
-	    
+	    	    
 	    <% } %>
 
 	</div>
@@ -131,8 +146,13 @@
 	
 	<% for ( split /\s+/, $self->{CONTENT}->photos ) { %>
 
-	<img src="<%= $_ %>" class="more_thumbnails_left" />
-		
+	<div id="<%= $_ %>" style="display: inline;">
+    	
+	    <img src="<%= $_ %>" class="more_thumbnails_left" />
+	    <div style="display: inline;" onclick="remove_photo(<%= $self->{CONTENT}->id %>, '<%= $_ %>')">X</div>
+	    
+	</div>
+	
 	<% } %>
 
 	<h4>Upload Photos</h4>
@@ -178,6 +198,10 @@
 	    <option value="about">
 		about
 	    </option>
+  
+  	    <option value="search">
+		search
+	    </option>
     
 	    <option value="more">
 		more
@@ -217,6 +241,10 @@
     
 	    <option value="about" <%= 'selected' if $self->{CONTENT}->pages =~ m/about/i %>>
 		about
+	    </option>
+
+	    <option value="search" <%= 'selected' if $self->{CONTENT}->pages =~ m/search/i %>>
+		search
 	    </option>
     
 	    <option value="more" <%= 'selected' if $self->{CONTENT}->pages =~ m/more/i %>>
@@ -310,10 +338,6 @@
 	    <option value="none" selected>
 		none
 	    </option>
-	    
-	    <option value="on_tap">
-		on_tap
-	    </option>
     
 	    <option value="place">
 		place
@@ -335,14 +359,10 @@
 		lifestyle
 	    </option>
     
-	    <option value="the_buzz">
-		the_buzz
+	    <option value="article">
+		article
 	    </option>
     
-	    <option value="try_this">
-		try_this
-	    </option>
-
 	    <option value="professional_group">
 		professional_group
 	    </option>
@@ -373,6 +393,10 @@
 
 	    <option value="after5_press">
 		after5_press
+	    </option>
+	    
+	    <option value="after5_staff">
+		after5_staff
 	    </option>
     
 	</select>
@@ -407,18 +431,10 @@
 		lifestyle
 	    </option>
 	    
-	    <option value="on_tap" <%= 'selected' if $self->{CONTENT}->tags =~ m/on_tap/i %>>
-		on_tap
-	    </option>
-	    
-	    <option value="the_buzz" <%= 'selected' if $self->{CONTENT}->tags =~ m/the_buzz/i %>>
-		the_buzz
+	    <option value="article" <%= 'selected' if $self->{CONTENT}->tags =~ m/article/i %>>
+		article
 	    </option>
     
-	    <option value="try_this" <%= 'selected' if $self->{CONTENT}->tags =~ m/try_this/i %>>
-		try_this
-	    </option>
-
 	    <option value="professional_group" <%= 'selected' if $self->{CONTENT}->tags =~ m/professional_group/i %>>
 		professional_group
 	    </option>
@@ -449,6 +465,10 @@
 
 	    <option value="after5_press" <%= 'selected' if $self->{CONTENT}->tags =~ m/after5_press/i %>>
 		after5_press
+	    </option>
+
+	    <option value="after5_staff" <%= 'selected' if $self->{CONTENT}->tags =~ m/after5_staff/i %>>
+		after5_staff
 	    </option>
     
 	</select>

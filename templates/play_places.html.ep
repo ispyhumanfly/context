@@ -1,5 +1,7 @@
 % title 'Play';
 % layout 'default';
+%
+% my $more_places_length = 10;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -25,17 +27,7 @@
 
         <h2><a href="/more?id=<%= $try_this->id %>"><%= $try_this->title %></a></h3>
 
-	<p><%== HTML::FormatText->format_string($try_this->body) %></p>
-
-        <div style="clear: both; padding-top: 10px;">
-            
-            <p>Address: <%= $try_this->address %></p>
-            
-            <p>Link: <%= $try_this->link %></p>
-    
-            <p>Map: <%= $try_this->lat %>,<%= $try_this->lng %></p>
-            
-        </div>
+	<p class="para_text_right"><%== HTML::FormatText->format_string($try_this->body) %></p>
         
         <div class="read_more_right">
 
@@ -52,6 +44,17 @@
 
         </div>
 
+        <div style="margin-left: 385px; font-size: smaller;">
+            
+            <h4>Address</h4>
+            <%= $try_this->address %>
+            
+            <h4><a href="<%= $try_this->link %>" target="_blank">View Website</a></h4>
+            
+            <h4><a href="http://maps.google.com/maps?q=<%= $try_this->lat %>,<%= $try_this->lng %>" target="_blank">View Map</a></h4>
+
+        </div>
+
         <% last; #JUST SHOW ONE %>
 
     <% } %>
@@ -59,18 +62,22 @@
     <% my $more_places_counter; %>
     
     <% for my $more_places (@{$self->{MORE_PLACES}}) { %>
-    
-        <% $more_places_counter++; %>
 
-        <% next if $more_places_counter == 1; %>
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $more_places->id < int($self->param('id')); %>
+	    
+	<% } %>
+	
+        <% $more_places_counter++; %>
         
-        <% if ($more_places_counter == 2) { %>
+        <% if ($more_places_counter == 1) { %>
         
         <h1 style="clear: both;">More Places</h1>
         
         <% } %>
         
-        <% if ($more_places_counter > 2) { %>
+        <% if ($more_places_counter > 1) { %>
         
         <hr />
         
@@ -105,7 +112,39 @@
 
         </div>
         
+        <% last if $more_places_counter == $more_places_length; %>
+        
     <% } %>
+
+    <h3>
+
+        <a href="javascript:history.go(-1)">Back</a>
+        
+        <div style="text-align: right; margin-top: -20px;">
+
+            <% my $next_place_counter; %>
+            
+            <% for (@{$self->{MORE_PLACES}}) { %>
+
+                <% my $next_place = @{$self->{MORE_PLACES}}->[$next_place_counter + $more_places_length]; %>
+                
+                <% $next_place_counter++; %>
+                
+                <% if ($self->param('id') == $_->id) { %>
+                
+                <a href="/play/places?id=<%= $next_place->id %>">Next</a>
+                
+                <% } elsif ((not $self->param('id')) and ($next_place_counter == $more_places_length)) { %>
+                
+                <a href="/play/places?id=<%= $next_place->id %>">Next</a>
+                
+                <% } %>
+                
+            <% } %>
+            
+        </div>
+    
+    </h3>
      
 </div>
 
@@ -131,7 +170,7 @@
 
                 <% for ( split /\s+/, $ad->photos ) { %>
 
-                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
 
                 <% last; # ONLY SHOW ONE %>
 

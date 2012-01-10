@@ -9,9 +9,11 @@
 
     <% for my $more (@{$self->{MORE}}) { %>
 
-        <% unless ($self->param('galleries')) { next if $more->types =~ m/ad/i }; %>
+        <% unless (($more->title eq '') or ($more->title =~ /^\s+$/g)) { %>
         
-        <h1 style="clear: both;">Feature</h1>
+        <h1><%= $more->title %></h1>
+
+        <% } %>
                 
         <% for ( split /\s+/, $more->photos ) { %>
 
@@ -22,58 +24,64 @@
         <% last; %>
 
         <% } %>
-
-        <% unless ($more->title eq '') { %>
-        
-        <h2><%= $more->title %></h2>
-
-        <% } %>
     
-        <% unless ($more->author eq '') { %>
+        <% unless (($more->author eq '') or ($more->author =~ /^\s+$/g)) { %>
         
         <h4>By <%= $more->author %></h4>
         
         <% } %>
         
-        <% unless ($more->body eq '') { %>
+        <% unless (($more->body eq '') or ($more->body =~ /^\s+$/g)) { %>
         
         <p><%== $more->body; %></p>
 
         <% } %>
 
-        <% unless ($more->venue eq '') { %>
+        <% unless (($more->start_datetime eq '') and ($more->stop_datetime eq '')) { %>
         
-        <p>Venue: <%= $more->venue %></p>
+        <h4>Date</h4>
+        
+        <% my $start_date = $more->start_datetime; %>
+        
+        Starts on <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
+        
+        <br />
+
+        <% my $stop_date = $more->stop_datetime; %>
+        
+        Ends on <%= $stop_date->day_name %>, <%= $stop_date->month_name %> <%= $stop_date->day %>
+        
+        <% } %>
+
+        <% unless (($more->venue eq '') or ($more->venue =~ /^\s+$/)) { %>
+        
+        <h4>Venue</h4>
+        
+        <%= $more->venue %>
         
         <% } %>
         
-        <% unless ($more->address eq '') { %>
+        <% unless (($more->address eq '') or ($more->address =~ /^\s+$/g)) { %>
         
-        <p>Address: <%= $more->address %></p>
+        <h4>Address</h4>
+        
+        <%= $more->address %>
         
         <% } %>
 
         <% unless (($more->lat <= 1) and ($more->lng <= 1)) { %>
         
-        <p>Map: <%= $more->lat %>,<%= $more->lng %></p>
+        <h4>
+            <a href="http://maps.google.com/maps?q=<%= $more->lat %>,<%= $more->lng %>" target="_blank">View Map</a>
+        </h4>
         
         <% } %>
 
-        <% unless ($more->link eq '') { %>
+        <% unless (($more->link eq '') or ($more->link =~ /^\s+$/g)) { %>
         
-        <p>Link: <%= $more->link %></p>
-        
-        <% } %>
-
-        <% unless ($more->start_datetime eq '') { %>
-        
-        <p>Starts: <%= $more->start_datetime->datetime %></p>
-        
-        <% } %>
-
-        <% unless ($more->stop_datetime eq '') { %>
-        
-        <p>Stops: <%= $more->stop_datetime->datetime %></p>
+        <h4>
+            <a href="<%= $more->link %>" target="_blank">View Website</a>
+        </h4>
         
         <% } %>
 
@@ -132,7 +140,7 @@
 
 <div class="content_right">
 
-    <h1>Example</h1>
+    <h1>More Info</h1>
 
     <% for (1...5) { %>
 
@@ -140,12 +148,37 @@
 
     <% } %>
 
-    <h1>Example</h1>
+    <h1>More Something</h1>
 
     <% for (1...5) { %>
 
     <p>Some stuff goes here</p>
 
     <% } %>
+
+    <div class="ad_space_block">
+
+        <script type="text/javascript">//<![CDATA[
+        
+            var block_ads = new Array();
+
+            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+
+                <% for ( split /\s+/, $ad->photos ) { %>
+
+                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+
+                <% last; # ONLY SHOW ONE %>
+
+                <% } %>
+
+            <% } %>
+            
+            var random = Math.floor(Math.random() * block_ads.length);
+            document.write(block_ads[random]);
+
+        //]]></script>
+        
+    </div>
 
 </div>

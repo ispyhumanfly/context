@@ -118,7 +118,7 @@
     
     <% for ( split /\s+/, $press->photos ) { %>
 
-    <a title="<%= $press->title %>" href="<%= $press->link %>">
+    <a title="<%= $press->title %>" href="<%= $press->link %>" target="_blank">
         <img class="position_image_left" src="<%= $_ %>" />
     </a>
 
@@ -132,12 +132,12 @@
 
         <% if ( $self->session('admin') ) { %>
 
-        <a href="/more?id=<%= $press->link %>">Read More |</a>
+        <a href="<%= $press->link %>" target="_blank">Read More |</a>
         <a href="/cpanel/content/form?mode=update&id=<%= $press->id %>">Edit</a>        
     
         <% } else { %>
     
-        <a href="<%= $press->link %>">Read More...</a>
+        <a href="<%= $press->link %>" target="_blank">Read More...</a>
         
         <% } %>
 

@@ -1,18 +1,28 @@
 % title 'Play';
 % layout 'default';
+%
+% my $past_articles_length = 3;
 
 <script type="text/javascript">//<![CDATA[
 
 //]]></script>
 
 <div class="content_left">
-
-    <% for my $features (@{$self->{FEATURES}}) { %>
-
-        <% unless ($self->param('galleries')) { next if $features->types =~ m/ad|gallery/i }; %>
-        
-        <h1><%= $features->title %></h1>
     
+    <h1>People</h1>
+    
+    <% for my $features (@{$self->{FEATURES}}) { %>
+    
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $features->id == int($self->param('id')); %>
+	    
+	<% } else { %>
+	
+	<% next unless $features->id == @{$self->{FEATURES}}->[0]->id; %>
+	
+	<% } %>
+	
 	<% for ( split /\s+/, $features->photos ) { %>
 
 	<a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
@@ -22,7 +32,9 @@
 	<% last; %>
 
 	<% } %>
-	
+
+	<h2><%= $features->title %></h2>
+
 	<h4>By <%= $features->author %></h4>
 	
 	<%== $features->body %>
@@ -62,37 +74,71 @@
         </span>
 
 	<h3>
-		    
-	    <% if ( $self->session('admin') ) { %>
+	    
+	    <% if ($self->session('admin')) { %>
     
 	    <a href="javascript:history.go(-1)">Back | </a>
-	    <a href="/cpanel/content/form?mode=update&id=<%= $features->id %>" style="margin-left; 10px;">Edit</a>        
-	    
+	    <a href="/cpanel/content/form?mode=update&id=<%= $features->id %>" style="margin-left; 10px;">Edit</a>
+    	    
 	    <% } else { %>
     
 	    <a href="javascript:history.go(-1)">Back</a>
 	    
 	    <% } %>
+
+	    <div style="text-align: right; margin-top: -20px;">
+
+		<% my $next_feature_counter; %>
+		
+	    	<% for (@{$self->{FEATURES}}) { %>
+
+		    <% $next_feature_counter++; %>
+		    
+		    <% if ($self->param('id')) { %>
+		    
+		    <% next unless $_->id < int($self->param('id')); %>
+			
+		    <% } %>
+		
+		    <a href="/play/features?id=<%= $_->id %>">Next</a>
+		    
+		    <% last; %>
+		    
+		<% } %>
+		
+	    </div>
 	
 	</h3>
-        
+    	
     <% } %>
 
 </div>
 
 <div class="content_right">
 
-    <a href="/photos"><h1>Past Articles</h1></a>
+    <h1>More People</h1>
 
     <div class="content_right_padding">
-        
-    <% for my $past_articles (@{$self->{PAST_ARTICLES}}) { %>
     
-	<% next if $past_articles->types =~ m/ad/i; %>
+    <% my $past_articles_counter; %>
+    
+    <% for my $past_articles (@{$self->{FEATURES}}) { %>
 
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $past_articles->id < int($self->param('id')); %>
+	    
+	<% } else { %>
+	
+	<% next if $past_articles->id == @{$self->{FEATURES}}->[0]->id; %>
+
+	<% } %>
+	
+	<% $past_articles_counter++; %>
+	
 	<% for ( split /\s+/, $past_articles->photos ) { %>
 	
-	<a dojoType="dojox.image.Lightbox" group="block_photos" title="<%= $past_articles->title %>" href="<%= $_ %>">
+	<a title="<%= $past_articles->title %>" href="/play/features?id=<%= $past_articles->id %>">
 	    <img class="block_thumbnails_right" src="<%= $_ %>"/>
 	</a>
 	
@@ -100,25 +146,27 @@
 	
 	<% } %>
 	
-	<h4><%= $past_articles->title %></h4>
+	<div class="block_title"><a href="/play/features?id=<%= $past_articles->id %>"><%= $past_articles->title %></a></div>
 	
-	<p><%== HTML::FormatText->format_string(substr( $past_articles->body, 0, 75 )) . '...' %><p>
+	<div class="block_text"><%== substr( HTML::FormatText->format_string($past_articles->body), 0, 75 ) . '...' %></div>
 	
         <div class="read_more_left">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/more?id=<%= $past_articles->id %>">Read More |</a>
+            <a href="/play/features?id=<%= $past_articles->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $past_articles->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $past_articles->id %>">Read More...</a>
+            <a href="/play/features?id=<%= $past_articles->id %>">Read More...</a>
             
             <% } %>
 
         </div>
-	    
+	
+	<% last if $past_articles_counter == $past_articles_length; %>
+	
 	<hr />
     
     <% } %>
@@ -133,7 +181,7 @@
     
                     <% for ( split /\s+/, $ad->photos ) { %>
     
-                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
     
                     <% last; # ONLY SHOW ONE %>
     

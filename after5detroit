@@ -41,8 +41,8 @@ get '/home' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -72,10 +72,12 @@ get '/home' => sub {
     $self->{'LIVE'} = \@live;
 
     # Work
-    my @work =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%home%'}, tags => {like => '%professional_group%'}},
-        {order_by => 'id DESC'})->all;
+    my @work = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%home%'},
+            tags  => {like => '%professional_group%'}
+        },
+        {order_by => 'id DESC'}
+    )->all;
 
     $self->{'WORK'} = \@work;
 
@@ -152,8 +154,8 @@ get '/live/birmingham' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%live%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -209,8 +211,8 @@ get '/live/detroit' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%live%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -266,8 +268,8 @@ get '/live/ferndale' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%live%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -323,8 +325,8 @@ get '/live/royal_oak' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%live%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -391,6 +393,8 @@ get '/work/careers' => sub {
       ->search(
         {pages => {like => '%work%'}, types => {like => '%ad_header%'}})->all;
 
+    return $self->render('work_careers');
+
 } => 'work_careers';
 
 get '/work/professional_development' => sub {
@@ -402,6 +406,8 @@ get '/work/professional_development' => sub {
       $MODEL->resultset('Content')
       ->search(
         {pages => {like => '%work%'}, types => {like => '%ad_header%'}})->all;
+
+    return $self->render('work_professional_development');
 
 } => 'work_professional_development';
 
@@ -420,8 +426,8 @@ get '/play' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -482,26 +488,21 @@ get '/play/features' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Features
+    # Features / More Features
     my @features = $MODEL->resultset('Content')->search(
-        {types => {like => '%article%'}, tags => {like => '%people%'}},
-        {page => 1, rows => 3, order_by => 'id DESC'},
+        {   pages => {like => '%play%'},
+            types => {like => '%article%'},
+            tags  => {like => '%people%'}
+        },
+        {page => 1, rows => 50, order_by => 'id DESC'},
     )->all;
 
     $self->{'FEATURES'} = \@features;
-
-    # Past Articles
-    my @past_articles = $MODEL->resultset('Content')->search(
-        {types => {like => '%article%'}, tags => {like => '%people%'}},
-        {page => 2, rows => 3, order_by => 'id DESC'},
-    )->all;
-
-    $self->{'PAST_ARTICLES'} = \@past_articles;
 
     return $self->render('play_features');
 
@@ -522,8 +523,8 @@ get '/play/places' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -536,9 +537,10 @@ get '/play/places' => sub {
     $self->{'TRY_THIS'} = \@try_this;
 
     # More Places
-    my @more_places =
-      $MODEL->resultset('Content')
-      ->search({types => {like => '%place%'}}, {order_by => 'id DESC'},)->all;
+    my @more_places = $MODEL->resultset('Content')->search(
+        {pages    => {like => '%play%'}, types => {like => '%place%'}},
+        {order_by => 'id DESC'},
+    )->all;
 
     $self->{'MORE_PLACES'} = \@more_places;
 
@@ -561,15 +563,15 @@ get '/play/buzz' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # The Buzz
+    # The Buzz / More Buzz
     my @the_buzz = $MODEL->resultset('Content')->search(
-        {tags => {like => '%the_buzz%'}},
-        {page => 1, rows => 3, order_by => 'id DESC'},
+        {types => {like => '%article%'}, tags => {like => '%the_buzz%'}},
+        {page => 1, rows => 50, order_by => 'id DESC'},
     )->all;
 
     $self->{'THE_BUZZ'} = \@the_buzz;
@@ -601,8 +603,8 @@ get '/play/events' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -618,7 +620,8 @@ get '/play/events' => sub {
     # Upcoming Events
     my @upcoming_events =
       $MODEL->resultset('Content')
-      ->search({types => {like => '%event%'}}, {order_by => 'id DESC'})->all;
+      ->search({pages => {like => '%play%'}, types => {like => '%event%'}},
+        {order_by => 'id DESC'})->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
 
@@ -640,8 +643,8 @@ get '/photos' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -672,8 +675,8 @@ get '/about' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_block%'}})->all;
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -718,10 +721,30 @@ get '/about/newsletter' => sub {
 any '/search' => sub {
 
     my $self = shift;
-    $self->{'MODEL'} = $MODEL;
 
-    # Ad Content
-    $self->{'ad_content'} = 'search';
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%search%'}, types => {like => '%ad_header%'}},
+        {order_by => 'id DESC'})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%search%'}, types => {like => '%ad_block%'}})
+      ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
+
+    # Search Results
+    my @search_results =
+      $MODEL->resultset('Content')->search({}, {order_by => 'id DESC'})->all;
+
+    $self->{'SEARCH_RESULTS'} = \@search_results;
 
     return $self->render('search');
 
@@ -741,6 +764,14 @@ any '/more' => sub {
         {order_by => 'id DESC'})->all;
 
     $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
 
     if ($self->param('id')) {
 
@@ -786,19 +817,17 @@ get '/cpanel' => sub {
 
     my $self = shift;
 
-    # Ad Content
-    $self->{'ad_content'} = '';    # Setting this blank...
-
-    # Content
+    # Home
     my @content =
-      $MODEL->resultset('Content')->search({}, {order_by => 'id DESC'})->all;
+      $MODEL->resultset('Content')
+      ->search({}, {page => 1, rows => 1000, order_by => 'id DESC'})->all;
     $self->{'CONTENT'} = \@content;
 
     # Quick Edits
     my @quick_edits =
       $MODEL->resultset('Content')
       ->search({},
-        {page => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
+        {page => 1, rows => 10, order_by => 'modified_datetime DESC'})->all;
     $self->{'QUICK_EDITS'} = \@quick_edits;
 
     # Settings
@@ -967,8 +996,7 @@ any '/cpanel/content/create' => sub {
       ->update({photos => "@photos"})
       if scalar @photos >= 1;
 
-    $self->redirect_to(
-        '/cpanel/content/more?id=' . $new_content->id);
+    $self->redirect_to('/more?id=' . $new_content->id);
 
 };
 
@@ -1098,7 +1126,7 @@ any '/cpanel/content/update' => sub {
 
         for (my $i = 0; $i <= scalar @photos; $i++) {
 
-            delete $photos[$i] if $photos[$i] =~ m/^$default/i;
+            undef $photos[$i] if $photos[$i] =~ m/^$default/i;
         }
 
         unshift @photos, $default;
@@ -1115,10 +1143,38 @@ any '/cpanel/content/update' => sub {
     $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->update({modified_datetime => DateTime->now});
 
-
     my $id = $self->param('id');
     $self->redirect_to("/more?id=$id");
 
+
+};
+
+any '/cpanel/photo/remove' => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('cpanel') unless $self->session('admin');
+
+    my $photo_madness =
+      $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->single;
+
+    my @photos = split /\s+/, $photo_madness->photos;
+
+    my $path = $self->param('photo');
+
+    for (my $i = 0; $i < scalar @photos; $i++) {
+
+        if ($photos[$i] =~ m/^$path/x) {
+
+            undef $photos[$i] and unlink "public/$path";
+
+        }
+    }
+
+    $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->update({photos => "@photos"})
+      if scalar @photos >= 1;
 
 };
 
@@ -1128,45 +1184,17 @@ any '/cpanel/content/remove' => sub {
 
     return $self->redirect_to('cpanel') unless $self->session('admin');
 
-    try {
+    my $content =
+      $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->single;
 
-        my $content =
-          $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->single;
-          
-        my @content_photos = split /\s+/, $content->photos;
+    my @content_photos = split /\s+/, $content->photos;
 
-        unlink "public$_" for @content_photos;
+    unlink "public/$_" for @content_photos;
 
-        $content->delete;
-    }
+    $content->delete;
 
-    finally {
-
-        $self->redirect_to('cpanel');
-    }
-
-    #if ($self->param('photo')) {
-    #
-    #    my $photo_madness =
-    #      $MODEL->resultset('Content')->search({id => $self->param('id')})
-    #      ->single;
-    #
-    #    my @photos = split /\s+/, $photo_madness->photos;
-    #
-    #    my $checksum = $self->param('photo');
-    #
-    #    for (my $i = 0; $i <= scalar @photos; $i++) {
-    #
-    #        delete $photos[$i] if $photos[$i] =~ m/^$checksum/i
-    #            and unlink "public/photos/$checksum";
-    #    }
-    #
-    #   $MODEL->resultset('Content')->search({id => $self->param('id')})
-    #      ->update({photos => "@photos"})
-    #      if scalar @photos >= 1;
-    #
-    #}
+    return $self->redirect_to('cpanel');
 
 };
 
@@ -1253,7 +1281,7 @@ sub process_photo {
 
     my ($upload, $id) = @_;
 
-    my (@new_photos, @existing_photos, @processed_photos);
+    my (@new_photos, @existing_photos);
 
     if ($upload->filename =~ m/zip$/i) {
 
@@ -1268,13 +1296,14 @@ sub process_photo {
 
             for (@{$archive->files}) {
 
-                my $checksum = Mojo::Util::md5_sum($_);
-                my $path     = "/photos/$checksum.img";
+                unless (-d "/tmp/$_") {
 
-                move "/tmp/$_", "public/$path"
-                  unless -d "/tmp/$_";
+                    my $checksum = Mojo::Util::md5_sum($_);
+                    my $path     = "/photos/$checksum.img";
 
-                push @new_photos, $path;
+                    move "/tmp/$_", "public/$path"
+                      and push @new_photos, $path;
+                }
             }
         }
     }
@@ -1288,17 +1317,29 @@ sub process_photo {
         push @new_photos, $path;
     }
 
-    my $content = $MODEL->resultset('Content')->search({id => $id})->single;
-    @existing_photos = split /\s+/, $content->photos;
+    # For now not taking into account existing photos...
 
-    for my $new (@new_photos) {
+    #my $content = $MODEL->resultset('Content')->search({id => $id})->single;
+    #
+    #unless ($content->photos eq '') {
+    #
+    #    @existing_photos = split /\s+/, $content->photos;
+    #
+    #    for (my $i = 0; $i < scalar @existing_photos; $i++) {
+    #
+    #        for my $new (@new_photos) {
+    #
+    #            if ($existing_photos[$i] eq $new) {
+    #                undef $existing_photos[$i];
+    #            }
+    #
+    #        }
+    #    }
+    #
+    #    push @new_photos, @existing_photos;
+    #}
 
-        next if -e "public/photos/$new";
-        push @processed_photos, $new;
-    }
-
-    push @processed_photos, @existing_photos;
-    return @processed_photos;
+    return @new_photos;
 
 }
 

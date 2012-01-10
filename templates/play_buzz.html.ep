@@ -1,42 +1,51 @@
 % title 'Play';
 % layout 'default';
+%
+% my $more_buzz_length = 3;
 
 <script type="text/javascript">//<![CDATA[
 
 //]]></script>
 
 <div class="content_left">
-
+    
+    <h1>Articles</h1>
+    
     <% for my $the_buzz (@{$self->{THE_BUZZ}}) { %>
+    
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $the_buzz->id == int($self->param('id')); %>
+	    
+	<% } else { %>
+	
+	<% next unless $the_buzz->id == @{$self->{THE_BUZZ}}->[0]->id; %>
+	
+	<% } %>
+	
+	<% for ( split /\s+/, $the_buzz->photos ) { %>
 
-        <% unless ($self->param('galleries')) { next if $the_buzz->types =~ m/ad|gallery/i }; %>
-        
-        <h1><%= $the_buzz->title %></h1>
-        
-        <p>
-            
-            <% for ( split /\s+/, $the_buzz->photos ) { %>
+	<a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+	    <img class="para_image_right" src="<%= $_ %>" />
+	</a>
 
-            <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
-		<img class="para_image_right" src="<%= $_ %>" />
-	    </a>
+	<% last; %>
 
-            <% last; %>
+	<% } %>
 
-            <% } %>
-            
-            <span class="author">
-                By <%= $the_buzz->author %>
-            </span>
-            
-            <br />
-            <br />
-            
-            <%== $the_buzz->body %>
+	<h2><%= $the_buzz->title %></h2>
 
-        </p>
-        
+	<h4>By <%= $the_buzz->author %></h4>
+	
+	<%== $the_buzz->body %>
+
+	<% my $thumbmail_counter; %>
+
         <% for ( split /\s+/, $the_buzz->photos ) { %>
+
+            <% $thumbmail_counter++; %>
+
+            <% next if $thumbmail_counter == 1; %>
 
             <a dojoType="dojox.image.Lightbox" group="<%= $the_buzz->id %>" href="<%= $_ %>">
 		<img class="more_thumbnails_left" src="<%= $_ %>" />
@@ -63,54 +72,104 @@
             </a>
             
         </span>
-        
-    <% } %>
 
-    <h3><a href="/play">Back to Play</a></h3>
+	<h3>
+	    
+	    <% if ($self->session('admin')) { %>
+    
+	    <a href="javascript:history.go(-1)">Back | </a>
+	    <a href="/cpanel/content/form?mode=update&id=<%= $the_buzz->id %>" style="margin-left; 10px;">Edit</a>
+    	    
+	    <% } else { %>
+    
+	    <a href="javascript:history.go(-1)">Back</a>
+	    
+	    <% } %>
+
+	    <div style="text-align: right; margin-top: -20px;">
+
+		<% my $next_buzz_counter; %>
+		
+	    	<% for (@{$self->{THE_BUZZ}}) { %>
+
+		    <% $next_buzz_counter++; %>
+		    
+		    <% if ($self->param('id')) { %>
+		    
+		    <% next unless $_->id < int($self->param('id')); %>
+			
+		    <% } %>
+		
+		    <a href="/play/buzz?id=<%= $_->id %>">Next</a>
+		    
+		    <% last; %>
+		    
+		<% } %>
+		
+	    </div>
+	
+	</h3>
+    	
+    <% } %>
 
 </div>
 
 <div class="content_right">
 
-    <a href="/photos"><h1>More Buzz</h1></a>
+    <h1>More Articles</h1>
 
     <div class="content_right_padding">
-        
-        <% my $more_buzz_counter; %>
-        
-        <% for my $more_buzz (@{$self->{MORE_BUZZ}}) { %>
-        
-            <% $more_buzz_counter++; %>
-            
-	    <% next if $more_buzz_counter == 1; %>
+    
+    <% my $more_buzz_counter; %>
+    
+    <% for my $more_buzz (@{$self->{THE_BUZZ}}) { %>
+
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $more_buzz->id < int($self->param('id')); %>
 	    
-            <% next if $more_buzz_counter > 3; %>
+	<% } else { %>
+	
+	<% next if $more_buzz->id == @{$self->{THE_BUZZ}}->[0]->id; %>
+
+	<% } %>
+	
+	<% $more_buzz_counter++; %>
+	
+	<% for ( split /\s+/, $more_buzz->photos ) { %>
+	
+	<a title="<%= $more_buzz->title %>" href="/play/buzz?id=<%= $more_buzz->id %>">
+	    <img class="block_thumbnails_right" src="<%= $_ %>"/>
+	</a>
+	
+	<% last; #JUST SHOW ONE %>
+	
+	<% } %>
+	
+	<div class="block_title"><a href="/play/buzz?id=<%= $more_buzz->id %>"><%= $more_buzz->title %></a></div>
+	
+	<div class="block_text"><%== substr( HTML::FormatText->format_string($more_buzz->body), 0, 75 ) . '...' %></div>
+	
+        <div class="read_more_left">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/play/buzz?id=<%= $more_buzz->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $more_buzz->id %>">Edit</a>        
         
-            <% next if $more_buzz->types =~ m/ad/i; %>
-    
-            <% for ( split /\s+/, $more_buzz->photos ) { %>
-            
-            <a dojoType="dojox.image.Lightbox" group="block_photos" title="<%= $more_buzz->title %>" href="<%= $_ %>">
-                <img class="block_thumbnails_right" src="<%= $_ %>"/>
-            </a>
-            
-            <% last; #JUST SHOW ONE %>
+            <% } else { %>
+        
+            <a href="/play/buzz?id=<%= $more_buzz->id %>">Read More...</a>
             
             <% } %>
-            
-            <p><%== HTML::FormatText->format_string(substr( $more_buzz->body, 0, 75 )) . '...' %><p>
-            
-            <div class="read_more_left">
-                <a href="/more?id=<%= $more_buzz->id %>&back=home">Read More...</a>
-            </div>
+
+        </div>
+	
+	<% last if $more_buzz_counter == $more_buzz_length; %>
+	
+	<hr />
     
-            <% if ($more_buzz_counter < 3) { %>
-            
-            <hr />
-            
-            <% } %>
-        
-        <% } %>
+    <% } %>
 
         <div class="ad_space_block">
     
@@ -122,7 +181,7 @@
     
                     <% for ( split /\s+/, $ad->photos ) { %>
     
-                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
     
                     <% last; # ONLY SHOW ONE %>
     

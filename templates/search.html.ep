@@ -1,10 +1,5 @@
 % title 'Search';
 % layout 'default';
-%
-% my $string  = $self->param('string')
-%    if $self->param('string');
-%
-% my @content = $self->{MODEL}->resultset('Content')->all;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -15,45 +10,95 @@
 <div class="content_left">
 
     <h1>Search Results</h1>
+    
+    <% for my $result (@{$self->{SEARCH_RESULTS}}) { %>
+        
+        <% if ($self->param('pages')) { %>
+        
+        <% my $pages = $self->param('pages'); %>
+        
+        <% next unless ($result->pages =~ m/$pages/i); %>
+        
+        <% } %>
+        
+        <% if ($self->param('cities')) { %>
+        
+        <% my $cities = $self->param('cities'); %>
+        
+        <% next unless ($result->cities =~ m/$cities/i); %>
+        
+        <% } %>
 
-    <% for (@content) { %>
+        <% if ($self->param('interests')) { %>
         
-        <% next unless ($_->title =~ m/$string/i or $_->body =~ m/$string/i); %>
+        <% my $interests = $self->param('interests'); %>
         
-        <h2><a href="/more?id=<%= $_->id%>"><%= $_->title %></a></h2>
+        <% next unless ($result->interests =~ m/$interests/i); %>
+        
+        <% } %>
 
-        <% for ( split /\s+/, $_->photos ) { %>
+        <% if ($self->param('tags')) { %>
         
-        <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+        <% my $tags = $self->param('tags'); %>
+        
+        <% next unless ($result->tags =~ m/$tags/i); %>
+        
+        <% } %>
+
+        <% if ($self->param('types')) { %>
+        
+        <% my $types = $self->param('types'); %>
+        
+        <% next unless ($result->types =~ m/$types/i); %>
+        
+        <% } %>
+
+        <% if ($self->param('string')) { %>
+
+        <% my $string = $self->param('string'); %>
+        
+        <% next unless (($result->title =~ m/$string/i) or ($result->body =~ m/$string/i)); %>
+
+        <% } %>
+        
+        <h2><a href="/more?id=<%= $result->id%>"><%= $result->title %></a></h2>
+
+        <% for ( split /\s+/, $result->photos ) { %>
+        
+        <a title="<%= $result->title %>" href="/more?id=<%= $result->id %>">
             <img class="para_image_left_search" src="<%= $_ %>" />
         </a>
         
         <% last; %>
         
         <% } %>
-            
-        <p><%= HTML::FormatText->format_string(substr( $_->body, 0, 300 )) . '...' %></p>
+        
+        <% if ($result->body ne '') { %>
+        
+        <p><%= substr( HTML::FormatText->format_string($result->body), 0, 200 ) . '...' %></p>
     
+        <% } %>
+        
         <div class="read_more_right">
             
-        <% if ( $self->session('admin') ) { %>
-
-        <a href="/more?id=<%= $_->id %>">Read More |</a>
-        <a href="/cpanel/content/form?mode=update&id=<%= $_->id %>">Edit</a>        
+            <% if ( $self->session('admin') ) { %>
     
-        <% } else { %>
-    
-        <a href="/more?id=<%= $_->id %>">Read More...</a>
+            <a href="/more?id=<%= $result->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $result->id %>">Edit</a>        
         
-        <% } %>
+            <% } else { %>
+        
+            <a href="/more?id=<%= $result->id %>">Read More...</a>
+            
+            <% } %>
         
         </div>
         
-        <hr />
+        <div class="content_spacer"></div>
         
     <% } %>
 
-    <h3><a href="/<%= $self->param('back') %>">Back</a></h3>
+    <h3><a href="javascript:history.go(-1)">Back</a></h3>
 
 </div>
 
@@ -63,13 +108,13 @@
 
     <p>Search below for your perfect night out or new favorite hotspot.</p>
     
-    <div dojoType="dijit.form.Form" class="search_places_right" encType="multipart/form-data" action="/search?back=home" method="POST">
+    <div dojoType="dijit.form.Form" class="search_places_right" encType="multipart/form-data" action="/search" method="POST">
 
         <p>
             
-            <label>City</label>
+            <label>Cities</label>
             
-            <select dojoType="dijit.form.Select" name="city" style="width: 150px;">
+            <select dojoType="dijit.form.Select" name="cities" style="width: 150px;">
                 
                 <option value="birmingham">
                     Birmingham
@@ -89,9 +134,9 @@
         
         <p>
                 
-            <label>Interest</label>
+            <label>Interests</label>
             
-            <select dojoType="dijit.form.Select" name="interest" style="width: 150px;">
+            <select dojoType="dijit.form.Select" name="interests" style="width: 150px;">
                 
                 <option value="dining">
                     Dining
