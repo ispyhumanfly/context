@@ -8,7 +8,7 @@ After5Detroit
 
 =head1 SYNOPSIS
 
-	./after5detroit daemon
+    ./after5detroit daemon
 
 =head1 DESCRIPTION
 
