@@ -37,7 +37,7 @@
 
         <% if ($home->pages =~ m/home/i ) { %>
         
-        <% next if $home->types =~ m/ad_header|ad_block/i; %>
+        <% next if $home->types =~ m/ad_header|ad_block|gallery/i; %>
         
         <% $home_counter++; %>
         
@@ -92,7 +92,7 @@
 
         <% if ($live->pages =~ m/live/i ) { %>
         
-        <% next if $live->types =~ m/ad_header|ad_block/i; %>
+        <% next if $live->types =~ m/ad_header|ad_block|gallery/i; %>
 
         <% $live_counter++; %>
 
@@ -147,7 +147,7 @@
 
         <% if ($work->pages =~ m/work/i ) { %>
         
-        <% next if $work->types =~ m/ad_header|ad_block/i; %>
+        <% next if $work->types =~ m/ad_header|ad_block|gallery/i; %>
         
         <% $work_counter++; %>
         
@@ -202,7 +202,7 @@
 
         <% if ($play->pages =~ m/play/i ) { %>
 
-        <% next if $play->types =~ m/ad_header|ad_block/i; %>
+        <% next if $play->types =~ m/ad_header|ad_block|gallery/i; %>
         
         <% $play_counter++; %>
 
@@ -312,7 +312,7 @@
 
         <% if ($about->pages =~ m/about/i ) { %>
         
-        <% next if $about->types =~ m/ad_header|ad_block/i; %>
+        <% next if $about->types =~ m/ad_header|ad_block|gallery/i; %>
         
         <% $about_counter++; %>
 
@@ -408,7 +408,11 @@
             
             <div class="block_text">
                 
+                <% if ($recent_updates->body ne '') { %>
+                
                 <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %> ... 
+                
+                <% } %>
                 
             </div>
             
