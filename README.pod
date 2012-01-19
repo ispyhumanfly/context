@@ -16,9 +16,9 @@ The source code for after5detroit.com
 
 =head2 CPAN Modules
 
-    Modern::Perl Mojolicious::Lite DBIx::Class::Candy SQL::Translator 
-    DateTime::Format::SQLite DateTime::Format::ISO8601 Crypt::SaltedHash 
-    Try::Tiny HTML::FormatText REST::Google::Search
+Modern::Perl Mojolicious::Lite DBIx::Class::Candy SQL::Translator 
+DateTime::Format::SQLite DateTime::Format::ISO8601 Crypt::SaltedHash 
+Try::Tiny HTML::FormatText REST::Google::Search
 
 =head1 BUGS
 
