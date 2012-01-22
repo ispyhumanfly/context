@@ -1295,11 +1295,15 @@ sub process_photo {
 
                 unless (-d "/tmp/$_") {
 
-                    my $checksum = Mojo::Util::md5_sum($_);
-                    my $path     = "/photos/$checksum.img";
-
-                    move "/tmp/$_", "public/$path"
-                      and push @new_photos, $path;
+                    if ($_ =~ m/jpg|png|gif$/i) {
+                            
+                        my $checksum = Mojo::Util::md5_sum($_);
+                        my $path     = "/photos/$checksum.img";
+    
+                        move "/tmp/$_", "public/$path"
+                          and push @new_photos, $path;
+                          
+                    }
                 }
             }
         }
