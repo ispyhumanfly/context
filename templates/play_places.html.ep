@@ -25,7 +25,7 @@
 
         <% } %>
 
-        <h2><a href="/more?id=<%= $try_this->id %>"><%= $try_this->title %></a></h3>
+        <h2><a href="/<%= $try_this->id %>"><%= $try_this->title %></a></h3>
 
 	<p class="para_text_right"><%== HTML::FormatText->format_string($try_this->body) %></p>
         
@@ -33,12 +33,12 @@
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/more?id=<%= $try_this->id %>">Read More |</a>
+            <a href="/<%= $try_this->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $try_this->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $try_this->id %>">Read More...</a>
+            <a href="/<%= $try_this->id %>">Read More...</a>
             
             <% } %>
 
@@ -93,7 +93,7 @@
 
         <% } %>
 
-        <h2><a href="/more?id=<%= $more_places->id %>"><%= $more_places->title %></a></h2>
+        <h2><a href="/<%= $more_places->id %>"><%= $more_places->title %></a></h2>
     
         <p><%== HTML::FormatText->format_string($more_places->body) %></p>
     
@@ -101,12 +101,12 @@
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/more?id=<%= $more_places->id %>">Read More |</a>
+            <a href="/<%= $more_places->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $more_places->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $more_places->id %>">Read More...</a>
+            <a href="/<%= $more_places->id %>">Read More...</a>
             
             <% } %>
 

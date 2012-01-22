@@ -7,13 +7,13 @@
 
 <div class="content_left">
 
-    <% for my $features (@{$self->{FEATURES}}) { %>
+    <% for my $people (@{$self->{FEATURES}}) { %>
 
-        <% next if $features->types =~ m/ad|gallery|event/i; %>
+        <% next if $people->types =~ m/ad|gallery|event/i; %>
         
-	<% for ( split /\s+/, $features->photos ) { %>
+	<% for ( split /\s+/, $people->photos ) { %>
 
-	<a title="<%= $features->title %>" href="/play/features?id=<%= $features->id %>">
+	<a title="<%= $people->title %>" href="/play/people?id=<%= $people->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -21,22 +21,22 @@
 
         <% } %>
 
-	<div class="h1_spacer"><a href="/play/features"><h1>People</h1></a></div>
+	<div class="h1_spacer"><a href="/play/people"><h1>People</h1></a></div>
 
-	<h2><a href="/play/features?id=<%= $features->id %>"><%= $features->title %></a></h2>
+	<h2><a href="/play/people?id=<%= $people->id %>"><%= $people->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($features->body), 0, 700 ) . '...' %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($people->body), 0, 700 ) . '...' %></p>
 
         <div class="read_more_right">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/play/features?id=<%= $features->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $features->id %>">Edit</a>        
+            <a href="/play/people?id=<%= $people->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $people->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/play/features?id=<%= $features->id %>">Read More...</a>
+            <a href="/play/people?id=<%= $people->id %>">Read More...</a>
             
             <% } %>
 
@@ -64,7 +64,7 @@
 
 	<div class="h1_spacer"><a href="/play/places"><h1>Places</h1></a></div>
 
-	<h2><a href="/more?id=<%= $places->id %>"><%= $places->title %></a></h2>
+	<h2><a href="/<%= $places->id %>"><%= $places->title %></a></h2>
 
 	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($places->body), 0, 500 ) . '...' %></p>
 
@@ -72,12 +72,12 @@
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/more?id=<%= $places->id %>">Read More |</a>
+            <a href="/<%= $places->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $places->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $places->id %>">Read More...</a>
+            <a href="/<%= $places->id %>">Read More...</a>
             
             <% } %>
 
@@ -89,11 +89,11 @@
 
     <h3><a href="/search?types=place">More Places</a></h3>
     
-    <% for my $buzz (@{$self->{BUZZ}}) { %>
+    <% for my $articles (@{$self->{BUZZ}}) { %>
         
-	<% for ( split /\s+/, $buzz->photos ) { %>
+	<% for ( split /\s+/, $articles->photos ) { %>
 
-	<a title="<%= $buzz->title %>" href="/play/buzz?id=<%= $buzz->id %>">
+	<a title="<%= $articles->title %>" href="/play/articles?id=<%= $articles->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -101,22 +101,22 @@
 
         <% } %>
 
-	<div class="h1_spacer"><a href="/play/buzz"><h1>Articles</h1></a></div>
+	<div class="h1_spacer"><a href="/play/articles"><h1>Articles</h1></a></div>
 
-	<h2><a href="/play/buzz?id=<%= $buzz->id %>"><%= $buzz->title %></a></h2>
+	<h2><a href="/play/articles?id=<%= $articles->id %>"><%= $articles->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($buzz->body), 0, 500 ) . '...' %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($articles->body), 0, 500 ) . '...' %></p>
 
         <div class="read_more_right">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/play/buzz?id=<%= $buzz->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $buzz->id %>">Edit</a>        
+            <a href="/play/articles?id=<%= $articles->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $articles->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/play/buzz?id=<%= $buzz->id %>">Read More...</a>
+            <a href="/play/articles?id=<%= $articles->id %>">Read More...</a>
             
             <% } %>
 

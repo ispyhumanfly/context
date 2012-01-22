@@ -35,7 +35,7 @@
 
 	<% } %>
 
-	<h2><a href="/more?id=<%= $featured_lifestyle->id %>&back=home"><%= $featured_lifestyle->title %></a></h2>
+	<h2><a href="/<%= $featured_lifestyle->id %>&back=home"><%= $featured_lifestyle->title %></a></h2>
 
 	<p><%== substr( HTML::FormatText->format_string($featured_lifestyle->body), 0, 500 ) . '...' %></p>
 
@@ -43,12 +43,12 @@
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/more?id=<%= $featured_lifestyle->id %>">Read More |</a>
+            <a href="/<%= $featured_lifestyle->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $featured_lifestyle->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $featured_lifestyle->id %>">Read More...</a>
+            <a href="/<%= $featured_lifestyle->id %>">Read More...</a>
             
             <% } %>
 
@@ -72,7 +72,7 @@
 
         <% for ( split /\s+/, $neighbors->photos ) { %>
         
-        <a title="<%= $neighbors->title %>" href="/more?id=<%= $neighbors->id %>">
+        <a title="<%= $neighbors->title %>" href="/<%= $neighbors->id %>">
             <img class="block_thumbnails_right" src="<%= $_ %>"/>
         </a>
         
@@ -88,12 +88,12 @@
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/more?id=<%= $neighbors->id %>">Read More |</a>
+            <a href="/<%= $neighbors->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $neighbors->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $neighbors->id %>">Read More...</a>
+            <a href="/<%= $neighbors->id %>">Read More...</a>
             
             <% } %>
 

@@ -26,7 +26,7 @@
 
         <% } %>
 
-        <h2><a href="/more?id=#"><%= $featured_event->title %></a></h3>
+        <h2><a href="/#"><%= $featured_event->title %></a></h3>
 
         <p><%== $featured_event->body %></p>
         
@@ -73,12 +73,12 @@
 
         <% } %>
 
-        <h2><a href="/more?id=<%= $upcoming_events->id %>"><%= $upcoming_events->title %></a></h2>
+        <h2><a href="/<%= $upcoming_events->id %>"><%= $upcoming_events->title %></a></h2>
     
         <p><%== substr( $upcoming_events->body, 0, 100 ) . '...' %><p>
     
         <div class="read_more_right">
-            <a href="/more?id=<%= $upcoming_events->id %>">Read More...</a>
+            <a href="/<%= $upcoming_events->id %>">Read More...</a>
         </div>
         
         <p>Venue: <%= $upcoming_events->venue %> </p>

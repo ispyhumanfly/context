@@ -1,5 +1,6 @@
 % title 'Content Form';
 % layout 'default';
+% my $recent_update_length = 10;
 
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/TextColor.css" />
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/PasteFromWord.css" />
@@ -124,7 +125,7 @@
     
 	<h4>Upload Photos</h4>
 
-	<input type="file" name="photos" size="100000000000" />
+	<input type="file" name="photos" size="100000000000000000" />
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
 
@@ -157,7 +158,7 @@
 
 	<h4>Upload Photos</h4>
 	
-	<input type="file" name="photos" size="100000000000" />
+	<input type="file" name="photos" size="100000000000000000" />
 
 	<% } %>
 
@@ -781,7 +782,7 @@
 	
 	<button dojoType="dijit.form.Button" type="submit">Update</button>
 	<button dojoType="dijit.form.Button" onclick="window.location='/cpanel/content/remove?id=<%= $self->{CONTENT}->id %>'">Remove</button>
-	<button dojoType="dijit.form.Button" onclick="window.location='/more?id=<%= $self->{CONTENT}->id %>'">Show Content</button>
+	<button dojoType="dijit.form.Button" onclick="window.location='/<%= $self->{CONTENT}->id %>'">Show Content</button>
 	
 	<% } %>
 	    
@@ -791,18 +792,57 @@
 
 <div class="content_right">
 
-    <h1>Quick Edits</h1>
+    <h1>Recent Updates</h1>
 
     <div class="content_right_padding">
         
-        <% for my $quick_edits ( @{$self->{QUICK_EDITS}} ) { %>
+        <% my $recent_updates_counter; %>
+        
+        <% for my $recent_updates (@{$self->{QUICK_EDITS}}) { %>
+        
+            <% $recent_updates_counter++; %>
+            
+            <% next if $recent_updates_counter > $recent_update_length; %>
+        
+            <% for ( split /\s+/, $recent_updates->photos ) { %>
+            
+            <a title="<%= $recent_updates->title %>" href="/<%= $recent_updates->id %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+            <div class="block_title"><%= $recent_updates->title %></div>
+            
+            <div class="block_text">
+                
+                <% if ($recent_updates->body ne '') { %>
+                
+                <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %> ... 
+                
+                <% } %>
+                
+            </div>
+            
+            <div class="read_more_left">
     
-        <h4><a href="/cpanel/content/form?mode=update&id=<%= $quick_edits->id %>"><%= substr( $quick_edits->title, 0, 30 ) . '...' %></a></h4>
+                <a href="/<%= $recent_updates->id %>">Read More |</a>
+                <a href="/cpanel/content/form?mode=update&id=<%= $recent_updates->id %>">Edit</a>        
     
+            </div>
+    
+            <% if ($recent_updates_counter < $recent_update_length) { %>
+            
+            <hr />
+            
+            <% } %>
+        
         <% } %>
 
     </div>
-
+    
     <h1>Documentation</h1>
 
     <div class="content_right_padding">

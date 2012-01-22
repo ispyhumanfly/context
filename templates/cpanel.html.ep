@@ -1,7 +1,6 @@
 % title 'CPanel';
 % layout 'default';
 %
-% my $content_length = 10;
 % my $recent_update_length = 10;
 
 <script type="text/javascript">//<![CDATA[
@@ -31,21 +30,15 @@
 
     <a href="/home"><h1>Home</h1></a>
 
-    <% my $home_counter; %>
-    
-    <% for my $home ( @{$self->{CONTENT}} ) { %>
+    <% for my $home ( @{$self->{HOME}} ) { %>
 
-        <% if ($home->pages =~ m/home/i ) { %>
-        
         <% next if $home->types =~ m/ad_header|ad_block|gallery/i; %>
         
-        <% $home_counter++; %>
-        
-        <h2><a href="/more?id=<%= $home->id%>"><%= $home->title %></a></h2>
+        <h2><a href="/<%= $home->id%>"><%= $home->title %></a></h2>
 
         <% for ( split /\s+/, $home->photos ) { %>
         
-        <a title="<%= $home->title %>" href="/more?id=<%= $home->id %>">
+        <a title="<%= $home->title %>" href="/<%= $home->id %>">
             <img class="para_image_left_cpanel" src="<%= $_ %>" />
         </a>
         
@@ -63,44 +56,34 @@
             
             <% if ( $self->session('admin') ) { %>
     
-            <a href="/more?id=<%= $home->id %>">Read More |</a>
+            <a href="/<%= $home->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $home->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $home->id %>">Read More...</a>
+            <a href="/<%= $home->id %>">Read More...</a>
             
             <% } %>
         
         </div>
         
         <div class="content_spacer"></div>
-    
-        <% } %>
-        
-        <% last if $home_counter == $content_length; %>
-        
+            
     <% } %>
 
     <h3><a href="/search?pages=home">More Home</a></h3>
     
     <a href="/live"><h1>Live</h1></a>
 
-    <% my $live_counter; %>
-    
-    <% for my $live ( @{$self->{CONTENT}} ) { %>
+    <% for my $live ( @{$self->{LIVE}} ) { %>
 
-        <% if ($live->pages =~ m/live/i ) { %>
-        
         <% next if $live->types =~ m/ad_header|ad_block|gallery/i; %>
 
-        <% $live_counter++; %>
-
-        <h2><a href="/more?id=<%= $live->id%>"><%= $live->title %></a></h2>
+        <h2><a href="/<%= $live->id%>"><%= $live->title %></a></h2>
 
         <% for ( split /\s+/, $live->photos ) { %>
         
-        <a title="<%= $live->title %>" href="/more?id=<%= $live->id %>">
+        <a title="<%= $live->title %>" href="/<%= $live->id %>">
             <img class="para_image_left_cpanel" src="<%= $_ %>" />
         </a>
         
@@ -118,12 +101,12 @@
             
             <% if ( $self->session('admin') ) { %>
     
-            <a href="/more?id=<%= $live->id %>">Read More |</a>
+            <a href="/<%= $live->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $live->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $live->id %>">Read More...</a>
+            <a href="/<%= $live->id %>">Read More...</a>
             
             <% } %>
         
@@ -131,31 +114,21 @@
         
         <div class="content_spacer"></div>
     
-        <% } %>
-
-        <% last if $live_counter == $content_length; %>
-
     <% } %>
 
     <h3><a href="/search?pages=live">More Live</a></h3>
 
     <a href="/work"><h1>Work</h1></a>
 
-    <% my $work_counter; %>
-
-    <% for my $work ( @{$self->{CONTENT}} ) { %>
-
-        <% if ($work->pages =~ m/work/i ) { %>
+    <% for my $work ( @{$self->{WORK}} ) { %>
         
         <% next if $work->types =~ m/ad_header|ad_block|gallery/i; %>
         
-        <% $work_counter++; %>
-        
-        <h2><a href="/more?id=<%= $work->id%>"><%= $work->title %></a></h2>
+        <h2><a href="/<%= $work->id%>"><%= $work->title %></a></h2>
 
         <% for ( split /\s+/, $work->photos ) { %>
         
-        <a title="<%= $work->title %>" href="/more?id=<%= $work->id %>">
+        <a title="<%= $work->title %>" href="/<%= $work->id %>">
             <img class="para_image_left_cpanel" src="<%= $_ %>" />
         </a>
         
@@ -173,44 +146,34 @@
             
             <% if ( $self->session('admin') ) { %>
     
-            <a href="/more?id=<%= $work->id %>">Read More |</a>
+            <a href="/<%= $work->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $work->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $work->id %>">Read More...</a>
+            <a href="/<%= $work->id %>">Read More...</a>
             
             <% } %>
         
         </div>
         
         <div class="content_spacer"></div>
-        
-        <% } %>
-        
-        <% last if $work_counter == $content_length; %>
-    
+            
     <% } %>
 
     <h3><a href="/search?pages=work">More Work</a></h3>
 
     <a href="/play"><h1>Play</h1></a>
 
-    <% my $play_counter; %>
-
-    <% for my $play ( @{$self->{CONTENT}} ) { %>
-
-        <% if ($play->pages =~ m/play/i ) { %>
+    <% for my $play ( @{$self->{PLAY}} ) { %>
 
         <% next if $play->types =~ m/ad_header|ad_block|gallery/i; %>
         
-        <% $play_counter++; %>
-
-        <h2><a href="/more?id=<%= $play->id%>"><%= $play->title %></a></h2>
+        <h2><a href="/<%= $play->id%>"><%= $play->title %></a></h2>
 
         <% for ( split /\s+/, $play->photos ) { %>
         
-        <a title="<%= $play->title %>" href="/more?id=<%= $play->id %>">
+        <a title="<%= $play->title %>" href="/<%= $play->id %>">
             <img class="para_image_left_cpanel" src="<%= $_ %>" />
         </a>
         
@@ -228,22 +191,18 @@
             
             <% if ( $self->session('admin') ) { %>
     
-            <a href="/more?id=<%= $play->id %>">Read More |</a>
+            <a href="/<%= $play->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $play->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $play->id %>">Read More...</a>
+            <a href="/<%= $play->id %>">Read More...</a>
             
             <% } %>
         
         </div>
         
         <div class="content_spacer"></div>
-        
-        <% } %>
-
-        <% last if $play_counter == $content_length; %>
 
     <% } %>
 
@@ -251,21 +210,15 @@
 
     <a href="/photos"><h1>Photos</h1></a>
 
-    <% my $photos_counter; %>
+    <% for my $photos ( @{$self->{PHOTOS}} ) { %>
 
-    <% for my $photos ( @{$self->{CONTENT}} ) { %>
-
-        <% if ($photos->pages =~ m/photos/i ) { %>
-        
         <% next if $photos->types =~ m/ad_header|ad_block/i; %>
-        
-        <% $photos_counter++; %>
 
-        <h2><a href="/more?id=<%= $photos->id%>"><%= $photos->title %></a></h2>
+        <h2><a href="/<%= $photos->id%>"><%= $photos->title %></a></h2>
 
         <% for ( split /\s+/, $photos->photos ) { %>
         
-        <a title="<%= $photos->title %>" href="/more?id=<%= $photos->id %>">
+        <a title="<%= $photos->title %>" href="/<%= $photos->id %>">
             <img class="para_image_left_cpanel" src="<%= $_ %>" />
         </a>
         
@@ -283,22 +236,18 @@
             
             <% if ( $self->session('admin') ) { %>
     
-            <a href="/more?id=<%= $photos->id %>">Read More |</a>
+            <a href="/<%= $photos->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $photos->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $photos->id %>">Read More...</a>
+            <a href="/<%= $photos->id %>">Read More...</a>
             
             <% } %>
         
         </div>
         
         <div class="content_spacer"></div>
-    
-        <% } %>
-    
-        <% last if $photos_counter == $content_length; %>
 
     <% } %>
 
@@ -306,21 +255,15 @@
 
     <a href="/about"><h1>About</h1></a>
 
-    <% my $about_counter; %>
-
     <% for my $about ( @{$self->{CONTENT}} ) { %>
 
-        <% if ($about->pages =~ m/about/i ) { %>
-        
         <% next if $about->types =~ m/ad_header|ad_block|gallery/i; %>
         
-        <% $about_counter++; %>
-
-        <h2><a href="/more?id=<%= $about->id%>"><%= $about->title %></a></h2>
+        <h2><a href="/<%= $about->id%>"><%= $about->title %></a></h2>
 
         <% for ( split /\s+/, $about->photos ) { %>
         
-        <a title="<%= $about->title %>" href="/more?id=<%= $about->id %>">
+        <a title="<%= $about->title %>" href="/<%= $about->id %>">
             <img class="para_image_left_cpanel" src="<%= $_ %>" />
         </a>
         
@@ -338,44 +281,66 @@
             
             <% if ( $self->session('admin') ) { %>
     
-            <a href="/more?id=<%= $about->id %>">Read More |</a>
+            <a href="/<%= $about->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $about->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $about->id %>">Read More...</a>
+            <a href="/<%= $about->id %>">Read More...</a>
             
             <% } %>
         
         </div>
         
         <div class="content_spacer"></div>
-    
-        <% } %>
         
-        <% last if $about_counter == $content_length; %>
-    
     <% } %>
 
     <h3><a href="/search?pages=about">More About</a></h3>
 
-    <a href="#"><h1>None</h1></a>
+    <a href="/search?pages=none"><h1>None</h1></a>
 
-    <% for my $none ( @{$self->{CONTENT}} ) { %>
+    <% for my $none ( @{$self->{NONE}} ) { %>
 
-        <% if ($none->pages =~ m/none/i ) { %>
-                
-        <h2><a href="/more?id=<%= $none->id %>&back=cpanel"><%= $none->title %></a></h2>
-    
-        <h3>
-            <a href="/cpanel/content/form?mode=update&id=<%= $none->id %>">Edit</a>
-            <a href="/cpanel/content/remove?id=<%= $none->id %>">Remove</a>
-        </h3>
+        <% next if $none->types =~ m/ad_header|ad_block|gallery/i; %>
+        
+        <h2><a href="/<%= $none->id%>"><%= $none->title %></a></h2>
+
+        <% for ( split /\s+/, $none->photos ) { %>
+        
+        <a title="<%= $none->title %>" href="/<%= $none->id %>">
+            <img class="para_image_left_cpanel" src="<%= $_ %>" />
+        </a>
+        
+        <% last; %>
+        
+        <% } %>
+        
+        <% if ($none->body ne '') { %>
+        
+        <p><%= substr( HTML::FormatText->format_string($none->body), 0, 200 ) . '...' %></p>
     
         <% } %>
+        
+        <div class="read_more_right">
+            
+            <% if ( $self->session('admin') ) { %>
     
+            <a href="/<%= $none->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $none->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/<%= $none->id %>">Read More...</a>
+            
+            <% } %>
+        
+        </div>
+        
+        <div class="content_spacer"></div>
+        
     <% } %>
-    
+
     <h3><a href="/search?pages=none">More None</a></h3>
 
 </div>
@@ -396,7 +361,7 @@
         
             <% for ( split /\s+/, $recent_updates->photos ) { %>
             
-            <a title="<%= $recent_updates->title %>" href="/more?id=<%= $recent_updates->id %>">
+            <a title="<%= $recent_updates->title %>" href="/<%= $recent_updates->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -418,7 +383,7 @@
             
             <div class="read_more_left">
     
-                <a href="/more?id=<%= $recent_updates->id %>">Read More |</a>
+                <a href="/<%= $recent_updates->id %>">Read More |</a>
                 <a href="/cpanel/content/form?mode=update&id=<%= $recent_updates->id %>">Edit</a>        
     
             </div>

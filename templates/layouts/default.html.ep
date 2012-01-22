@@ -53,7 +53,7 @@
 		
 	    <div id="header_container" onClick="javascript:window.location='/';">
     
-		<h2><%= title %>.</h2>
+		<h2><%= title %></h2>
     
 	    </div>
     
@@ -61,7 +61,7 @@
     
 		<ul>
 		    <li><a href="/live">Live</a></li>
-		    <li><a href="/work">Work</a></li>
+		    <li><a href="/work/professional_development">Work</a></li>
 		    <li><a href="/play">Play</a></li>
 		    <li><a href="/photos">Photos</a></li>
     
@@ -73,7 +73,7 @@
     
 		</ul>
 
-		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search" method="POST">
+		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search" method="get">
     
 		    <input type="text" class="search_input_text" name="string" placeholder="Search After5..."></input>
     
@@ -132,7 +132,7 @@
 		<div>
 		    <ul>
 			<li><a href="/work" style="font-weight: bold; font-size: medium;">Work</a></li>
-			<li><a href="/work/careers">Job Listings</a></li>
+			<li><a href="/work/job_listings">Job Listings</a></li>
 			<li><a href="/work/professional_development">Professional Development</a></li>
 		    </ul>
 		</div>
@@ -140,9 +140,9 @@
 		<div>
 		    <ul>
 			<li><a href="/play" style="font-weight: bold; font-size: medium;">Play</a></li>
-			<li><a href="/play/features">People</a></li>
+			<li><a href="/play/people">People</a></li>
 			<li><a href="/play/places">Places</a></li>
-			<li><a href="/play/buzz">Articles</a></li>
+			<li><a href="/play/articles">Articles</a></li>
 			<li><a href="/play/events">Events</a></li>
 		    </ul>
 		</div>

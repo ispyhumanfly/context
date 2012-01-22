@@ -82,10 +82,10 @@ get '/home' => sub {
     $self->{'WORK'} = \@work;
 
     # Galleries
-    my @galleries =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%home%'}, types => {like => '%gallery%'}},
-        {order_by => 'id DESC'})->all;
+    my @galleries = $MODEL->resultset('Content')->search(
+        {pages => {like => '%home%'}, types => {like => '%gallery%'}},
+        {page => 1, rows => 10, order_by => 'id DESC'}
+    )->all;
 
     $self->{'GALLERIES'} = \@galleries;
 
@@ -383,7 +383,7 @@ get '/work' => sub {
 
 } => 'work';
 
-get '/work/careers' => sub {
+get '/work/job_listings' => sub {
 
     my $self = shift;
 
@@ -393,9 +393,9 @@ get '/work/careers' => sub {
       ->search(
         {pages => {like => '%work%'}, types => {like => '%ad_header%'}})->all;
 
-    return $self->render('work_careers');
+    return $self->render('work_job_listings');
 
-} => 'work_careers';
+} => 'work_job_listings';
 
 get '/work/professional_development' => sub {
 
@@ -473,7 +473,7 @@ get '/play' => sub {
 
 } => 'play';
 
-get '/play/features' => sub {
+get '/play/people' => sub {
 
     my $self = shift;
 
@@ -493,8 +493,8 @@ get '/play/features' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Features / More Features
-    my @features = $MODEL->resultset('Content')->search(
+    # People / More People
+    my @people = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%article%'},
             tags  => {like => '%people%'}
@@ -502,11 +502,11 @@ get '/play/features' => sub {
         {page => 1, rows => 50, order_by => 'id DESC'},
     )->all;
 
-    $self->{'FEATURES'} = \@features;
+    $self->{'PEOPLE'} = \@people;
 
-    return $self->render('play_features');
+    return $self->render('play_people');
 
-} => 'play_features';
+} => 'play_people';
 
 get '/play/places' => sub {
 
@@ -548,7 +548,7 @@ get '/play/places' => sub {
 
 } => 'play_places';
 
-get '/play/buzz' => sub {
+get '/play/articles' => sub {
 
     my $self = shift;
 
@@ -568,25 +568,15 @@ get '/play/buzz' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # The Buzz / More Buzz
-    my @the_buzz = $MODEL->resultset('Content')->search(
-        {types => {like => '%article%'}, tags => {like => '%the_buzz%'}},
-        {page => 1, rows => 50, order_by => 'id DESC'},
-    )->all;
+    # Articles / More Articles
+    my @articles = $MODEL->resultset('Content')->search(
+        {pages => {like => '%play%'}, types => {like => '%article%'}},{page => 1, rows => 50, order_by => 'id DESC'})->all;
 
-    $self->{'THE_BUZZ'} = \@the_buzz;
+    $self->{'ARTICLES'} = \@articles;
 
-    # More Buzz
-    my @more_buzz = $MODEL->resultset('Content')->search(
-        {tags => {like => '%the_buzz%'}},
-        {page => 1, rows => 5, order_by => 'id DESC'},
-    )->all;
+    return $self->render('play_articles');
 
-    $self->{'MORE_BUZZ'} = \@more_buzz;
-
-    return $self->render('play_buzz');
-
-} => 'play_buzz';
+} => 'play_articles';
 
 get '/play/events' => sub {
 
@@ -742,7 +732,8 @@ any '/search' => sub {
 
     # Search Results
     my @search_results =
-      $MODEL->resultset('Content')->search({}, {order_by => 'id DESC'})->all;
+      $MODEL->resultset('Content')
+      ->search(undef, {page => 1, rows => 1000, order_by => 'id DESC'})->all;
 
     $self->{'SEARCH_RESULTS'} = \@search_results;
 
@@ -750,14 +741,12 @@ any '/search' => sub {
 
 } => 'search';
 
-any '/more' => sub {
+any '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    my (@ads, @more);
-
     # Ads
-    @ads =
+    my @ads =
       $MODEL->resultset('Content')
       ->search(
         {pages => {like => '%more%'}, types => {like => '%ad_header%'}},
@@ -775,41 +764,13 @@ any '/more' => sub {
 
     if ($self->param('id')) {
 
-        @more =
-          $MODEL->resultset('Content')->search({id => $self->param('id')});
-        $self->{'MORE'} = \@more;
+        my $id = $MODEL->resultset('Content')->search({id => $self->param('id')})->single;
+        $self->{'ID'} = $id;
     }
 
-    if ($self->param('featured')) {
+    return $self->render('id');
 
-        @more =
-          $MODEL->resultset('Content')
-          ->search({tags => {like => '%featured%'}}, {order_by => 'id DESC'})
-          ->all;
-        $self->{'MORE'} = \@more;
-    }
-
-    if ($self->param('living')) {
-
-        @more =
-          $MODEL->resultset('Content')
-          ->search({interests => {like => '%living%'}},
-            {order_by => 'id DESC'})->all;
-        $self->{'MORE'} = \@more;
-    }
-
-    if ($self->param('galleries')) {
-
-        @more =
-          $MODEL->resultset('Content')
-          ->search({types => {like => '%gallery%'}}, {order_by => 'id DESC'})
-          ->all;
-        $self->{'MORE'} = \@more;
-    }
-
-    return $self->render('more');
-
-} => 'more';
+} => 'id';
 
 ### After5 Content Panel
 
@@ -818,10 +779,46 @@ get '/cpanel' => sub {
     my $self = shift;
 
     # Home
-    my @content =
-      $MODEL->resultset('Content')
-      ->search({}, {page => 1, rows => 1000, order_by => 'id DESC'})->all;
-    $self->{'CONTENT'} = \@content;
+    my @home =
+      $MODEL->resultset('Content')->search({pages => {like => '%home%'}},
+        {page => 1, rows => 15, order_by => 'id DESC'})->all;
+    $self->{'HOME'} = \@home;
+
+    # Live
+    my @live =
+      $MODEL->resultset('Content')->search({pages => {like => '%live%'}},
+        {page => 1, rows => 15, order_by => 'id DESC'})->all;
+    $self->{'LIVE'} = \@live;
+
+    # Work
+    my @work =
+      $MODEL->resultset('Content')->search({pages => {like => '%work%'}},
+        {page => 1, rows => 15, order_by => 'id DESC'})->all;
+    $self->{'WORK'} = \@work;
+
+    # Play
+    my @play =
+      $MODEL->resultset('Content')->search({pages => {like => '%play%'}},
+        {page => 1, rows => 15, order_by => 'id DESC'})->all;
+    $self->{'PLAY'} = \@play;
+
+    # Photos
+    my @photos =
+      $MODEL->resultset('Content')->search({pages => {like => '%photos%'}},
+        {page => 1, rows => 15, order_by => 'id DESC'})->all;
+    $self->{'PHOTOS'} = \@photos;
+
+    # About
+    my @about =
+      $MODEL->resultset('Content')->search({pages => {like => '%about%'}},
+        {page => 1, rows => 15, order_by => 'id DESC'})->all;
+    $self->{'ABOUT'} = \@about;
+
+    # None
+    my @none =
+      $MODEL->resultset('Content')->search({pages => {like => '%none%'}},
+        {page => 1, rows => 15, order_by => 'id DESC'})->all;
+    $self->{'NONE'} = \@none;
 
     # Quick Edits
     my @quick_edits =

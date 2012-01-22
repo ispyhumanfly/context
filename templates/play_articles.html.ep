@@ -1,0 +1,201 @@
+% title 'Play';
+% layout 'default';
+%
+% my $more_articles_length = 3;
+
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div class="content_left">
+    
+    <h1>Articles</h1>
+    
+    <% for my $articles (@{$self->{ARTICLES}}) { %>
+    
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $articles->id == int($self->param('id')); %>
+	    
+	<% } else { %>
+	
+	<% next unless $articles->id == @{$self->{ARTICLES}}->[0]->id; %>
+	
+	<% } %>
+	
+	<% for ( split /\s+/, $articles->photos ) { %>
+
+	<a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+	    <img class="para_image_right" src="<%= $_ %>" />
+	</a>
+
+	<% last; %>
+
+	<% } %>
+
+	<h2><%= $articles->title %></h2>
+
+	<h4>By <%= $articles->author %></h4>
+	
+	<%== $articles->body %>
+
+	<% my $thumbmail_counter; %>
+
+        <% for ( split /\s+/, $articles->photos ) { %>
+
+            <% $thumbmail_counter++; %>
+
+            <% next if $thumbmail_counter == 1; %>
+
+            <a dojoType="dojox.image.Lightbox" group="<%= $articles->id %>" href="<%= $_ %>">
+		<img class="more_thumbnails_left" src="<%= $_ %>" />
+	    </a>
+
+        <% } %>
+
+        <span class="social_sharing">
+
+            <a href="http://www.facebook.com/sharer.php?u=http://after5detroit.dyndns.org:3000/<%= $articles->id %>&t=<%= $articles->title %>" target="_blank">
+                <img src="/FacebookShare.png" alt="Facebook"/>
+            </a>
+        
+            <a href="http://www.twitter.com/home?status=<%= $articles->title %>,+http://after5detroit.dyndns.org:3000/<%= $articles->id %>" target="_blank">
+                <img src="/TwitterShare.png" alt="Twitter"/>
+            </a>
+        
+            <a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.dyndns.org:3000/<%= $articles->id %>" target="_blank">
+                <img src="/DiggShare.png" alt="Digg"/>
+            </a>
+        
+            <a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.dyndns.org:3000/<%= $articles->id %>" target="_blank">
+                <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+            </a>
+            
+        </span>
+
+	<h3>
+	    
+	    <% if ($self->session('admin')) { %>
+    
+	    <a href="javascript:history.go(-1)">Back | </a>
+	    <a href="/cpanel/content/form?mode=update&id=<%= $articles->id %>" style="margin-left; 10px;">Edit</a>
+    	    
+	    <% } else { %>
+    
+	    <a href="javascript:history.go(-1)">Back</a>
+	    
+	    <% } %>
+
+	    <div style="text-align: right; margin-top: -20px;">
+
+		<% my $next_articles_counter; %>
+		
+	    	<% for (@{$self->{ARTICLES}}) { %>
+
+		    <% $next_articles_counter++; %>
+		    
+		    <% if ($self->param('id')) { %>
+		    
+		    <% next unless $_->id < int($self->param('id')); %>
+			
+		    <% } %>
+		
+		    <a href="/play/articles?id=<%= $_->id %>">Next</a>
+		    
+		    <% last; %>
+		    
+		<% } %>
+		
+	    </div>
+	
+	</h3>
+    	
+    <% } %>
+
+</div>
+
+<div class="content_right">
+
+    <h1>More Articles</h1>
+
+    <div class="content_right_padding">
+    
+    <% my $more_articles_counter; %>
+    
+    <% for my $more_articles (@{$self->{ARTICLES}}) { %>
+
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $more_articles->id < int($self->param('id')); %>
+	    
+	<% } else { %>
+	
+	<% next if $more_articles->id == @{$self->{ARTICLES}}->[0]->id; %>
+
+	<% } %>
+	
+	<% $more_articles_counter++; %>
+	
+	<% for ( split /\s+/, $more_articles->photos ) { %>
+	
+	<a title="<%= $more_articles->title %>" href="/play/articles?id=<%= $more_articles->id %>">
+	    <img class="block_thumbnails_right" src="<%= $_ %>"/>
+	</a>
+	
+	<% last; #JUST SHOW ONE %>
+	
+	<% } %>
+	
+	<div class="block_title"><a href="/play/articles?id=<%= $more_articles->id %>"><%= $more_articles->title %></a></div>
+	
+	<div class="block_text"><%== substr( HTML::FormatText->format_string($more_articles->body), 0, 75 ) . '...' %></div>
+	
+        <div class="read_more_left">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/play/articles?id=<%= $more_articles->id %>">Read More |</a>
+            <a href="/cpanel/content/form?mode=update&id=<%= $more_articles->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/play/articles?id=<%= $more_articles->id %>">Read More...</a>
+            
+            <% } %>
+
+        </div>
+	
+	<% last if $more_articles_counter == $more_articles_length; %>
+	
+	<hr />
+    
+    <% } %>
+
+        <div class="ad_space_block">
+    
+            <script type="text/javascript">//<![CDATA[
+            
+                var block_ads = new Array();
+    
+                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+                    <% for ( split /\s+/, $ad->photos ) { %>
+    
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+    
+                    <% last; # ONLY SHOW ONE %>
+    
+                    <% } %>
+    
+                <% } %>
+                
+                var random = Math.floor(Math.random() * block_ads.length);
+                document.write(block_ads[random]);
+    
+            //]]></script>
+            
+        </div>
+
+    </div>
+    
+</div>

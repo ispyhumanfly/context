@@ -1,0 +1,182 @@
+% title '';
+% layout 'default';
+%
+% my $id = $self->{ID};
+
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div class="content_left">
+
+    <% unless (($id->title eq '') or ($id->title =~ /^\s+$/g)) { %>
+    
+    <h1><%= $id->title %></h1>
+
+    <% } %>
+	    
+    <% for ( split /\s+/, $id->photos ) { %>
+
+    <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
+	<img class="para_image_right" src="<%= $_ %>" />
+    </a>
+
+    <% last; %>
+
+    <% } %>
+
+    <% unless (($id->author eq '') or ($id->author =~ /^\s+$/g)) { %>
+    
+    <h4>By <%= $id->author %></h4>
+    
+    <% } %>
+    
+    <% unless (($id->body eq '') or ($id->body =~ /^\s+$/g)) { %>
+    
+    <p><%== $id->body; %></p>
+
+    <% } %>
+
+    <% unless (($id->start_datetime eq '') and ($id->stop_datetime eq '')) { %>
+    
+    <h4>Date</h4>
+    
+    <% my $start_date = $id->start_datetime; %>
+    
+    Starts on <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
+    
+    <br />
+
+    <% my $stop_date = $id->stop_datetime; %>
+    
+    Ends on <%= $stop_date->day_name %>, <%= $stop_date->month_name %> <%= $stop_date->day %>
+    
+    <% } %>
+
+    <% unless (($id->venue eq '') or ($id->venue =~ /^\s+$/)) { %>
+    
+    <h4>Venue</h4>
+    
+    <%= $id->venue %>
+    
+    <% } %>
+    
+    <% unless (($id->address eq '') or ($id->address =~ /^\s+$/g)) { %>
+    
+    <h4>Address</h4>
+    
+    <%= $id->address %>
+    
+    <% } %>
+
+    <% unless (($id->lat <= 1) and ($id->lng <= 1)) { %>
+    
+    <h4>
+	<a href="http://maps.google.com/maps?q=<%= $id->lat %>,<%= $id->lng %>" target="_blank">View Map</a>
+    </h4>
+    
+    <% } %>
+
+    <% unless (($id->link eq '') or ($id->link =~ /^\s+$/g)) { %>
+    
+    <h4>
+	<a href="<%= $id->link %>" target="_blank">View Website</a>
+    </h4>
+    
+    <% } %>
+
+    <% my $thumbmail_counter; %>
+    
+    <% for ( split /\s+/, $id->photos ) { %>
+
+	<% $thumbmail_counter++; %>
+
+	<% next if $thumbmail_counter == 1; %>
+    
+	<a dojoType="dojox.image.Lightbox" group="<%= $id->id %>" href="<%= $_ %>">
+	    <img class="more_thumbnails_left" src="<%= $_ %>" />
+	</a>
+
+    <% } %>
+
+    <span class="social_sharing">
+
+	<a href="http://www.facebook.com/sharer.php?u=http://after5detroit.dyndns.org:3000/<%= $id->id %>&t=<%= $id->title %>" target="_blank">
+	    <img src="/FacebookShare.png" alt="Facebook"/>
+	</a>
+    
+	<a href="http://www.twitter.com/home?status=<%= $id->title %>,+http://after5detroit.dyndns.org:3000/<%= $id->id %>" target="_blank">
+	    <img src="/TwitterShare.png" alt="Twitter"/>
+	</a>
+    
+	<a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.dyndns.org:3000/<%= $id->id %>" target="_blank">
+	    <img src="/DiggShare.png" alt="Digg"/>
+	</a>
+    
+	<a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.dyndns.org:3000/<%= $id->id %>" target="_blank">
+	    <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+	</a>
+	
+    </span>
+    
+    <h3>
+                
+        <% if ( $self->session('admin') ) { %>
+
+        <a href="javascript:history.go(-1)">Back | </a>
+        <a href="/cpanel/content/form?mode=update&id=<%= $self->param('id') %>" style="margin-left; 10px;">Edit</a>        
+        
+        <% } else { %>
+
+        <a href="javascript:history.go(-1)">Back</a>
+        
+        <% } %>
+    
+    </h3>
+
+</div>
+
+<div class="content_right">
+
+    <h1>More Info</h1>
+
+    <% for (1...5) { %>
+
+    <p>Some stuff goes here</p>
+
+    <% } %>
+
+    <h1>More Something</h1>
+
+    <% for (1...5) { %>
+
+    <p>Some stuff goes here</p>
+
+    <% } %>
+
+    <div class="ad_space_block">
+
+        <script type="text/javascript">//<![CDATA[
+        
+            var block_ads = new Array();
+
+            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+
+                <% for ( split /\s+/, $ad->photos ) { %>
+
+                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+
+                <% last; # ONLY SHOW ONE %>
+
+                <% } %>
+
+            <% } %>
+            
+            var random = Math.floor(Math.random() * block_ads.length);
+            document.write(block_ads[random]);
+
+        //]]></script>
+        
+    </div>
+
+</div>

@@ -61,11 +61,11 @@
 
         <% } %>
         
-        <h2><a href="/more?id=<%= $result->id%>"><%= $result->title %></a></h2>
+        <h2><a href="/<%= $result->id%>"><%= $result->title %></a></h2>
 
         <% for ( split /\s+/, $result->photos ) { %>
         
-        <a title="<%= $result->title %>" href="/more?id=<%= $result->id %>">
+        <a title="<%= $result->title %>" href="/<%= $result->id %>">
             <img class="para_image_left_search" src="<%= $_ %>" />
         </a>
         
@@ -83,12 +83,12 @@
             
             <% if ( $self->session('admin') ) { %>
     
-            <a href="/more?id=<%= $result->id %>">Read More |</a>
+            <a href="/<%= $result->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $result->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/more?id=<%= $result->id %>">Read More...</a>
+            <a href="/<%= $result->id %>">Read More...</a>
             
             <% } %>
         
@@ -108,7 +108,7 @@
 
     <p>Search below for your perfect night out or new favorite hotspot.</p>
     
-    <div dojoType="dijit.form.Form" class="search_places_right" encType="multipart/form-data" action="/search" method="POST">
+    <div dojoType="dijit.form.Form" class="search_places_right" encType="multipart/form-data" action="/search" method="get">
 
         <p>
             
@@ -158,4 +158,30 @@
         <button dojoType="dijit.form.Button" type="submit">Search</button>
 
     </div>
+    
+    <div class="ad_space_block">
+
+        <script type="text/javascript">//<![CDATA[
+        
+            var block_ads = new Array();
+
+            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+
+                <% for ( split /\s+/, $ad->photos ) { %>
+
+                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+
+                <% last; # ONLY SHOW ONE %>
+
+                <% } %>
+
+            <% } %>
+            
+            var random = Math.floor(Math.random() * block_ads.length);
+            document.write(block_ads[random]);
+
+        //]]></script>
+        
+    </div>
+
 </div>

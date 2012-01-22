@@ -1,5 +1,7 @@
 % title 'Photos';
 % layout 'default';
+%
+% my $more_galleries_length = 3;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -9,12 +11,22 @@
 
     <h1>Recent Galleries</h1>
 
-    <div id="gallery_container">
+    <% for my $galleries (@{$self->{GALLERIES}}) { %>
 
-        <% for my $galleries (@{$self->{GALLERIES}}) { %>
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $galleries->id == int($self->param('id')); %>
+	    
+	<% } else { %>
+	
+	<% next unless $galleries->id == @{$self->{GALLERIES}}->[0]->id; %>
+	
+	<% } %>
 
+        <div id="gallery_container">
+    
             <% next if $galleries->types =~ m/ad/i; %>
-
+    
             <% for ( split /\s+/, $galleries->photos ) { %>
             
             <div style="text-align: center;">
@@ -26,50 +38,89 @@
             <% last; JUST SHOW ONE %>
             
             <% } %>
-
-        <% last; JUST SHOW ONE %>
-        
-        <% } %>
-    
-    </div>
-    
-    <% for my $galleries (@{$self->{GALLERIES}}) { %>
-
-        <% next if $galleries->types =~ m/ad/i; %>
+            
+        </div>
 
         <% for ( split /\s+/, $galleries->photos ) { %>
+            
+        <div style="display: inline;">
+                
+            <a dojoType="dojox.image.Lightbox" title="<%= $galleries->title %>" group="<%= $galleries->title %>" href="<%= $_ %>">
+                <img style="width: 65px; height: 65px;" src="<%= $_ %>" />
+            </a>
         
-        <a dojoType="dojox.image.Lightbox" title="<%= $galleries->title %>" group="<%= $galleries->title %>" href="<%= $_ %>">
-            <img style="width: 65px; height: 65px;" src="<%= $_ %>" />
-        </a>
-        
+        </div>
+            
         <% } %>
     
-    <% } %>
+        <h3>
+            
+            <% if ($self->session('admin')) { %>
     
-    <h3><a href="/more?galleries=all&back=photos">More Galleries</a></h3>
+            <a href="javascript:history.go(-1)">Back | </a>
+            <a href="/cpanel/content/form?mode=update&id=<%=  $galleries->id %>" style="margin-left; 10px;">Edit</a>
+            
+            <% } else { %>
+    
+            <a href="javascript:history.go(-1)">Back</a>
+            
+            <% } %>
+    
+            <div style="text-align: right; margin-top: -20px;">
+    
+                <% my $next_articles_counter; %>
+                
+                <% for (@{$self->{GALLERIES}}) { %>
+    
+                    <% $next_articles_counter++; %>
+                    
+                    <% if ($self->param('id')) { %>
+                    
+                    <% next unless $_->id < int($self->param('id')); %>
+                        
+                    <% } %>
+                
+                    <a href="/photos?id=<%= $_->id %>">Next</a>
+                    
+                    <% last; %>
+                    
+                <% } %>
+                
+            </div>
+        
+        </h3>
 
+    <% } %>
+        
 </div>
 
 <div class="content_right">
 
-    <h1>Galleries</h1>
+    <h1>More Galleries</h1>
 
     <div class="content_right_padding">
-        
-        <% my $galleries_counter; %>
-        
-        <% for my $galleries (@{$self->{GALLERIES}}) { %>
-        
-            <% $galleries_counter++; %>
-            
-            <% next if $galleries_counter > 5; %>
-        
-            <% next if $galleries->types =~ m/ad/i; %>
     
-            <% for ( split /\s+/, $galleries->photos ) { %>
+        <% my $more_galleries_counter; %>
+        
+        <% for my $more_galleries (@{$self->{GALLERIES}}) { %>
+    
+            <% if ($self->param('id')) { %>
             
-            <a dojoType="dojox.image.Lightbox" group="photos_right" title="<%= $galleries->title %>" href="<%= $_ %>">
+            <% next unless $more_galleries->id < int($self->param('id')); %>
+                
+            <% } else { %>
+            
+            <% next if $more_galleries->id == @{$self->{GALLERIES}}->[0]->id; %>
+    
+            <% } %>
+            
+            <% next if $more_galleries->types =~ m/ad/g; %>
+            
+            <% $more_galleries_counter++; %>
+            
+            <% for ( split /\s+/, $more_galleries->photos ) { %>
+            
+            <a title="<%= $more_galleries->title %>" href="/photos?id=<%= $more_galleries->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -77,17 +128,32 @@
             
             <% } %>
             
-            <p><%= substr( $galleries->body, 0, 75 ) . '...' %><p>
+            <div class="block_title"><a href="/photos?id=<%= $more_galleries->id %>"><%= $more_galleries->title %></a></div>
             
-            <div class="read_more_left">
-                <a href="/more?id=<%= $galleries->id %>&back=home">View Gallery...</a>
-            </div>
-    
-            <% if ($galleries_counter < 5) { %>
+            <% if ($more_galleries->body ne '') { %>
             
-            <hr />
+            <div class="block_text"><%== substr( HTML::FormatText->format_string($more_galleries->body), 0, 75 ) . '...' %></div>
             
             <% } %>
+            
+            <div class="read_more_left">
+    
+                <% if ( $self->session('admin') ) { %>
+    
+                <a href="/photos?id=<%= $more_galleries->id %>">Read More |</a>
+                <a href="/cpanel/content/form?mode=update&id=<%= $more_galleries->id %>">Edit</a>        
+            
+                <% } else { %>
+            
+                <a href="/photos?id=<%= $more_galleries->id %>">Read More...</a>
+                
+                <% } %>
+    
+            </div>
+            
+            <% last if $more_galleries_counter == $more_galleries_length; %>
+            
+            <hr />
         
         <% } %>
 
@@ -101,7 +167,7 @@
     
                     <% for ( split /\s+/, $ad->photos ) { %>
     
-                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 300px;' /></a>");
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
     
                     <% last; # ONLY SHOW ONE %>
     

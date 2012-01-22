@@ -17,7 +17,7 @@
         
 	<% for ( split /\s+/, $play->photos ) { %>
 
-	<a title="<%= $play->title %>" href="/more?id=<%= $play->id %>">
+	<a title="<%= $play->title %>" href="/<%= $play->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -27,7 +27,7 @@
 
 	<div class="h1_spacer"><a href="/play"><h1>Play</h1></a></div>
 
-	<h2><a href="/more?id=<%= $play->id %>"><%= $play->title %></a></h2>
+	<h2><a href="/<%= $play->id %>"><%= $play->title %></a></h2>
 
 	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($play->body), 0, 600 ) . '...' %></p>
 
@@ -35,12 +35,12 @@
             
             <% if ( $self->session('admin') ) { %>
 
-	    <a href="/more?id=<%= $play->id %>">Read More |</a>
+	    <a href="/<%= $play->id %>">Read More |</a>
             <a href="/cpanel/content/form?mode=update&id=<%= $play->id %>">Edit</a>        
         
             <% } else { %>
         
-	    <a href="/more?id=<%= $play->id %>">Read More...</a>
+	    <a href="/<%= $play->id %>">Read More...</a>
             
             <% } %>
             
@@ -60,7 +60,7 @@
             
             <% for ( split /\s+/, $positions->photos ) { %>
     
-            <a title="<%= $positions->title %>" href="/more?id=<%= $positions->id %>">
+            <a title="<%= $positions->title %>" href="/<%= $positions->id %>">
                 <img class="position_image_left" src="<%= $_ %>" />
             </a>
     
@@ -68,7 +68,7 @@
     
             <% } %>
 
-            <h2><a href="/more?id=<%= $positions->id %>"><%= $positions->title %></a></h2>
+            <h2><a href="/<%= $positions->id %>"><%= $positions->title %></a></h2>
         
             <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ) . '...' %><p>
         
@@ -76,12 +76,12 @@
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/more?id=<%= $positions->id %>">Read More |</a>
+                <a href="/<%= $positions->id %>">Read More |</a>
                 <a href="/cpanel/content/form?mode=update&id=<%= $positions->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/more?id=<%= $positions->id %>">Read More...</a>
+                <a href="/<%= $positions->id %>">Read More...</a>
                 
                 <% } %>
 
@@ -93,7 +93,7 @@
         
             <% for ( split /\s+/, $positions->photos ) { %>
     
-            <a title="<%= $positions->title %>" href="/more?id=<%= $positions->id %>">
+            <a title="<%= $positions->title %>" href="/<%= $positions->id %>">
                 <img class="position_image_left" src="<%= $_ %>" />
             </a>
     
@@ -101,7 +101,7 @@
     
             <% } %>
 
-            <h2><a href="/more?id=<%= $positions->id %>"><%= $positions->title %></a></h2>
+            <h2><a href="/<%= $positions->id %>"><%= $positions->title %></a></h2>
         
             <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ) . '...' %><p>
         
@@ -109,12 +109,12 @@
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/more?id=<%= $positions->id %>">Read More |</a>
+                <a href="/<%= $positions->id %>">Read More |</a>
                 <a href="/cpanel/content/form?mode=update&id=<%= $positions->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/more?id=<%= $positions->id %>">Read More...</a>
+                <a href="/<%= $positions->id %>">Read More...</a>
                 
                 <% } %>
 
@@ -126,7 +126,7 @@
         
             <% for ( split /\s+/, $positions->photos ) { %>
     
-            <a title="<%= $positions->title %>" href="/more?id=<%= $positions->id %>">
+            <a title="<%= $positions->title %>" href="/<%= $positions->id %>">
                 <img class="position_image_left" src="<%= $_ %>" />
             </a>
     
@@ -134,7 +134,7 @@
     
             <% } %>
 
-            <h2><a href="/more?id=<%= $positions->id %>"><%= $positions->title %></a></h2>
+            <h2><a href="/<%= $positions->id %>"><%= $positions->title %></a></h2>
         
             <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ) . '...' %><p>
         
@@ -142,12 +142,12 @@
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/more?id=<%= $positions->id %>">Read More |</a>
+                <a href="/<%= $positions->id %>">Read More |</a>
                 <a href="/cpanel/content/form?mode=update&id=<%= $positions->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/more?id=<%= $positions->id %>">Read More...</a>
+                <a href="/<%= $positions->id %>">Read More...</a>
                 
                 <% } %>
 
@@ -161,9 +161,9 @@
     
     <h3>
                
-        <a href="/play/features">People</a>,
+        <a href="/play/people">People</a>,
         <a href="/play/places">Places</a>,
-        <a href="/play/buzz">Articles</a>,
+        <a href="/play/articles">Articles</a>,
         <a href="/play/events">Events</a>
     
     </h3>
@@ -172,7 +172,7 @@
 
 	<% for ( split /\s+/, $live->photos ) { %>
 
-	<a title="<%= $live->title %>" href="/more?id=<%= $live->id %>">
+	<a title="<%= $live->title %>" href="/<%= $live->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -182,7 +182,7 @@
 
 	<div class="h1_spacer"><a href="/live"><h1>Live</h1></a></div>
 
-	<h2><a href="/more?id=<%= $live->id %>"><%= $live->title %></a></h2>
+	<h2><a href="/<%= $live->id %>"><%= $live->title %></a></h2>
 
 	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($live->body), 0, 500 ) . '...' %></p>
 
@@ -190,12 +190,12 @@
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/more?id=<%= $live->id %>">Read More |</a>
+                <a href="/<%= $live->id %>">Read More |</a>
                 <a href="/cpanel/content/form?mode=update&id=<%= $live->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/more?id=<%= $live->id %>">Read More...</a>
+                <a href="/<%= $live->id %>">Read More...</a>
                 
                 <% } %>
 
@@ -216,7 +216,7 @@
 
 	<% for ( split /\s+/, $work->photos ) { %>
 
-	<a title="<%= $work->title %>" href="/more?id=<%= $work->id %>">
+	<a title="<%= $work->title %>" href="/<%= $work->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -226,7 +226,7 @@
 
 	<div class="h1_spacer"><a href="/work"><h1>Work</h1></a></div>
 
-	<h2><a href="/more?id=<%= $work->id %>"><%= $work->title %></a></h2>
+	<h2><a href="/<%= $work->id %>"><%= $work->title %></a></h2>
 
 	<p class="para_text_right"><%== HTML::FormatText->format_string($work->body) %></p>
 
@@ -234,12 +234,12 @@
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/more?id=<%= $work->id %>">Read More |</a>
+                <a href="/<%= $work->id %>">Read More |</a>
                 <a href="/cpanel/content/form?mode=update&id=<%= $work->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/more?id=<%= $work->id %>">Read More...</a>
+                <a href="/<%= $work->id %>">Read More...</a>
                 
                 <% } %>
 
@@ -250,7 +250,7 @@
     <% } %>
 
     <h3>
-        <a href="/work/careers">Job Listings</a>,
+        <a href="/work/job_listings">Job Listings</a>,
         <a href="/work/professional_development">Professional Development</a>
     </h3>
 
@@ -275,14 +275,12 @@
         <% for my $galleries (@{$self->{GALLERIES}}) { %>
         
             <% $galleries_counter++; %>
-            
-            <% next if $galleries_counter > 3; %>
         
             <% next if $galleries->types =~ m/ad/i; %>
     
             <% for ( split /\s+/, $galleries->photos ) { %>
             
-            <a title="<%= $galleries->title %>" href="/more?id=<%= $galleries->id %>">
+            <a title="<%= $galleries->title %>" href="/photos?id=<%= $galleries->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -290,47 +288,63 @@
             
             <% } %>
             
+	    <% if ($galleries->title ne '') { %>
+	    
+	    <div class="block_title"><%= $galleries->title %></div>
+	    
+	    <% } %>
+	    
+	    <% if ($galleries->body ne '') { %>
+	    
             <div class="block_text"><%== substr( HTML::FormatText->format_string($galleries->body), 0, 75 ) . '...' %></div>
             
+	    <% } %>
+	    
             <div class="read_more_left">
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/more?id=<%= $galleries->id %>">View Gallery |</a>
+                <a href="/photos?id=<%= $galleries->id %>">View Gallery |</a>
                 <a href="/cpanel/content/form?mode=update&id=<%= $galleries->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/more?id=<%= $galleries->id %>">Read More...</a>
+                <a href="/photos?id=<%= $galleries->id %>">Read More...</a>
                 
                 <% } %>
 
             </div>
             
+	    <% last if $galleries_counter == 3; %>
+	    
             <hr />
         
         <% } %>
 
+	<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/photos" method="get">
+	    
+	    <div dojoType="dijit.form.Select" name="id">
+	    
+		<% my $gallery_position; %>
+		
+		<% for my $galleries (@{$self->{GALLERIES}}) { %>
+		
+		<% $gallery_position++; %>
+		
+		<% next if $gallery_position <= 3; %>
+	
+		<option value="<%= $galleries->id %>"><%== substr( HTML::FormatText->format_string($galleries->title), 0, 25 ) . '...' %></option>
+		
+		<% } %>
+		
+	    </div>
+	    
+	    <button dojoType="dijit.form.Button" type="submit">GO</button>
+	    
+	</div>
+
     </div>
-    
-    <select name="select" dojoType="dojox.form.DropDownSelect">
-
-        <% my $gallery_position; %>
         
-        <% for my $galleries (@{$self->{GALLERIES}}) { %>
-        
-        <% $gallery_position++; %>
-        
-        <% next if $gallery_position <= 3; %>
-        
-        <option value="<%= $galleries->id %>" onclick="/home">
-            <%= $galleries->title %>
-        </option>
-
-        <% } %>
-        
-    </select>
-
     <div class="ad_space_block">
 
         <script type="text/javascript">//<![CDATA[
