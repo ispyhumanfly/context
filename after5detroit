@@ -993,7 +993,7 @@ any '/cpanel/content/create' => sub {
       ->update({photos => "@photos"})
       if scalar @photos >= 1;
 
-    $self->redirect_to('/more?id=' . $new_content->id);
+    $self->redirect_to('/' . $new_content->id);
 
 };
 
@@ -1141,7 +1141,7 @@ any '/cpanel/content/update' => sub {
       ->update({modified_datetime => DateTime->now});
 
     my $id = $self->param('id');
-    $self->redirect_to("/more?id=$id");
+    $self->redirect_to("/$id");
 
 
 };
