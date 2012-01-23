@@ -338,14 +338,7 @@ get '/work' => sub {
 get '/work/job_listings' => sub {
 
     my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%work%'}, types => {like => '%ad_header%'}})->all;
-
-    return $self->render('work_job_listings');
+    return $self->redirect_to('work_prefessional_development');
 
 } => 'work_job_listings';
 
@@ -358,6 +351,26 @@ get '/work/professional_development' => sub {
       $MODEL->resultset('Content')
       ->search(
         {pages => {like => '%work%'}, types => {like => '%ad_header%'}})->all;
+
+    # Work
+    my @work = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%work%'},
+            tags  => {like => '%professional_group%'}
+        },
+        {page => 1, rows => 100, order_by => 'id DESC'},
+    )->all;
+
+    $self->{'WORK'} = \@work;
+
+    # Networking
+    my @networking = $MODEL->resultset('Content')->search(
+        {   pages  => {like => '%work%'},
+            tags   => {like => '%networking%'},
+        },
+        {page => 1, rows => 5, order_by => 'id DESC'}
+    )->all;
+
+    $self->{'NETWORKING'} = \@networking;
 
     return $self->render('work_professional_development');
 

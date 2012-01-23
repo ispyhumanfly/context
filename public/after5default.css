@@ -196,13 +196,6 @@ body {
     -webkit-border-radius: 0 25px 25px 0;
 
 }
-
-#content_container .content_spacer {
-    
-    clear: both;
-    width: 100%;
-}
-
 #content_container .h1_spacer {
     margin-left: 386px;
     width: 280px;
@@ -389,6 +382,12 @@ body {
     font-family: Verdana Bold;
 }
 
+#content_container .content_spacer {
+    
+    clear: both;
+    width: 100%;
+}
+
 #content_container .content_spacer_left {
 
     border: 1px solid #1a3721;
@@ -454,7 +453,6 @@ body {
 
 #content_container .content_left {
 
-
     float: left;
     width: 64%;
     background-color: white;
@@ -467,6 +465,26 @@ body {
 
     color: #263c27;
     font-size: small;
+}
+
+#content_container .content_work_left {
+
+    float: left;
+    margin-left: 25px;
+    width: 150px;
+    background-color: #e6e2e3;
+}
+
+#content_container .content_work_left {
+
+    background-color: 
+}
+
+#content_container .content_work_center {
+
+    float: left;
+    width: 500px;
+    margin-left: 25px;
 }
 
 #content_container .content_right {

@@ -1,32 +1,181 @@
 % title 'Work';
 % layout 'default';
+%
+% my $upcoming_events_length = 5;
 
 <script type="text/javascript">//<![CDATA[
 
 //]]></script>
 
-<div class="content_left">
+<div class="content_work_left">
+    
+    <h1 style="font-size: smaller;">Professional Development</h1>
+    
+    <p>Professional Group</p>
+    <p>Networking</p>
+    <p>Social</p>
+    <p>Cultural</p>
+    <p>Board Openings</p>
+    <p>Volunteer</p>
+    <p>Resources</p>
+    
+</div>
 
-    <blockquote><%= title %> content will eventually go here.</blockquote>
+<div class="content_work_center">
+
+    <h1>Professional Development</h1>
+
+    <% my $upcoming_events_counter; %>
+    
+    <% for my $upcoming_events (@{$self->{WORK}}) { %>
+
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $upcoming_events->id <= int($self->param('id')); %>
+	    
+	<% } %>
+	
+        <% $upcoming_events_counter++; %>
+                
+        <% if ($upcoming_events_counter > 1) { %>
+        
+        <hr />
+        
+        <% } %>
+        
+        <% for ( split /\s+/, $upcoming_events->photos ) { %>
+
+        <a dojoType="dojox.image.Lightbox" title="<%= $upcoming_events->title %>" href="<%= $_ %>">
+            <img class="position_image_left" src="<%= $_ %>" />
+        </a>
+
+        <% last; #JUST SHOW ONE %>
+
+        <% } %>
+
+        <h2><a href="/<%= $upcoming_events->id %>"><%= $upcoming_events->title %></a></h2>
+    
+        <p><%== HTML::FormatText->format_string($upcoming_events->body) %></p>
+    
+        <div class="read_more_right">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/<%= $upcoming_events->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/<%= $upcoming_events->id %>">Read More...</a>
+            
+            <% } %>
+
+        </div>
+        
+        <% last if $upcoming_events_counter == $upcoming_events_length; %>
+        
+    <% } %>
+
+    <h3>
+
+        <a href="javascript:history.go(-1)">Back</a>
+        
+        <div style="text-align: right; margin-top: -20px;">
+
+            <% my $next_event_counter; %>
+            
+            <% for (@{$self->{WORK}}) { %>
+
+                <% my $next_event = @{$self->{WORK}}->[$next_event_counter + $upcoming_events_length]; %>
+                
+                <% $next_event_counter++; %>
+                
+                <% if ($self->param('id') == $_->id) { %>
+                
+                <a href="/work/professional_development?id=<%= $next_event->id %>">Next</a>
+                
+                <% } elsif ((not $self->param('id')) and ($next_event_counter == $upcoming_events_length)) { %>
+                
+                <a href="/work/professional_development?id=<%= $next_event->id %>">Next</a>
+                
+                <% } %>
+                
+            <% } %>
+            
+        </div>
+    
+    </h3>
 
 </div>
 
 <div class="content_right">
 
-    <h1>Example</h1>
+    <h1>Networking</h1>
 
-    <% for (1...5) { %>
+    <div class="content_right_padding">
+        
+        <% for my $networking (@{$self->{NETWORKING}}) { %>
+                
+            <% next if $networking->types =~ m/ad/i; %>
+    
+            <% for ( split /\s+/, $networking->photos ) { %>
+            
+            <a title="<%= $networking->title %>" href="/<%= $networking->id %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+            <div class="block_title"><%= $networking->title %></div>
+            
+            <div class="block_text"><%== substr( HTML::FormatText->format_string($networking->body), 0, 75 ) . '...' %></div>
+            
+            <div class="read_more_left">
+    
+                <% if ( $self->session('admin') ) { %>
+    
+                <a href="/<%= $networking->id %>">Read More |</a>
+                <a href="/editor?mode=update&id=<%= $networking->id %>">Edit</a>        
+            
+                <% } else { %>
+            
+                <a href="/<%= $networking->id %>">Read More...</a>
+                
+                <% } %>
+    
+            </div>
+                
+            <hr />
+        
+        <% } %>
+    
+        <div class="ad_space_block">
+    
+            <script type="text/javascript">//<![CDATA[
+            
+                var block_ads = new Array();
+    
+                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+                    <% for ( split /\s+/, $ad->photos ) { %>
+    
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+    
+                    <% last; # ONLY SHOW ONE %>
+    
+                    <% } %>
+    
+                <% } %>
+                
+                var random = Math.floor(Math.random() * block_ads.length);
+                document.write(block_ads[random]);
+    
+            //]]></script>
+            
+        </div>
 
-    <p>Some stuff goes here</p>
-
-    <% } %>
-
-    <h1>Example</h1>
-
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
-    <% } %>
+    </div>
 
 </div>
