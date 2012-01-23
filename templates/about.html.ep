@@ -133,7 +133,7 @@
         <% if ( $self->session('admin') ) { %>
 
         <a href="<%= $press->link %>" target="_blank">Read More |</a>
-        <a href="/cpanel/content/form?mode=update&id=<%= $press->id %>">Edit</a>        
+        <a href="/editor?mode=update&id=<%= $press->id %>">Edit</a>        
     
         <% } else { %>
     

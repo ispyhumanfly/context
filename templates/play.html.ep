@@ -32,7 +32,7 @@
             <% if ( $self->session('admin') ) { %>
 
             <a href="/play/people?id=<%= $people->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $people->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $people->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -73,7 +73,7 @@
             <% if ( $self->session('admin') ) { %>
 
             <a href="/<%= $places->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $places->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $places->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -112,7 +112,7 @@
             <% if ( $self->session('admin') ) { %>
 
             <a href="/play/articles?id=<%= $articles->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $articles->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $articles->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -171,7 +171,7 @@
                 <% if ( $self->session('admin') ) { %>
     
                 <a href="/play/events?id=<%= $events->id %>">Read More |</a>
-                <a href="/cpanel/content/form?mode=update&id=<%= $events->id %>">Edit</a>        
+                <a href="/editor?mode=update&id=<%= $events->id %>">Edit</a>        
             
                 <% } else { %>
             

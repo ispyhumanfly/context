@@ -34,7 +34,7 @@
             <% if ( $self->session('admin') ) { %>
 
             <a href="/<%= $try_this->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $try_this->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $try_this->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -102,7 +102,7 @@
             <% if ( $self->session('admin') ) { %>
 
             <a href="/<%= $more_places->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $more_places->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $more_places->id %>">Edit</a>        
         
             <% } else { %>
         

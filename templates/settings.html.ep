@@ -1,0 +1,60 @@
+% title 'Settings';
+% layout 'default';
+
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.TextBox");
+    dojo.require("dijit.form.Textarea");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.Menu");
+
+//]]></script>
+
+<% if ( $self->session('admin') ) { %>
+
+<div class="content_left">
+
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/function/settings/update" method="post">
+
+        <h1>After5 Basic Settings</h1>
+        
+        Admin: <div dojoType="dijit.form.TextBox" name="admin" value="<%= $self->{SETTINGS}->admin %>"></div>
+
+        <div class="content_spacer"></div>
+        
+        New Password: <div dojoType="dijit.form.TextBox" name="password_1" type="password"></div>
+
+        ... Again: <div dojoType="dijit.form.TextBox" name="password_2" type="password"></div>
+
+        <div class="content_spacer"></div>
+        
+        About: <textarea dojoType="dijit.form.Textarea" name="about" style="width: 400px;"><%= $self->{SETTINGS}->about %></textarea>
+
+        <div class="content_spacer"></div>
+        
+        <button dojoType="dijit.form.Button" type="submit">Update</button>
+
+    </div>
+
+</div>
+
+<!-- Settings Menu -->
+
+<div id="settings_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
+
+    <div dojoType="dijit.MenuItem" onClick="window.location='/dashboard';">
+        After5 Dashboard
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="window.location='/settings';">
+        After5 Settings
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
+        After5 Editor
+    </div>
+
+</div>
+
+<% } %>

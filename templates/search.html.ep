@@ -84,7 +84,7 @@
             <% if ( $self->session('admin') ) { %>
     
             <a href="/<%= $result->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $result->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $result->id %>">Edit</a>        
         
             <% } else { %>
         

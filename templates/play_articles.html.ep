@@ -78,7 +78,7 @@
 	    <% if ($self->session('admin')) { %>
     
 	    <a href="javascript:history.go(-1)">Back | </a>
-	    <a href="/cpanel/content/form?mode=update&id=<%= $articles->id %>" style="margin-left; 10px;">Edit</a>
+	    <a href="/editor?mode=update&id=<%= $articles->id %>" style="margin-left; 10px;">Edit</a>
     	    
 	    <% } else { %>
     
@@ -155,7 +155,7 @@
             <% if ( $self->session('admin') ) { %>
 
             <a href="/play/articles?id=<%= $more_articles->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $more_articles->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $more_articles->id %>">Edit</a>        
         
             <% } else { %>
         

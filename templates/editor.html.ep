@@ -1,5 +1,6 @@
-% title 'Content Form';
+% title 'Editor';
 % layout 'default';
+%
 % my $recent_update_length = 10;
 
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/TextColor.css" />
@@ -16,6 +17,7 @@
     dojo.require("dojox.form.DropDownSelect");
 
     dojo.require("dijit.Editor");
+    dojo.require("dijit.Menu");
 
     dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
     dojo.require("dijit._editor.plugins.LinkDialog");
@@ -31,7 +33,7 @@
     function create_content () {
 	
 	dojo.xhrPost({form: dojo.byId('content_form'), handleAs: 'text'});
-	window.location = "/cpanel";
+	window.location = "/dashboard";
     }
     
     <% } elsif ($self->param('mode') eq 'update') { %>
@@ -39,29 +41,30 @@
     function update_content () {
 	
 	dojo.xhrPost({form: dojo.byId('content_form'), handleAs: 'text'});
-	window.location = "/cpanel/content/form?mode=update&id=<%= $self->{CONTENT}->id %>";
+	window.location = "/editor?mode=update&id=<%= $self->{CONTENT}->id %>";
     }
     
     function remove_photo (id, photo) {
 	
-	dojo.xhrPost({ url: '/cpanel/photo/remove', postData: 'id=' + id + '&photo=' + photo + '' })
-	//dojo.byId(photo).innerHTML = "";
-	window.location = "/cpanel/content/form?mode=update&id=<%= $self->{CONTENT}->id %>";
+	dojo.xhrPost({ url: '/api/photo/remove', postData: 'id=' + id + '&photo=' + photo + '' })
+	dojo.byId(photo).innerHTML = "";
     }
     
     <% } %>
-    
+
 //]]></script>
+
+<% if ( $self->session('admin') ) { %>
 
 <div class="content_left">
 
     <% if ( $self->param('mode') eq 'create' ) { %>
 
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content/create" method="POST" id="content_form">
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/api/content/create" method="post" id="content_form">
 
     <% } elsif ( $self->param('mode') eq 'update' ) { %>
 
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/content/update?id=<%= $self->{CONTENT}->id %>" method="POST" id="content_form">
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/api/content/update?id=<%= $self->{CONTENT}->id %>" method="post" id="content_form">
 
     <% } %>
 	
@@ -829,7 +832,7 @@
             <div class="read_more_left">
     
                 <a href="/<%= $recent_updates->id %>">Read More |</a>
-                <a href="/cpanel/content/form?mode=update&id=<%= $recent_updates->id %>">Edit</a>        
+                <a href="/editor?mode=update&id=<%= $recent_updates->id %>">Edit</a>        
     
             </div>
     
@@ -850,3 +853,33 @@
     </div>    
 
 </div>
+
+<!-- Editor Menu -->
+
+<div id="dashboard_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
+
+    <div dojoType="dijit.MenuItem" onClick="window.location='/dashboard';">
+        After5 Dashboard
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="window.location='/settings';">
+        After5 Settings
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
+        After5 Editor
+    </div>
+
+    <% if ($self->param('mode') eq 'update') { %>
+    
+    <div data-dojo-type="dijit.MenuSeparator"></div>
+
+    <div dojoType="dijit.MenuItem" onClick="update_content();">
+        Save Current Progress
+    </div>
+    
+    <% } %>
+
+</div>
+
+<% } %>

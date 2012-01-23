@@ -24,7 +24,7 @@ any '/' => sub {
     return $self->redirect_to('home');
 };
 
-### After5 Pages
+### After5 User Pages
 
 get '/home' => sub {
 
@@ -96,44 +96,6 @@ get '/home' => sub {
 get '/live' => sub {
 
     my $self = shift;
-
-    # Until more Live related content is available. We will
-    # default to /live/detroit.
-
-    ## Ads
-   #my @ads =
-   #  $MODEL->resultset('Content')
-   #  ->search(
-   #    {pages => {like => '%live%'}, types => {like => '%ad_header%'}})->all;
-   #
-   #$self->{'ADS'} = \@ads;
-   #
-    ## City Life
-    #my @city_life =
-    #  $MODEL->resultset('Content')
-    #  ->search(
-    #    {pages => {like => '%live%'}, interests => {like => '%living%'}},
-    #    {order_by => 'id DESC'})->all;
-    #
-    #$self->{'CITY_LIFE'} = \@city_life;
-    #
-    ## Lifestyle
-    #my @lifestyle =
-    #  $MODEL->resultset('Content')
-    #  ->search({pages => {like => '%live%'}, types => {like => '%place%'}},
-    #    {order_by => 'id DESC'})->all;
-    #
-    #$self->{'LIFESTYLE'} = \@lifestyle;
-    #
-    ## Neighbors
-    #my @neighbors =
-    #  $MODEL->resultset('Content')
-    #  ->search({pages => {like => '%live%'}, types => {like => '%people%'}},
-    #    {order_by => 'id DESC'})->all;
-    #
-    #$self->{'NEIGHBORS'} = \@neighbors;
-    #
-    #return $self->render('live');
 
     return $self->redirect_to('live_detroit');
 
@@ -370,16 +332,7 @@ get '/live/royal_oak' => sub {
 get '/work' => sub {
 
     my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%work%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    return $self->render('work');
+    return $self->redirect_to('work_professional_development');
 
 } => 'work';
 
@@ -570,7 +523,9 @@ get '/play/articles' => sub {
 
     # Articles / More Articles
     my @articles = $MODEL->resultset('Content')->search(
-        {pages => {like => '%play%'}, types => {like => '%article%'}},{page => 1, rows => 50, order_by => 'id DESC'})->all;
+        {pages => {like => '%play%'}, types => {like => '%article%'}},
+        {page => 1, rows => 50, order_by => 'id DESC'}
+    )->all;
 
     $self->{'ARTICLES'} = \@articles;
 
@@ -708,7 +663,7 @@ get '/about/newsletter' => sub {
 
 } => 'about_newsletter';
 
-any '/search' => sub {
+get '/search' => sub {
 
     my $self = shift;
 
@@ -741,7 +696,7 @@ any '/search' => sub {
 
 } => 'search';
 
-any '/:id' => [id => qr/\d+/] => sub {
+get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
@@ -764,7 +719,9 @@ any '/:id' => [id => qr/\d+/] => sub {
 
     if ($self->param('id')) {
 
-        my $id = $MODEL->resultset('Content')->search({id => $self->param('id')})->single;
+        my $id =
+          $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->single;
         $self->{'ID'} = $id;
     }
 
@@ -772,11 +729,31 @@ any '/:id' => [id => qr/\d+/] => sub {
 
 } => 'id';
 
-### After5 Content Panel
+### After5 Administration
 
-get '/cpanel' => sub {
+get '/login' => sub {
 
     my $self = shift;
+
+    return $self->redirect_to('dashboard') if $self->session('admin');
+    return $self->render('login');
+
+} => 'login';
+
+get '/logout' => sub {
+
+    my $self = shift;
+
+    $self->session(expires => 1)
+      and return $self->redirect_to('home');
+
+} => 'logout';
+
+get '/dashboard' => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('login') unless $self->session('admin');
 
     # Home
     my @home =
@@ -827,24 +804,15 @@ get '/cpanel' => sub {
         {page => 1, rows => 10, order_by => 'modified_datetime DESC'})->all;
     $self->{'QUICK_EDITS'} = \@quick_edits;
 
-    # Settings
-    my $settings = $MODEL->resultset('Settings')->first;
-    $self->{'SETTINGS'} = $settings;
+    return $self->render('dashboard');
 
-    return $self->render('cpanel');
+} => 'dashboard';
 
-} => 'cpanel';
-
-## CPanel: Content
-
-any '/cpanel/content/form' => sub {
+get '/editor' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to('cpanel') unless $self->session('admin');
-
-    # Ad Content
-    $self->{'ad_content'} = '';    # Setting this blank...
+    return $self->redirect_to('login') unless $self->session('admin');
 
     # Content
     my $content =
@@ -859,15 +827,62 @@ any '/cpanel/content/form' => sub {
         {page => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
     $self->{'QUICK_EDITS'} = \@quick_edits;
 
-    return $self->render('cpanel_content_form');
+    return $self->render('editor');
 
-} => 'cpanel_content_form';
+} => 'editor';
 
-any '/cpanel/content/create' => sub {
+get '/settings' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to('cpanel') unless $self->session('admin');
+    return $self->redirect_to('login') unless $self->session('admin');
+
+    # Settings
+    my $settings = $MODEL->resultset('Settings')->first;
+    $self->{'SETTINGS'} = $settings;
+
+    return $self->render('settings');
+
+} => 'settings';
+
+### After5 Functions
+
+post '/api/login' => sub {
+
+    my $self = shift;
+
+    my @settings =
+      $MODEL->resultset('Settings')->search({admin => $self->param('admin')});
+
+    for (@settings) {
+
+        if (Crypt::SaltedHash->validate(
+                $_->password, $self->param('password')
+            )
+          )
+        {
+            $self->session(admin => $_->admin);
+        }
+    }
+
+    return $self->redirect_to('dashboard');
+
+};
+
+post '/api/logout' => sub {
+
+    my $self = shift;
+
+    $self->session(expires => 1)
+      and return $self->redirect_to('home');
+
+};
+
+post '/api/content/create' => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('home') unless $self->session('admin');
 
     my (@tags, @cities, @types, @interests, @pages, @photos);
 
@@ -997,11 +1012,11 @@ any '/cpanel/content/create' => sub {
 
 };
 
-any '/cpanel/content/update' => sub {
+post '/api/content/update' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to('cpanel') unless $self->session('admin');
+    return $self->redirect_to('home') unless $self->session('admin');
 
     my (@tags, @cities, @types, @interests, @pages, @photos);
 
@@ -1146,11 +1161,31 @@ any '/cpanel/content/update' => sub {
 
 };
 
-any '/cpanel/photo/remove' => sub {
+post '/api/content/remove' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to('cpanel') unless $self->session('admin');
+    return $self->redirect_to('home') unless $self->session('admin');
+
+    my $content =
+      $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->single;
+
+    my @content_photos = split /\s+/, $content->photos;
+
+    unlink "public/$_" for @content_photos;
+
+    $content->delete;
+
+    return $self->redirect_to('dashboard');
+
+};
+
+post '/api/photo/remove' => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('home') unless $self->session('admin');
 
     my $photo_madness =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
@@ -1175,73 +1210,11 @@ any '/cpanel/photo/remove' => sub {
 
 };
 
-any '/cpanel/content/remove' => sub {
+post '/api/settings/update' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to('cpanel') unless $self->session('admin');
-
-    my $content =
-      $MODEL->resultset('Content')->search({id => $self->param('id')})
-      ->single;
-
-    my @content_photos = split /\s+/, $content->photos;
-
-    unlink "public/$_" for @content_photos;
-
-    $content->delete;
-
-    return $self->redirect_to('cpanel');
-
-};
-
-## CPanel: After5 Admin
-
-any '/cpanel/login' => sub {
-
-    my $self = shift;
-
-    try {
-
-        my @settings =
-          $MODEL->resultset('Settings')
-          ->search({admin => $self->param('admin')});
-
-        for (@settings) {
-
-            if (Crypt::SaltedHash->validate(
-                    $_->password, $self->param('password')
-                )
-              )
-            {
-
-                $self->session(admin => $_->admin);
-                $self->redirect_to('cpanel');
-            }
-        }
-    }
-
-    finally {
-
-        $self->redirect_to('cpanel');
-    }
-
-} => 'cpanel_login';
-
-get '/cpanel/logout' => sub {
-
-    my $self = shift;
-
-    $self->session(expires => 1)
-      and return $self->redirect_to('home');
-
-} => 'cpanel_logout';
-
-any '/cpanel/settings' => sub {
-
-    my $self = shift;
-
-    return $self->redirect_to('cpanel') unless $self->session('admin');
+    return $self->redirect_to('home') unless $self->session('admin');
 
     try {
 
@@ -1266,11 +1239,10 @@ any '/cpanel/settings' => sub {
 
     finally {
 
-        $self->redirect_to('cpanel');
+        $self->redirect_to('dashboard');
     }
 
-} => 'cpanel_settings';
-
+};
 
 ### After5 Tools
 
@@ -1296,13 +1268,13 @@ sub process_photo {
                 unless (-d "/tmp/$_") {
 
                     if ($_ =~ m/jpg|png|gif$/i) {
-                            
+
                         my $checksum = Mojo::Util::md5_sum($_);
                         my $path     = "/photos/$checksum.img";
-    
+
                         move "/tmp/$_", "public/$path"
                           and push @new_photos, $path;
-                          
+
                     }
                 }
             }

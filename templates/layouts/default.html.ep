@@ -21,6 +21,7 @@
             dojo.require("dijit.form.TextBox");
             dojo.require("dijit.form.Button");
 	    dojo.require("dojox.image.Lightbox");
+	    dojo.require("dijit.Dialog");
 
             dojo.addOnLoad(_initLoader);
 
@@ -67,7 +68,7 @@
     
 		    <% if ( $self->session('admin') ) { %>
     
-		    <li><a href="/cpanel">CPanel</a></li>
+		    <li><a href="/dashboard">Dashboard</a></li>
     
 		    <% } %>
     
@@ -166,9 +167,10 @@
     
 		<div>
 		    <ul>
-			<li><a href="/cpanel" style="font-weight: bold; font-size: medium;">CPanel</a></li>
-			<li><a href="/cpanel/content/form?mode=create">Create</a></li>
-			<li><a href="/cpanel/logout">Logout</a></li>
+			<li><a href="/dashboard" style="font-weight: bold; font-size: medium;">Dashboard</a></li>
+			<li><a href="/settings">Settings</a></li>
+			<li><a href="/editor?mode=create">Editor</a></li>
+			<li><a href="/logout">Logout</a></li>
 		    </ul>
 		</div>
     

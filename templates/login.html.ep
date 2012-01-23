@@ -1,0 +1,39 @@
+% title 'Login';
+% layout 'default';
+
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.form.Form");
+    dojo.require("dijit.form.TextBox");
+    dojo.require("dijit.form.Button");
+
+    <% unless ( $self->session('admin') ) { %>
+
+    dojo.addOnLoad(function() {
+
+        dijit.byId("after5_login").show();
+
+    });
+
+    <% } %>
+
+//]]></script>
+
+<div class="content_left">
+
+    <h1>After5 Login</h1>
+
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/api/login" method="post">
+
+        Admin: <div dojoType="dijit.form.TextBox" name="admin"></div>
+
+        Password: <div dojoType="dijit.form.TextBox" name="password" type="password"></div>
+
+        <br />
+        <br />
+        
+        <button dojoType="dijit.form.Button" type="submit">Login</button>
+
+    </div>
+    
+</div>

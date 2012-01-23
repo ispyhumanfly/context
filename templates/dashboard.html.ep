@@ -1,26 +1,11 @@
-% title 'CPanel';
+% title 'Dashboard';
 % layout 'default';
 %
 % my $recent_update_length = 10;
 
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dijit.layout.TabContainer");
-    dojo.require("dijit.layout.ContentPane");
-    dojo.require("dijit.form.Textarea");
-    dojo.require("dijit.form.MultiSelect");
-    dojo.require("dijit.Dialog");
     dojo.require("dijit.Menu");
-
-    <% unless ( $self->session('admin') ) { %>
-
-    dojo.addOnLoad(function() {
-
-        dijit.byId("dialog_login").show();
-
-    });
-
-    <% } %>
 
 //]]></script>
 
@@ -57,7 +42,7 @@
             <% if ( $self->session('admin') ) { %>
     
             <a href="/<%= $home->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $home->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $home->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -102,7 +87,7 @@
             <% if ( $self->session('admin') ) { %>
     
             <a href="/<%= $live->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $live->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $live->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -147,7 +132,7 @@
             <% if ( $self->session('admin') ) { %>
     
             <a href="/<%= $work->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $work->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $work->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -192,7 +177,7 @@
             <% if ( $self->session('admin') ) { %>
     
             <a href="/<%= $play->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $play->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $play->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -237,7 +222,7 @@
             <% if ( $self->session('admin') ) { %>
     
             <a href="/<%= $photos->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $photos->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $photos->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -282,7 +267,7 @@
             <% if ( $self->session('admin') ) { %>
     
             <a href="/<%= $about->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $about->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $about->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -327,7 +312,7 @@
             <% if ( $self->session('admin') ) { %>
     
             <a href="/<%= $none->id %>">Read More |</a>
-            <a href="/cpanel/content/form?mode=update&id=<%= $none->id %>">Edit</a>        
+            <a href="/editor?mode=update&id=<%= $none->id %>">Edit</a>        
         
             <% } else { %>
         
@@ -384,7 +369,7 @@
             <div class="read_more_left">
     
                 <a href="/<%= $recent_updates->id %>">Read More |</a>
-                <a href="/cpanel/content/form?mode=update&id=<%= $recent_updates->id %>">Edit</a>        
+                <a href="/editor?mode=update&id=<%= $recent_updates->id %>">Edit</a>        
     
             </div>
     
@@ -408,78 +393,23 @@
     
 </div>
 
-<!-- CPanel Menu -->
+<!-- Dashboard Menu -->
 
-<div id="cpanel_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
+<div id="dashboard_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
 
-    <div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog_settings').show();">
-        Edit Settings
+    <div dojoType="dijit.MenuItem" onClick="window.location='/dashboard';">
+        After5 Dashboard
     </div>
 
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/cpanel/content/form?mode=create';">
-        Add Content
+    <div dojoType="dijit.MenuItem" onClick="window.location='/settings';">
+        After5 Settings
     </div>
 
-    <div dojoType="dijit.MenuSeparator"></div>
-
-    <% for (1..4) { %>
-
-    <div dojoType="dijit.MenuItem" onClick="dijit.byId('dialog_<%= $_ %>').show();">
-        Dummy Item <%= $_ %>
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
+        After5 Editor
     </div>
 
-    <% } %>
-
-</div>
-
-<% } %>
-
-<!-- CPanel Login -->
-
-<div id="dialog_login" dojoType="dijit.Dialog" title="CPanel Login">
-
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/login" method="POST">
-
-        Admin: <div dojoType="dijit.form.TextBox" name="admin"></div>
-
-        <br />
-        <br />
-
-        Password: <div dojoType="dijit.form.TextBox" name="password" type="password"></div>
-
-        <button dojoType="dijit.form.Button" type="submit">Login</button>
-
-    </div>
-</div>
-
-<% if ( $self->session('admin') ) { %>
-
-<!-- Edit Settings -->
-
-<div id="dialog_settings" dojoType="dijit.Dialog" title="Edit Settings" style="width: 800px; height: 600px;">
-
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/cpanel/settings" method="POST">
-
-        Admin: <div dojoType="dijit.form.TextBox" name="admin" value="<%= $self->{SETTINGS}->admin %>"></div>
-
-        <br />
-        <br />
-
-        New Password: <div dojoType="dijit.form.TextBox" name="password_1" type="password"></div>
-
-        ... Again: <div dojoType="dijit.form.TextBox" name="password_2" type="password"></div>
-
-        <br />
-        <br />
-
-        About: <textarea dojoType="dijit.form.Textarea" name="about" style="width: 400px;"><%= $self->{SETTINGS}->about %></textarea>
-
-        <br />
-        <br />
-
-        <button dojoType="dijit.form.Button" type="submit">Edit</button>
-
-    </div>
+    <div data-dojo-type="dijit.MenuSeparator"></div>
 
 </div>
 
