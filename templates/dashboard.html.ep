@@ -411,6 +411,10 @@
 
     <div data-dojo-type="dijit.MenuSeparator"></div>
 
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
+        Logout of After5
+    </div>
+
 </div>
 
 <% } %>

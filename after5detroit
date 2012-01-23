@@ -1216,31 +1216,25 @@ post '/api/settings/update' => sub {
 
     return $self->redirect_to('home') unless $self->session('admin');
 
-    try {
+    $MODEL->resultset('Settings')
+      ->update({admin => $self->param('admin')});
 
-        $MODEL->resultset('Settings')
-          ->update({admin => $self->param('admin')});
+    if (    ($self->param('password_1') ne '')
+        and ($self->param('password_1') eq $self->param('password_2')))
+    {
 
-        if (    ($self->param('password_1') ne '')
-            and ($self->param('password_1') eq $self->param('password_2')))
-        {
+        my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
+        $crypt->add($self->param('password_1'));
 
-            my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
-            $crypt->add($self->param('password_1'));
+        my $password = $crypt->generate;
 
-            my $password = $crypt->generate;
-
-            $MODEL->resultset('Settings')->update({password => $password});
-        }
-
-        $MODEL->resultset('Settings')
-          ->update({about => $self->param('about')});
+        $MODEL->resultset('Settings')->update({password => $password});
     }
 
-    finally {
+    $MODEL->resultset('Settings')
+      ->update({about => $self->param('about')});
 
-        $self->redirect_to('dashboard');
-    }
+    return $self->redirect_to('settings');
 
 };
 

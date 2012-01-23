@@ -15,23 +15,28 @@
 
 <div class="content_left">
 
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/function/settings/update" method="post">
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/api/settings/update" method="post">
 
-        <h1>After5 Basic Settings</h1>
+        <h1>Basic Settings</h1>
         
-        Admin: <div dojoType="dijit.form.TextBox" name="admin" value="<%= $self->{SETTINGS}->admin %>"></div>
+        <h4>Please enter a name for the After5 administrator.</h4>
+        <div dojoType="dijit.form.TextBox" name="admin" value="<%= $self->{SETTINGS}->admin %>"></div>
 
         <div class="content_spacer"></div>
         
-        New Password: <div dojoType="dijit.form.TextBox" name="password_1" type="password"></div>
+        <h4>Enter a new password.</h4>
+        <div dojoType="dijit.form.TextBox" name="password_1" type="password"></div>
 
-        ... Again: <div dojoType="dijit.form.TextBox" name="password_2" type="password"></div>
+        <h4>Again please...</h4>
+        <div dojoType="dijit.form.TextBox" name="password_2" type="password"></div>
 
         <div class="content_spacer"></div>
         
-        About: <textarea dojoType="dijit.form.Textarea" name="about" style="width: 400px;"><%= $self->{SETTINGS}->about %></textarea>
+        <h4>Say something about this After5 setup.</h4>
+        <textarea dojoType="dijit.form.Textarea" name="about" style="width: 400px;"><%= $self->{SETTINGS}->about %></textarea>
 
-        <div class="content_spacer"></div>
+        <br />
+        <br />
         
         <button dojoType="dijit.form.Button" type="submit">Update</button>
 
@@ -53,6 +58,12 @@
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
         After5 Editor
+    </div>
+
+    <div data-dojo-type="dijit.MenuSeparator"></div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
+        Logout of After5
     </div>
 
 </div>

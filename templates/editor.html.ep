@@ -81,30 +81,26 @@
 	    <% } %>
     
 	<% } %>
-	    
+	
+	<h4>The author of this entry.</h4>
+    
 	<% if ( $self->param('mode') eq 'create' ) { %>
-	
-	<h4>Author</h4>
-	
+		
 	<div dojoType="dijit.form.TextBox" name="author" value=""></div>
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
-
-	<h4>Author</h4>
 
 	<div dojoType="dijit.form.TextBox" name="author" value="<%= $self->{CONTENT}->author %>"></div>
 
 	<% } %>
 
-	<% if ( $self->param('mode') eq 'create' ) { %>
+	<h4>The title of this entry.</h4>
 
-	<h4>Title</h4>
+	<% if ( $self->param('mode') eq 'create' ) { %>
 
 	<div dojoType="dijit.form.TextBox" name="title" value=""></div>
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
-
-	<h4>Title</h4>
 
 	<div dojoType="dijit.form.TextBox" name="title" value="<%= $self->{CONTENT}->title %>"></div>
 
@@ -207,8 +203,8 @@
 		search
 	    </option>
     
-	    <option value="more">
-		more
+	    <option value="id">
+		id
 	    </option>
     
 	</select>
@@ -251,8 +247,8 @@
 		search
 	    </option>
     
-	    <option value="more" <%= 'selected' if $self->{CONTENT}->pages =~ m/more/i %>>
-		more
+	    <option value="id" <%= 'selected' if $self->{CONTENT}->pages =~ m/id/i %>>
+		id
 	    </option>
     
 	</select>
@@ -588,7 +584,12 @@
 	    </option>
     
 	    <option value="3" <%= 'selected' if $self->{CONTENT}->position =~ m/3/i %>>
-		3
+		3    <div data-dojo-type="dijit.MenuSeparator"></div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
+        Logout of After5
+    </div>
+
 	    </option>
     
 	    <option value="4" <%= 'selected' if $self->{CONTENT}->position =~ m/4/i %>>
@@ -877,9 +878,15 @@
     <div dojoType="dijit.MenuItem" onClick="update_content();">
         Save Current Progress
     </div>
-    
+
     <% } %>
 
+    <div data-dojo-type="dijit.MenuSeparator"></div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
+        Logout of After5
+    </div>
+    
 </div>
 
 <% } %>
