@@ -352,6 +352,16 @@ get '/work/professional_development' => sub {
       ->search(
         {pages => {like => '%work%'}, types => {like => '%ad_header%'}})->all;
 
+    $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
+      ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
+
     # Work
     my @work = $MODEL->resultset('Content')->search(
         {   pages => {like => '%work%'},
