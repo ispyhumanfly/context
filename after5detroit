@@ -430,6 +430,18 @@ get '/play/people' => sub {
 
     my $self = shift;
 
+    unless ($self->param('id')) {
+
+        my $first = $MODEL->resultset('Content')->search(
+            {   pages => {like => 'play'},
+                types => {like => '%article%'},
+                tags  => {like => '%people%'}
+            },
+            {order_by => 'id DESC'}
+        )->first;
+        return $self->redirect_to('/play/people?id=' . $first->id);
+    }
+
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -505,6 +517,16 @@ get '/play/articles' => sub {
 
     my $self = shift;
 
+    unless ($self->param('id')) {
+
+        my $first =
+          $MODEL->resultset('Content')
+          ->search(
+            {pages => {like => 'play'}, types => {like => '%article%'}},
+            {order_by => 'id DESC'})->first;
+        return $self->redirect_to('/play/articles?id=' . $first->id);
+    }
+
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -576,6 +598,16 @@ get '/photos' => sub {
 
     my $self = shift;
 
+    unless ($self->param('id')) {
+
+        my $first =
+          $MODEL->resultset('Content')
+          ->search(
+            {pages => {like => '%photos%'}, types => {like => '%gallery%'}},
+            {order_by => 'id DESC'})->first;
+        return $self->redirect_to('/photos?id=' . $first->id);
+    }
+
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -596,7 +628,9 @@ get '/photos' => sub {
     # Galleries
     my @galleries =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%photos%'}}, {order_by => 'id DESC'})->all;
+      ->search(
+        {pages => {like => '%photos%'}, types => {like => '%gallery%'}},
+        {order_by => 'id DESC'})->all;
 
     $self->{'GALLERIES'} = \@galleries;
 
@@ -1216,8 +1250,7 @@ post '/api/settings/update' => sub {
 
     return $self->redirect_to('home') unless $self->session('admin');
 
-    $MODEL->resultset('Settings')
-      ->update({admin => $self->param('admin')});
+    $MODEL->resultset('Settings')->update({admin => $self->param('admin')});
 
     if (    ($self->param('password_1') ne '')
         and ($self->param('password_1') eq $self->param('password_2')))
@@ -1231,8 +1264,7 @@ post '/api/settings/update' => sub {
         $MODEL->resultset('Settings')->update({password => $password});
     }
 
-    $MODEL->resultset('Settings')
-      ->update({about => $self->param('about')});
+    $MODEL->resultset('Settings')->update({about => $self->param('about')});
 
     return $self->redirect_to('settings');
 
