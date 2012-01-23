@@ -584,12 +584,7 @@
 	    </option>
     
 	    <option value="3" <%= 'selected' if $self->{CONTENT}->position =~ m/3/i %>>
-		3    <div data-dojo-type="dijit.MenuSeparator"></div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
-        Logout of After5
-    </div>
-
+		3    
 	    </option>
     
 	    <option value="4" <%= 'selected' if $self->{CONTENT}->position =~ m/4/i %>>
