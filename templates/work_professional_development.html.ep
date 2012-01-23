@@ -1,7 +1,7 @@
 % title 'Work';
 % layout 'default';
 %
-% my $upcoming_events_length = 5;
+% my $professional_development_length = 5;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -9,7 +9,7 @@
 
 <div class="content_work_left">
     
-    <h1 style="font-size: smaller;">Professional Development</h1>
+    <h1>Categories</h1>
     
     <p>Professional Group</p>
     <p>Networking</p>
@@ -25,27 +25,27 @@
 
     <h1>Professional Development</h1>
 
-    <% my $upcoming_events_counter; %>
+    <% my $professional_development_counter; %>
     
-    <% for my $upcoming_events (@{$self->{WORK}}) { %>
+    <% for my $professional_development (@{$self->{WORK}}) { %>
 
 	<% if ($self->param('id')) { %>
 	
-	<% next unless $upcoming_events->id <= int($self->param('id')); %>
+	<% next unless $professional_development->id <= int($self->param('id')); %>
 	    
 	<% } %>
 	
-        <% $upcoming_events_counter++; %>
+        <% $professional_development_counter++; %>
                 
-        <% if ($upcoming_events_counter > 1) { %>
+        <% if ($professional_development_counter > 1) { %>
         
         <hr />
         
         <% } %>
         
-        <% for ( split /\s+/, $upcoming_events->photos ) { %>
+        <% for ( split /\s+/, $professional_development->photos ) { %>
 
-        <a dojoType="dojox.image.Lightbox" title="<%= $upcoming_events->title %>" href="<%= $_ %>">
+        <a dojoType="dojox.image.Lightbox" title="<%= $professional_development->title %>" href="<%= $_ %>">
             <img class="position_image_left" src="<%= $_ %>" />
         </a>
 
@@ -53,26 +53,26 @@
 
         <% } %>
 
-        <h2><a href="/<%= $upcoming_events->id %>"><%= $upcoming_events->title %></a></h2>
+        <h2><a href="/<%= $professional_development->id %>"><%= $professional_development->title %></a></h2>
     
-        <p><%== HTML::FormatText->format_string($upcoming_events->body) %></p>
+        <p><%== HTML::FormatText->format_string($professional_development->body) %></p>
     
         <div class="read_more_right">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/<%= $upcoming_events->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
+            <a href="/<%= $professional_development->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $professional_development->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/<%= $upcoming_events->id %>">Read More...</a>
+            <a href="/<%= $professional_development->id %>">Read More...</a>
             
             <% } %>
 
         </div>
         
-        <% last if $upcoming_events_counter == $upcoming_events_length; %>
+        <% last if $professional_development_counter == $professional_development_length; %>
         
     <% } %>
 
@@ -82,21 +82,21 @@
         
         <div style="text-align: right; margin-top: -20px;">
 
-            <% my $next_event_counter; %>
+            <% my $next_work_counter; %>
             
             <% for (@{$self->{WORK}}) { %>
 
-                <% my $next_event = @{$self->{WORK}}->[$next_event_counter + $upcoming_events_length]; %>
+                <% my $next_work = @{$self->{WORK}}->[$next_work_counter + $professional_development_length]; %>
                 
-                <% $next_event_counter++; %>
+                <% $next_work_counter++; %>
                 
                 <% if ($self->param('id') == $_->id) { %>
                 
-                <a href="/work/professional_development?id=<%= $next_event->id %>">Next</a>
+                <a href="/work/professional_development?id=<%= $next_work->id %>">Next</a>
                 
-                <% } elsif ((not $self->param('id')) and ($next_event_counter == $upcoming_events_length)) { %>
+                <% } elsif ((not $self->param('id')) and ($next_work_counter == $professional_development_length)) { %>
                 
-                <a href="/work/professional_development?id=<%= $next_event->id %>">Next</a>
+                <a href="/work/professional_development?id=<%= $next_work->id %>">Next</a>
                 
                 <% } %>
                 
@@ -110,17 +110,21 @@
 
 <div class="content_right">
 
-    <h1>Networking</h1>
+    <h1>Networking</h1></a>
 
     <div class="content_right_padding">
         
+        <% my $networking_counter; %>
+        
         <% for my $networking (@{$self->{NETWORKING}}) { %>
-                
-            <% next if $networking->types =~ m/ad/i; %>
-    
+        
+            <% $networking_counter++; %>
+            
+            <% next if $networking_counter > 3; %>
+        
             <% for ( split /\s+/, $networking->photos ) { %>
             
-            <a title="<%= $networking->title %>" href="/<%= $networking->id %>">
+            <a title="<%= $networking->title %>" href="/play/networking?id=<%= $networking->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -130,27 +134,39 @@
             
             <div class="block_title"><%= $networking->title %></div>
             
-            <div class="block_text"><%== substr( HTML::FormatText->format_string($networking->body), 0, 75 ) . '...' %></div>
+            <div class="block_text">
+                
+                <%= substr( $networking->venue, 0, 35 ) %> 
+                
+                <br />
+            
+                <%= $networking->start_datetime->day_name %>, <%= $networking->start_datetime->day %> <%= $networking->start_datetime->month_name %>
+            
+            </div>
             
             <div class="read_more_left">
     
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/<%= $networking->id %>">Read More |</a>
+                <a href="/work/professional_development?id=<%= $networking->id %>">Read More |</a>
                 <a href="/editor?mode=update&id=<%= $networking->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/<%= $networking->id %>">Read More...</a>
+                <a href="/work/professional_development?id=<%= $networking->id %>">Read More...</a>
                 
                 <% } %>
     
             </div>
-                
+    
+            <% if ($networking_counter < 3) { %>
+            
             <hr />
+            
+            <% } %>
         
         <% } %>
-    
+
         <div class="ad_space_block">
     
             <script type="text/javascript">//<![CDATA[

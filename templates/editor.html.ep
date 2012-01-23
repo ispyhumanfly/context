@@ -780,7 +780,7 @@
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
 	
 	<button dojoType="dijit.form.Button" type="submit">Update</button>
-	<button dojoType="dijit.form.Button" onclick="window.location='/cpanel/content/remove?id=<%= $self->{CONTENT}->id %>'">Remove</button>
+	<button dojoType="dijit.form.Button" onclick="window.location='/api/content/remove?id=<%= $self->{CONTENT}->id %>'">Remove</button>
 	<button dojoType="dijit.form.Button" onclick="window.location='/<%= $self->{CONTENT}->id %>'">Show Content</button>
 	
 	<% } %>
