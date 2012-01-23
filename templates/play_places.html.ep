@@ -1,7 +1,7 @@
 % title 'Play';
 % layout 'default';
 %
-% my $more_places_length = 10;
+% my $featured_places_length = 10;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -11,81 +11,29 @@
 
 <div class="content_left">
 
-    <% for my $try_this (@{$self->{TRY_THIS}}) { %>
+    <h1>Featured Places</h1>
+
+    <% my $featured_places_counter; %>
     
-        <h1>Try This!</h1>
-    
-	<% for ( split /\s+/, $try_this->photos ) { %>
-
-	<a dojoType="dojox.image.Lightbox" title="<%= $try_this->title %>" href="<%= $_ %>">
-	    <img class="para_image_left" src="<%= $_ %>" />
-	</a>
-
-        <% last; #JUST SHOW ONE %>
-
-        <% } %>
-
-        <h2><a href="/<%= $try_this->id %>"><%= $try_this->title %></a></h3>
-
-	<p class="para_text_right"><%== HTML::FormatText->format_string($try_this->body) %></p>
-        
-        <div class="read_more_right">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/<%= $try_this->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $try_this->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/<%= $try_this->id %>">Read More...</a>
-            
-            <% } %>
-
-        </div>
-
-        <div style="margin-left: 385px; font-size: smaller;">
-            
-            <h4>Address</h4>
-            <%= $try_this->address %>
-            
-            <h4><a href="<%= $try_this->link %>" target="_blank">View Website</a></h4>
-            
-            <h4><a href="http://maps.google.com/maps?q=<%= $try_this->lat %>,<%= $try_this->lng %>" target="_blank">View Map</a></h4>
-
-        </div>
-
-        <% last; #JUST SHOW ONE %>
-
-    <% } %>
-
-    <% my $more_places_counter; %>
-    
-    <% for my $more_places (@{$self->{MORE_PLACES}}) { %>
+    <% for my $featured_places (@{$self->{FEATURED_PLACES}}) { %>
 
 	<% if ($self->param('id')) { %>
 	
-	<% next unless $more_places->id < int($self->param('id')); %>
+	<% next unless $featured_places->id <= int($self->param('id')); %>
 	    
 	<% } %>
 	
-        <% $more_places_counter++; %>
+        <% $featured_places_counter++; %>
         
-        <% if ($more_places_counter == 1) { %>
-        
-        <h1 style="clear: both;">More Places</h1>
-        
-        <% } %>
-        
-        <% if ($more_places_counter > 1) { %>
+        <% if ($featured_places_counter > 1) { %>
         
         <hr />
         
         <% } %>
         
-        <% for ( split /\s+/, $more_places->photos ) { %>
+        <% for ( split /\s+/, $featured_places->photos ) { %>
 
-        <a dojoType="dojox.image.Lightbox" title="<%= $more_places->title %>" href="<%= $_ %>">
+        <a dojoType="dojox.image.Lightbox" title="<%= $featured_places->title %>" href="<%= $_ %>">
             <img class="position_image_left" src="<%= $_ %>" />
         </a>
 
@@ -93,26 +41,26 @@
 
         <% } %>
 
-        <h2><a href="/<%= $more_places->id %>"><%= $more_places->title %></a></h2>
+        <h2><a href="/<%= $featured_places->id %>"><%= $featured_places->title %></a></h2>
     
-        <p><%== HTML::FormatText->format_string($more_places->body) %></p>
+        <p><%== HTML::FormatText->format_string($featured_places->body) %></p>
     
         <div class="read_more_right">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/<%= $more_places->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $more_places->id %>">Edit</a>        
+            <a href="/<%= $featured_places->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $featured_places->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/<%= $more_places->id %>">Read More...</a>
+            <a href="/<%= $featured_places->id %>">Read More...</a>
             
             <% } %>
 
         </div>
         
-        <% last if $more_places_counter == $more_places_length; %>
+        <% last if $featured_places_counter == $featured_places_length; %>
         
     <% } %>
 
@@ -124,9 +72,9 @@
 
             <% my $next_place_counter; %>
             
-            <% for (@{$self->{MORE_PLACES}}) { %>
+            <% for (@{$self->{FEATURED_PLACES}}) { %>
 
-                <% my $next_place = @{$self->{MORE_PLACES}}->[$next_place_counter + $more_places_length]; %>
+                <% my $next_place = @{$self->{FEATURED_PLACES}}->[$next_place_counter + $featured_places_length]; %>
                 
                 <% $next_place_counter++; %>
                 
@@ -134,7 +82,7 @@
                 
                 <a href="/play/places?id=<%= $next_place->id %>">Next</a>
                 
-                <% } elsif ((not $self->param('id')) and ($next_place_counter == $more_places_length)) { %>
+                <% } elsif ((not $self->param('id')) and ($next_place_counter == $featured_places_length)) { %>
                 
                 <a href="/play/places?id=<%= $next_place->id %>">Next</a>
                 
@@ -150,7 +98,7 @@
 
 <div class="content_right">
 
-    <h1>On Tap</h1>
+    <h1>Calendar</h1>
 
     <div class="content_right_padding">
         

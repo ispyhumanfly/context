@@ -19,9 +19,9 @@
 
 //]]></script>
 
-<div class="content_left">
+<div class="content_center">
 
-    <h1>After5 Login</h1>
+    <h1>Login to After5</h1>
 
     <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/api/login" method="post">
 

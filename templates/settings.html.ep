@@ -13,7 +13,7 @@
 
 <% if ( $self->session('admin') ) { %>
 
-<div class="content_left">
+<div class="content_center">
 
     <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/api/settings/update" method="post">
 

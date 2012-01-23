@@ -50,8 +50,6 @@
 
     <% for my $places (@{$self->{PLACES}}) { %>
 
-        <% next unless $places->tags =~ m/try_this/i; %>
-        
 	<% for ( split /\s+/, $places->photos ) { %>
 
 	<a title="<%= $places->title %>" href="/play/places?id=<%= $places->id %>">
@@ -64,7 +62,7 @@
 
 	<div class="h1_spacer"><a href="/play/places"><h1>Places</h1></a></div>
 
-	<h2><a href="/<%= $places->id %>"><%= $places->title %></a></h2>
+	<h2><a href="/play/places?id=<%= $places->id %>"><%= $places->title %></a></h2>
 
 	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($places->body), 0, 500 ) . '...' %></p>
 
@@ -72,12 +70,12 @@
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/<%= $places->id %>">Read More |</a>
+            <a href="/play/places?id=<%= $places->id %>">Read More |</a>
             <a href="/editor?mode=update&id=<%= $places->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/<%= $places->id %>">Read More...</a>
+            <a href="/play/places?id=	<%= $places->id %>">Read More...</a>
             
             <% } %>
 

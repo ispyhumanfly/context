@@ -24,7 +24,7 @@ any '/' => sub {
     return $self->redirect_to('home');
 };
 
-### After5 User Pages
+### After5 Client Pages
 
 get '/home' => sub {
 
@@ -96,7 +96,6 @@ get '/home' => sub {
 get '/live' => sub {
 
     my $self = shift;
-
     return $self->redirect_to('live_detroit');
 
 } => 'live';
@@ -384,7 +383,7 @@ get '/play' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Features
+    # People
     my @features = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%article%'},
@@ -395,10 +394,10 @@ get '/play' => sub {
 
     $self->{'FEATURES'} = \@features;
 
-    # Buzz
+    # Articles
     my @buzz =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, tags => {like => '%the_buzz%'}},
+      ->search({pages => {like => '%play%'}, types => {like => '%article%'}},
         {order_by => 'id DESC'})->all;
 
     $self->{'BUZZ'} = \@buzz;
@@ -406,8 +405,7 @@ get '/play' => sub {
     # Places
     my @places = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
-            types => {like => '%place%'},
-            tags  => {like => '%try_this%'}
+            types => {like => '%place%'}
         },
         {order_by => 'id DESC'}
     )->all;
@@ -477,6 +475,16 @@ get '/play/places' => sub {
 
     my $self = shift;
 
+    unless ($self->param('id')) {
+
+        my $first =
+          $MODEL->resultset('Content')
+          ->search(
+            {pages => {like => 'play'}, types => {like => '%place%'}},
+            {order_by => 'id DESC'})->first;
+        return $self->redirect_to('/play/places?id=' . $first->id);
+    }
+
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -493,21 +501,13 @@ get '/play/places' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Try This!
-    my @try_this = $MODEL->resultset('Content')->search(
-        {types => {like => '%place%'}, tags => {like => '%try_this%'}},
-        {order_by => 'id DESC'},
-    )->all;
-
-    $self->{'TRY_THIS'} = \@try_this;
-
-    # More Places
-    my @more_places = $MODEL->resultset('Content')->search(
+    # Featured Places
+    my @featured_places = $MODEL->resultset('Content')->search(
         {pages    => {like => '%play%'}, types => {like => '%place%'}},
-        {order_by => 'id DESC'},
+        {page => 1, rows => 100, order_by => 'id DESC'},
     )->all;
 
-    $self->{'MORE_PLACES'} = \@more_places;
+    $self->{'FEATURED_PLACES'} = \@featured_places;
 
     return $self->render('play_places');
 
@@ -559,6 +559,16 @@ get '/play/events' => sub {
 
     my $self = shift;
 
+    unless ($self->param('id')) {
+
+        my $first =
+          $MODEL->resultset('Content')
+          ->search(
+            {pages => {like => 'play'}, types => {like => '%event%'}},
+            {order_by => 'id DESC'})->first;
+        return $self->redirect_to('/play/events?id=' . $first->id);
+    }
+
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -575,20 +585,11 @@ get '/play/events' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Featured Event
-    my @featured_event = $MODEL->resultset('Content')->search(
-        {types    => {like => '%event%'}},
-        {tags     => {like => '%featured%'}},
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'FEATURED_EVENT'} = \@featured_event;
-
     # Upcoming Events
     my @upcoming_events =
       $MODEL->resultset('Content')
       ->search({pages => {like => '%play%'}, types => {like => '%event%'}},
-        {order_by => 'id DESC'})->all;
+        {page => 1, rows => 50, order_by => 'id DESC'})->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
 
@@ -763,7 +764,7 @@ get '/:id' => [id => qr/\d+/] => sub {
 
 } => 'id';
 
-### After5 Administration
+### After5 Admin Pages
 
 get '/login' => sub {
 
@@ -879,7 +880,7 @@ get '/settings' => sub {
 
 } => 'settings';
 
-### After5 Functions
+### After5 Form API
 
 post '/api/login' => sub {
 
@@ -920,7 +921,6 @@ post '/api/content/create' => sub {
 
     my (@tags, @cities, @types, @interests, @pages, @photos);
 
-
     my $new_content =
       $MODEL->resultset('Content')
       ->create({create_datetime => DateTime->now});
@@ -938,7 +938,6 @@ post '/api/content/create' => sub {
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
           ->update({stop_datetime => $stop_datetime});
-
 
     }
 

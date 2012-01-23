@@ -1,8 +1,7 @@
 % title 'Play';
 % layout 'default';
 %
-% my $upcoming_events_length = 5;
-
+% my $upcoming_events_length = 10;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -12,51 +11,20 @@
 
 <div class="content_left">
 
-    <% for my $featured_event (@{$self->{FEATURED_EVENT}}) { %>
-    
-        <h1>Featured Event</h1>
-    
-	<% for ( split /\s+/, $featured_event->photos ) { %>
-
-	<a dojoType="dojox.image.Lightbox" title="<%= $featured_event->title %>" href="<%= $_ %>">
-	    <img class="para_image_left" src="<%= $_ %>" />
-	</a>
-
-        <% last; #JUST SHOW ONE %>
-
-        <% } %>
-
-        <h2><a href="/#"><%= $featured_event->title %></a></h3>
-
-        <p><%== $featured_event->body %></p>
-        
-        <p>Venue: <%= $featured_event->venue %></p>
-        <p>Begins: <%= $featured_event->start_datetime %><p>
-        <p>Ends: <%= $featured_event->stop_datetime %><p>
-        
-
-    <% last; #JUST SHOW ONE %>
-
-    <% } %>
+    <h1>Upcoming Events</h1>
 
     <% my $upcoming_events_counter; %>
     
     <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
-    
-        <% $upcoming_events_counter++; %>
 
 	<% if ($self->param('id')) { %>
 	
-	<% next unless $upcoming_events->id < int($self->param('id')); %>
+	<% next unless $upcoming_events->id <= int($self->param('id')); %>
 	    
 	<% } %>
-        
-        <% if ($upcoming_events_counter == 1) { %>
-        
-        <h1 style="clear: both;">Upcoming Events</h1>
-        
-        <% } %>
-        
+	
+        <% $upcoming_events_counter++; %>
+                
         <% if ($upcoming_events_counter > 1) { %>
         
         <hr />
@@ -75,18 +43,25 @@
 
         <h2><a href="/<%= $upcoming_events->id %>"><%= $upcoming_events->title %></a></h2>
     
-        <p><%== substr( $upcoming_events->body, 0, 100 ) . '...' %><p>
+        <p><%== HTML::FormatText->format_string($upcoming_events->body) %></p>
     
         <div class="read_more_right">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/<%= $upcoming_events->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
+        
+            <% } else { %>
+        
             <a href="/<%= $upcoming_events->id %>">Read More...</a>
+            
+            <% } %>
+
         </div>
         
-        <p>Venue: <%= $upcoming_events->venue %> </p>
-        <p>Begins: <%= $upcoming_events->start_datetime %><p>
-        <p>Ends: <%= $upcoming_events->stop_datetime %><p>
-
         <% last if $upcoming_events_counter == $upcoming_events_length; %>
-
+        
     <% } %>
 
     <h3>
@@ -123,7 +98,7 @@
 
 <div class="content_right">
 
-    <h1>On Tap</h1>
+    <h1>Calendar</h1>
 
     <div class="content_right_padding">
         
@@ -159,3 +134,4 @@
     </div>
 
 </div>
+

@@ -482,6 +482,18 @@ body {
     padding: 0px 5px 5px 5px;
 }
 
+#content_container .content_center {
+
+    margin-top: 50px;
+    margin-left: 245px;
+    text-align: center;
+    width: 50%;
+    background-color: white;
+    border-left: 25px solid white;
+    min-height: 550px;
+
+}
+
 #content_container .event_calendar {
     padding: 10px;
     margin-left: 40px;
