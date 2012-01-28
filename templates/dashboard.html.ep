@@ -357,15 +357,15 @@
             <div class="block_title"><%= $recent_updates->title %></div>
             
             <div class="block_text">
-                
-                <% if ($recent_updates->body ne '') { %>
-                
-                <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %> ... 
-                
-                <% } %>
-                
-            </div>
             
+		<% unless ($recent_updates->body =~ /^\w+/x) { %>
+    
+                <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %> ... 
+            
+		<% } %>
+    
+            </div>
+        
             <div class="read_more_left">
     
                 <a href="/<%= $recent_updates->id %>">Read More |</a>
