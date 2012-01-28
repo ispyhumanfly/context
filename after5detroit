@@ -1205,14 +1205,17 @@ post '/api/content/update' => sub {
         unshift @photos, $default;
     }
 
-    push @photos,
-      process_photo($self->req->upload('photos'), $self->param('id'))
-      if $self->req->upload('photos');
-
-    $MODEL->resultset('Content')->search({id => $self->param('id')})
-      ->update({photos => "@photos"})
-      if scalar @photos >= 1;
-
+    if ($self->param('photos')) {
+        
+        push @photos,
+          process_photo($self->req->upload('photos'), $self->param('id'))
+          if $self->req->upload('photos');
+    
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({photos => "@photos"})
+          if scalar @photos >= 1;
+    }
+    
     $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->update({modified_datetime => DateTime->now});
 
