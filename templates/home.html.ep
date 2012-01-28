@@ -294,15 +294,11 @@
 	    
 	    <% } %>
 	    
-	    <div class="block_text">
-		
-	    <% unless ($galleries->body =~ /^\w+/x) { %>
+	    <% if ($galleries->body ne '') { %>
 	    
-            <%== substr( HTML::FormatText->format_string($galleries->body), 0, 75 ) . '...' %>
+            <div class="block_text"><%== substr( HTML::FormatText->format_string($galleries->body), 0, 75 ) . '...' %></div>
             
 	    <% } %>
-	    
-	    </div>
 	    
             <div class="read_more_left">
 

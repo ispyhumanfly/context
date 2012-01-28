@@ -130,15 +130,11 @@
             
             <div class="block_title"><a href="/photos?id=<%= $more_galleries->id %>"><%= $more_galleries->title %></a></div>
             
-            <div class="block_text">
-                
-            <% unless ($more_galleries->body =~ /^\w+/x) { %>
+            <% if ($more_galleries->body ne '') { %>
             
-            <%== substr( HTML::FormatText->format_string($more_galleries->body), 0, 75 ) . '...' %>
+            <div class="block_text"><%== substr( HTML::FormatText->format_string($more_galleries->body), 0, 75 ) . '...' %></div>
             
             <% } %>
-            
-            </div>
             
             <div class="read_more_left">
     
