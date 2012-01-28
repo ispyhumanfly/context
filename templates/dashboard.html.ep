@@ -358,7 +358,7 @@
             
             <div class="block_text">
             
-		<% unless ($recent_updates->body =~ /^\w+/x) { %>
+		<% if ($recent_updates->body ne ' ') { %>
     
                 <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %> ... 
             
