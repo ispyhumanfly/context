@@ -294,7 +294,7 @@
 	    
 	    <% } %>
 	    
-	    <% if ($galleries->body ne ' ') { %>
+	    <% if ($galleries->body ne '') { %>
 	    
             <div class="block_text"><%== substr( HTML::FormatText->format_string($galleries->body), 0, 75 ) . '...' %></div>
             
