@@ -124,7 +124,7 @@
     
 	<h4>Upload Photos</h4>
 
-	<input type="file" name="photos" size="100000000000000000" />
+	<input type="file" name="photos" />
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
 
@@ -157,7 +157,7 @@
 
 	<h4>Upload Photos</h4>
 	
-	<input type="file" name="photos" size="100000000000000000" />
+	<input type="file" name="photos" />
 
 	<% } %>
 

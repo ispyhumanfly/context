@@ -475,16 +475,25 @@ body {
     background-color: #e6e2e3;
 }
 
-#content_container .content_work_left {
+#content_container .content_work_left_heading {
 
-    background-color: 
+    background-image: url('/HeadlineSplatter.png');
+    background-repeat: no-repeat;
+    background-position: right;
+    color: white;
+    font-weight: normal;
+    font-size: large;
+    height: 27px;
+    background-color: #1a3721;
+    padding: 5px;
+    
 }
 
 #content_container .content_work_center {
 
     float: left;
-    width: 500px;
-    margin-left: 25px;
+    width: 520px;
+    margin-left: 20px;
 }
 
 #content_container .content_right {

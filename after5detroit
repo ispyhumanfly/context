@@ -1,5 +1,11 @@
 #!/usr/bin/env perl
 
+BEGIN { 
+
+    $ENV{MOJO_MAX_MESSAGE_SIZE} = 1 * (1024 * 1024 * 1024); 
+
+};
+
 use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
 use Crypt::SaltedHash;

@@ -9,7 +9,7 @@
 
 <div class="content_work_left">
     
-    <h1>Categories</h1>
+    <div class="content_work_left_heading">Categories</div>
     
     <p>Professional Group</p>
     <p>Networking</p>
@@ -23,7 +23,7 @@
 
 <div class="content_work_center">
 
-    <h1>Professional Development</h1>
+    <h1>Professional Groups</h1>
 
     <% my $professional_development_counter; %>
     
@@ -61,12 +61,12 @@
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="<%= $professional_development->link %>" target="_blank">Read More |</a>
+            <a href="<%= $professional_development->link %>" target="_blank">View Website |</a>
             <a href="/editor?mode=update&id=<%= $professional_development->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="<%= $professional_development->link %>" target="_blank">Read More...</a>
+            <a href="<%= $professional_development->link %>" target="_blank">View Website...</a>
             
             <% } %>
 
