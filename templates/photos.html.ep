@@ -132,7 +132,7 @@
             
             <% if ($more_galleries->body ne '') { %>
             
-            <div class="block_text"><%== substr( HTML::FormatText->format_string($more_galleries->body), 0, 75 ) . '...' %></div>
+            <div class="block_text"><%== substr( HTML::FormatText->format_string($more_galleries->body), 0, 75 ) . '' %></div>
             
             <% } %>
             
@@ -145,7 +145,7 @@
             
                 <% } else { %>
             
-                <a href="/photos?id=<%= $more_galleries->id %>">Read More...</a>
+                <a href="/photos?id=<%= $more_galleries->id %>">Read More</a>
                 
                 <% } %>
     

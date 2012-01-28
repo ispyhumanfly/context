@@ -33,7 +33,7 @@
         
         <% if ($home->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($home->body), 0, 200 ) . '...' %></p>
+        <p><%= substr( HTML::FormatText->format_string($home->body), 0, 200 ) . '' %></p>
     
         <% } %>
         
@@ -46,7 +46,7 @@
         
             <% } else { %>
         
-            <a href="/<%= $home->id %>">Read More...</a>
+            <a href="/<%= $home->id %>">Read More</a>
             
             <% } %>
         
@@ -78,7 +78,7 @@
         
         <% if ($live->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($live->body), 0, 200 ) . '...' %></p>
+        <p><%= substr( HTML::FormatText->format_string($live->body), 0, 200 ) . '' %></p>
     
         <% } %>
         
@@ -91,7 +91,7 @@
         
             <% } else { %>
         
-            <a href="/<%= $live->id %>">Read More...</a>
+            <a href="/<%= $live->id %>">Read More</a>
             
             <% } %>
         
@@ -123,7 +123,7 @@
         
         <% if ($work->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($work->body), 0, 200 ) . '...' %></p>
+        <p><%= substr( HTML::FormatText->format_string($work->body), 0, 200 ) . '' %></p>
     
         <% } %>
         
@@ -136,7 +136,7 @@
         
             <% } else { %>
         
-            <a href="/<%= $work->id %>">Read More...</a>
+            <a href="/<%= $work->id %>">Read More</a>
             
             <% } %>
         
@@ -168,7 +168,7 @@
         
         <% if ($play->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($play->body), 0, 200 ) . '...' %></p>
+        <p><%= substr( HTML::FormatText->format_string($play->body), 0, 200 ) . '' %></p>
     
         <% } %>
         
@@ -181,7 +181,7 @@
         
             <% } else { %>
         
-            <a href="/<%= $play->id %>">Read More...</a>
+            <a href="/<%= $play->id %>">Read More</a>
             
             <% } %>
         
@@ -213,7 +213,7 @@
         
         <% if ($photos->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($photos->body), 0, 200 ) . '...' %></p>
+        <p><%= substr( HTML::FormatText->format_string($photos->body), 0, 200 ) . '' %></p>
     
         <% } %>
         
@@ -226,7 +226,7 @@
         
             <% } else { %>
         
-            <a href="/<%= $photos->id %>">Read More...</a>
+            <a href="/<%= $photos->id %>">Read More</a>
             
             <% } %>
         
@@ -258,7 +258,7 @@
         
         <% if ($about->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($about->body), 0, 200 ) . '...' %></p>
+        <p><%= substr( HTML::FormatText->format_string($about->body), 0, 200 ) . '' %></p>
     
         <% } %>
         
@@ -271,7 +271,7 @@
         
             <% } else { %>
         
-            <a href="/<%= $about->id %>">Read More...</a>
+            <a href="/<%= $about->id %>">Read More</a>
             
             <% } %>
         
@@ -303,7 +303,7 @@
         
         <% if ($none->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($none->body), 0, 200 ) . '...' %></p>
+        <p><%= substr( HTML::FormatText->format_string($none->body), 0, 200 ) . '' %></p>
     
         <% } %>
         
@@ -316,7 +316,7 @@
         
             <% } else { %>
         
-            <a href="/<%= $none->id %>">Read More...</a>
+            <a href="/<%= $none->id %>">Read More</a>
             
             <% } %>
         
@@ -360,7 +360,7 @@
             
 		<% if ($recent_updates->body ne '') { %>
     
-                <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %> ... 
+                <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %>  
             
 		<% } %>
     

@@ -819,7 +819,7 @@
             
 		<% if ($recent_updates->body ne '') { %>
     
-                <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %> ... 
+                <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %>  
             
 		<% } %>
     
