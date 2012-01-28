@@ -1222,7 +1222,7 @@ post '/api/content/update' => sub {
 
 };
 
-post '/api/content/remove' => sub {
+any '/api/content/remove' => sub {
 
     my $self = shift;
 
