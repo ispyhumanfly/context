@@ -1,10 +1,10 @@
 #!/usr/bin/env perl
 
-BEGIN { 
+BEGIN {
 
-    $ENV{MOJO_MAX_MESSAGE_SIZE} = 1 * (1024 * 1024 * 1024); 
+    $ENV{MOJO_MAX_MESSAGE_SIZE} = 1 * (1024 * 1024 * 1024);
 
-};
+}
 
 use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
@@ -1066,12 +1066,12 @@ post '/api/content/create' => sub {
         push @photos,
           process_photo($self->req->upload('photos'), $new_content->id)
           if $self->req->upload('photos');
-    
+
         $MODEL->resultset('Content')->search({id => $new_content->id})
           ->update({photos => "@photos"})
           if scalar @photos >= 1;
     }
-    
+
     $self->redirect_to('/' . $new_content->id);
 
 };
@@ -1208,17 +1208,19 @@ post '/api/content/update' => sub {
         unshift @photos, $default;
     }
 
-    if ($self->param('photos')) {
-        
+    my $upload = $self->req->upload('photos');
+
+    if ($upload) {
+
         push @photos,
           process_photo($self->req->upload('photos'), $self->param('id'))
           if $self->req->upload('photos');
-    
+
         $MODEL->resultset('Content')->search({id => $self->param('id')})
           ->update({photos => "@photos"})
           if scalar @photos >= 1;
     }
-    
+
     $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->update({modified_datetime => DateTime->now});
 
@@ -1300,6 +1302,44 @@ post '/api/settings/update' => sub {
     $MODEL->resultset('Settings')->update({about => $self->param('about')});
 
     return $self->redirect_to('settings');
+
+};
+
+
+## After5 Dojo JSON Data Stores
+
+get '/dojox/image/slideshow/resource.json' => sub {
+
+    my $self = shift;
+
+    use Mojo::JSON;
+    my $json = Mojo::JSON->new;
+
+    if ($self->param('id')) {
+
+        my $gallery =
+          $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->single;
+
+        my @gallery;
+        
+        for (split /\s+/, $gallery->photos) {
+
+            my %items = (
+
+                'thumb' => "$_",
+                'large' => "$_",
+                'title' => $gallery->title,
+                'link'  => '/' . $gallery->id
+            );
+            
+            push @gallery, \%items;
+        }
+
+        my $string = $json->encode({ items => \@gallery });
+
+        $self->render(text => $string);
+    }
 
 };
 

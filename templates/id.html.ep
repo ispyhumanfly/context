@@ -9,11 +9,7 @@
 
 <div class="content_left">
 
-    <% unless (($id->title eq '') or ($id->title =~ /^\s+$/g)) { %>
-    
-    <h1><%= $id->title %></h1>
-
-    <% } %>
+    <h1>Feature</h1>
 	    
     <% for ( split /\s+/, $id->photos ) { %>
 
@@ -22,6 +18,12 @@
     </a>
 
     <% last; %>
+
+    <% } %>
+
+    <% unless (($id->title eq '') or ($id->title =~ /^\s+$/g)) { %>
+    
+    <h2><%= $id->title %></h2>
 
     <% } %>
 

@@ -7,6 +7,9 @@
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/PasteFromWord.css" />
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/Save.css" />
 
+<!--<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/form/resources/UploaderFileList.css" />
+-->
+
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dijit.form.TextBox");
@@ -15,6 +18,10 @@
     dojo.require("dijit.form.TimeTextBox");
     dojo.require("dijit.form.MultiSelect");
     dojo.require("dojox.form.DropDownSelect");
+
+    //dojo.require("dojox.form.Uploader");
+    //dojo.require("dojox.form.uploader.plugins.Flash");
+    //dojo.require("dojox.form.uploader.FileList");
 
     dojo.require("dijit.Editor");
     dojo.require("dijit.Menu");
@@ -122,9 +129,7 @@
 
 	<% if ( $self->param('mode') eq 'create' ) { %>
     
-	<h4>Upload Photos</h4>
-
-	<input type="file" name="photos" />
+	<input name="photos" type="file" />
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
 
@@ -155,10 +160,8 @@
 	
 	<% } %>
 
-	<h4>Upload Photos</h4>
+	<input name="photos" type="file" />
 	
-	<input type="file" name="photos" />
-
 	<% } %>
 
 	<h3>&nbsp;</h3>

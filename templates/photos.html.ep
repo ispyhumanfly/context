@@ -3,7 +3,32 @@
 %
 % my $more_galleries_length = 3;
 
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/image/resources/image.css">
+
 <script type="text/javascript">//<![CDATA[
+
+    dojo.require("dojox.image.SlideShow");
+    dojo.require("dojo.data.ItemFileReadStore"); 
+
+    		
+    dojo.addOnLoad(function(){
+            
+        dijit.byId('slideshow1').setDataStore(imageItemStore,
+            
+            { query: {}, count:50},
+                {
+                    imageThumbAttr: "thumb",
+                    imageLargeAttr: "large",
+                    imageWidth: 700,
+                    imageHeight: 300,
+                    fixedHeight: true,
+                    autoLoad: false,
+                    loop: true
+                }
+        );
+    
+    });
+            
 
 //]]></script>
 
@@ -14,13 +39,13 @@
     <% for my $galleries (@{$self->{GALLERIES}}) { %>
 
 	<% if ($self->param('id')) { %>
-	
+
 	<% next unless $galleries->id == int($self->param('id')); %>
-	    
+
 	<% } else { %>
-	
+
 	<% next unless $galleries->id == @{$self->{GALLERIES}}->[0]->id; %>
-	
+
 	<% } %>
 
         <div id="gallery_container">
