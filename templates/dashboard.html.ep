@@ -358,11 +358,11 @@
             
             <div class="block_text">
             
-		<% if ($recent_updates->body ne '') { %>
-    
-                <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %>  
-            
-		<% } %>
+            <% if ($recent_updates->body ne '') { %>
+
+            <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %>  
+        
+            <% } %>
     
             </div>
         

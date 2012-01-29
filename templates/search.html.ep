@@ -75,7 +75,7 @@
         
         <% if ($result->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($result->body), 0, 200 ) . '...' %></p>
+        <p><%= substr( HTML::FormatText->format_string($result->body), 0, 200 ) . '' %></p>
     
         <% } %>
         
@@ -88,7 +88,7 @@
         
             <% } else { %>
         
-            <a href="/<%= $result->id %>">Read More...</a>
+            <a href="/<%= $result->id %>">Read More</a>
             
             <% } %>
         

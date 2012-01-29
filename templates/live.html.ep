@@ -26,10 +26,10 @@
 
         <h2><a href="/<%= $city_life->id %>&back=live"><%= $city_life->title %></a></h2>
 
-        <p><%== HTML::FormatText->format_string(substr( $city_life->body, 0, 800 )) . '...' %></p>
+        <p><%== HTML::FormatText->format_string(substr( $city_life->body, 0, 800 )) . '' %></p>
 
         <div class="read_more_right">
-            <a href="/<%= $city_life->id %>&back=live">Read More...</a>
+            <a href="/<%= $city_life->id %>&back=live">Read More</a>
         </div>
 
     <% last; #JUST SHOW ONE %>
@@ -56,10 +56,10 @@
 
         <h2><a href="/<%= $lifestyle->id %>&back=live"><%= $lifestyle->title %></a></h2>
 
-        <p><%== HTML::FormatText->format_string(substr( $lifestyle->body, 0, 800 )) . '...' %></p>
+        <p><%== HTML::FormatText->format_string(substr( $lifestyle->body, 0, 800 )) . '' %></p>
 
         <div class="read_more_right">
-            <a href="/<%= $lifestyle->id %>&back=live">Read More...</a>
+            <a href="/<%= $lifestyle->id %>&back=live">Read More</a>
         </div>
 
     <% last; #JUST SHOW ONE %>
@@ -96,10 +96,10 @@
             
             <% } %>
             
-            <p><%== HTML::FormatText->format_string(substr( $neighbors->body, 0, 75 )) . '...' %><p>
+            <p><%== HTML::FormatText->format_string(substr( $neighbors->body, 0, 75 )) . '' %><p>
             
             <div class="read_more_left">
-                <a href="/<%= $neighbors->id %>&back=home">View Gallery...</a>
+                <a href="/<%= $neighbors->id %>&back=home">View Gallery</a>
             </div>
     
             <% if ($neighbors_counter < 3) { %>

@@ -148,7 +148,7 @@
 	
 	<div class="block_title"><a href="/play/people?id=<%= $past_articles->id %>"><%= $past_articles->title %></a></div>
 	
-	<div class="block_text"><%== substr( HTML::FormatText->format_string($past_articles->body), 0, 75 ) . '...' %></div>
+	<div class="block_text"><%== substr( HTML::FormatText->format_string($past_articles->body), 0, 75 ) %></div>
 	
         <div class="read_more_left">
 
@@ -159,7 +159,7 @@
         
             <% } else { %>
         
-            <a href="/play/people?id=<%= $past_articles->id %>">Read More...</a>
+            <a href="/play/people?id=<%= $past_articles->id %>">Read More</a>
             
             <% } %>
 

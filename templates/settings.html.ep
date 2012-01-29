@@ -27,7 +27,7 @@
         <h4>Enter a new password.</h4>
         <div dojoType="dijit.form.TextBox" name="password_1" type="password"></div>
 
-        <h4>Again please...</h4>
+        <h4>Again please.</h4>
         <div dojoType="dijit.form.TextBox" name="password_2" type="password"></div>
 
         <div class="content_spacer"></div>

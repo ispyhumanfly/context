@@ -54,7 +54,7 @@
         
             <% } else { %>
         
-            <a href="/<%= $upcoming_events->id %>">Read More...</a>
+            <a href="/<%= $upcoming_events->id %>">Read More</a>
             
             <% } %>
 
@@ -102,7 +102,7 @@
 
     <div class="content_right_padding">
         
-        <p>A calendar will go here...</p>
+        <p>A calendar will go here</p>
         
     </div>
 
