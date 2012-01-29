@@ -132,7 +132,7 @@
             
             <div class="block_text">
                 
-            <% unless ($more_galleries->body =~ /^\s+/g) { %>
+            <% if ($more_galleries->body ne '') { %>
             
             <%== substr( HTML::FormatText->format_string($more_galleries->body), 0, 75 ) %>
             
