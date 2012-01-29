@@ -1061,14 +1061,17 @@ post '/api/content/create' => sub {
           ->update({venue => $self->param('venue')});
     }
 
-    push @photos,
-      process_photo($self->req->upload('photos'), $new_content->id)
-      if $self->req->upload('photos');
+    if ($self->param('photos')) {
 
-    $MODEL->resultset('Content')->search({id => $new_content->id})
-      ->update({photos => "@photos"})
-      if scalar @photos >= 1;
-
+        push @photos,
+          process_photo($self->req->upload('photos'), $new_content->id)
+          if $self->req->upload('photos');
+    
+        $MODEL->resultset('Content')->search({id => $new_content->id})
+          ->update({photos => "@photos"})
+          if scalar @photos >= 1;
+    }
+    
     $self->redirect_to('/' . $new_content->id);
 
 };
