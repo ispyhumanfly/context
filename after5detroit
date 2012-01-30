@@ -1061,19 +1061,16 @@ post '/api/content/create' => sub {
           ->update({venue => $self->param('venue')});
     }
 
-    my $upload = $self->req->upload('photos');
-
-    if ($upload) {
+    if ($self->req->upload('photos')) {
 
         push @photos,
-          process_photo($self->req->upload('photos'), $self->param('id'))
-          if $self->req->upload('photos');
+          process_photo($self->req->upload('photos'), $self->param('id'));
 
         $MODEL->resultset('Content')->search({id => $self->param('id')})
           ->update({photos => "@photos"})
           if scalar @photos >= 1;
     }
-    
+
     $self->redirect_to('/' . $new_content->id);
 
 };
@@ -1210,13 +1207,10 @@ post '/api/content/update' => sub {
         unshift @photos, $default;
     }
 
-    my $upload = $self->req->upload('photos');
-
-    if ($upload) {
+    if ($self->req->upload('photos')) {
 
         push @photos,
-          process_photo($self->req->upload('photos'), $self->param('id'))
-          if $self->req->upload('photos');
+          process_photo($self->req->upload('photos'), $self->param('id'));
 
         $MODEL->resultset('Content')->search({id => $self->param('id')})
           ->update({photos => "@photos"})
@@ -1324,7 +1318,7 @@ get '/dojox/image/slideshow/resource.json' => sub {
           ->single;
 
         my @gallery;
-        
+
         for (split /\s+/, $gallery->photos) {
 
             my %items = (
@@ -1334,11 +1328,11 @@ get '/dojox/image/slideshow/resource.json' => sub {
                 'title' => $gallery->title,
                 'link'  => '/' . $gallery->id
             );
-            
+
             push @gallery, \%items;
         }
 
-        my $string = $json->encode({ items => \@gallery });
+        my $string = $json->encode({items => \@gallery});
 
         $self->render(text => $string);
     }

@@ -7,26 +7,18 @@
 
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require('dojox.image.Gallery');
     dojo.require("dojox.image.SlideShow");
     dojo.require("dojo.data.ItemFileReadStore"); 
-
     		
     dojo.addOnLoad(function(){
             
-        dijit.byId('slideshow1').setDataStore(imageItemStore,
-            
-            { query: {}, count:50},
-                {
-                    imageThumbAttr: "thumb",
-                    imageLargeAttr: "large",
-                    imageWidth: 700,
-                    imageHeight: 300,
-                    fixedHeight: true,
-                    autoLoad: false,
-                    loop: true
-                }
-        );
-    
+        dijit.byId('gallery2').setDataStore(imageItemStore,{ count:20 },
+        {
+            imageThumbAttr: "thumb",
+            imageLargeAttr: "large"
+        });
+
     });
             
 
@@ -50,34 +42,11 @@
 
         <div id="gallery_container">
     
-            <% next if $galleries->types =~ m/ad/i; %>
-    
-            <% for ( split /\s+/, $galleries->photos ) { %>
-            
-            <div style="text-align: center;">
-                <a dojoType="dojox.image.Lightbox" title="<%= $galleries->title %>" group="<%= $galleries->title %>" href="<%= $_ %>">
-                    <img style="margin-top: 15px; width: 75%; height: auto;" src="<%= $_ %>" />
-                </a>
-            </div>
-            
-            <% last; JUST SHOW ONE %>
-            
-            <% } %>
+	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/slideshow/resource.json?id=<%= $galleries->id %>"></div>
+	<div id="gallery2" dojoType="dojox.image.Gallery" data-dojo-props="imageHeight:400, imageWidth:600"></div>
             
         </div>
 
-        <% for ( split /\s+/, $galleries->photos ) { %>
-            
-        <div style="display: inline;">
-                
-            <a dojoType="dojox.image.Lightbox" title="<%= $galleries->title %>" group="<%= $galleries->title %>" href="<%= $_ %>">
-                <img style="width: 65px; height: 65px;" src="<%= $_ %>" />
-            </a>
-        
-        </div>
-            
-        <% } %>
-    
         <h3>
             
             <% if ($self->session('admin')) { %>
