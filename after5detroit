@@ -1304,7 +1304,7 @@ post '/api/settings/update' => sub {
 
 ## After5 Dojo JSON Data Stores
 
-get '/dojox/image/slideshow/resource.json' => sub {
+get '/dojox/image/data.json' => sub {
 
     my $self = shift;
 

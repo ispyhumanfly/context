@@ -3,8 +3,6 @@
 %
 % my $more_galleries_length = 3;
 
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/image/resources/image.css">
-
 <script type="text/javascript">//<![CDATA[
 
     dojo.require('dojox.image.Gallery');
@@ -42,8 +40,8 @@
 
         <div id="gallery_container">
     
-	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/slideshow/resource.json?id=<%= $galleries->id %>"></div>
-	<div id="gallery2" dojoType="dojox.image.Gallery" data-dojo-props="imageHeight:400, imageWidth:600"></div>
+	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $galleries->id %>"></div>
+	<div id="gallery2" dojoType="dojox.image.Gallery"></div>
             
         </div>
 
