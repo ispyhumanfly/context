@@ -156,13 +156,13 @@
             
             <div class="block_text">
                 
-		<% if ($events->venue ne '') { %>
+		<% if ($events->venue) { %>
 
                 <%= substr( $events->venue, 0, 35 ) %>
                 
 		<% } %>
 		
-		<% if ($events->start_datetime ne '') ) { %>
+		<% if ($events->start_datetime) ) { %>
 
                 <%= $events->start_datetime->day_name %>, <%= $events->start_datetime->day %> <%= $events->start_datetime->month_name %>
             
