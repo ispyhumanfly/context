@@ -961,6 +961,10 @@ post '/api/content/create' => sub {
         $MODEL->resultset('Content')->search({id => $new_content->id})
           ->update({start_datetime => $start_datetime});
 
+    }
+
+    if (($self->param('stop_date')) and ($self->param('stop_time'))) {
+
         my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
             $self->param('stop_date') . $self->param('stop_time'));
 
@@ -1088,6 +1092,12 @@ post '/api/content/update' => sub {
         my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
             $self->param('start_date') . $self->param('start_time'));
 
+        $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->update({start_datetime => $start_datetime});
+
+    }
+
+    if (($self->param('stop_date')) and ($self->param('stop_time'))) {
 
         my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
             $self->param('stop_date') . $self->param('stop_time'));
