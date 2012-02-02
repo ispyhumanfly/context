@@ -536,10 +536,16 @@ body {
     padding: 10px;
 }
 
+#content_container .content_thumbnails_right {
+    
+    float: right;
+    margin-right: 8px;
+}
+
 #content_loader {
 
     background: #222;
-    height: 10000px; /* I made this really huge on purpose */
+    height: 2500px; /* I made this really huge on purpose */
     left: 0;
     padding: 0;
     position: absolute;

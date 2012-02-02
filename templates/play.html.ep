@@ -156,17 +156,7 @@
             
             <div class="block_text">
                 
-		<% unless ($events->venue =~ m/^\s+/i) { %>
-
-                <%= substr( $events->venue, 0, 35 ) %>
-                
-		<% } %>
-		
-		<% unless ($events->start_datetime =~ m/^\s+/i) ) { %>
-
-                <%= $events->start_datetime->day_name %>, <%= $events->start_datetime->day %> <%= $events->start_datetime->month_name %>
-            
-		<% } %>
+		# Event information will go here once the events broken events get updated.
 		
             </div>
             

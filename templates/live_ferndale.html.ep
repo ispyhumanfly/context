@@ -3,6 +3,35 @@
 
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require("dojox.image.Lightbox");
+    dojo.require("dojox.image.ThumbnailPicker");
+    dojo.require("dojo.data.ItemFileReadStore");
+    
+    dojo.addOnLoad(function(){
+        
+        dijit.byId('thumbPicker2').setDataStore(imageItemStore,{ count:20 },
+        {
+            imageThumbAttr: "thumb",
+            imageLargeAttr: "large"
+        });
+	
+	var lightbox;
+	
+	function lightboxShow(packet){
+
+	    lightbox.show({
+		
+		href: packet.largeUrl,
+		title: packet.title
+	    });
+		
+	};
+
+	lightbox = new dojox.image.LightboxDialog().startup();		
+	dojo.subscribe(dijit.byId('thumbPicker2').getClickTopicName(), lightboxShow);
+
+    });
+
 //]]></script>
 
 <div class="content_left">
@@ -12,7 +41,14 @@
     <a dojoType="dojox.image.Lightbox" title="Ferndale, Michigan" href="/cities/ferndale/MainFerndalePhoto.jpg">
         <img class="para_image_right" src="/cities/ferndale/MainFerndalePhoto.jpg" />
     </a>
-    
+
+    <div class="content_thumbnails_right">
+	
+    <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
+    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=716"></div>
+
+    </div>
+ 
     <h2>Ferndale</h2>
     
     <p>

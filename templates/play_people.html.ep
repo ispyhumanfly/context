@@ -62,7 +62,7 @@
 
 	<% } %>
 
-	<div style="float: right; margin-right: 8px;">
+	<div class="content_thumbnails_right">
 	    
 	<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
 	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=716"></div>
