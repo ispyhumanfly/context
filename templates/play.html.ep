@@ -151,7 +151,7 @@
             <% last; #JUST SHOW ONE %>
             
             <% } %>
-            
+             
             <div class="block_title"><%= $events->title %></div>
             
             <div class="block_text">

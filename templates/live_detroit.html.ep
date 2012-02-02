@@ -40,7 +40,7 @@
 
     <a dojoType="dojox.image.Lightbox" title="Detroit, Michigan" href="/cities/detroit/MainDetroitPhoto.jpg">
         <img class="para_image_right" src="/cities/detroit/MainDetroitPhoto.jpg" />
-    </a>
+    </a> 
 
     <div class="content_thumbnails_right">
 	

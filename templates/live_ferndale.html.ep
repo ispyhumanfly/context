@@ -30,7 +30,7 @@
 	lightbox = new dojox.image.LightboxDialog().startup();		
 	dojo.subscribe(dijit.byId('thumbPicker2').getClickTopicName(), lightboxShow);
 
-    });
+    }); 
 
 //]]></script>
 

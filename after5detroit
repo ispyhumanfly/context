@@ -990,7 +990,7 @@ post '/api/content/create' => sub {
         $MODEL->resultset('Content')->search({id => $new_content->id})
           ->update({body => encode_string($self->param('body'))});
     }
-
+ 
     if ($self->param('interests')) {
 
         push @interests, $_ for $self->param('interests');

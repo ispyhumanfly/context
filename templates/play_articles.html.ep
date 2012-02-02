@@ -2,7 +2,7 @@
 % layout 'default';
 %
 % my $more_articles_length = 3;
-
+ 
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dojox.image.Lightbox");

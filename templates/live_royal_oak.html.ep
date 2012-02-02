@@ -47,7 +47,7 @@
     <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
     <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=716"></div>
 
-    </div>
+    </div> 
  
     <h2>Royal Oak</h2>
     

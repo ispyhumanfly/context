@@ -4,7 +4,7 @@
 % my $past_articles_length = 3;
 
 <script type="text/javascript">//<![CDATA[
-
+ 
     dojo.require("dojox.image.Lightbox");
     dojo.require("dojox.image.ThumbnailPicker");
     dojo.require("dojo.data.ItemFileReadStore");
