@@ -157,11 +157,11 @@
             <div class="block_text">
                 
 		
-                <%= substr( $events->venue, 0, 35 ) %>
+                <%# substr( $events->venue, 0, 35 ) %>
                 
 		
 		
-                <%= $events->start_datetime->day_name %>, <%= $events->start_datetime->day %> <%= $events->start_datetime->month_name %>
+                <%# $events->start_datetime->day_name %>, <%= $events->start_datetime->day %> <%= $events->start_datetime->month_name %>
             
 		
             </div>
