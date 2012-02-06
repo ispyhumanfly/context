@@ -138,19 +138,19 @@
 
     <span class="social_sharing">
 
-	<a href="http://www.facebook.com/sharer.php?u=http://after5detroit.dyndns.org:3000/<%= $id->id %>&t=<%= $id->title %>" target="_blank">
+	<a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $id->id %>&t=<%= $id->title %>" target="_blank">
 	    <img src="/FacebookShare.png" alt="Facebook"/>
 	</a>
     
-	<a href="http://www.twitter.com/home?status=<%= $id->title %>,+http://after5detroit.dyndns.org:3000/<%= $id->id %>" target="_blank">
+	<a href="http://www.twitter.com/home?status=<%= $id->title %>,+http://beta.after5detroit.com/<%= $id->id %>" target="_blank">
 	    <img src="/TwitterShare.png" alt="Twitter"/>
 	</a>
     
-	<a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.dyndns.org:3000/<%= $id->id %>" target="_blank">
+	<a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $id->id %>" target="_blank">
 	    <img src="/DiggShare.png" alt="Digg"/>
 	</a>
     
-	<a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.dyndns.org:3000/<%= $id->id %>" target="_blank">
+	<a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $id->id %>" target="_blank">
 	    <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
 	</a>
 	
