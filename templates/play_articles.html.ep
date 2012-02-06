@@ -71,7 +71,11 @@
 
 	<h2><%= $articles->title %></h2>
 
+	<% unless (($articles->author eq '') or ($articles->author =~ /^\s+$/g)) { %>
+    
 	<h4>By <%= $articles->author %></h4>
+    
+	<% } %>
 	
 	<%== $articles->body %>
 
