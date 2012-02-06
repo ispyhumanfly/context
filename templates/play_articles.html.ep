@@ -79,20 +79,6 @@
 	
 	<%== $articles->body %>
 
-	<% my $thumbmail_counter; %>
-
-        <% for ( split /\s+/, $articles->photos ) { %>
-
-            <% $thumbmail_counter++; %>
-
-            <% next if $thumbmail_counter == 1; %>
-
-            <a dojoType="dojox.image.Lightbox" group="<%= $articles->id %>" href="<%= $_ %>">
-		<img class="more_thumbnails_left" src="<%= $_ %>" />
-	    </a>
-
-        <% } %>
-
         <span class="social_sharing">
 
             <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $articles->id %>&t=<%= $articles->title %>" target="_blank">
