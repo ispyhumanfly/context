@@ -976,13 +976,13 @@ post '/api/content/create' => sub {
     if ($self->param('author')) {
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({author => $self->param('author')});
+          ->update({author => encode_string($self->param('author'))});
     }
 
     if ($self->param('title')) {
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({title => $self->param('title')});
+          ->update({title => encode_string($self->param('title'))});
     }
 
     if ($self->param('body')) {
@@ -1062,7 +1062,7 @@ post '/api/content/create' => sub {
     if ($self->param('venue')) {
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({venue => $self->param('venue')});
+          ->update({venue => encode_string($self->param('venue'))});
     }
 
     if ($self->req->upload('photos')) {
@@ -1110,13 +1110,13 @@ post '/api/content/update' => sub {
     if ($self->param('author')) {
 
         $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({author => $self->param('author')});
+          ->update({author => encode_string($self->param('author'))});
     }
 
     if ($self->param('title')) {
 
         $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({title => $self->param('title')});
+          ->update({title => encode_string($self->param('title'))});
     }
 
     if ($self->param('body')) {
@@ -1196,7 +1196,7 @@ post '/api/content/update' => sub {
     if ($self->param('venue')) {
 
         $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({venue => $self->param('venue')});
+          ->update({venue => encode_string($self->param('venue'))});
     }
 
     if ($self->param('default_photo')) {
@@ -1233,7 +1233,6 @@ post '/api/content/update' => sub {
     my $id = $self->param('id');
     $self->redirect_to("/$id");
 
-
 };
 
 any '/api/content/remove' => sub {
@@ -1251,7 +1250,7 @@ any '/api/content/remove' => sub {
     unlink "public/$_" for @content_photos;
 
     $content->delete;
-
+      
     return $self->redirect_to('dashboard');
 
 };
@@ -1343,8 +1342,7 @@ get '/dojox/image/data.json' => sub {
         }
 
         my $string = $json->encode({items => \@gallery});
-
-        $self->render(text => $string);
+        return $self->render(text => $string);
     }
 
 };

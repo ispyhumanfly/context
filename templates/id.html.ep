@@ -49,13 +49,17 @@
 
     <% } %>
 
+    <% unless (scalar (split /\s+/, $id->photos) <= 1 ) { %>
+
     <div class="content_thumbnails_right">
 	
     <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=716"></div>
+    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $id->id %>"></div>
 
     </div>
- 
+
+    <% } %>
+    
     <% unless (($id->title eq '') or ($id->title =~ /^\s+$/g)) { %>
     
     <h2><%= $id->title %></h2>

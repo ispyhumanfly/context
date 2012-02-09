@@ -542,8 +542,8 @@
     
 	<select dojoType="dijit.form.MultiSelect" multiple="false" name="position" size="10">
     
-	    <option value="0" selected>
-		0
+	    <option value="none" selected>
+		none
 	    </option>
     
 	    <option value="1">
@@ -574,8 +574,8 @@
     
 	<select dojoType="dijit.form.MultiSelect" multiple="false" name="position" size="10">
     
-	    <option value="0" <%= 'selected' if $self->{CONTENT}->position =~ m/0/i %>>
-		0
+	    <option value="none" <%= 'selected' if $self->{CONTENT}->position =~ m/none/i %>>
+		none
 	    </option>
     
 	    <option value="1" <%= 'selected' if $self->{CONTENT}->position =~ m/1/i %>>

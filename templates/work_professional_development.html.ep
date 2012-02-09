@@ -9,8 +9,18 @@
 
 <div class="content_work_left">
     
-    <div class="content_work_left_heading">Categories</div>
+    <div class="content_work_left_heading">Professional Development</div>
     
+    <p>Professional Group</p>
+    <p>Networking</p>
+    <p>Social</p>
+    <p>Cultural</p>
+    <p>Board Openings</p>
+    <p>Volunteer</p>
+    <p>Resources</p>
+
+    <div class="content_work_left_heading">Employers</div>
+
     <p>Professional Group</p>
     <p>Networking</p>
     <p>Social</p>
@@ -46,16 +56,16 @@
         <% for ( split /\s+/, $professional_development->photos ) { %>
 
         <a title="<%= $professional_development->title %>" href="<%= $professional_development->link %>" target="_blank">
-            <img class="position_image_left" src="<%= $_ %>" />
+            <img class="work_image_left" src="<%= $_ %>" />
         </a>
 
         <% last; #JUST SHOW ONE %>
 
         <% } %>
 
-        <h2><a href="<%= $professional_development->link %>" target="_blank"><%= $professional_development->title %></a></h2>
+        <div class="work_content_title"><a href="<%= $professional_development->link %>" target="_blank"><%= $professional_development->title %></a></div>
     
-        <p><%== HTML::FormatText->format_string($professional_development->body) %></p>
+        <div class="work_content_text"><%== HTML::FormatText->format_string($professional_development->body) %></div>
     
         <div class="read_more_right">
 
@@ -110,7 +120,7 @@
 
 <div class="content_right">
 
-    <h1>Networking</h1></a>
+    <a href="/search?tags=networking"><h1>Networking</h1></a>
 
     <div class="content_right_padding">
         
@@ -124,7 +134,7 @@
         
             <% for ( split /\s+/, $networking->photos ) { %>
             
-            <a title="<%= $networking->title %>" href="/play/networking?id=<%= $networking->id %>">
+            <a title="<%= $networking->title %>" href="/<%= $networking->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -135,23 +145,25 @@
             <div class="block_title"><%= $networking->title %></div>
             
             <div class="block_text">
-                
-                <%= substr( $networking->venue, 0, 35 ) %> 
-                
-                <%= $networking->start_datetime->day_name %>, <%= $networking->start_datetime->day %> <%= $networking->start_datetime->month_name %>
+		
+	    <% if (($networking->start_datetime ne '') or ($networking->start_datetime =~ /^\s+$/g)) { %>
+	    
+            <%= $networking->start_datetime->day_name %>, <%= $networking->start_datetime->day %> <%= $networking->start_datetime->month_name %>
             
-            </div>
+	    <% } %>
+	    
+	    </div>
             
             <div class="read_more_left">
     
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/work/professional_development?id=<%= $networking->id %>">Read More |</a>
+                <a href="/<%= $networking->id %>">Read More |</a>
                 <a href="/editor?mode=update&id=<%= $networking->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/work/professional_development?id=<%= $networking->id %>">Read More</a>
+                <a href="/<%= $networking->id %>">Read More</a>
                 
                 <% } %>
     

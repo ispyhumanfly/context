@@ -21,11 +21,11 @@
 
         <% } %>
 
-	<div class="h1_spacer"><a href="/play/people"><h1>People</h1></a></div>
+	<div class="h1_spacer"><a href="/play/people?id=<%= $people->id %>"><h1>People</h1></a></div>
 
 	<h2><a href="/play/people?id=<%= $people->id %>"><%= $people->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($people->body), 0, 700 ) %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($people->body), 0, 400 ) %></p>
 
         <div class="read_more_right">
 
@@ -60,11 +60,11 @@
 
         <% } %>
 
-	<div class="h1_spacer"><a href="/play/places"><h1>Places</h1></a></div>
+	<div class="h1_spacer"><a href="/play/places?id=<%= $places->id %>#<%= $places->id %>"><h1>Places</h1></a></div>
 
 	<h2><a href="/play/places?id=<%= $places->id %>"><%= $places->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($places->body), 0, 500 ) %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($places->body), 0, 400 ) %></p>
 
         <div class="read_more_right">
 
@@ -99,11 +99,11 @@
 
         <% } %>
 
-	<div class="h1_spacer"><a href="/play/articles"><h1>Articles</h1></a></div>
+	<div class="h1_spacer"><a href="/play/articles?id=<%= $articles->id %>"><h1>Articles</h1></a></div>
 
 	<h2><a href="/play/articles?id=<%= $articles->id %>"><%= $articles->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($articles->body), 0, 500 ) . '...' %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($articles->body), 0, 400 ) . '...' %></p>
 
         <div class="read_more_right">
 
@@ -154,11 +154,15 @@
              
             <div class="block_title"><%= $events->title %></div>
             
-            <div class="block_text">
-                
-		# Event information will go here once the events broken events get updated.
+	    <div class="block_text">
 		
-            </div>
+	    <% if (($events->start_datetime ne '') or ($events->start_datetime =~ /^\s+$/g)) { %>
+	    
+            <%= $events->start_datetime->day_name %>, <%= $events->start_datetime->day %> <%= $events->start_datetime->month_name %>
+            
+	    <% } %>
+	    
+	    </div>
             
             <div class="read_more_left">
     

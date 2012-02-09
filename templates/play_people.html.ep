@@ -62,12 +62,16 @@
 
 	<% } %>
 
+	<% unless (scalar (split /\s+/, $people->photos) <= 1 ) { %>
+	
 	<div class="content_thumbnails_right">
 	    
 	<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=716"></div>
+	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $people->id %>"></div>
 
 	</div>
+
+	<% } %>
 	
 	<h2><%= $people->title %></h2>
 

@@ -31,7 +31,9 @@
         
         <% } %>
         
-        <% for ( split /\s+/, $featured_places->photos ) { %>
+	<div id="#<%= $featured_places->id %>"></div>
+        
+	<% for ( split /\s+/, $featured_places->photos ) { %>
 
         <a dojoType="dojox.image.Lightbox" title="<%= $featured_places->title %>" href="<%= $_ %>">
             <img class="position_image_left" src="<%= $_ %>" />

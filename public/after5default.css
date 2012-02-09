@@ -252,14 +252,6 @@ body {
     
 }
 
-
-#content_container .position_container {
-    
-    clear: both;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
 #content_container .position_image_left {
     
     float: left;
@@ -268,6 +260,65 @@ body {
     margin: 0px 10px 10px 0;
     border: 1px solid #1a3721; 
     
+}
+
+/* work */
+
+#content_container .work_image_left {
+    
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #1a3721; 
+    width: 150px; height: auto; 
+    
+}
+
+#content_container .work_content_title {
+
+    color: #1a3721;
+    font-family: Verdana Bold;
+    font-size: large;
+    font-weight: normal;
+}
+
+#content_container .work_content_text {
+    
+    font-size: small;
+    margin-left: 165px;
+    max-width: 350px;
+    padding-top: 6px;
+    padding-bottom: 10px;
+}
+
+#content_container .content_work_left {
+
+    float: left;
+    margin-left: 25px;
+    width: 150px;
+    background-color: #e6e2e3;
+}
+
+#content_container .content_work_left_heading {
+
+    background-image: url('/HeadlineSplatter.png');
+    background-repeat: no-repeat;
+    background-position: right;
+    color: white;
+    font-weight: normal;
+    font-size: small;
+    height: 27px;
+    background-color: #1a3721;
+    vertical-align: middle;
+    padding: 5px;
+    
+}
+
+#content_container .content_work_center {
+
+    float: left;
+    width: 520px;
+    margin-left: 20px;
 }
 
 #content_container .para_image_left {
@@ -465,35 +516,6 @@ body {
 
     color: #263c27;
     font-size: small;
-}
-
-#content_container .content_work_left {
-
-    float: left;
-    margin-left: 25px;
-    width: 150px;
-    background-color: #e6e2e3;
-}
-
-#content_container .content_work_left_heading {
-
-    background-image: url('/HeadlineSplatter.png');
-    background-repeat: no-repeat;
-    background-position: right;
-    color: white;
-    font-weight: normal;
-    font-size: large;
-    height: 27px;
-    background-color: #1a3721;
-    padding: 5px;
-    
-}
-
-#content_container .content_work_center {
-
-    float: left;
-    width: 520px;
-    margin-left: 20px;
 }
 
 #content_container .content_right {
