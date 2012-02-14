@@ -28,7 +28,7 @@
     
 	    <h2><a href="/<%= $positions->id %>"><%= $positions->title %></a></h2>
     
-	    <p class="para_text_right"><%== substr( HTML::FormatText->format_string($positions->body), 0, 350 ) . '' %></p>
+	    <p class="para_text_right"><%== substr( HTML::FormatText->format_string($positions->body), 0, 350 ); %></p>
     
 	    <div class="read_more_right">
 		
@@ -61,7 +61,7 @@
 
             <h2><a href="/<%= $positions->id %>"><%= $positions->title %></a></h2>
         
-            <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ) %><p>
+            <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ); %><p>
         
             <div class="read_more_right">
 
@@ -94,7 +94,7 @@
 
             <h2><a href="/<%= $positions->id %>"><%= $positions->title %></a></h2>
         
-            <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ) %><p>
+            <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ); %><p>
         
             <div class="read_more_right">
 
@@ -140,7 +140,7 @@
 
 	<h2><a href="/<%= $live->id %>"><%= $live->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($live->body), 0, 400 ) %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($live->body), 0, 400 ); %></p>
 
             <div class="read_more_right">
 
@@ -184,7 +184,7 @@
 
 	<h2><a href="/<%= $work->id %>"><%= $work->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($work->body), 0, 400 ) %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($work->body), 0, 400 ); %></p>
 
             <div class="read_more_right">
 
@@ -293,7 +293,7 @@
 		
 		<% next if $gallery_position <= 3; %>
 	
-		<option value="<%= $galleries->id %>"><%== substr( HTML::FormatText->format_string($galleries->title), 0, 25 ) %></option>
+		<option value="<%= $galleries->id %>"><%== substr( HTML::FormatText->format_string($galleries->title), 0, 25 ); %></option>
 		
 		<% } %>
 		

@@ -688,10 +688,21 @@ get '/about' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
+    # Staff
+    my @staff = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%about'},
+            tags  => {like => '%after5_staff%'}
+        },
+        {order_by => 'position ASC'}
+    )->all;
+
+    $self->{'STAFF'} = \@staff;
+
     # Press
     my @press = $MODEL->resultset('Content')->search(
-        {pages    => {like => '%about'}},
-        {tags     => {like => '%after5_press%'}},
+        {   pages => {like => '%about'},
+            tags  => {like => '%after5_press%'}
+        },
         {order_by => 'id DESC'}
     )->all;
 
@@ -990,7 +1001,7 @@ post '/api/content/create' => sub {
         $MODEL->resultset('Content')->search({id => $new_content->id})
           ->update({body => encode_string($self->param('body'))});
     }
- 
+
     if ($self->param('interests')) {
 
         push @interests, $_ for $self->param('interests');
@@ -1250,7 +1261,7 @@ any '/api/content/remove' => sub {
     unlink "public/$_" for @content_photos;
 
     $content->delete;
-      
+
     return $self->redirect_to('dashboard');
 
 };
@@ -1381,9 +1392,11 @@ sub process_photo {
                     }
                 }
             }
+
+            return @new_photos;
         }
     }
-    else {
+    elsif ($upload->filename =~ m/jpg|png|gif$/i) {
 
         my $checksum = Mojo::Util::md5_sum($upload->filename);
         my $path     = "/photos/$checksum.img";
@@ -1391,32 +1404,10 @@ sub process_photo {
         $upload->move_to('public' . $path);
 
         push @new_photos, $path;
+        return @new_photos;
     }
 
-    # For now not taking into account existing photos...
-
-    #my $content = $MODEL->resultset('Content')->search({id => $id})->single;
-    #
-    #unless ($content->photos eq '') {
-    #
-    #    @existing_photos = split /\s+/, $content->photos;
-    #
-    #    for (my $i = 0; $i < scalar @existing_photos; $i++) {
-    #
-    #        for my $new (@new_photos) {
-    #
-    #            if ($existing_photos[$i] eq $new) {
-    #                undef $existing_photos[$i];
-    #            }
-    #
-    #        }
-    #    }
-    #
-    #    push @new_photos, @existing_photos;
-    #}
-
-    return @new_photos;
-
+    return undef;
 }
 
 sub google_local {
@@ -1431,6 +1422,7 @@ sub google_local {
         return $data->results;
     }
 
+    return undef;
 }
 
 sub randomize_content {

@@ -9,142 +9,93 @@
 
     <h1>About Us</h1>
 
-    <h2>Kerry Doman</h2>
+    <% my $position = 1; %>
     
-    <h4>Founder & CEO</h4>
+    <% for my $staff (@{$self->{STAFF}}) { %>
     
-    <p>
-        <img class="about_image_left" src="/about/KerryDoman.jpg"/>
+        <% if ( $staff->position == $position ) { %>
         
-        The story of After 5 perfectly illustrates the wonder of Detroit.
+        <% if ($position > 1) { %>
         
-        <br />
-        <br />
+        <hr />        
         
-        Five years ago I had an idea for a business – a website for young professionals that would highlight events,
-        destinations and fun information about Detroit. However, having been away for 5 years myself,
-        I had very few contacts in Detroit and very little business experience.
+        <% } %>
         
-        <br />
-        <br />
-        
-        The funny thing is, when the people of this city see your passion, they bend over backwards to help.
-        To a person, everyone I met encouraged and supported my efforts.
-        There is an incredible community of entrepreneurs, business and public leaders who
-        stand ready and willing to assist positive developments in Detroit.
-        
-        <br />
-        <br />
-        
-        Five years later, After 5 has grown and expanded to include Connect After 5 and the After 5 Intern Program,
-        both aimed at assisting local companies in attracting and retaining young professional talent.
-        
-        <br />
-        <br />
-        
-        This city is amazing and its people are incredible. I hope this website gets you even more excited about living, working and playing in and around Detroit.
-        
-    </p>
+        <h2><%= $staff->author %></h2>
 
-    <hr />
-    
-    <h2>Ebony Ahmad</h2>
-    
-    <h4>Editor & Chief</h4>
-    
-    <p>
-       <img class="about_image_right" src="/about/EbonyAhmad.jpg"/>
-       
-       It seems like it was just yesterday when I first stumbled upon After 5 Detroit.
-       I had recently graduated from Wayne State University and I didn’t want to continue doing the same social things that I had been doing for the past four years.
-       
-       <br />
-       <br />
-       
-       A simple Google search for “Networking in Detroit” took me straight to After 5 Detroit and it was here that I found the perfect website to
-       help me connect with young professionals like myself and to find out about people, places, and events throughout the Metro Detroit area.
-       
-       <br />
-       <br />
-       
-       I was an instant fan of the site and that, combined with my love for Detroit, gave me the idea to become a part of the solution, as opposed to the problem.
-       I have now been a member of the After 5 team for almost two years.
-       
-       <br />
-       <br />
-       
-       In my new role as editor-in-chief, my mission is simple: to keep other young people here in the Metro Detroit area by connecting them
-       to all of the great things that this city has to offer.
-    
-    </p>
+        <h4><%= $staff->title %></h4>
 
-    <hr />
-    
-    <h2>Liz Mazur</h2>
-    
-    <h4>Events Manager</h4>
-    
-    <p>
-       <img class="about_image_right" src="/about/LizMazur.jpg"/>
-        
-        After graduating from Marquette University a little over a year ago, I came home excited to find a job and start my life here.
-        I quickly realized that life back in the suburbs was a far cry from the spirit I’d experienced while I was in Milwaukee.
-        
-        <br />
-        <br />
-        
-        Stuck in a professional and social rut, I went out on limb and reached out to After 5 Detroit, hoping to at least get a chance
-        to show them what I could offer, and in return see what I could gain from connecting and working here.
-        
-        <br />
-        <br />
-        
-        I’m finally moving from a walk to a run in my professional life, managing events with After 5 Detroit. I’m also getting a chance to
-        learn more about the city that I’ve lived so close to my entire life and never really took advantage of until now.
-        
-        <br />
-        <br />
-        
-        My goal is to help people like me experience the spirit of city life in a place that’s been in their
-        backyard forever, and to do so by creating great events showing them how much Detroit truly has to offer.
+        <% for ( split /\s+/, $staff->photos ) { %>
 
-    <p>
-    
-    <h1 style="clear: both;">Press</h1>
-    
-    <% for my $press (@{$self->{PRESS}}) { %>
-    
-    <h4><%= $press->title %></h4>
-    
-    <% for ( split /\s+/, $press->photos ) { %>
+        <a title="<%= $staff->title %>" href="/<%= $staff->id %>">
+            <img class="<%= $position == 1 ? 'about_image_left' : 'about_image_right'; %>" src="<%= $_ %>" />
+        </a>
 
-    <a title="<%= $press->title %>" href="<%= $press->link %>" target="_blank">
-        <img class="position_image_left" src="<%= $_ %>" />
-    </a>
+        <% last; #JUST SHOW ONE %>
 
-    <% last; #JUST SHOW ONE %>
+        <% } %>
 
-    <% } %>
-
-    <p><%== HTML::FormatText->format_string($press->body) %><p>
-    
-    <div class="read_more_right">
+        <p><%== $staff->body %></p>
 
         <% if ( $self->session('admin') ) { %>
 
-        <a href="<%= $press->link %>" target="_blank">Read More |</a>
-        <a href="/editor?mode=update&id=<%= $press->id %>">Edit</a>        
-    
-        <% } else { %>
-    
-        <a href="<%= $press->link %>" target="_blank">Read More...</a>
+        <div class="read_more_right">
+
+            <a href="/editor?mode=update&id=<%= $staff->id %>">Edit</a>        	
+            
+        </div>
         
         <% } %>
 
-    </div>
+        <% $position++; %>
+         
+        <% } %>
 
-    <hr />
+    <% } %>
     
+    <h1 style="clear: both;">Press</h1>
+
+    <% my $press_counter; %>
+    
+    <% for my $press (@{$self->{PRESS}}) { %>
+        
+        <% $press_counter++; %>
+        
+        <% if ($press_counter > 1) { %>
+            
+        <hr />        
+        
+        <% } %>
+        
+        <h4><%= $press->title %></h4>
+        
+        <% for ( split /\s+/, $press->photos ) { %>
+    
+        <a title="<%= $press->title %>" href="<%= $press->link %>" target="_blank">
+            <img class="position_image_left" src="<%= $_ %>" />
+        </a>
+    
+        <% last; #JUST SHOW ONE %>
+    
+        <% } %>
+    
+        <p><%== HTML::FormatText->format_string($press->body) %><p>
+        
+        <div class="read_more_right">
+    
+            <% if ( $self->session('admin') ) { %>
+    
+            <a href="<%= $press->link %>" target="_blank">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $press->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="<%= $press->link %>" target="_blank">Read More...</a>
+            
+            <% } %>
+    
+        </div>
+        
     <% } %>
     
 </div>
