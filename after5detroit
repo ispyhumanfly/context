@@ -1079,9 +1079,9 @@ post '/api/content/create' => sub {
     if ($self->req->upload('photos')) {
 
         push @photos,
-          process_photo($self->req->upload('photos'), $self->param('id'));
+          process_photo($self->req->upload('photos'), $new_content->id);
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
+        $MODEL->resultset('Content')->search({id => $new_content->id)})
           ->update({photos => "@photos"})
           if scalar @photos >= 1;
     }
