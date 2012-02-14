@@ -1081,7 +1081,7 @@ post '/api/content/create' => sub {
         push @photos,
           process_photo($self->req->upload('photos'), $new_content->id);
 
-        $MODEL->resultset('Content')->search({id => $new_content->id)})
+        $MODEL->resultset('Content')->search({id => $new_content->id})
           ->update({photos => "@photos"})
           if scalar @photos >= 1;
     }
