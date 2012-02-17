@@ -338,7 +338,7 @@
         
         <% my $recent_updates_counter; %>
         
-        <% for my $recent_updates (@{$self->{QUICK_EDITS}}) { %>
+        <% for my $recent_updates (@{$self->{RECENT_UPDATES}}) { %>
         
             <% $recent_updates_counter++; %>
             

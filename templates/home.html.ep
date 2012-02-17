@@ -9,14 +9,18 @@
 //]]></script>
 
 <div class="content_left">
-    
-    <% for my $positions (@{$self->{POSITIONS}}) { %>
+
+    <% my $position = 1; %>
+
+    <% for my $play (@{$self->{PLAY}}) { %>
         
-        <% if ( $positions->position == 1 ) { %>
-            
-	    <% for ( split /\s+/, $positions->photos ) { %>
+	<% next unless $play->position == $position; %>
     
-	    <a title="<%= $positions->title %>" href="/<%= $positions->id %>">
+	<% if ($position == 1) { %>
+	    
+	    <% for ( split /\s+/, $play->photos ) { %>
+    
+	    <a title="<%= $play->title %>" href="/<%= $play->id %>">
 		<img class="para_image_left" src="<%= $_ %>" />
 	    </a>
     
@@ -26,93 +30,62 @@
     
 	    <div class="h1_spacer"><a href="/play"><h1>Play</h1></a></div>
     
-	    <h2><a href="/<%= $positions->id %>"><%= $positions->title %></a></h2>
+	    <h2><a href="/<%= $play->id %>"><%= $play->title %></a></h2>
     
-	    <p class="para_text_right"><%== substr( HTML::FormatText->format_string($positions->body), 0, 350 ); %></p>
+	    <p class="para_text_right"><%== substr( HTML::FormatText->format_string($play->body), 0, 350 ); %></p>
     
 	    <div class="read_more_right">
 		
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/<%= $positions->id %>">Read More |</a>
-		<a href="/editor?mode=update&id=<%= $positions->id %>">Edit</a>        
+		<a href="/<%= $play->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $play->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/<%= $positions->id %>">Read More</a>
+		<a href="/<%= $play->id %>">Read More</a>
 		
 		<% } %>
 		
 	    </div>
-        
-        <% } elsif ( $positions->position == 2 ) { %>
-        
-            <hr />
-        
-            <% for ( split /\s+/, $positions->photos ) { %>
-    
-            <a title="<%= $positions->title %>" href="/<%= $positions->id %>">
-                <img class="position_image_left" src="<%= $_ %>" />
-            </a>
-    
-            <% last; #JUST SHOW ONE %>
-    
-            <% } %>
+	
+	<% } elsif ($position >= 2) { %>
 
-            <h2><a href="/<%= $positions->id %>"><%= $positions->title %></a></h2>
-        
-            <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ); %><p>
-        
-            <div class="read_more_right">
-
-                <% if ( $self->session('admin') ) { %>
+	    <hr />        
+	
+	    <% for ( split /\s+/, $play->photos ) { %>
     
-                <a href="/<%= $positions->id %>">Read More |</a>
-                <a href="/editor?mode=update&id=<%= $positions->id %>">Edit</a>        
-            
-                <% } else { %>
-            
-                <a href="/<%= $positions->id %>">Read More</a>
-                
-                <% } %>
-
-            </div>
-        
-        <% } elsif ( $positions->position == 3 ) { %>
-        
-            <hr />
-        
-            <% for ( split /\s+/, $positions->photos ) { %>
+	    <a title="<%= $play->title %>" href="/<%= $play->id %>">
+		<img class="position_image_left" src="<%= $_ %>" />
+	    </a>
     
-            <a title="<%= $positions->title %>" href="/<%= $positions->id %>">
-                <img class="position_image_left" src="<%= $_ %>" />
-            </a>
+	    <% last; #JUST SHOW ONE %>
     
-            <% last; #JUST SHOW ONE %>
+	    <% } %>
+
+	    <h2><a href="/<%= $play->id %>"><%= $play->title %></a></h2>
+	
+	    <p><%== substr( HTML::FormatText->format_string($play->body), 0, 300 ); %><p>
+	
+	    <div class="read_more_right">
+
+		<% if ( $self->session('admin') ) { %>
     
-            <% } %>
+		<a href="/<%= $play->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $play->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $play->id %>">Read More</a>
+		
+		<% } %>
 
-            <h2><a href="/<%= $positions->id %>"><%= $positions->title %></a></h2>
-        
-            <p><%== substr( HTML::FormatText->format_string($positions->body), 0, 300 ); %><p>
-        
-            <div class="read_more_right">
-
-                <% if ( $self->session('admin') ) { %>
-    
-                <a href="/<%= $positions->id %>">Read More |</a>
-                <a href="/editor?mode=update&id=<%= $positions->id %>">Edit</a>        
-            
-                <% } else { %>
-            
-                <a href="/<%= $positions->id %>">Read More</a>
-                
-                <% } %>
-
-            </div>
-        
-        <% } %>
-        
+	    </div>
+	
+	<% } %>
+	
+	<% $position++; %>
+	
     <% } %>
     
     <h3>

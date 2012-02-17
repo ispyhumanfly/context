@@ -56,18 +56,9 @@ get '/home' => sub {
     my @play =
       $MODEL->resultset('Content')
       ->search({pages => {like => '%home%'}, types => {like => '%article%'}},
-        {order_by => 'id DESC'})->all;
+        {order_by => 'position ASC'})->all;
 
     $self->{'PLAY'} = \@play;
-
-    # Features by Position
-    my @positions = $MODEL->resultset('Content')->search(
-        {   pages    => {like => '%home%'},
-            position => {like => ['%1%', '%2%', '%3%']}
-        }
-    )->all;
-
-    $self->{'POSITIONS'} = \@positions;
 
     # Live
     my @live =
@@ -871,12 +862,12 @@ get '/dashboard' => sub {
         {page => 1, rows => 15, order_by => 'id DESC'})->all;
     $self->{'NONE'} = \@none;
 
-    # Quick Edits
-    my @quick_edits =
+    # Recent Updates
+    my @recent_updates =
       $MODEL->resultset('Content')
-      ->search({},
-        {page => 1, rows => 10, order_by => 'modified_datetime DESC'})->all;
-    $self->{'QUICK_EDITS'} = \@quick_edits;
+      ->search(undef,
+        {page => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
+    $self->{'RECENT_UPDATES'} = \@recent_updates;
 
     return $self->render('dashboard');
 
@@ -894,12 +885,12 @@ get '/editor' => sub {
       ->single;
     $self->{'CONTENT'} = $content;
 
-    # Quick Edits
-    my @quick_edits =
+    # Recent Updates
+    my @recent_updates =
       $MODEL->resultset('Content')
-      ->search({},
+      ->search(undef,
         {page => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
-    $self->{'QUICK_EDITS'} = \@quick_edits;
+    $self->{'RECENT_UPDATES'} = \@recent_updates;
 
     return $self->render('editor');
 
