@@ -120,9 +120,10 @@ get '/live/birmingham' => sub {
     # City Life
     my @city_life = $MODEL->resultset('Content')->search(
         {   pages => {like => '%live%'},
-            tags  => {like => '%city_life%'}
+            tags  => {like => '%city_life%'},
+            cities => {like => '%birmingham%'}
         },
-        {page => 1, rows => 1, order_by => 'id DESC'}
+        {page => 1, rows => 100, order_by => 'id DESC'}
     )->all;
 
     $self->{'CITY_LIFE'} = \@city_life;
@@ -177,9 +178,10 @@ get '/live/detroit' => sub {
     # City Life
     my @city_life = $MODEL->resultset('Content')->search(
         {   pages => {like => '%live%'},
-            tags  => {like => '%city_life%'}
+            tags  => {like => '%city_life%'},
+            cities => {like => '%detroit%'}
         },
-        {page => 1, rows => 1, order_by => 'id DESC'}
+        {page => 1, rows => 100, order_by => 'id DESC'}
     )->all;
 
     $self->{'CITY_LIFE'} = \@city_life;
@@ -234,9 +236,10 @@ get '/live/ferndale' => sub {
     # City Life
     my @city_life = $MODEL->resultset('Content')->search(
         {   pages => {like => '%live%'},
-            tags  => {like => '%city_life%'}
+            tags  => {like => '%city_life%'},
+            cities => {like => '%ferndale%'}
         },
-        {page => 1, rows => 1, order_by => 'id DESC'}
+        {page => 1, rows => 100, order_by => 'id DESC'}
     )->all;
 
     $self->{'CITY_LIFE'} = \@city_life;
@@ -291,9 +294,10 @@ get '/live/royal_oak' => sub {
     # City Life
     my @city_life = $MODEL->resultset('Content')->search(
         {   pages => {like => '%live%'},
-            tags  => {like => '%city_life%'}
+            tags  => {like => '%city_life%'},
+            cities => {like => '%ferndale%'}
         },
-        {page => 1, rows => 1, order_by => 'id DESC'}
+        {page => 1, rows => 100, order_by => 'id DESC'}
     )->all;
 
     $self->{'CITY_LIFE'} = \@city_life;

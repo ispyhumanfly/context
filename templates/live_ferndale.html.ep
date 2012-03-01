@@ -30,33 +30,89 @@
 	lightbox = new dojox.image.LightboxDialog().startup();		
 	dojo.subscribe(dijit.byId('thumbPicker2').getClickTopicName(), lightboxShow);
 
-    }); 
-
+    });
+ 
 //]]></script>
 
 <div class="content_left">
 
-    <h1>City Life</h1>
+    <h1>Ferndale City Life</h1>
 
-    <a dojoType="dojox.image.Lightbox" title="Ferndale, Michigan" href="/cities/ferndale/MainFerndalePhoto.jpg">
-        <img class="para_image_right" src="/cities/ferndale/MainFerndalePhoto.jpg" />
-    </a>
+    <% my $position = 1; %>
 
-    <div class="content_thumbnails_right">
-	
-    <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=716"></div>
-
-    </div>
- 
-    <h2>Ferndale</h2>
+    <% for my $city_life (@{$self->{CITY_LIFE}}) { %>
+        
+	<% next unless $city_life->position == $position; %>
     
-    <p>
-        They deem themselves “Funky Ferndale” and that’s a good description for this diverse city that holds a unique character all its own.  Ferndale has its share of popular bars and restaurants, but it also has become the go-to city for vintage shops and art galleries.
-        It offers its residents and visitors plenty of activities year round to enjoy, including the annual Blues Festival, DIY Fair and Art Show, as well as a hugely popular display of festivities surrounding the Woodward Dream Cruise.
-        Located just south of Royal Oak and a quick drive from downtown Detroit, the streets of Ferndale are always a beautiful sight with hanging lights in the winter and flower baskets in the summer, making it a place proud to be called home.
-    </p>
+	<% if ($position == 1) { %>
+	    
+	    <% for ( split /\s+/, $city_life->photos ) { %>
+    
+	    <a dojoType="dojox.image.Lightbox" title="<%= $city_life->title %>" href="<%= $_ %>">
+		<img class="para_image_right" src="<%= $_ %>" />
+	    </a>
+    
+	    <% last; #JUST SHOW ONE %>
+    
+	    <% } %>
+    
+	    <div class="content_thumbnails_right">
+		
+		<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
+		<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $city_life->id %>"></div>
+	
+	    </div>
+	
+	    <h2><%= $city_life->title %></h2>
+	    
+	    <p><%== substr( HTML::FormatText->format_string($city_life->body), 0, 500 ) %></p>
 
+	    <div id="live_bullet_navigation">
+		    
+		<ul class="left">
+		    <li class="title">Discover Ferndale</li>
+		    <li><a href="/search?interests=dining&cities=ferndale">Dining</a></li>
+		    <li><a href="/search?interests=nightlife&cities=ferndale">Nightlife</a></li>
+		    <li><a href="/search?interests=lifestyle&cities=ferndale">Lifestyle</a></li>
+		</ul>
+		
+		<ul class="right">
+		    <li class="title">Discover More</li>
+		    <li><a href="/live/birmingham">Birmingham</a></li>
+		    <li><a href="/live/detroit">Detroit</a></li>
+		    <li><a href="/live/royal_oak">Royal Oak</a></li>
+		</ul>
+		
+	    </div>
+	
+	    <span class="social_sharing_right">
+	
+		<a href="http://www.facebook.com/sharer.php?u=http://beta.after5ferndale.com/<%= $city_life->id %>&t=<%= $city_life->title %>" target="_blank">
+		    <img src="/FacebookShare.png" alt="Facebook"/>
+		</a>
+	    
+		<a href="http://www.twitter.com/home?status=<%= $city_life->title %>,+http://beta.after5ferndale.com/<%= $city_life->id %>" target="_blank">
+		    <img src="/TwitterShare.png" alt="Twitter"/>
+		</a>
+	    
+		<a href="http://www.digg.com/submit?phase=2&url=http://beta.after5ferndale.com/<%= $city_life->id %>" target="_blank">
+		    <img src="/DiggShare.png" alt="Digg"/>
+		</a>
+	    
+		<a href="http://www.stumbleupon.com/submit/?url=http://beta.after5ferndale.com/<%= $city_life->id %>" target="_blank">
+		    <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+		</a>
+		
+	    </span>
+	    
+	<% } %>
+	
+	<% $position++; %>
+	
+    <% } %>
+
+    <h3><a href="/search?tags=city_life&cities=ferndale">More City Life &rarr;</a></h3>
+    
     <h1 style="clear: both;">Featured Lifestyle</h1>
     
     <% for my $featured_lifestyle (@{$self->{FEATURED_LIFESTYLE}}) { %>
@@ -92,7 +148,7 @@
 
     <% } %>
 
-    <h3><a href="/more?living=all&back=home">More City Life</a></h3>
+    <h3><a href="/search?interests=lifestyle">More Lifestyle &rarr;</a></h3>
 
 </div>
 
@@ -102,42 +158,52 @@
 
     <div class="content_right_padding">
         
-    <% for my $neighbors (@{$self->{NEIGHBORS}}) { %>
-            
-        <% next if $neighbors->types =~ m/ad/i; %>
-
-        <% for ( split /\s+/, $neighbors->photos ) { %>
-        
-        <a title="<%= $neighbors->title %>" href="/<%= $neighbors->id %>">
-            <img class="block_thumbnails_right" src="<%= $_ %>"/>
-        </a>
-        
-        <% last; #JUST SHOW ONE %>
-        
-        <% } %>
-
-        <div class="block_title"><%= $neighbors->title %></div>
-        
-        <div class="block_text"><%== substr( HTML::FormatText->format_string($neighbors->body), 0, 75 ) . '' %></div>
-        
-        <div class="read_more_left">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/<%= $neighbors->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $neighbors->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/<%= $neighbors->id %>">Read More</a>
-            
-            <% } %>
-
-        </div>
-            
-        <hr />
+	<% my $neighbors_counter; %>
+	
+	<% for my $neighbors (@{$self->{NEIGHBORS}}) { %>
+	    
+	    <% $neighbors_counter++; %>
+	    
+	    <% next if $neighbors->types =~ m/ad/i; %>
     
-    <% } %>
+	    <% for ( split /\s+/, $neighbors->photos ) { %>
+	    
+	    <a title="<%= $neighbors->title %>" href="/<%= $neighbors->id %>">
+		<img class="block_thumbnails_right" src="<%= $_ %>"/>
+	    </a>
+	    
+	    <% last; #JUST SHOW ONE %>
+	    
+	    <% } %>
+	    
+	    <div class="block_title"><%= $neighbors->title %></div>
+	    
+	    <div class="block_text"><%== substr( HTML::FormatText->format_string($neighbors->body), 0, 75 ) %></div>
+	    
+	    <div class="read_more_left">
+    
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/<%= $neighbors->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $neighbors->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $neighbors->id %>">Read More</a>
+		
+		<% } %>
+    
+	    </div>
+	    
+	    <% unless (scalar @{$self->{NEIGHBORS}} == $neighbors_counter ) { %>
+	    
+	    <hr />
+	
+	    <% } %>
+	
+	<% } %>
+
+	<div class="block_see_more"><a href="/search?tags=neighbor&cities=ferndale">See More &rarr;</a></div>
 
         <div class="ad_space_block">
     

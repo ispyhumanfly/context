@@ -203,7 +203,7 @@
 	    
 	</div>
 	
-	<div class="block_more_events"><a href="/play/events">See All Events &rarr;</a></div>
+	<div class="block_see_more"><a href="/play/events">See More &rarr;</a></div>
 	        
     </div>
 
@@ -256,7 +256,7 @@
             
 	    <% if ($galleries->title ne '') { %>
 	    
-	    <div class="block_title"><%= $galleries->title %></div>
+	    <div class="block_title"><a href="/photos?id=<%= $galleries->id %>"><%= $galleries->title %></a></div>
 	    
 	    <% } %>
 	    

@@ -36,27 +36,83 @@
 
 <div class="content_left">
 
-    <h1>City Life</h1>
+    <h1>Birmingham City Life</h1>
 
-    <a dojoType="dojox.image.Lightbox" title="Birmingham, Michigan" href="/cities/birmingham/MainBirminghamPhoto.jpg">
-        <img class="para_image_right" src="/cities/birmingham/MainBirminghamPhoto.jpg" />
-    </a>
+    <% my $position = 1; %>
 
-    <div class="content_thumbnails_right">
-	
-    <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=716"></div>
-
-    </div>
-
-    <h2>Birmingham</h2>
+    <% for my $city_life (@{$self->{CITY_LIFE}}) { %>
+        
+	<% next unless $city_life->position == $position; %>
     
-    <p>
-        If you follow Woodward Avenue northwest from the Detroit city center and about 4 miles beyond Royal Oak, you come to Birmingham, an upscale suburb with a very popular outdoor shopping and entertainment district.  
-        Downtown Birmingham is home to two movie theatres, a wide variety of restaurants (many with outdoor seating), bars and coffee shops, but may be best known for its boutique shops, ranging from clothing and jewelry, to gifts and furniture.
-        Birmingham offers options for all, but is particularly attractive to the more affluent young professionals who have outgrown Royal Oak, are looking more to the suburban feel and family life.
-    </p>
+	<% if ($position == 1) { %>
+	    
+	    <% for ( split /\s+/, $city_life->photos ) { %>
+    
+	    <a dojoType="dojox.image.Lightbox" title="<%= $city_life->title %>" href="/<%= $city_life->id %>">
+		<img class="para_image_right" src="<%= $_ %>" />
+	    </a>
+    
+	    <% last; #JUST SHOW ONE %>
+    
+	    <% } %>
+    
+	    <div class="content_thumbnails_right">
+		
+		<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
+		<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $city_life->id %>"></div>
+	
+	    </div>
+	
+	    <h2><%= $city_life->title %></h2>
+	    
+	    <p><%== substr( HTML::FormatText->format_string($city_life->body), 0, 500 ) %></p>
 
+	    <div id="live_bullet_navigation">
+		    
+		<ul class="left">
+		    <li class="title">Discover Birmingham</li>
+		    <li><a href="/search?interests=dining&cities=birmingham">Dining</a></li>
+		    <li><a href="/search?interests=nightlife&cities=birmingham">Nightlife</a></li>
+		    <li><a href="/search?interests=lifestyle&cities=birmingham">Lifestyle</a></li>
+		</ul>
+		
+		<ul class="right">
+		    <li class="title">Discover More</li>
+		    <li><a href="/live/detroit">Detroit</a></li>
+		    <li><a href="/live/ferndale">Ferndale</a></li>
+		    <li><a href="/live/royal_oak">Royal Oak</a></li>
+		</ul>
+		
+	    </div>
+	
+	    <span class="social_sharing_right">
+	
+		<a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $city_life->id %>&t=<%= $city_life->title %>" target="_blank">
+		    <img src="/FacebookShare.png" alt="Facebook"/>
+		</a>
+	    
+		<a href="http://www.twitter.com/home?status=<%= $city_life->title %>,+http://beta.after5detroit.com/<%= $city_life->id %>" target="_blank">
+		    <img src="/TwitterShare.png" alt="Twitter"/>
+		</a>
+	    
+		<a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $city_life->id %>" target="_blank">
+		    <img src="/DiggShare.png" alt="Digg"/>
+		</a>
+	    
+		<a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $city_life->id %>" target="_blank">
+		    <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+		</a>
+		
+	    </span>
+	    
+	<% } %>
+	
+	<% $position++; %>
+	
+    <% } %>
+
+    <h3><a href="/search?tags=city_life&cities=birmingham">More City Life &rarr;</a></h3>
+    
     <h1 style="clear: both;">Featured Lifestyle</h1>
     
     <% for my $featured_lifestyle (@{$self->{FEATURED_LIFESTYLE}}) { %>
@@ -92,7 +148,7 @@
 
     <% } %>
 
-    <h3><a href="/more?living=all&back=home">More City Life</a></h3>
+    <h3><a href="/search?interests=lifestyle">More Lifestyle &rarr;</a></h3>
 
 </div>
 
@@ -102,42 +158,52 @@
 
     <div class="content_right_padding">
         
-    <% for my $neighbors (@{$self->{NEIGHBORS}}) { %>
-            
-        <% next if $neighbors->types =~ m/ad/i; %>
-
-        <% for ( split /\s+/, $neighbors->photos ) { %>
-        
-        <a title="<%= $neighbors->title %>" href="/<%= $neighbors->id %>">
-            <img class="block_thumbnails_right" src="<%= $_ %>"/>
-        </a>
-        
-        <% last; #JUST SHOW ONE %>
-        
-        <% } %>
-        
-        <div class="block_title"><%= $neighbors->title %></div>
-        
-        <div class="block_text"><%== substr( HTML::FormatText->format_string($neighbors->body), 0, 75 ) . '' %></div>
-        
-        <div class="read_more_left">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/<%= $neighbors->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $neighbors->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/<%= $neighbors->id %>">Read More</a>
-            
-            <% } %>
-
-        </div>
-            
-        <hr />
+	<% my $neighbors_counter; %>
+	
+	<% for my $neighbors (@{$self->{NEIGHBORS}}) { %>
+	    
+	    <% $neighbors_counter++; %>
+	    
+	    <% next if $neighbors->types =~ m/ad/i; %>
     
-    <% } %>
+	    <% for ( split /\s+/, $neighbors->photos ) { %>
+	    
+	    <a title="<%= $neighbors->title %>" href="/<%= $neighbors->id %>">
+		<img class="block_thumbnails_right" src="<%= $_ %>"/>
+	    </a>
+	    
+	    <% last; #JUST SHOW ONE %>
+	    
+	    <% } %>
+	    
+	    <div class="block_title"><%= $neighbors->title %></div>
+	    
+	    <div class="block_text"><%== substr( HTML::FormatText->format_string($neighbors->body), 0, 75 ) %></div>
+	    
+	    <div class="read_more_left">
+    
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/<%= $neighbors->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $neighbors->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $neighbors->id %>">Read More</a>
+		
+		<% } %>
+    
+	    </div>
+	    
+	    <% unless (scalar @{$self->{NEIGHBORS}} == $neighbors_counter ) { %>
+	    
+	    <hr />
+	
+	    <% } %>
+	
+	<% } %>
+
+	<div class="block_see_more"><a href="/search?tags=neighbor&cities=birmingham">See More &rarr;</a></div>
 
         <div class="ad_space_block">
     
