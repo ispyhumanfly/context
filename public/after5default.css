@@ -454,6 +454,8 @@ body {
     border: 1px solid #1a3721; 
 }
 
+/* block content */
+
 #content_container .block_thumbnails_right {
     
     float: right;
@@ -478,6 +480,34 @@ body {
     padding-bottom: 6px;
 }
 
+#content_container .block_more_galleries {
+   
+    font-size: small;
+    margin-top: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: #1a3721;
+   
+}
+
+#content_container .block_more_events {
+   
+    font-size: small;
+    margin-top: 5px;
+    padding: 5px;
+    background-color: #1a3721;
+    text-align: right;
+    color: white;
+   
+}
+
+#content_container .block_more_galleries_list {
+
+    width: 248px;
+}
+
 #content_container .ad_space_header {
 
     text-align: center;
@@ -493,7 +523,8 @@ body {
 
     text-align: center;
     background-color: #e6e2e3;
-    margin-top: 15px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 #content_container .search_places_right {
@@ -542,11 +573,6 @@ body {
     border-left: 25px solid white;
     min-height: 550px;
 
-}
-
-#content_container .event_calendar {
-    padding: 10px;
-    margin-left: 40px;
 }
 
 #content_container .social_sharing {
@@ -650,37 +676,280 @@ body {
     height: 800px;
 }
 
-/*
-.dojoxFisheyeListItemLabel {
+/* Events Calendar */
 
-	background-color: #eee;
-	border: 2px solid #666;
-	padding: 2px;
+.dojoxCalendar {
+	width: 182px;
+}
+.dojoxCalendarContainer {
+	cursor: default;
+/*	font-family: tahoma, verdana, helvetica;*/
+        /*font-size: 11px;*/
+        font-family: Verdana; font-weight: normal; 
+        font-size: small;
+	padding: 0px;
 	text-align: center;
-	position: absolute;
-	display: none;
-	white-space:pre; 
+	/*width: 180px;*/
+        width: 310px;
+	overflow: hidden;
 }
-
-.dojoxFisheyeListItemLabel.dojoxFishSelected {
-	display: block;
-}
-
-.dojoxFisheyeListItemImage {
-	border: 0px;
-	position: absolute;
-}
-
-.dojoxFisheyeListItem {
-	position: absolute;
-	z-index: 2;
-}
-
-.dojoxFisheyeListBar {
+.dojoxCalendarBody {
+	height: 138px;
+	overflow: hidden;
 	position: relative;
+	margin: auto;
+	width: 180px;
 }
-	
-.dojoxFisheyeListBar {
-	margin: 0 auto;
+.dojoxCalendar .no-header .dojoxCalendarBody {
+	height: 162px;
+}
+.dojoxCalendar .dijitCalendarDayLabels, .dojoxCalendarMonthLabels, .dojoxCalendarYearLabels, .dojoxCal-MY-labels {
+	width: 180px;
+	height: 138px;
+	top: 0px;
+	position: absolute;
+	left: 0px;
+	margin: auto;
 	text-align: center;
-}*/
+}
+.dojoxCalendar .dojoxCalendarBody > div {
+	width: 180px;
+}
+.dojoxCalendar .dijitCalendarDateTemplate {
+	padding: 0 1px 0 0 !important;
+}
+.nihilo .dojoxCalendar .dijitCalendarDateTemplate,
+.soria .dojoxCalendar .dijitCalendarDateTemplate {
+	border: 0px none !important; 
+}
+.soria tr.dojoxCal-MY-btns {
+	background:   url('http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/soria/images/tabBottomHoverC.gif') repeat-x scroll 0px -21px;
+}
+.dojoxCalendar .noPointer, .dojoxCalendar .noPointer * {
+	cursor: auto;
+}
+.dojoxCalendarContainer table {
+	font-size: 11px;
+	border-bottom: 4px solid #e6e2e3;
+        background-color: #e6e2e3;
+}
+.dojoxCalendarHeader {
+	height: 20px;
+	/*width: 172px;*/
+        width: 300px;
+	padding: 4px 4px 0;
+}
+.dojoxCalendar .no-header .dojoxCalendarHeader {
+	display: none;
+}
+
+.soria .dojoxCalendarHeader {
+	background: #BED7F0 url('http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/soria/images/titleBar.png') repeat-x scroll center top;
+}
+.dojoxCalendarDecrease, .dojoxCalendarIncrease {
+	height: 15px;
+	width: 15px;
+	cursor: pointer;
+}
+.dojoxCalendarDecrease {
+	background: transparent url('http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/nihilo/images/spriteRoundedIconsSmall.png') no-repeat scroll left top;
+	float: left;
+        margin-left: 25px;
+}
+.dojoxCalendarIncrease {
+	background: transparent url('http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/nihilo/images/spriteRoundedIconsSmall.png') no-repeat scroll -30px top;
+	float: right;
+        margin-right: 25px;
+}
+.dojoxCalendarMonthLabel {
+	cursor: pointer;
+	height: 35px;
+	width: 41px;
+	overflow: hidden;
+	text-align: center;
+	padding-top: 10px;
+        background-color: white;
+}
+.dojoxCalendarYearLabel {
+	cursor: pointer;
+	height: 35px;
+	width: 41px;
+	overflow: hidden;
+	text-align: center;
+	padding-top: 10px;
+
+}
+.dojoxCalendarTitle {
+	cursor: pointer;
+	font-weight: bold;
+}
+.dojoxCalendar .navToPanel .dojoxCalendarDayYearLabel,
+.dojoxCalendar .navToPanel .dojoxCalendarYearHeader,
+.dojoxCalendar .navToPanel .dojoxCalendarMonthHeader  {
+	padding-right: 15px;
+	background: url('http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/tundra/images/comboArrowDown.gif') right no-repeat;
+
+}
+.dojoxCalendar .dijitCalendarDateLabel {
+	height: 17px;
+	width: 17px;
+	padding: 1px 3px 0px 3px;
+	text-align: center;
+	border: 1px solid white;
+}
+.dojoxCalendar .dijitCalendarDayLabel {
+	cursor: pointer;
+	height: 17px;
+	width: 18px;
+	padding: 0pt 2px;
+	text-align: center;
+}
+.dojoxCalendar .dojoxCalendarContainer {
+	background-color: #e6e2e3;
+	/*border: 1px solid #656565;*/
+	color: #183720;
+        
+}
+.dojoxCalendar .dijitCalendarDisabledDate {
+	text-decoration:line-through !important;
+	cursor:default !important;
+}
+.dojoxCalendar .dojoxCalendarFooter {
+	border-top: 1px solid #e6e2e3;
+	height: 15px;
+	padding-top: 4px;
+	cursor: pointer;
+}
+.soria .dojoxCalendar .dojoxCalendarFooter {
+	border-top: 0px none;
+	padding-top: 5px;
+	background: white url('http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/soria/images/titleBar.png') repeat-x scroll center top
+}
+.dojoxCalendar .dojoxCalendarMonthLabel {
+	border: 1px solid #e6e2e3;
+}
+.dojoxCalendar .dojoxCalendarYearLabel {
+	border: 1px solid #e6e2e3;
+}
+.dojoxCalendar .dijitCalendarNextMonth .dijitCalendarDateLabel,
+.dojoxCalendar .dijitCalendarPreviousMonth .dijitCalendarDateLabel  {
+	border: 0px;
+        color: #646464;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.dojoxCalendar .dijitCalendarNextMonth, .dojoxCalendar .dijitCalendarPreviousMonth {
+  background-color: #e6e2e3;
+}
+.dojoxCalendar .dijitCalendarNextMonth .dojoxCalendarYearLabel,
+.dojoxCalendar .dijitCalendarPreviousMonth .dojoxCalendarYearLabel {
+	background-color: #e6e2e3;
+	border-color: #e6e2e3;
+	/*color: #646464;*/
+        color: #183720;
+}
+.dojoxCalendar .dijitCalendarSelectedDate,
+.tundra .dojoxCalendar .dijitCalendarSelectedDate,
+.nihilo .dojoxCalendar .dijitCalendarSelectedDate {
+	
+	background-color:#183720 !important;
+	color: white !important;
+	border:#183720 solid 1px !important;
+}
+.soria .dojoxCalendar td.dijitCalendarSelectedDate {
+	background-color: #B9CBF1 !important;
+	color: #183720 !important;
+	border: 1px solid #4B5AAA !important;
+}
+.soria .dojoxCalendar .dijitCalendarSelectedDate div {
+	
+	background-color: #B9CBF1 !important;
+	border: none  !important;
+}
+.dojoxCalendar .dijitCalendarSelectedDate div {
+	
+	background-color: #183720 !important;
+        color: white;
+	border: none  !important;
+}
+div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
+	background-color: transparent;
+	width: 43px;
+}
+.dojoxCalendar tr.dojoxCal-MY-G-Template td {
+        
+	width: 45px;
+}
+.dojoxCalendar .dijitCalendarSelectedDate div.dijitCalendarDateLabel {
+	padding: 1px 1px 0px 3px;
+}
+.dojoxCalendar .monthOnly .dijitCalendarDayLabels,
+.dojoxCalendar .yearOnly .dijitCalendarDayLabels,
+.dojoxCalendar .monthOnly .dojoxCalendarComma,
+.dojoxCalendar .yearOnly .dojoxCalendarComma,
+.dojoxCalendar .monthOnly .dojoxCalendarFooter,
+.dojoxCalendar .yearOnly .dojoxCalendarFooter,
+.dojoxCalendar .monthOnly .dojoxCalendarYearHeader,
+.dojoxCalendar .monthOnly .dojoxCalendarIncrease,
+.dojoxCalendar .monthOnly .dojoxCalendarDecrease,
+.dojoxCalendar .yearOnly .dojoxCalendarMonthLabelNode {
+	display: none;
+}
+.dojoxCal-MY-labels .dojoxCalendarMonthLabel,
+.dojoxCal-MY-labels .dojoxCalendarYearLabel {
+	height: 13px;
+	padding-top: 4px;
+	padding-bottom: 3px;
+}
+.dojoxCal-MY-labels td.dojoxCal-MY-btns {
+	padding-top: 2px;
+	border-top: 1px solid grey;
+	text-align: center;
+}
+.dojoxCal-MY-labels {
+	background-color: #e6e2e3;
+}
+.dojoxCal-MY-labels .dojoxCalendarIncrease,
+.dojoxCal-MY-labels .dojoxCalendarDecrease {
+	float: none;
+	margin-left: 14px;
+}
+.dojoxCal-MY-btns button {
+	font-size: 8pt;
+}
+.dojoxCalendar .dojoxCal-MY-btns .dijitDisabled button {
+	color: #999;
+}
+.dojoxCal-hidden {
+	visibility: hidden;
+}
+.dojoxCalendar .dojoxCal-MY-labels {
+	height: 164px;
+}
+.dojoxCalendar .dojoxCal-MY-labels .dijitCalendarSelectedDate div {
+	padding-top: 3px;
+	padding-bottom: 2px;
+}
+.soria .dojoxCal-MY-labels .dijitCalendarSelectedDate div {
+	padding-top: 4px;
+	padding-bottom: 3px;
+}
+.dojoxCal-MY-labels .dojoxCalendarMonthLabel {
+	width: 38px;
+}
+.dojoxCal-MY-labels .dojoxCal-MY-M-last {
+	border-right: 1px grey solid;
+}
+.soria .dojoxCal-MY-labels .dojoxCal-MY-M-last {
+	border-right: 1px #B9CBF1 solid;
+} 
+.dojoxCal-MY-labels .dojoxCal-MY-M-last .dojoxCalendarMonthLabel,
+.dojoxCal-MY-labels .dojoxCal-MY-G-Template div.dojoxCalendarYearLabel {
+	width: 42px;
+}
+.dojoxCalendar .cancel-btn {
+	margin-left: 11px;
+}
+.dojoxCalendar .ok-btn {
+	margin-left: 15px;
+}

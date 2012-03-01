@@ -51,6 +51,17 @@
         
         <% next unless ($result->types =~ m/$types/i); %>
         
+            <% if (($types =~ m/event/i) and ($self->param('start_datetime'))) { %>
+                
+                <% if (defined $result->start_datetime) { %>
+                
+                <% my $start_datetime = $self->param('start_datetime'); %>
+                <% next unless $result->start_datetime->mdy(':') =~ m/$start_datetime/i; %>
+                
+                <% } %>
+                
+            <% } %>
+        
         <% } %>
 
         <% if ($self->param('string')) { %>
@@ -79,6 +90,12 @@
     
         <% } %>
         
+        <% if (($self->param('types') =~ m/event/i) and (defined $result->start_datetime)) { %>
+                
+            <p><%= $result->start_datetime->mdy(':'); %></p>
+            
+        <% } %>
+            
         <div class="read_more_right">
             
             <% if ( $self->session('admin') ) { %>

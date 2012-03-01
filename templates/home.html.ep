@@ -3,6 +3,7 @@
 
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require("dojo.date.locale");
     dojo.require("dojox.widget.Calendar");
     dojo.require("dojox.form.DropDownSelect");
 
@@ -191,7 +192,42 @@
 
     <div class="content_right_padding">
         
-        <p>A calendar will go here</p>
+        <div data-dojo-type="dojox.widget.DailyCalendar">
+  
+	    <script type="dojo/connect" data-dojo-event="onValueSelected" data-dojo-args="datetime">//<![CDATA[
+		
+		window.location="/search?types=event&start_datetime=" + dojo.date.locale.format(datetime,  {datePattern: "MM:dd:yyyy", timePattern: "HHmmss"});
+	    
+	    //]]></script>
+	    
+	</div>
+	
+	<div class="block_more_events"><a href="/play/events">See All Events</a></div>
+	        
+    </div>
+
+    <div class="ad_space_block">
+
+        <script type="text/javascript">//<![CDATA[
+        
+            var block_ads = new Array();
+
+            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+
+                <% for ( split /\s+/, $ad->photos ) { %>
+
+                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+
+                <% last; # ONLY SHOW ONE %>
+
+                <% } %>
+
+            <% } %>
+            
+            var random = Math.floor(Math.random() * block_ads.length);
+            document.write(block_ads[random]);
+
+        //]]></script>
         
     </div>
     
@@ -254,53 +290,32 @@
         
         <% } %>
 
-	<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/photos" method="get">
+	<div class="block_more_galleries">
 	    
-	    <div dojoType="dijit.form.Select" name="id">
+	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/photos" method="get">
+		
+		<select class="block_more_galleries_list" name="id">
+		
+		    <% my $gallery_position; %>
+		    
+		    <% for my $galleries (@{$self->{GALLERIES}}) { %>
+		    
+		    <% $gallery_position++; %>
+		    
+		    <% next if $gallery_position <= 3; %>
 	    
-		<% my $gallery_position; %>
+		    <option value="<%= $galleries->id %>"><%== substr( HTML::FormatText->format_string($galleries->title), 0, 35 ); %></option>
+		    
+		    <% } %>
+		    
+		</select>
 		
-		<% for my $galleries (@{$self->{GALLERIES}}) { %>
-		
-		<% $gallery_position++; %>
-		
-		<% next if $gallery_position <= 3; %>
-	
-		<option value="<%= $galleries->id %>"><%== substr( HTML::FormatText->format_string($galleries->title), 0, 25 ); %></option>
-		
-		<% } %>
+		<button type="submit">GO</button>
 		
 	    </div>
 	    
-	    <button dojoType="dijit.form.Button" type="submit">GO</button>
-	    
 	</div>
-
+	
     </div>
         
-    <div class="ad_space_block">
-
-        <script type="text/javascript">//<![CDATA[
-        
-            var block_ads = new Array();
-
-            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
-
-                <% for ( split /\s+/, $ad->photos ) { %>
-
-                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
-
-                <% last; # ONLY SHOW ONE %>
-
-                <% } %>
-
-            <% } %>
-            
-            var random = Math.floor(Math.random() * block_ads.length);
-            document.write(block_ads[random]);
-
-        //]]></script>
-        
-    </div>
-
 </div>
