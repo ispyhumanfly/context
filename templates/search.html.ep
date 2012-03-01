@@ -15,48 +15,49 @@
         
         <% if ($self->param('pages')) { %>
         
-        <% my $pages = $self->param('pages'); %>
-        
-        <% next unless ($result->pages =~ m/$pages/i); %>
+            <% my $pages = $self->param('pages'); %>
+            
+            <% next unless ($result->pages =~ m/$pages/i); %>
         
         <% } %>
         
         <% if ($self->param('cities')) { %>
         
-        <% my $cities = $self->param('cities'); %>
-        
-        <% next unless ($result->cities =~ m/$cities/i); %>
+            <% my $cities = $self->param('cities'); %>
+            
+            <% next unless ($result->cities =~ m/$cities/i); %>
         
         <% } %>
 
         <% if ($self->param('interests')) { %>
         
-        <% my $interests = $self->param('interests'); %>
-        
-        <% next unless ($result->interests =~ m/$interests/i); %>
-        
+            <% my $interests = $self->param('interests'); %>
+            
+            <% next unless ($result->interests =~ m/$interests/i); %>
+            
         <% } %>
 
         <% if ($self->param('tags')) { %>
         
-        <% my $tags = $self->param('tags'); %>
-        
-        <% next unless ($result->tags =~ m/$tags/i); %>
-        
+            <% my $tags = $self->param('tags'); %>
+            
+            <% next unless ($result->tags =~ m/$tags/i); %>
+            
         <% } %>
 
         <% if ($self->param('types')) { %>
         
-        <% my $types = $self->param('types'); %>
+            <% my $types = $self->param('types'); %>
+            
+            <% next unless ($result->types =~ m/$types/i); %>
         
-        <% next unless ($result->types =~ m/$types/i); %>
-        
-            <% if (($types =~ m/event/i) and ($self->param('start_datetime'))) { %>
+            <% if (($types =~ m/event/i) and ($self->param('start_date'))) { %>
                 
                 <% if (defined $result->start_datetime) { %>
                 
-                <% my $start_datetime = $self->param('start_datetime'); %>
-                <% next unless $result->start_datetime->mdy(':') =~ m/$start_datetime/i; %>
+                <% my $start_date = $self->param('start_date'); %>
+                
+                <% next unless $result->start_datetime->mdy(':') =~ m/$start_date/i; %>
                 
                 <% } %>
                 
@@ -66,9 +67,9 @@
 
         <% if ($self->param('string')) { %>
 
-        <% my $string = $self->param('string'); %>
-        
-        <% next unless (($result->title =~ m/$string/i) or ($result->body =~ m/$string/i)); %>
+            <% my $string = $self->param('string'); %>
+            
+            <% next unless (($result->title =~ m/$string/i) or ($result->body =~ m/$string/i)); %>
 
         <% } %>
         
@@ -76,11 +77,11 @@
 
         <% for ( split /\s+/, $result->photos ) { %>
         
-        <a title="<%= $result->title %>" href="/<%= $result->id %>">
-            <img class="para_image_left_search" src="<%= $_ %>" />
-        </a>
-        
-        <% last; %>
+            <a title="<%= $result->title %>" href="/<%= $result->id %>">
+                <img class="para_image_left_search" src="<%= $_ %>" />
+            </a>
+            
+            <% last; %>
         
         <% } %>
         
