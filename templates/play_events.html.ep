@@ -5,8 +5,9 @@
 
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require("dojo.date.locale");
     dojo.require("dojox.widget.Calendar");
-
+    
 //]]></script>
 
 <div class="content_left">
@@ -102,11 +103,18 @@
 
     <div class="content_right_padding">
         
-        <p>A calendar will go here</p>
-        
+        <div data-dojo-type="dojox.widget.DailyCalendar">
+  
+	    <script type="dojo/connect" data-dojo-event="onValueSelected" data-dojo-args="start_date">//<![CDATA[
+		
+		window.location="/search?types=event&start_date=" +
+		    dojo.date.locale.format(start_date, {selector: 'date', datePattern: "MM:dd:yyyy"});
+	    
+	    //]]></script>
+	    
+	</div>
+		        
     </div>
-
-    <h1>Giveaways</h1>
 
     <div class="ad_space_block">
 

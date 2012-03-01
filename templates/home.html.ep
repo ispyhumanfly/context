@@ -94,7 +94,7 @@
         <a href="/play/people">People |</a>
         <a href="/play/places">Places |</a>
         <a href="/play/articles">Articles |</a>
-        <a href="/play/events">Events</a>
+        <a href="/play/events">Events &rarr;</a>
     
     </h3>
 
@@ -139,7 +139,7 @@
         <a href="/live/birmingham">Birmingham |</a>
         <a href="/live/detroit">Detroit |</a>
         <a href="/live/ferndale">Ferndale |</a>
-        <a href="/live/royal_oak">Royal Oak</a>
+        <a href="/live/royal_oak">Royal Oak &rarr;</a>
     </h3>
 
     <% for my $work (@{$self->{WORK}}) { %>
@@ -181,7 +181,7 @@
 
     <h3>
         <a href="/work/job_listings">Job Listings |</a>
-        <a href="/work/professional_development">Professional Development</a>
+        <a href="/work/professional_development">Professional Development &rarr;</a>
     </h3>
 
 </div>
@@ -203,7 +203,7 @@
 	    
 	</div>
 	
-	<div class="block_more_events"><a href="/play/events">See All Events</a></div>
+	<div class="block_more_events"><a href="/play/events">See All Events &rarr;</a></div>
 	        
     </div>
 

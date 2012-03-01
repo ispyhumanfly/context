@@ -46,7 +46,7 @@
 
     <% } %>
 
-    <h3><a href="/search?tags=people">More People</a></h3>
+    <h3><a href="/search?tags=people">More People &rarr;</a></h3>
 
     <% for my $places (@{$self->{PLACES}}) { %>
 
@@ -85,7 +85,7 @@
 
     <% } %>
 
-    <h3><a href="/search?types=place">More Places</a></h3>
+    <h3><a href="/search?types=place">More Places &rarr;</a></h3>
     
     <% for my $articles (@{$self->{BUZZ}}) { %>
         
@@ -124,7 +124,7 @@
 
     <% } %>
     
-    <h3><a href="/search?types=article">More Articles</a></h3>
+    <h3><a href="/search?types=article">More Articles &rarr;</a></h3>
 
 </div>
 
@@ -187,6 +187,8 @@
         
         <% } %>
 
+	<div class="block_more_events"><a href="/play/events">See Events Calendar &rarr;</a></div>
+	
         <div class="ad_space_block">
     
             <script type="text/javascript">//<![CDATA[
