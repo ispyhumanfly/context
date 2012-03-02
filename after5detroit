@@ -1304,7 +1304,7 @@ post '/api/contact/message' => sub {
 
         my %mail = (
 
-            To      => 'kerry@after5detroit.com',
+            To      => 'dan@thoughtpivot.com',
             Cc      => 'dan@thoughtpivot.com',
             From    => 'no-reply@after5detroit.com',
             Subject => $self->param('subject'),
