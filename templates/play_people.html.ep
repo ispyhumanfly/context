@@ -5,6 +5,8 @@
 
 <script type="text/javascript">//<![CDATA[
  
+    dojo.require("dijit.form.Select");
+
     dojo.require("dojox.image.Lightbox");
     dojo.require("dojox.image.ThumbnailPicker");
     dojo.require("dojo.data.ItemFileReadStore");
@@ -197,6 +199,8 @@
     
     <% } %>
 
+	<div class="block_see_more"><a href="/search?tags=people">See More &rarr;</a></div>
+
         <div class="ad_space_block">
     
             <script type="text/javascript">//<![CDATA[
@@ -221,6 +225,37 @@
             //]]></script>
             
         </div>
+    
+    	<div class="block_caption_text">Looking for a specific article? &darr;</a></div>
+
+	<div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search?types=people" method="get">
+
+	    <p>
+		
+		<label>Cities</label>
+		
+		<select dojoType="dijit.form.Select" name="cities" style="width: 150px;">
+		    
+		    <option value="birmingham">
+			Birmingham
+		    </option>
+		    <option value="detroit">
+			Detroit
+		    </option>
+		    <option value="ferndale">
+			Ferndale
+		    </option>
+		    <option value="royal_oak">
+			Royal Oak
+		    </option>
+		</select>    
+    
+	    </p>
+	    
+	    <label>Search</label><div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
+    
+	</div>
+
 
     </div>
     

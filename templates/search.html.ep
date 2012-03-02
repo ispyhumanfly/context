@@ -122,84 +122,92 @@
 
 <div class="content_right">
 
-    <h1>Search Places</h1>
+    <h1>Advanced Search</h1>
 
-    <p>Search below for your perfect night out or new favorite hotspot.</p>
+    <div class="content_right_padding">
     
-    <div dojoType="dijit.form.Form" class="search_places_right" encType="multipart/form-data" action="/search" method="get">
-
-        <p>
-            
-            <label>Cities</label>
-            
-            <select dojoType="dijit.form.Select" name="cities" style="width: 150px;">
-                
-                <option value="birmingham">
-                    Birmingham
-                </option>
-                <option value="detroit">
-                    Detroit
-                </option>
-                <option value="ferndale">
-                    Ferndale
-                </option>
-                <option value="royal_oak">
-                    Royal Oak
-                </option>
-            </select>    
-
-        </p>
-        
-        <p>
-                
-            <label>Interests</label>
-            
-            <select dojoType="dijit.form.Select" name="interests" style="width: 150px;">
-                
-                <option value="dining">
-                    Dining
-                </option>
-                <option value="nightlife">
-                    Nightlife
-                </option>
-                <option value="activities">
-                    Activities
-                </option>
-                <option value="living">
-                    Living
-                </option>
-                
-            </select>    
-
-        </p>
-        
-        <button dojoType="dijit.form.Button" type="submit">Search</button>
-
-    </div>
+        <p>Search below for your perfect night out or new favorite hotspot.</p>
     
-    <div class="ad_space_block">
-
-        <script type="text/javascript">//<![CDATA[
+        <div class="block_caption_text">Filter by city and interest... &darr;</a></div>
         
-            var block_ads = new Array();
+        <div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
+    
+            <p>
+                
+                <label>Cities</label>
+                
+                <select dojoType="dijit.form.Select" name="cities" style="width: 150px;">
+                    
+                    <option value="birmingham">
+                        Birmingham
+                    </option>
+                    <option value="detroit">
+                        Detroit
+                    </option>
+                    <option value="ferndale">
+                        Ferndale
+                    </option>
+                    <option value="royal_oak">
+                        Royal Oak
+                    </option>
+                </select>    
+    
+            </p>
+            
+            <p>
+                    
+                <label>Interests</label>
+                
+                <select dojoType="dijit.form.Select" name="interests" style="width: 150px;">
+                    
+                    <option value="dining">
+                        Dining
+                    </option>
+                    <option value="nightlife">
+                        Nightlife
+                    </option>
+                    <option value="activities">
+                        Activities
+                    </option>
+                    <option value="living">
+                        Living
+                    </option>
+                    
+                </select>    
+    
+            </p>
+            
+            <div class="block_caption_text">Filter by some other thing... &darr;</a></div>
 
-            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
-
-                <% for ( split /\s+/, $ad->photos ) { %>
-
-                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
-
-                <% last; # ONLY SHOW ONE %>
-
+            <button dojoType="dijit.form.Button" type="submit">Update</button>
+    
+        </div>
+        
+        <div class="ad_space_block">
+    
+            <script type="text/javascript">//<![CDATA[
+            
+                var block_ads = new Array();
+    
+                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+                    <% for ( split /\s+/, $ad->photos ) { %>
+    
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+    
+                    <% last; # ONLY SHOW ONE %>
+    
+                    <% } %>
+    
                 <% } %>
-
-            <% } %>
+                
+                var random = Math.floor(Math.random() * block_ads.length);
+                document.write(block_ads[random]);
+    
+            //]]></script>
             
-            var random = Math.floor(Math.random() * block_ads.length);
-            document.write(block_ads[random]);
+        </div>
 
-        //]]></script>
-        
     </div>
 
 </div>

@@ -3,6 +3,8 @@
 
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require("dijit.form.Select");
+
 //]]></script>
 
 <div class="content_left">
@@ -152,7 +154,7 @@
             
             <% } %>
              
-            <div class="block_title"><%= $events->title %></div>
+            <div class="block_title"><a href="/play/events?id=<%= $events->id %>"><%= $events->title %></a></div>
             
 	    <div class="block_text">
 		
@@ -187,7 +189,7 @@
         
         <% } %>
 
-	<div class="block_see_more"><a href="/play/events">See More &rarr;</a></div>
+	<div class="block_see_more"><a href="/search?types=event">See More &rarr;</a></div>
 	
         <div class="ad_space_block">
     
@@ -213,6 +215,59 @@
             //]]></script>
             
         </div>
+
+	<div class="block_caption_text">You can search for places below &darr;</a></div>
+
+	<div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
+
+        <p>
+            
+            <label>Cities</label>
+            
+            <select dojoType="dijit.form.Select" name="cities" style="width: 150px;">
+                
+                <option value="birmingham">
+                    Birmingham
+                </option>
+                <option value="detroit">
+                    Detroit
+                </option>
+                <option value="ferndale">
+                    Ferndale
+                </option>
+                <option value="royal_oak">
+                    Royal Oak
+                </option>
+            </select>    
+
+        </p>
+        
+        <p>
+                
+            <label>Interests</label>
+            
+            <select dojoType="dijit.form.Select" name="interests" style="width: 150px;">
+                
+                <option value="dining">
+                    Dining
+                </option>
+                <option value="nightlife">
+                    Nightlife
+                </option>
+                <option value="activities">
+                    Activities
+                </option>
+                <option value="living">
+                    Living
+                </option>
+                
+            </select>    
+
+        </p>
+        
+	<div dojoType="dijit.form.TextBox" name="string" placeholder="Looking for something?"></div>
+
+    </div>
 
     </div>
 

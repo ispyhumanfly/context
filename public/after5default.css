@@ -499,12 +499,29 @@ body {
 #content_container .block_see_more {
    
     font-size: small;
-    margin-top: 5px;
+    margin-top: 7px;
     padding: 5px 10px 5px 5px;
     background-color: #1a3721;
     text-align: right;
     color: white;
    
+}
+
+#content_container .block_caption_text {
+   
+    font-size: smaller;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    padding: 3px 8px 3px 3px;
+    background-color: #1a3721;
+    text-align: right;
+    color: white;
+   
+}
+
+#content_container .block_form {
+
+    text-align: right;
 }
 
 #content_container .block_more_galleries_list {
@@ -568,8 +585,8 @@ body {
 
     text-align: center;
     background-color: #e6e2e3;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 7px;
+    margin-bottom: 7px;
 }
 
 #content_container .search_places_right {
