@@ -211,7 +211,7 @@
     
                     <% for ( split /\s+/, $ad->photos ) { %>
     
-                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
     
                     <% last; # ONLY SHOW ONE %>
     
@@ -252,8 +252,13 @@
     
 	    </p>
 	    
-	    <label>Search</label><div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
-    
+	    <p>
+		<label>Search</label>
+	    
+		<div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
+	    
+	    </p>
+	    
 	</div>
 
 

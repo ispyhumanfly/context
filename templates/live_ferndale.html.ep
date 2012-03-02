@@ -69,18 +69,11 @@
 
 	    <div id="live_bullet_navigation">
 		    
-		<ul class="left">
+		<ul>
 		    <li class="title">Discover Ferndale</li>
 		    <li><a href="/search?interests=dining&cities=ferndale">Dining</a></li>
 		    <li><a href="/search?interests=nightlife&cities=ferndale">Nightlife</a></li>
 		    <li><a href="/search?interests=lifestyle&cities=ferndale">Lifestyle</a></li>
-		</ul>
-		
-		<ul class="right">
-		    <li class="title">Discover More</li>
-		    <li><a href="/live/birmingham">Birmingham</a></li>
-		    <li><a href="/live/detroit">Detroit</a></li>
-		    <li><a href="/live/royal_oak">Royal Oak</a></li>
 		</ul>
 		
 	    </div>
@@ -111,7 +104,12 @@
 	
     <% } %>
 
-    <h3><a href="/search?tags=city_life&cities=ferndale">More City Life &rarr;</a></h3>
+    <h3>
+        <a href="/live/birmingham">Birmingham |</a>
+        <a href="/live/detroit">Detroit |</a>
+        <a href="/live/ferndale">Ferndale |</a>
+        <a href="/live/royal_oak">Royal Oak &rarr;</a>
+    </h3>
     
     <h1 style="clear: both;">Featured Lifestyle</h1>
     
@@ -215,7 +213,7 @@
     
                     <% for ( split /\s+/, $ad->photos ) { %>
     
-                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
     
                     <% last; # ONLY SHOW ONE %>
     

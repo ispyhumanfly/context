@@ -524,6 +524,13 @@ body {
     text-align: right;
 }
 
+#content_container .block_ad_image {
+    
+    width: 310px;
+    height: auto;
+
+}
+
 #content_container .block_more_galleries_list {
 
     width: 248px;
@@ -533,14 +540,13 @@ body {
 
 #live_bullet_navigation div {
     
-    width: 200px;
     padding: 0px;
 }
 
 #live_bullet_navigation ul {
 
     list-style: none;
-    width: 100px;
+    width: 275px;
     padding: 0px;
 }
 
@@ -549,25 +555,13 @@ body {
     list-style: none;
     border-bottom: 0.1em solid #1a3721;
     color: #1a3721;
-}
-
-#live_bullet_navigation .left {
-    
-    float: left;
-    font-size: smaller;
-}
-
-#live_bullet_navigation .right {
-    
-    float: right;
-    font-size: smaller;
+    padding: 3px;
 }
 
 #live_bullet_navigation .title {
     
     font-family: Verdana Bold;
     font-size: large;
-    color: 222;
 }
 
 #content_container .ad_space_header {
