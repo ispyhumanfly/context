@@ -1292,13 +1292,15 @@ post '/api/contact/message' => sub {
 
     if ($self->param('message')) {
 
+        my $message = $self->param('name') . "\n\n" . $self->param('email') . "\n\n" . $self->param('address') . "\n\n" . $self->param('phone') . "\n\n";
+        
         my %mail = (
             
             To      => 'kerry@after5detroit.com',
             Cc      => 'dan@thoughtpivot.com',
-            From    => 'site@after5detroit.com',
-            Subject => 'After5 Mail Tests',
-            Message => $self->param('message')
+            From    => 'no-reply@after5detroit.com',
+            Subject => $self->param('subject'),
+            Message => $message
         );
     
         sendmail(%mail) or die $Mail::Sendmail::error;

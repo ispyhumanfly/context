@@ -20,18 +20,30 @@
             
             <select dojoType="dijit.form.Select" name="subject">
                 
-                <option value="birmingham">
-                    Some random subject...
+                <option value="<%= 'General Inquiries' %>">
+                    General Inquiries
                 </option>
-                <option value="detroit">
-                    Some random subject...
+                
+                <option value="<%= 'Submit an Event' %>">
+                    Submit an Event
                 </option>
-                <option value="ferndale">
-                    Some random subject...
+                
+                <option value="<%= 'Submit a Job' %>">
+                    Submit a Job
                 </option>
-                <option value="royal_oak">
-                    Some random subject...
+                
+                <option value="<%= 'Submit an Internship' %>">
+                    Submit an Internship
                 </option>
+                
+                <option value="<%= 'Submit a Volunteer/Board Position' %>">
+                    Submit a Volunteer/Board Position
+                </option>
+                
+                <option value="<%= 'Careers at After 5' %>">
+                    Careers at After 5
+                </option>
+                
             </select>    
 
             <br />
@@ -51,6 +63,12 @@
             <label>Email</label>
 	    
 	    <div dojoType="dijit.form.TextBox" name="email"></div>
+
+            <br />
+
+            <label>Phone</label>
+	    
+	    <div dojoType="dijit.form.TextBox" name="phone"></div>
 
             <br />
 	    
