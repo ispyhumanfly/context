@@ -146,7 +146,7 @@
 
     <% } %>
 
-    <h3><a href="/search?interests=lifestyle">More Lifestyle &rarr;</a></h3>
+    <h3><a href="/search?cities=detroit&tags=lifestyle">More Lifestyle &rarr;</a></h3>
 
 </div>
 
