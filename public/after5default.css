@@ -301,17 +301,21 @@ body {
 
 #content_container .content_work_left_heading {
 
-    background-image: url('/HeadlineSplatter.png');
+/*    background-image: url('/HeadlineSplatter.png');
     background-repeat: no-repeat;
     background-position: right;
-    color: white;
-    font-weight: normal;
-    font-size: small;
-    height: 27px;
+*/    color: white;
+    font-size: 15px;
+    height: auto;
     background-color: #1a3721;
     vertical-align: middle;
     padding: 5px;
     
+}
+
+#content_container .content_work_left p {
+    
+    padding-left: 5px;
 }
 
 #content_container .content_work_center {

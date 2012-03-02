@@ -11,40 +11,44 @@
     
     <div class="content_work_left_heading">Professional Development</div>
     
-    <p>Professional Group</p>
-    <p>Networking</p>
-    <p>Social</p>
-    <p>Cultural</p>
-    <p>Board Openings</p>
-    <p>Volunteer</p>
-    <p>Resources</p>
+    <p><a  href="/work/professional_development?tags=professional_group">Professional Group</a></p>
+    <p><a  href="/work/professional_development?tags=networking">Networking</a></p>
+    <p><a  href="/work/professional_development?tags=social">Social</a></p>
+    <p><a  href="/work/professional_development?tags=cultural">Cultural</a></p>
+    <p><a  href="/work/professional_development?tags=board_openings">Board Openings</a></p>
+    <p><a  href="/work/professional_development?tags=volunteer">Volunteer</a></p>
+    <p><a  href="/work/professional_development?tags=resources">Resources</a></p>
 
     <div class="content_work_left_heading">Employers</div>
 
-    <p>Professional Group</p>
-    <p>Networking</p>
-    <p>Social</p>
-    <p>Cultural</p>
-    <p>Board Openings</p>
-    <p>Volunteer</p>
-    <p>Resources</p>
+    <p><a href="/about/contact">Post a Job</a></p>
+    <p><a href="http://connectafter5.com" target="_blank">Connect After5</a></p>
+    <p><a href="http://after5interprogram.com" target="_blank">Intern Program</a></p>
     
 </div>
 
 <div class="content_work_center">
-
-    <h1>Professional Groups</h1>
+    
+    <h1>Business</h1>
 
     <% my $professional_development_counter; %>
     
     <% for my $professional_development (@{$self->{WORK}}) { %>
 
+        <% next if $professional_development->types =~ m/ad/i; %>
+    
 	<% if ($self->param('id')) { %>
 	
 	<% next unless $professional_development->id <= int($self->param('id')); %>
 	    
 	<% } %>
 	
+        <% if ($self->param('tags')) { %>
+        
+        <% next unless $professional_development->tags eq $self->param('tags'); %>
+        
+        <% } %>
+        
         <% $professional_development_counter++; %>
                 
         <% if ($professional_development_counter > 1) { %>
@@ -65,7 +69,11 @@
 
         <div class="work_content_title"><a href="<%= $professional_development->link %>" target="_blank"><%= $professional_development->title %></a></div>
     
+        <% if ($professional_development->body ne '') { %>
+        
         <div class="work_content_text"><%== HTML::FormatText->format_string($professional_development->body) %></div>
+    
+        <% } %>
     
         <div class="read_more_right">
 
@@ -176,6 +184,8 @@
             <% } %>
         
         <% } %>
+
+	<div class="block_see_more"><a href="/search?tags=networking">See More &rarr;</a></div>
 
         <div class="ad_space_block">
     
