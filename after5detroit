@@ -715,8 +715,20 @@ get '/about/contact' => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search({pages => {like => 'about'}, types => {like => '%ad_header%'}})
+      ->search(
+        {pages => {like => '%about%'}, types => {like => '%ad_header%'}},
+        {order_by => 'id DESC'})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
       ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
+
 
 } => 'about_contact';
 
@@ -728,8 +740,19 @@ get '/about/newsletter' => sub {
     my @ads =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%about%'}, types => {like => '%ad_header%'}})
+        {pages => {like => '%about%'}, types => {like => '%ad_header%'}},
+        {order_by => 'id DESC'})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
       ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
+
 
 } => 'about_newsletter';
 

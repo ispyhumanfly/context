@@ -385,6 +385,8 @@ body {
     max-width: 300px;
 }
 
+/* about content */
+
 #content_container .about_image_left {
 
     float: left;
@@ -404,6 +406,15 @@ body {
     height: auto;
     border: 1px solid #1a3721; 
 
+}
+
+#content_container .about_form_container {
+    
+    background-color: #e6e2e3;
+    border: 1px solid #1a3721;
+    width: 99.5%
+    height: auto;
+    padding: 10px;
 }
 
 #content_container .press_image_left {
@@ -522,6 +533,40 @@ body {
 #content_container .block_form {
 
     text-align: right;
+}
+
+#content_container .block_about_box {
+    
+    background-image: url('/ArrowGraphicRight.png');
+    background-repeat: no-repeat;
+    background-position: 95% 50%;
+    
+    border: 1px solid  #1a3721;
+    background-color: white;
+    width: 99.5%;
+    height: 88px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    cursor: pointer;
+}
+
+#content_container .block_about_box_title {
+    
+    font-family: Verdana Bold;
+    color: #1a3721;
+    font-size: larger;
+    text-align: left;
+    padding: 5px 5px 0px 5px;
+}
+
+#content_container .block_about_box_text {
+    
+    font-family: Verdana Bold;
+    padding: 5px;
+    text-align: left;
+    font-color: black;
+    font-size: small;
+    max-width: 75%;
 }
 
 #content_container .block_ad_image {

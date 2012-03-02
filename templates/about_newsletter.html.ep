@@ -3,13 +3,97 @@
 
 <script type="text/javascript">//<![CDATA[
 
+    dojo.require("dijit.form.Select");
+
 //]]></script>
 
 <div class="content_left">
 
     <h1>After5 Newsletter</h1>
 
-    <p>Newsletter information will eventually go here.</p>
+    <div class="about_form_container">
+        
+        <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/search" method="get">
+    
+            <label>Dummy</label>
+            
+            <select dojoType="dijit.form.Select" name="cities" style="width: 150px;">
+                
+                <option value="birmingham">
+                    Birmingham
+                </option>
+                <option value="detroit">
+                    Detroit
+                </option>
+                <option value="ferndale">
+                    Ferndale
+                </option>
+                <option value="royal_oak">
+                    Royal Oak
+                </option>
+            </select>    
+
+            <label>Dummy</label>
+	    
+	    <div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
+                
+            <label>Dummy</label>
+            
+            <select dojoType="dijit.form.Select" name="interests" style="width: 150px;">
+                
+                <option value="dining">
+                    Dining
+                </option>
+                <option value="nightlife">
+                    Nightlife
+                </option>
+                <option value="activities">
+                    Activities
+                </option>
+                <option value="living">
+                    Living
+                </option>
+                
+            </select>
+            
+            <label>Dummy</label>
+	    
+	    <div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
+
+            <label>Search</label>
+	    
+	    <div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
+
+            <label>Search</label>
+	    
+	    <div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
+
+                
+            <button dojoType="dijit.form.Button" type="submit">Send</button>
+    
+        </div>
+        
+    </div>
+    
+    <span class="social_sharing_right">
+
+        <a href="http://www.facebook.com/sharer.php?u=http://beta.after5ferndale.com/id&t=title" target="_blank">
+            <img src="/FacebookShare.png" alt="Facebook"/>
+        </a>
+    
+        <a href="http://www.twitter.com/home?status=title,+http://beta.after5ferndale.com/id" target="_blank">
+            <img src="/TwitterShare.png" alt="Twitter"/>
+        </a>
+    
+        <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5ferndale.com/id" target="_blank">
+            <img src="/DiggShare.png" alt="Digg"/>
+        </a>
+    
+        <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5ferndale.com/id" target="_blank">
+            <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+        </a>
+        
+    </span>
 
 </div>
 
@@ -17,4 +101,54 @@
 
     <h1>More Info</h1>
 
+    <div class="content_right_padding">
+
+        <div class="block_about_box">
+            
+            <div class="block_about_box_title" onclick="window.location='/about';">About</div>
+            <div class="block_about_box_text">Discover more about After5Detroit.com.</div>
+            
+        </div>
+        
+        <div class="block_about_box" onclick="window.location='/about/contact';">
+
+            <div class="block_about_box_title">Contact Us</div>
+            <div class="block_about_box_text">Suggestions, questions, ad inquiries? Send us a message!</div>            
+            
+        </div>
+
+        <div class="block_about_box" onclick="window.location='/about/newsletter';">
+
+            <div class="block_about_box_title">Newsletter</div>
+            <div class="block_about_box_text">Get the inside scoop on exciting events happening around Detroit!</div>            
+            
+        </div>
+
+        <div class="ad_space_block">
+    
+            <script type="text/javascript">//<![CDATA[
+            
+                var block_ads = new Array();
+    
+                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+                    <% for ( split /\s+/, $ad->photos ) { %>
+    
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img class='block_ad_image' src='<%= $_ %>' /></a>");
+    
+                    <% last; # ONLY SHOW ONE %>
+    
+                    <% } %>
+    
+                <% } %>
+                
+                var random = Math.floor(Math.random() * block_ads.length);
+                document.write(block_ads[random]);
+    
+            //]]></script>
+            
+        </div>
+    
+    </div>
+    
 </div>

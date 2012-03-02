@@ -102,4 +102,54 @@
 
     <h1>More Info</h1>
 
+    <div class="content_right_padding">
+
+        <div class="block_about_box" onclick="window.location='/about';">
+            
+            <div class="block_about_box_title">About</div>
+            <div class="block_about_box_text">Discover more about After5Detroit.com.</div>
+            
+        </div>
+        
+        <div class="block_about_box" onclick="window.location='/about/contact';">
+
+            <div class="block_about_box_title">Contact Us</div>
+            <div class="block_about_box_text">Suggestions, questions, ad inquiries? Send us a message!</div>            
+            
+        </div>
+
+        <div class="block_about_box">
+
+            <div class="block_about_box_title" onclick="window.location='/about/newsletter';">Newsletter</div>
+            <div class="block_about_box_text">Get the inside scoop on exciting events happening around Detroit!</div>            
+            
+        </div>
+
+        <div class="ad_space_block">
+    
+            <script type="text/javascript">//<![CDATA[
+            
+                var block_ads = new Array();
+    
+                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+                    <% for ( split /\s+/, $ad->photos ) { %>
+    
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img class='block_ad_image' src='<%= $_ %>' /></a>");
+    
+                    <% last; # ONLY SHOW ONE %>
+    
+                    <% } %>
+    
+                <% } %>
+                
+                var random = Math.floor(Math.random() * block_ads.length);
+                document.write(block_ads[random]);
+    
+            //]]></script>
+            
+        </div>
+    
+    </div>
+    
 </div>
