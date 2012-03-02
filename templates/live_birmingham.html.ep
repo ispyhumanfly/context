@@ -125,7 +125,7 @@
 
 	<% } %>
 
-	<h2><a href="/<%= $featured_lifestyle->id %>&back=home"><%= $featured_lifestyle->title %></a></h2>
+	<h2><a href="/<%= $featured_lifestyle->id %>"><%= $featured_lifestyle->title %></a></h2>
 
 	<p><%== substr( HTML::FormatText->format_string($featured_lifestyle->body), 0, 500 ) . '' %></p>
 

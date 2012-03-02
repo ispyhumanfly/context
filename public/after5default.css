@@ -411,12 +411,28 @@ body {
 #content_container .about_form_container {
     
     background-color: #e6e2e3;
-    border: 1px solid #1a3721;
+    border-bottom: 1px solid #1a3721;
     width: 99.5%
     height: auto;
     padding: 10px;
 }
 
+#content_container .about_form_right {
+
+    text-align: right;
+    margin-right: 10%;
+}
+
+#content_container .about_form_right label {
+
+    font-size: smaller;
+
+}
+
+#content_container .about_form_right textarea {
+    
+    width: 400px;
+}
 #content_container .press_image_left {
 
     float: left;
@@ -657,6 +673,7 @@ body {
     background-color: #e6e2e3;
     border-right: 25px solid white;
     min-height: 800px;
+
 }
 
 #content_container .content_right .content_right_padding {

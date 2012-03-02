@@ -13,6 +13,7 @@ use Try::Tiny;
 use DateTime::Format::ISO8601;
 use HTML::FormatText;
 use Archive::Extract;
+use Mail::Sendmail;
 use File::Copy;
 use Encode;
 
@@ -119,8 +120,8 @@ get '/live/birmingham' => sub {
 
     # City Life
     my @city_life = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%live%'},
-            tags  => {like => '%city_life%'},
+        {   pages  => {like => '%live%'},
+            tags   => {like => '%city_life%'},
             cities => {like => '%birmingham%'}
         },
         {page => 1, rows => 100, order_by => 'id DESC'}
@@ -177,8 +178,8 @@ get '/live/detroit' => sub {
 
     # City Life
     my @city_life = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%live%'},
-            tags  => {like => '%city_life%'},
+        {   pages  => {like => '%live%'},
+            tags   => {like => '%city_life%'},
             cities => {like => '%detroit%'}
         },
         {page => 1, rows => 100, order_by => 'id DESC'}
@@ -235,8 +236,8 @@ get '/live/ferndale' => sub {
 
     # City Life
     my @city_life = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%live%'},
-            tags  => {like => '%city_life%'},
+        {   pages  => {like => '%live%'},
+            tags   => {like => '%city_life%'},
             cities => {like => '%ferndale%'}
         },
         {page => 1, rows => 100, order_by => 'id DESC'}
@@ -293,8 +294,8 @@ get '/live/royal_oak' => sub {
 
     # City Life
     my @city_life = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%live%'},
-            tags  => {like => '%city_life%'},
+        {   pages  => {like => '%live%'},
+            tags   => {like => '%city_life%'},
             cities => {like => '%ferndale%'}
         },
         {page => 1, rows => 100, order_by => 'id DESC'}
@@ -363,17 +364,16 @@ get '/work/professional_development' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    
+
     # Work
-            
-            my @work = $MODEL->resultset('Content')->search(
-                {   pages => {like => '%work%'}
-                },
-                {page => 1, rows => 100, order_by => 'id DESC'},
-            )->all;
-        
-            $self->{'WORK'} = \@work;
-        
+
+    my @work = $MODEL->resultset('Content')->search(
+        {pages => {like => '%work%'}},
+        {page => 1, rows => 100, order_by => 'id DESC'},
+    )->all;
+
+    $self->{'WORK'} = \@work;
+
     # Networking
     my @networking = $MODEL->resultset('Content')->search(
         {   pages => {like => '%work%'},
@@ -729,6 +729,7 @@ get '/about/contact' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
+    return $self->render('about_contact');
 
 } => 'about_contact';
 
@@ -1283,6 +1284,30 @@ any '/api/content/remove' => sub {
 
     return $self->redirect_to('dashboard');
 
+};
+
+post '/api/contact/message' => sub {
+
+    my $self = shift;
+
+    if ($self->param('message')) {
+
+        my %mail = (
+            
+            To      => 'kerry@after5detroit.com',
+            Cc      => 'dan@thoughtpivot.com',
+            From    => 'site@after5detroit.com',
+            Subject => 'After5 Mail Tests',
+            Message => $self->param('message')
+        );
+    
+        sendmail(%mail) or die $Mail::Sendmail::error;
+    
+        print "OK. Log says:\n", $Mail::Sendmail::log;
+
+    }
+    
+    return $self->redirect_to('about_contact');
 };
 
 post '/api/photo/remove' => sub {
