@@ -1292,23 +1292,31 @@ post '/api/contact/message' => sub {
 
     if ($self->param('message')) {
 
-        my $message = $self->param('name') . "\n\n" . $self->param('email') . "\n\n" . $self->param('address') . "\n\n" . $self->param('phone') . "\n\n";
-        
+        my $message =
+            'Name: '
+          . $self->param('name')
+          . "\n\nEmail: "
+          . $self->param('email')
+          . "\n\nAddress: "
+          . $self->param('address')
+          . "\n\nPhone: "
+          . $self->param('phone') . "\n\n";
+
         my %mail = (
-            
+
             To      => 'kerry@after5detroit.com',
             Cc      => 'dan@thoughtpivot.com',
             From    => 'no-reply@after5detroit.com',
             Subject => $self->param('subject'),
             Message => $message
         );
-    
+
         sendmail(%mail) or die $Mail::Sendmail::error;
-    
+
         print "OK. Log says:\n", $Mail::Sendmail::log;
 
     }
-    
+
     return $self->redirect_to('about_contact');
 };
 
