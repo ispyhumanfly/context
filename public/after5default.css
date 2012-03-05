@@ -419,8 +419,7 @@ body {
 
 #content_container .about_form_right {
 
-    text-align: right;
-    margin-right: 10%;
+    text-align: center;
 }
 
 #content_container .about_form_right label {
@@ -433,6 +432,19 @@ body {
     
     width: 400px;
 }
+
+#content_container .about_stock_photo {
+
+    margin: 0px auto;
+    text-align: center;
+}
+
+#content_container .about_stock_photo img {
+
+    max-width: 600px;    
+}
+
+
 #content_container .press_image_left {
 
     float: left;
@@ -581,7 +593,7 @@ body {
     padding: 5px;
     text-align: left;
     font-color: black;
-    font-size: small;
+    font-size: smaller;
     max-width: 75%;
 }
 

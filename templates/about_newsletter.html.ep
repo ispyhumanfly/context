@@ -1,74 +1,55 @@
-% title 'Newsletter';
+% title 'About';
 % layout 'default';
 
 <script type="text/javascript">//<![CDATA[
 
     dojo.require("dijit.form.Select");
+    dojo.require("dijit.form.SimpleTextarea");
 
 //]]></script>
 
 <div class="content_left">
 
-    <h1>After5 Newsletter</h1>
+    <h1>Newsletter Sign-Up</h1>
 
     <div class="about_form_container">
+
+       <div class="about_stock_photo">
+            
+            <img src="/stock/Easter%20Weekend%20Events.jpg"></img>
+            
+        </div>
         
-        <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/search" method="get">
+        <hr />
+
+        <div dojoType="dijit.form.Form" class="about_form_right" encType="multipart/form-data" action="/api/newsletter/message" method="post">
     
-            <label>Dummy</label>
+            <label>Please provide us with a name.*</label>
+
+            <br />
             
-            <select dojoType="dijit.form.Select" name="cities" style="width: 150px;">
-                
-                <option value="birmingham">
-                    Birmingham
-                </option>
-                <option value="detroit">
-                    Detroit
-                </option>
-                <option value="ferndale">
-                    Ferndale
-                </option>
-                <option value="royal_oak">
-                    Royal Oak
-                </option>
-            </select>    
+	    <div dojoType="dijit.form.TextBox" name="name"></div>
 
-            <label>Dummy</label>
-	    
-	    <div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
-                
-            <label>Dummy</label>
+            <br />
+
+            <label>Please provide a valid email address.*</label>
             
-            <select dojoType="dijit.form.Select" name="interests" style="width: 150px;">
-                
-                <option value="dining">
-                    Dining
-                </option>
-                <option value="nightlife">
-                    Nightlife
-                </option>
-                <option value="activities">
-                    Activities
-                </option>
-                <option value="living">
-                    Living
-                </option>
-                
-            </select>
+            <br />
+	    
+	    <div dojoType="dijit.form.TextBox" name="email"></div>
+
+            <br />
+
+            <label>Please enter a City/State or Zip.</label>
+
+            <br />
             
-            <label>Dummy</label>
-	    
-	    <div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
+	    <div dojoType="dijit.form.TextBox" name="city_state_zip"></div>
 
-            <label>Search</label>
-	    
-	    <div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
+            <br />
+            <br />
 
-            <label>Search</label>
-	    
-	    <div dojoType="dijit.form.TextBox" name="string" placeholder=""></div>
-
-                
+            <button dojoType="dijit.form.Button" type="reset">Clear</button>            
             <button dojoType="dijit.form.Button" type="submit">Send</button>
     
         </div>

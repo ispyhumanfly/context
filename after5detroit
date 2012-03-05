@@ -1290,34 +1290,88 @@ post '/api/contact/message' => sub {
 
     my $self = shift;
 
-    if ($self->param('message')) {
+    if ((       $self->param('message')
+            and ($self->param('name'))
+            and ($self->param('email'))
+            and ($self->param('subject'))
+        )
+      )
+    {
 
-        my $message =
-            'Name: '
-          . $self->param('name')
-          . "\n\nEmail: "
-          . $self->param('email')
-          . "\n\nAddress: "
-          . $self->param('address')
-          . "\n\nPhone: "
-          . $self->param('phone') . "\n\n";
+        my @results = google_local($self->param('city_state_zip'));
 
-        my %mail = (
+        for (@results) {
 
-            To      => 'dan@thoughtpivot.com',
-            Cc      => 'dan@thoughtpivot.com',
-            From    => 'no-reply@after5detroit.com',
-            Subject => $self->param('subject'),
-            Message => $message
-        );
-
-        sendmail(%mail) or die $Mail::Sendmail::error;
-
-        print "OK. Log says:\n", $Mail::Sendmail::log;
-
+            my $message =
+                "\n\nContact Message from After5...\n\n\tName: "
+              . $self->param('name')
+              . "\n\n\tEmail: "
+              . $self->param('email')
+              . "\n\n\tCity/State or Zip: "
+              . '' . $_->city . ',' . $_->region
+              . "\n\n\tPhone: "
+              . $self->param('phone')
+              . "\n\nMessage: \n\n"
+              . $self->param('message') . "\n\n";
+    
+            my %mail = (
+    
+                To      => 'dan@thoughtpivot.com',
+                Cc      => 'dan@thoughtpivot.com',
+                From    => 'contact@after5detroit.com',
+                Subject => 'after5detroit: ' . $self->param('subject'),
+                Message => $message
+            );
+    
+            sendmail(%mail) or die $Mail::Sendmail::error;
+    
+            print "OK. Log says:\n", $Mail::Sendmail::log;
+        
+        }
     }
 
     return $self->redirect_to('about_contact');
+};
+
+post '/api/newsletter/message' => sub {
+
+    my $self = shift;
+
+    if ((       $self->param('city_state_zip')
+            and ($self->param('name'))
+            and ($self->param('email'))
+        )
+      )
+    {
+
+        my @results = google_local($self->param('city_state_zip'));
+
+        for (@results) {
+
+            my $message =
+                "\n\nNewsletter Sign-Up from After5...\n\n\tName: "
+              . $self->param('name')
+              . "\n\n\tEmail: "
+              . $self->param('email')
+              . "\n\n\tCity/State or Zip: "
+              . '' . $_->city . ',' . $_->region . "\n\n";
+    
+            my %mail = (
+    
+                To      => 'dan@thoughtpivot.com',
+                Cc      => 'dan@thoughtpivot.com',
+                From    => 'contact@after5detroit.com',
+                Subject => 'after5detroit: Newsletter Sign-Up!',
+                Message => $message
+            );
+    
+            sendmail(%mail) or die $Mail::Sendmail::error;
+    
+            print "OK. Log says:\n", $Mail::Sendmail::log;
+        }
+    }
+
+    return $self->redirect_to('about_newsletter');
 };
 
 post '/api/photo/remove' => sub {
@@ -1477,23 +1531,6 @@ sub google_local {
     }
 
     return undef;
-}
-
-sub randomize_content {
-
-    my @array = shift;
-    my $i     = $#array;
-    my $j;
-
-    for my $item (@array) {
-
-        --$i;
-        $j = int rand($i + 1);
-        next if $i == $j;
-        @array[$i, $j] = @array[$j, $i];
-    }
-    return \@array;
-
 }
 
 sub encode_string {

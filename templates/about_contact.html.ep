@@ -1,5 +1,11 @@
-% title 'Contact';
+% title 'About';
 % layout 'default';
+%
+%
+%
+% opendir(my $stock_dir, "public/stock/");
+% my @stock_photos = grep(/\.jpg|png|gif$/,readdir($stock_dir));
+% closedir($stock_dir);
 
 <script type="text/javascript">//<![CDATA[
 
@@ -14,9 +20,19 @@
 
     <div class="about_form_container">
         
+        <div class="about_stock_photo">
+            
+            <img src="/stock/Girls&Cocktails.jpg"></img>
+            
+        </div>
+        
+        <hr />
+        
         <div dojoType="dijit.form.Form" class="about_form_right" encType="multipart/form-data" action="/api/contact/message" method="post">
     
-            <label>Subject</label>
+            <label>What can we help you with?</label>
+        
+            <br />
             
             <select dojoType="dijit.form.Select" name="subject">
                 
@@ -48,32 +64,42 @@
 
             <br />
             
-            <label>Name</label>
+            <label>Please provide us with a name.*</label>
 	    
+            <br />
+            
 	    <div dojoType="dijit.form.TextBox" name="name"></div>
 
             <br />
 
-            <label>Address</label>
+            <label>Please enter a City/State or Zip.</label>
 	    
-	    <div dojoType="dijit.form.TextBox" name="address"></div>
+            <br />
+            
+	    <div dojoType="dijit.form.TextBox" name="city_state_zip"></div>
 
             <br />
 
-            <label>Email</label>
+            <label>Please provide a valid email address.*</label>
 	    
+            <br />
+            
 	    <div dojoType="dijit.form.TextBox" name="email"></div>
 
             <br />
 
-            <label>Phone</label>
+            <label>Would you like for us to call you back?</label>
 	    
+            <br />
+            
 	    <div dojoType="dijit.form.TextBox" name="phone"></div>
 
             <br />
 	    
-            <label>Message</label>
+            <label>Please describe the nature of this contact.</label>
 
+            <br />
+            
             <textarea dojoType="dijit.form.SimpleTextarea" name="message"></textarea>
 
             <br />
