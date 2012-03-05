@@ -85,7 +85,7 @@
 	
 	<%== $articles->body %>
 
-        <span class="social_sharing">
+        <span class="social_sharing_right">
 
             <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $articles->id %>&t=<%= $articles->title %>" target="_blank">
                 <img src="/FacebookShare.png" alt="Facebook"/>

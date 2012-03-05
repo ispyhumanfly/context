@@ -723,6 +723,14 @@ body {
     padding: 10px;
     float: right;
 }
+
+#content_container .social_sharing_center {
+    
+    clear: both;
+    display: block;
+    text-align: center;
+    padding: 10px;
+}
  
 #content_container .content_thumbnails_right {
     
@@ -756,8 +764,10 @@ body {
 
 #gallery_container {
     
-    text-align: center;
-    background-color: #e6e2e3;
+/*    text-align: center;
+*/    background-color: #e6e2e3;
+    padding-top: 10px;
+    border: 1px solid #1a3721; 
 }
 
 #footer_container {
@@ -1099,14 +1109,3 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 
 
 
-
-/* slide show stuff */
-
-.dojoxImageGallery {
-    
-}
-
-.dojoxImageGallery .slideShowWrapper {
-    
-    width: 800px;
-}
