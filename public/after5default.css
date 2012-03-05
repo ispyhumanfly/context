@@ -1093,3 +1093,20 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 .dojoxCalendar .ok-btn {
 	margin-left: 15px;
 }
+
+
+
+
+
+
+
+/* slide show stuff */
+
+.dojoxImageGallery {
+    
+}
+
+.dojoxImageGallery .slideShowWrapper {
+    
+    width: 800px;
+}

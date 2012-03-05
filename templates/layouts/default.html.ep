@@ -5,15 +5,15 @@
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/> 
 
-	<title>after5detroit.com :: <%= 'title' %></title>
+	<title>after5detroit.com :: <%= title %></title>
 
 	<link rel="stylesheet" type="text/css" href="/after5default.css">
    
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dijit/themes/nihilo/nihilo.css">
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/image/resources/Lightbox.css">
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/image/resources/image.css">
+        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dijit/themes/nihilo/nihilo.css">
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/image/resources/Lightbox.css">
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/image/resources/image.css">
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
 
         <script type="text/javascript">//<![CDATA[
 

@@ -48,7 +48,9 @@
 	    
 	<% } else { %>
 	
-	<% next unless $articles->id == @{$self->{ARTICLES}}->[0]->id; %>
+	<% my $first = @{$self->{ARTICLES}}; %>
+        
+	<% next unless $articles->id == $first->[0]->id; %>
 	
 	<% } %>
 	
