@@ -12,7 +12,7 @@
     <div class="content_work_left_heading">Professional Development</div>
     
     <p><a  href="/work/professional_development?tags=professional_group">Professional Group</a></p>
-    <p><a  href="/work/professional_development?tags=networking">Networking</a></p>
+<!--    <p><a  href="/work/professional_development?tags=networking">Networking</a></p>-->
     <p><a  href="/work/professional_development?tags=social">Social</a></p>
     <p><a  href="/work/professional_development?tags=cultural">Cultural</a></p>
     <p><a  href="/work/professional_development?tags=board_openings">Board Openings</a></p>
@@ -29,7 +29,7 @@
 
 <div class="content_work_center">
     
-    <h1>Business</h1>
+    <h1>Get Involved</h1>
 
     <% my $professional_development_counter; %>
     
@@ -177,7 +177,7 @@
     
             </div>
     
-            <% if ($networking_counter < 3) { %>
+            <% unless ($networking_counter == @{$self->{NETWORKING}}) { %>
             
             <hr />
             

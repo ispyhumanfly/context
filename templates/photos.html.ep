@@ -182,6 +182,32 @@
         
         <% } %>
 
+        <div class="block_more_galleries">
+	    
+	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/photos" method="get">
+		
+		<select class="block_more_galleries_list" name="id">
+		
+		    <% my $gallery_position; %>
+		    
+		    <% for my $galleries (@{$self->{GALLERIES}}) { %>
+		    
+		    <% $gallery_position++; %>
+		    
+		    <% next if $gallery_position <= 1; %>
+	    
+		    <option value="<%= $galleries->id %>"><%== substr( HTML::FormatText->format_string($galleries->title), 0, 35 ); %></option>
+                    
+		    <% } %>
+		    
+		</select>
+		
+		<button type="submit">GO</button>
+		
+	    </div>
+	    
+	</div>
+
         <div class="ad_space_block">
     
             <script type="text/javascript">//<![CDATA[

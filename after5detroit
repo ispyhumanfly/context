@@ -798,7 +798,7 @@ get '/:id' => [id => qr/\d+/] => sub {
     my @ads =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%more%'}, types => {like => '%ad_header%'}},
+        {pages => {like => '%id%'}, types => {like => '%ad_header%'}},
         {order_by => 'id DESC'})->all;
 
     $self->{'ADS'} = \@ads;

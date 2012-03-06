@@ -134,7 +134,7 @@
 		<div>
 		    <ul>
 			<li><a href="/work" style="font-weight: bold; font-size: medium;">Work</a></li>
-			<li><a href="/work/job_listings">Job Listings</a></li>
+<!--			<li><a href="/work/job_listings">Job Listings</a></li>-->
 			<li><a href="/work/professional_development">Professional Development</a></li>
 		    </ul>
 		</div>

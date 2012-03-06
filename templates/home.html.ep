@@ -180,7 +180,7 @@
     <% } %>
 
     <h3>
-        <a href="/work/job_listings">Job Listings |</a>
+<!--       <a href="/work/job_listings">Job Listings |</a>-->
         <a href="/work/professional_development">Professional Development &rarr;</a>
     </h3>
 
