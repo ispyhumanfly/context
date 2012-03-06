@@ -380,7 +380,7 @@ get '/work/professional_development' => sub {
             types => {like => '%event%'},
             tags  => {like => '%networking%'},
         },
-        {page => 1, rows => 5, order_by => 'id DESC'}
+        {page => 1, rows => 3, order_by => 'id DESC'}
     )->all;
 
     $self->{'NETWORKING'} = \@networking;

@@ -36,6 +36,7 @@
     <% for my $professional_development (@{$self->{WORK}}) { %>
 
         <% next if $professional_development->types =~ m/ad/i; %>
+        <% next if $professional_development->tags =~ m/networking/i; %>
     
 	<% if ($self->param('id')) { %>
 	
@@ -137,9 +138,7 @@
         <% for my $networking (@{$self->{NETWORKING}}) { %>
         
             <% $networking_counter++; %>
-            
-            <% next if $networking_counter > 3; %>
-        
+                
             <% for ( split /\s+/, $networking->photos ) { %>
             
             <a title="<%= $networking->title %>" href="/<%= $networking->id %>">
