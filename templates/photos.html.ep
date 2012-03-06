@@ -41,16 +41,15 @@
 	<% } %>
 
         <div id="gallery_container">
-    
-	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $galleries->id %>"></div>
-	<div id="gallery2" style="margin-left: 84px;" dojoType="dojox.image.Gallery"></div>
-            
-        </div>
-
+ 
         <div style="text-align: center;">
 
             <h2><%== $galleries->title %></h2>
-            <p><%== $galleries->body %> </p>
+            
+        </div>
+   
+	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $galleries->id %>"></div>
+	<div id="gallery2" style="margin-left: 84px;" dojoType="dojox.image.Gallery"></div>
             
         </div>
 

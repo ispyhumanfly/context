@@ -122,7 +122,7 @@
     
 		<div>
 		    <ul>
-			<li><a href="/live" style="font-weight: bold; font-size: medium;">Live</a></li>
+			<li><a href="/live" style="font-weight: bold; font-size: large;">Live</a></li>
 			<li><a href="/live/birmingham">Birmingham</a></li>
 			<li><a href="/live/detroit">Detroit</a></li>
 			<li><a href="/live/ferndale">Ferndale</a></li>
@@ -133,7 +133,7 @@
     
 		<div>
 		    <ul>
-			<li><a href="/work" style="font-weight: bold; font-size: medium;">Work</a></li>
+			<li><a href="/work" style="font-weight: bold; font-size: large;">Work</a></li>
 <!--			<li><a href="/work/job_listings">Job Listings</a></li>-->
 			<li><a href="/work/professional_development">Professional Development</a></li>
 		    </ul>
@@ -141,7 +141,7 @@
     
 		<div>
 		    <ul>
-			<li><a href="/play" style="font-weight: bold; font-size: medium;">Play</a></li>
+			<li><a href="/play" style="font-weight: bold; font-size: large;">Play</a></li>
 			<li><a href="/play/people">People</a></li>
 			<li><a href="/play/places">Places</a></li>
 			<li><a href="/play/articles">Articles</a></li>
@@ -151,13 +151,13 @@
     
 		<div>
 		    <ul>
-			<li><a href="/photos" style="font-weight: bold; font-size: medium;">Photos</a></li>
+			<li><a href="/photos" style="font-weight: bold; font-size: large;">Photos</a></li>
 		    </ul>
 		</div>
     
 		<div>
 		    <ul>
-			<li><a href="/about" style="font-weight: bold; font-size: medium;">About</a></li>
+			<li><a href="/about" style="font-weight: bold; font-size: large;">About</a></li>
 			<li><a href="/about/contact">Contact</a></li>
 			<li><a href="/about/newsletter">Newsletter</a></li>
 		    </ul>
@@ -168,7 +168,7 @@
     
 		<div>
 		    <ul>
-			<li><a href="/dashboard" style="font-weight: bold; font-size: medium;">Dashboard</a></li>
+			<li><a href="/dashboard" style="font-weight: bold; font-size: large;">Dashboard</a></li>
 			<li><a href="/settings">Settings</a></li>
 			<li><a href="/editor?mode=create">Editor</a></li>
 			<li><a href="/logout">Logout</a></li>

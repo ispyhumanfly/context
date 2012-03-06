@@ -620,7 +620,7 @@ body {
 #live_bullet_navigation ul {
 
     list-style: none;
-    width: 275px;
+    width: 250px;
     padding: 0px;
 }
 
@@ -730,7 +730,8 @@ body {
     clear: both;
     display: block;
     text-align: center;
-    padding: 10px;
+    padding-top: 25px;
+    padding-bottom: 5px;
 }
  
 #content_container .content_thumbnails_right {
@@ -767,7 +768,7 @@ body {
     
 /*    text-align: center;
 */    background-color: #e6e2e3;
-    padding-top: 10px;
+    /*padding-top: 1px;*/
     border: 1px solid #1a3721; 
 }
 

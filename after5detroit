@@ -296,7 +296,7 @@ get '/live/royal_oak' => sub {
     my @city_life = $MODEL->resultset('Content')->search(
         {   pages  => {like => '%live%'},
             tags   => {like => '%city_life%'},
-            cities => {like => '%ferndale%'}
+            cities => {like => '%royal_oak%'}
         },
         {page => 1, rows => 100, order_by => 'id DESC'}
     )->all;

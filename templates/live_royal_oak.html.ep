@@ -36,7 +36,7 @@
 
 <div class="content_left">
 
-    <h1>Royal Oak</h1>
+    <h1>City Life</h1>
 
     <% my $position = 1; %>
 
@@ -73,7 +73,8 @@
 		    <li class="title">Discover Royal Oak</li>
 		    <li><a href="/search?interests=dining&cities=royal_oak">Dining</a></li>
 		    <li><a href="/search?interests=nightlife&cities=royal_oak">Nightlife</a></li>
-		    <li><a href="/search?interests=lifestyle&cities=royal_oak">Lifestyle</a></li>
+		    <li><a href="/search?interests=activies&cities=royal_oak">Activities</a></li>
+		    <li><a href="/search?interests=living&cities=royal_oak">Living</a></li>
 		</ul>
 		
 	    </div>
