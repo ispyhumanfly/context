@@ -1454,7 +1454,7 @@ get '/dojox/image/data.json' => sub {
                 'thumb' => "$_",
                 'large' => "$_",
                 'title' => $gallery->title,
-                'link'  => '/' . $gallery->id
+                'link'  => '' # I've disabled this temporarily.
             );
 
             push @gallery, \%items;

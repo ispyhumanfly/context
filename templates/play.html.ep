@@ -216,11 +216,9 @@
             
         </div>
 
-	<div class="block_caption_text">You can search for places below &darr;</a></div>
+	<div class="block_caption_text">Search for places below &darr;</a></div>
 
 	<div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
-
-        <p>
             
             <label>Cities</label>
             
@@ -239,11 +237,9 @@
                     Royal Oak
                 </option>
             </select>    
-
-        </p>
-        
-        <p>
-                
+            
+	    <br />
+	    
             <label>Interests</label>
             
             <select dojoType="dijit.form.Select" name="interests" style="width: 150px;">
@@ -262,12 +258,18 @@
                 </option>
                 
             </select>    
+	    
+	    <br />
+	    
+	    <label>Search String</label>
 
-        </p>
-        
-	<div dojoType="dijit.form.TextBox" name="string" placeholder="Looking for something?"></div>
+	    <div dojoType="dijit.form.TextBox" name="string" style="width: 200px;"></div>
+	    
+	    <br />
+	    
+	    <button dojoType="dijit.form.Button" type="submit" style="margin-right: 8px;">GO</button>
 
-    </div>
+	</div>
 
     </div>
 

@@ -150,7 +150,7 @@
             
             <% } %>
             
-            <div class="block_title"><%= $networking->title %></div>
+            <div class="block_title"><a href="/<%= $networking->id %>"><%= $networking->title %></a></div>
             
             <div class="block_text">
 		
@@ -185,7 +185,7 @@
         
         <% } %>
 
-	<div class="block_see_more"><a href="/search?tags=networking">See More &rarr;</a></div>
+	<div class="block_see_more"><a href="/search?types=event&tags=networking">See More &rarr;</a></div>
 
         <div class="ad_space_block">
     

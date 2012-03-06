@@ -305,8 +305,9 @@ body {
     background-repeat: no-repeat;
     background-position: right;
 */    color: white;
-    font-size: 15px;
-    height: auto;
+    font-size: 12px;
+    font-weight: bold;
+    height: 28px;
     background-color: #1a3721;
     vertical-align: middle;
     padding: 5px;
@@ -562,6 +563,11 @@ body {
 #content_container .block_form {
 
     text-align: right;
+}
+
+#content_container .block_form label {
+
+    font-size: smaller;    
 }
 
 #content_container .block_about_box {
