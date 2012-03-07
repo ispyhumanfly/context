@@ -175,31 +175,7 @@
         
         <% } %>
 
-        <div class="block_more_galleries">
-	    
-	    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/photos" method="get">
-		
-		<select class="block_more_galleries_list" name="id">
-		
-		    <% my $gallery_position; %>
-		    
-		    <% for my $galleries (@{$self->{GALLERIES}}) { %>
-		    
-		    <% $gallery_position++; %>
-		    
-		    <% next if $gallery_position <= 1; %>
-	    
-		    <option value="<%= $galleries->id %>"><%== substr( HTML::FormatText->format_string($galleries->title), 0, 35 ); %></option>
-                    
-		    <% } %>
-		    
-		</select>
-		
-		<button type="submit">GO</button>
-		
-	    </div>
-	    
-	</div>
+	<div class="block_see_more"><a href="/search?types=gallery">See More &rarr;</a></div>
 
         <div class="ad_space_block">
     
@@ -211,7 +187,7 @@
     
                     <% for ( split /\s+/, $ad->photos ) { %>
     
-                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
     
                     <% last; # ONLY SHOW ONE %>
     

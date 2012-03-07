@@ -63,7 +63,7 @@
 	
 	    </div>
 
-	    <span class="social_sharing_right">
+	<!--    <span class="social_sharing_right">
 	
 		<a href="http://www.facebook.com/sharer.php?u=http://beta.after5ferndale.com/<%= $city_life->id %>&t=<%= $city_life->title %>" target="_blank">
 		    <img src="/share/Facebook.png" alt="Facebook"/>
@@ -82,7 +82,7 @@
 		</a>
 		
 	    </span>
-	
+	-->
 	    <h2><%= $city_life->title %></h2>
 	    
 	    <p><%== substr( HTML::FormatText->format_string($city_life->body), 0, 500 ) %></p>
