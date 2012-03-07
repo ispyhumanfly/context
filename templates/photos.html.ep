@@ -124,7 +124,8 @@
                 
             <% } else { %>
             
-            <% next if $more_galleries->id == @{$self->{GALLERIES}}->[0]->id; %>
+            <% my $first = @{$self->{GALLERIES}}; %>
+            <% next if $more_galleries->id == $first->[0]->id; %>
     
             <% } %>
             

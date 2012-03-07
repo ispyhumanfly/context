@@ -720,12 +720,18 @@ body {
     padding: 10px;
 }
 
+#content_container .social_sharing img {
+
+    width: 30px;
+    height: 30px;    
+}
+
 #content_container .social_sharing_right {
     
     clear: both;
     display: block;
     text-align: right;
-    margin-right: 50px;
+    margin-right: 25px;
     padding: 10px;
     float: right;
 }
