@@ -1,7 +1,7 @@
 % title 'Play';
 % layout 'default';
 %
-% my $more_articles_length = 3;
+% my $more_neighbors_length = 3;
  
 <script type="text/javascript">//<![CDATA[
 
@@ -38,23 +38,22 @@
 
 <div class="content_left">
     
-    <h1>Articles</h1>
+    <h1>Neighbors</h1>
     
-    <% for my $articles (@{$self->{ARTICLES}}) { %>
+    <% for my $neighbors (@{$self->{NEIGHBORS}}) { %>
     
 	<% if ($self->param('id')) { %>
 	
-	<% next unless $articles->id == int($self->param('id')); %>
+	<% next unless $neighbors->id == int($self->param('id')); %>
 	    
 	<% } else { %>
 	
-	<% my $first = @{$self->{ARTICLES}}; %>
-        
-	<% next unless $articles->id == $first->[0]->id; %>
+	<% my $first = @{$self->{NEIGHBORS}}; %>
+	<% next unless $neighbors->id == $first->[0]->id; %>
 	
 	<% } %>
 	
-	<% for ( split /\s+/, $articles->photos ) { %>
+	<% for ( split /\s+/, $neighbors->photos ) { %>
 
 	<a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
 	    <img class="para_image_right" src="<%= $_ %>" />
@@ -64,42 +63,42 @@
 
 	<% } %>
 
-	<% unless (scalar (split /\s+/, $articles->photos) <= 1 ) { %>
+	<% unless (scalar (split /\s+/, $neighbors->photos) <= 1 ) { %>
 	
 	<div class="content_thumbnails_right">
 	    
 	<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $articles->id %>"></div>
+	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $neighbors->id %>"></div>
 
 	</div>
 
 	<% } %>
 
-	<h2><%= $articles->title %></h2>
+	<h2><%= $neighbors->title %></h2>
 
-	<% unless (($articles->author eq '') or ($articles->author =~ /^\s+$/g)) { %>
+	<% unless (($neighbors->author eq '') or ($neighbors->author =~ /^\s+$/g)) { %>
     
-	<h4>By <%= $articles->author %></h4>
+	<h4>By <%= $neighbors->author %></h4>
     
 	<% } %>
 	
-	<%== $articles->body %>
+	<%== $neighbors->body %>
 
         <span class="social_sharing_right">
 
-            <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $articles->id %>&t=<%= $articles->title %>" target="_blank">
+            <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $neighbors->id %>&t=<%= $neighbors->title %>" target="_blank">
                 <img src="/FacebookShare.png" alt="Facebook"/>
             </a>
         
-            <a href="http://www.twitter.com/home?status=<%= $articles->title %>,+http://beta.after5detroit.com/<%= $articles->id %>" target="_blank">
+            <a href="http://www.twitter.com/home?status=<%= $neighbors->title %>,+http://beta.after5detroit.com/<%= $neighbors->id %>" target="_blank">
                 <img src="/TwitterShare.png" alt="Twitter"/>
             </a>
         
-            <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $articles->id %>" target="_blank">
+            <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $neighbors->id %>" target="_blank">
                 <img src="/DiggShare.png" alt="Digg"/>
             </a>
         
-            <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $articles->id %>" target="_blank">
+            <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $neighbors->id %>" target="_blank">
                 <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
             </a>
             
@@ -110,7 +109,7 @@
 	    <% if ($self->session('admin')) { %>
     
 	    <a href="javascript:history.go(-1)">Back | </a>
-	    <a href="/editor?mode=update&id=<%= $articles->id %>" style="margin-left; 10px;">Edit</a>
+	    <a href="/editor?mode=update&id=<%= $neighbors->id %>" style="margin-left; 10px;">Edit</a>
     	    
 	    <% } else { %>
     
@@ -120,11 +119,11 @@
 
 	    <div style="text-align: right; margin-top: -20px;">
 
-		<% my $next_articles_counter; %>
+		<% my $next_neighbors_counter; %>
 		
-	    	<% for (@{$self->{ARTICLES}}) { %>
+	    	<% for (@{$self->{NEIGHBORS}}) { %>
 
-		    <% $next_articles_counter++; %>
+		    <% $next_neighbors_counter++; %>
 		    
 		    <% if ($self->param('id')) { %>
 		    
@@ -132,7 +131,7 @@
 			
 		    <% } %>
 		
-		    <a href="/play/articles?id=<%= $_->id %>">Next</a>
+		    <a href="/play/neighbors?id=<%= $_->id %>">Next</a>
 		    
 		    <% last; %>
 		    
@@ -152,25 +151,26 @@
 
     <div class="content_right_padding">
     
-    <% my $more_articles_counter; %>
+    <% my $more_neighbors_counter; %>
     
-    <% for my $more_articles (@{$self->{ARTICLES}}) { %>
+    <% for my $more_neighbors (@{$self->{NEIGHBORS}}) { %>
 
 	<% if ($self->param('id')) { %>
 	
-	<% next unless $more_articles->id < int($self->param('id')); %>
+	<% next unless $more_neighbors->id < int($self->param('id')); %>
 	    
 	<% } else { %>
 	
-	<% next if $more_articles->id == @{$self->{ARTICLES}}->[0]->id; %>
+	<% my $first = @{$self->{NEIGHBORS}}; %>
+	<% next unless $more_neighbors->id == $first->[0]->id; %>
 
 	<% } %>
 	
-	<% $more_articles_counter++; %>
+	<% $more_neighbors_counter++; %>
 	
-	<% for ( split /\s+/, $more_articles->photos ) { %>
+	<% for ( split /\s+/, $more_neighbors->photos ) { %>
 	
-	<a title="<%= $more_articles->title %>" href="/play/articles?id=<%= $more_articles->id %>">
+	<a title="<%= $more_neighbors->title %>" href="/play/neighbors?id=<%= $more_neighbors->id %>">
 	    <img class="block_thumbnails_right" src="<%= $_ %>"/>
 	</a>
 	
@@ -178,26 +178,26 @@
 	
 	<% } %>
 	
-	<div class="block_title"><a href="/play/articles?id=<%= $more_articles->id %>"><%= $more_articles->title %></a></div>
+	<div class="block_title"><a href="/play/neighbors?id=<%= $more_neighbors->id %>"><%= $more_neighbors->title %></a></div>
 	
-	<div class="block_text"><%== substr( HTML::FormatText->format_string($more_articles->body), 0, 75 ) . '' %></div>
+	<div class="block_text"><%== substr( HTML::FormatText->format_string($more_neighbors->body), 0, 75 ) . '' %></div>
 	
         <div class="read_more_left">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/play/articles?id=<%= $more_articles->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $more_articles->id %>">Edit</a>        
+            <a href="/play/neighbors?id=<%= $more_neighbors->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $more_neighbors->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/play/articles?id=<%= $more_articles->id %>">Read More</a>
+            <a href="/play/neighbors?id=<%= $more_neighbors->id %>">Read More</a>
             
             <% } %>
 
         </div>
 	
-	<% last if $more_articles_counter == $more_articles_length; %>
+	<% last if $more_neighbors_counter == $more_neighbors_length; %>
 	
 	<hr />
     

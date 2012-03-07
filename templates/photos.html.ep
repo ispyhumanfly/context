@@ -11,21 +11,19 @@
     		
     dojo.addOnLoad(function(){
             
-        dijit.byId('gallery2').setDataStore(imageItemStore,{ count:20 },
+        dijit.byId('gallery').setDataStore(imageItemStore,{ count:10 },
         {
             imageThumbAttr: "thumb",
             imageLargeAttr: "large",
-            width: 800,
+            titleAttr: "blank"
         });
-
+        
     });
             
 
 //]]></script>
 
 <div class="content_left">
-
-    <h1>Recent Galleries</h1>
 
     <% for my $galleries (@{$self->{GALLERIES}}) { %>
 
@@ -40,35 +38,31 @@
 
 	<% } %>
 
-        <div id="gallery_container">
- 
-        <div style="text-align: center;">
+        <h1><%== $galleries->title %></h1>
 
-            <h2><%== $galleries->title %></h2>
-            
-        </div>
+        <div id="gallery_container">
    
-	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $galleries->id %>"></div>
-	<div id="gallery2" style="margin-left: 84px;" dojoType="dojox.image.Gallery"></div>
+            <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $galleries->id %>"></div>
+            <div id="gallery" data-dojo-type="dojox.image.Gallery" data-dojo-props="imageWidth:650, imageHeight:500, pageSize:7, autoLoad:true"></div>
             
         </div>
 
         <span class="social_sharing_center">
 
             <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $galleries->id %>&t=<%= $galleries->title %>" target="_blank">
-                <img src="/FacebookShare.png" alt="Facebook"/>
+                <img src="/share/Facebook.png" alt="Facebook"/>
             </a>
         
             <a href="http://www.twitter.com/home?status=<%= $galleries->title %>,+http://beta.after5detroit.com/<%= $galleries->id %>" target="_blank">
-                <img src="/TwitterShare.png" alt="Twitter"/>
+                <img src="/share/Twitter.png" alt="Twitter"/>
             </a>
         
             <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $galleries->id %>" target="_blank">
-                <img src="/DiggShare.png" alt="Digg"/>
+                <img src="/share/Digg.png" alt="Digg"/>
             </a>
         
             <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $galleries->id %>" target="_blank">
-                <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+                <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
             </a>
             
         </span>

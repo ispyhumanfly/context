@@ -736,10 +736,16 @@ body {
     clear: both;
     display: block;
     text-align: center;
-    padding-top: 25px;
+    padding-top: 10px;
     padding-bottom: 5px;
 }
- 
+
+#content_container .social_sharing_center img {
+    
+    width: 50px;
+    height: 50px;
+}
+
 #content_container .content_thumbnails_right {
     
     float: right;
@@ -772,10 +778,11 @@ body {
 
 #gallery_container {
     
-/*    text-align: center;
-*/    background-color: #e6e2e3;
-    /*padding-top: 1px;*/
-    border: 1px solid #1a3721; 
+    text-align: center;
+/*    background-color: #e6e2e3;
+*/    
+   /* margin-left:0;
+    border: 1px solid #1a3721; */
 }
 
 #footer_container {
@@ -1112,8 +1119,37 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 	margin-left: 15px;
 }
 
+/* photo gallery */
 
+.nihilo .slideShowWrapper { 
+	position:relative; 
+	background-color: #e6e2e3;
+	padding:8px; 
+	border:1px solid #183720;	
+	padding-bottom:20px;
+	overflow:hidden;
+}
 
+.nihilo .slideShowTitle {
+        
+        margin-left: 48%;
+	background-color:#e6e2e3;
+	font-size:10pt;
+        color: #e6e2e3;
+}
 
+.nihilo .slideShowTitle .slideShowCounterText {
+    
+	font-size:6pt;
+        color:#e6e2e3;
+        background-color: #e6e2e3;
+}
+
+.nihilo .slideShowNav { 
+
+        color: #e6e2e3;
+	background-color:#e6e2e3; 
+	width:100%;
+}
 
 

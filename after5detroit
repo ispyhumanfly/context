@@ -330,6 +330,48 @@ get '/live/royal_oak' => sub {
 
 } => 'live_royal_oak';
 
+get '/live/:city/neighbors' => [city => qr/\w+/] => sub {
+
+    my $self = shift;
+
+    unless ($self->param('id')) {
+
+        my $first =
+          $MODEL->resultset('Content')
+          ->search(
+            {pages => {like => 'play'}, types => {like => '%article%'}},
+            {order_by => 'id DESC'})->first;
+        return $self->redirect_to('/play/articles?id=' . $first->id);
+    }
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
+
+    # Articles / More Articles
+    my @articles = $MODEL->resultset('Content')->search(
+        {pages => {like => '%play%'}, types => {like => '%article%'}},
+        {page => 1, rows => 50, order_by => 'id DESC'}
+    )->all;
+
+    $self->{'ARTICLES'} = \@articles;
+
+    return $self->render('live_neighbors');
+
+} => 'live_neighbors';
+
 get '/work' => sub {
 
     my $self = shift;
