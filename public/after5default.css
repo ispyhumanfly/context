@@ -530,8 +530,7 @@ body {
     margin-top: 30px;
     margin-left: 5px;
     margin-right: 5px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 3px;
     background-color: #1a3721;
    
 }
@@ -1161,4 +1160,41 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 	width:100%;
 }
 
+/* lightbox stuff */
 
+.nihilo .dojoxLightbox {
+	position:absolute;
+	z-index:999;
+	overflow:hidden;
+	width:100px;
+	height:100px; 
+	border: 11px solid #e6e2e3 !important; 
+	background:#fff url(images/loading.gif) no-repeat center center;
+	
+	-webkit-box-shadow: 0px 6px 10px #636363; 
+	-webkit-border-radius: 3px;
+	-moz-border-radius:4px;
+	border-radius: 4px;
+}
+
+.nihilo .dojoxLightboxContainer {
+	position:absolute;
+	top:0; left:0;
+	background-color:#fff;
+}
+
+.nihilo .dojoxLightboxFooter {
+	padding-bottom:5px;
+	position:relative;
+	bottom:0;
+	left:0;
+	margin-top:8px;
+	color:#333;
+	z-index:1000;
+	font-size:10pt;
+}
+
+.nihilo .dojoxLightboxGroupText {
+	color:#666; 
+	font-size:8pt;
+}

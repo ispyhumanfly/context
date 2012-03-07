@@ -311,7 +311,7 @@
 		    
 		</select>
 		
-		<button type="submit">GO</button>
+		<button type="submit" style="float: right;">GO</button>
 		
 	    </div>
 	    
