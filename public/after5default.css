@@ -731,6 +731,12 @@ body {
     float: right;
 }
 
+#content_container .social_sharing_right img {
+    
+    width: 30px;
+    height: 30px;
+}
+
 #content_container .social_sharing_center {
     
     clear: both;
@@ -742,8 +748,8 @@ body {
 
 #content_container .social_sharing_center img {
     
-    width: 50px;
-    height: 50px;
+    width: 35px;
+    height: 35px;
 }
 
 #content_container .content_thumbnails_right {
@@ -1121,7 +1127,9 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 
 /* photo gallery */
 
-.nihilo .slideShowWrapper { 
+.nihilo .slideShowWrapper {
+        
+        font-family: Verdana;
 	position:relative; 
 	background-color: #e6e2e3;
 	padding:8px; 
@@ -1140,6 +1148,7 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 
 .nihilo .slideShowTitle .slideShowCounterText {
     
+        font-family: Verdana;
 	font-size:6pt;
         color:#e6e2e3;
         background-color: #e6e2e3;

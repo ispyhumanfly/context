@@ -62,6 +62,26 @@
 		<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $city_life->id %>"></div>
 	
 	    </div>
+
+	    <span class="social_sharing_right">
+	
+		<a href="http://www.facebook.com/sharer.php?u=http://beta.after5ferndale.com/<%= $city_life->id %>&t=<%= $city_life->title %>" target="_blank">
+		    <img src="/share/Facebook.png" alt="Facebook"/>
+		</a>
+	    
+		<a href="http://www.twitter.com/home?status=<%= $city_life->title %>,+http://beta.after5ferndale.com/<%= $city_life->id %>" target="_blank">
+		    <img src="/share/Twitter.png" alt="Twitter"/>
+		</a>
+	    
+		<a href="http://www.digg.com/submit?phase=2&url=http://beta.after5ferndale.com/<%= $city_life->id %>" target="_blank">
+		    <img src="/share/Digg.png" alt="Digg"/>
+		</a>
+	    
+		<a href="http://www.stumbleupon.com/submit/?url=http://beta.after5ferndale.com/<%= $city_life->id %>" target="_blank">
+		    <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
+		</a>
+		
+	    </span>
 	
 	    <h2><%= $city_life->title %></h2>
 	    
@@ -78,27 +98,9 @@
 		</ul>
 		
 	    </div>
-	
-	    <span class="social_sharing_right">
-	
-		<a href="http://www.facebook.com/sharer.php?u=http://beta.after5ferndale.com/<%= $city_life->id %>&t=<%= $city_life->title %>" target="_blank">
-		    <img src="/FacebookShare.png" alt="Facebook"/>
-		</a>
 	    
-		<a href="http://www.twitter.com/home?status=<%= $city_life->title %>,+http://beta.after5ferndale.com/<%= $city_life->id %>" target="_blank">
-		    <img src="/TwitterShare.png" alt="Twitter"/>
-		</a>
-	    
-		<a href="http://www.digg.com/submit?phase=2&url=http://beta.after5ferndale.com/<%= $city_life->id %>" target="_blank">
-		    <img src="/DiggShare.png" alt="Digg"/>
-		</a>
-	    
-		<a href="http://www.stumbleupon.com/submit/?url=http://beta.after5ferndale.com/<%= $city_life->id %>" target="_blank">
-		    <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
-		</a>
-		
-	    </span>
-	    
+	    <div class="content_spacer">&nbsp;</div>
+    	    
 	<% } %>
 	
 	<% $position++; %>
