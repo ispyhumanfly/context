@@ -63,26 +63,6 @@
 	
 	    </div>
 
-	    <!--<span class="social_sharing_right">
-	
-		<a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $city_life->id %>&t=<%= $city_life->title %>" target="_blank">
-		    <img src="/share/Facebook.png" alt="Facebook"/>
-		</a>
-	    
-		<a href="http://www.twitter.com/home?status=<%= $city_life->title %>,+http://beta.after5detroit.com/<%= $city_life->id %>" target="_blank">
-		    <img src="/share/Twitter.png" alt="Twitter"/>
-		</a>
-	    
-		<a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $city_life->id %>" target="_blank">
-		    <img src="/share/Digg.png" alt="Digg"/>
-		</a>
-	    
-		<a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $city_life->id %>" target="_blank">
-		    <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
-		</a>
-		
-	    </span>-->
-	
 	    <h2><%= $city_life->title %></h2>
 	    
 	    <p><%== substr( HTML::FormatText->format_string($city_life->body), 0, 500 ) %></p>
@@ -169,7 +149,7 @@
     
 	    <% for ( split /\s+/, $neighbors->photos ) { %>
 	    
-	    <a title="<%= $neighbors->title %>" href="/<%= $neighbors->id %>">
+	    <a title="<%= $neighbors->title %>" href="/live/birmingham/neighbors?id=<%= $neighbors->id %>">
 		<img class="block_thumbnails_right" src="<%= $_ %>"/>
 	    </a>
 	    
@@ -177,7 +157,7 @@
 	    
 	    <% } %>
 	    
-	    <div class="block_title"><%= $neighbors->title %></div>
+	    <div class="block_title"><a href="/live/birmingham/neighbors?id=<%= $neighbors->id %>"><%= $neighbors->title %></a></div>
 	    
 	    <div class="block_text"><%== substr( HTML::FormatText->format_string($neighbors->body), 0, 75 ) %></div>
 	    
@@ -185,7 +165,7 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/<%= $neighbors->id %>">Read More |</a>
+		<a href="/live/birmingham/neighbors?id=<%= $neighbors->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $neighbors->id %>">Edit</a>        
 	    
 		<% } else { %>

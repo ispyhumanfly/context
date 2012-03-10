@@ -2,6 +2,7 @@
 % layout 'default';
 %
 % my $more_neighbors_length = 3;
+% my $city = $self->param('city');
  
 <script type="text/javascript">//<![CDATA[
 
@@ -87,19 +88,19 @@
         <span class="social_sharing_right">
 
             <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $neighbors->id %>&t=<%= $neighbors->title %>" target="_blank">
-                <img src="/FacebookShare.png" alt="Facebook"/>
+                <img src="/share/Facebook.png" alt="Facebook"/>
             </a>
         
             <a href="http://www.twitter.com/home?status=<%= $neighbors->title %>,+http://beta.after5detroit.com/<%= $neighbors->id %>" target="_blank">
-                <img src="/TwitterShare.png" alt="Twitter"/>
+                <img src="/share/Twitter.png" alt="Twitter"/>
             </a>
         
             <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $neighbors->id %>" target="_blank">
-                <img src="/DiggShare.png" alt="Digg"/>
+                <img src="/share/Digg.png" alt="Digg"/>
             </a>
         
             <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $neighbors->id %>" target="_blank">
-                <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+                <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
             </a>
             
         </span>
@@ -131,7 +132,7 @@
 			
 		    <% } %>
 		
-		    <a href="/play/neighbors?id=<%= $_->id %>">Next</a>
+		    <a href="/live/<%== $city %>/neighbors?id=<%= $_->id %>">Next</a>
 		    
 		    <% last; %>
 		    
@@ -147,61 +148,63 @@
 
 <div class="content_right">
 
-    <h1>More Articles</h1>
+    <h1>More Neighbors</h1>
 
     <div class="content_right_padding">
     
-    <% my $more_neighbors_counter; %>
-    
-    <% for my $more_neighbors (@{$self->{NEIGHBORS}}) { %>
-
-	<% if ($self->param('id')) { %>
+	<% my $more_neighbors_counter; %>
 	
-	<% next unless $more_neighbors->id < int($self->param('id')); %>
+	<% for my $more_neighbors (@{$self->{NEIGHBORS}}) { %>
+    
+	    <% if ($self->param('id')) { %>
 	    
-	<% } else { %>
-	
-	<% my $first = @{$self->{NEIGHBORS}}; %>
-	<% next unless $more_neighbors->id == $first->[0]->id; %>
-
-	<% } %>
-	
-	<% $more_neighbors_counter++; %>
-	
-	<% for ( split /\s+/, $more_neighbors->photos ) { %>
-	
-	<a title="<%= $more_neighbors->title %>" href="/play/neighbors?id=<%= $more_neighbors->id %>">
-	    <img class="block_thumbnails_right" src="<%= $_ %>"/>
-	</a>
-	
-	<% last; #JUST SHOW ONE %>
-	
-	<% } %>
-	
-	<div class="block_title"><a href="/play/neighbors?id=<%= $more_neighbors->id %>"><%= $more_neighbors->title %></a></div>
-	
-	<div class="block_text"><%== substr( HTML::FormatText->format_string($more_neighbors->body), 0, 75 ) . '' %></div>
-	
-        <div class="read_more_left">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/play/neighbors?id=<%= $more_neighbors->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $more_neighbors->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/play/neighbors?id=<%= $more_neighbors->id %>">Read More</a>
-            
-            <% } %>
-
-        </div>
-	
-	<% last if $more_neighbors_counter == $more_neighbors_length; %>
-	
-	<hr />
+	    <% next unless $more_neighbors->id < int($self->param('id')); %>
+		
+	    <% } else { %>
+	    
+	    <% my $first = @{$self->{NEIGHBORS}}; %>
+	    <% next unless $more_neighbors->id == $first->[0]->id; %>
     
-    <% } %>
+	    <% } %>
+	    
+	    <% $more_neighbors_counter++; %>
+	    
+	    <% for ( split /\s+/, $more_neighbors->photos ) { %>
+	    
+	    <a title="<%= $more_neighbors->title %>" href="/live/<%== $city %>/neighbors?id=<%= $more_neighbors->id %>">
+		<img class="block_thumbnails_right" src="<%= $_ %>"/>
+	    </a>
+	    
+	    <% last; #JUST SHOW ONE %>
+	    
+	    <% } %>
+	    
+	    <div class="block_title"><a href="/live/<%== $city %>/neighbors?id=<%= $more_neighbors->id %>"><%= $more_neighbors->title %></a></div>
+	    
+	    <div class="block_text"><%== substr( HTML::FormatText->format_string($more_neighbors->body), 0, 75 ) . '' %></div>
+	    
+	    <div class="read_more_left">
+    
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/live/<%== $city %>/neighbors?id=<%= $more_neighbors->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $more_neighbors->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/live/<%== $city %>/neighbors?id=<%= $more_neighbors->id %>">Read More</a>
+		
+		<% } %>
+    
+	    </div>
+	    
+	    <% last if $more_neighbors_counter == $more_neighbors_length; %>
+	    
+	    <hr />
+	
+	<% } %>
+
+	<div class="block_see_more"><a href="/search?tags=neighbor&cities=<%= $city %>">See More &rarr;</a></div>
 
         <div class="ad_space_block">
     
@@ -213,7 +216,7 @@
     
                     <% for ( split /\s+/, $ad->photos ) { %>
     
-                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
     
                     <% last; # ONLY SHOW ONE %>
     

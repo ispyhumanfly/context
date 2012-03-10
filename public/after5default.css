@@ -505,7 +505,7 @@ body {
     float: right;
     width: 100px;
     height: 75px;
-    margin: 0px 5px 5px 5px;
+    margin: 0px 0px 5px 5px;
     border: 1px solid #1a3721; 
 }
 
@@ -522,17 +522,6 @@ body {
     font-size: 10px;
     padding-top: 6px;
     padding-bottom: 6px;
-}
-
-#content_container .block_more_galleries {
-   
-    font-size: small;
-    margin-top: 30px;
-    margin-left: 5px;
-    margin-right: 5px;
-    padding: 3px;
-    background-color: #1a3721;
-   
 }
 
 #content_container .block_see_more {
@@ -610,12 +599,23 @@ body {
 
 }
 
-#content_container .block_more_galleries_list {
+/* more galleries drop-down */
 
-    width: 248px;
+#content_container .block_more_galleries {
+   
+    font-size: small;
+    margin-top: 30px;
+    padding: 3px;
+    background-color: #1a3721;
+   
 }
 
-/* live */
+#content_container .block_more_galleries_list {
+
+    width: 100%;
+}
+
+/* live page navigation */
 
 #live_bullet_navigation div {
     

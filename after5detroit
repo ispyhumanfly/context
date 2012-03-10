@@ -334,39 +334,46 @@ get '/live/:city/neighbors' => [city => qr/\w+/] => sub {
 
     my $self = shift;
 
+    my $city = $self->param('city');
+
     unless ($self->param('id')) {
 
-        my $first =
-          $MODEL->resultset('Content')
-          ->search(
-            {pages => {like => 'play'}, types => {like => '%article%'}},
-            {order_by => 'id DESC'})->first;
-        return $self->redirect_to('/play/articles?id=' . $first->id);
+        my $first = $MODEL->resultset('Content')->search(
+            {   pages  => {like => '%live%'},
+                cities => {like => "%$city%"},
+                tags   => {like => '%neighbor%'}
+            },
+            {order_by => 'id DESC'}
+        )->first;
+        return $self->redirect_to("/live/$city/neighbors?id=" . $first->id);
     }
 
     # Ads
     my @ads =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
+        {pages => {like => '%live%'}, types => {like => '%ad_header%'}})->all;
 
     $self->{'ADS'} = \@ads;
 
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Articles / More Articles
-    my @articles = $MODEL->resultset('Content')->search(
-        {pages => {like => '%play%'}, types => {like => '%article%'}},
+    # Neighbors / More Neighbors
+    my @neighbors = $MODEL->resultset('Content')->search(
+        {   pages  => {like => '%live%'},
+            cities => {like => "%$city%"},
+            tags   => {like => '%neighbor%'}
+        },
         {page => 1, rows => 50, order_by => 'id DESC'}
     )->all;
 
-    $self->{'ARTICLES'} = \@articles;
+    $self->{'NEIGHBORS'} = \@neighbors;
 
     return $self->render('live_neighbors');
 
@@ -839,8 +846,7 @@ get '/:id' => [id => qr/\d+/] => sub {
     # Ads
     my @ads =
       $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%id%'}, types => {like => '%ad_header%'}},
+      ->search({pages => {like => '%id%'}, types => {like => '%ad_header%'}},
         {order_by => 'id DESC'})->all;
 
     $self->{'ADS'} = \@ads;
@@ -1349,26 +1355,27 @@ post '/api/contact/message' => sub {
               . $self->param('name')
               . "\n\n\tEmail: "
               . $self->param('email')
-              . "\n\n\tCity/State or Zip: "
-              . '' . $_->city . ',' . $_->region
+              . "\n\n\tCity/State or Zip: " . ''
+              . $_->city . ','
+              . $_->region
               . "\n\n\tPhone: "
               . $self->param('phone')
               . "\n\nMessage: \n\n"
               . $self->param('message') . "\n\n";
-    
+
             my %mail = (
-    
+
                 To      => 'dan@thoughtpivot.com',
                 Cc      => 'dan@thoughtpivot.com',
                 From    => 'contact@after5detroit.com',
                 Subject => 'after5detroit: ' . $self->param('subject'),
                 Message => $message
             );
-    
+
             sendmail(%mail) or die $Mail::Sendmail::error;
-    
+
             print "OK. Log says:\n", $Mail::Sendmail::log;
-        
+
         }
     }
 
@@ -1395,20 +1402,21 @@ post '/api/newsletter/message' => sub {
               . $self->param('name')
               . "\n\n\tEmail: "
               . $self->param('email')
-              . "\n\n\tCity/State or Zip: "
-              . '' . $_->city . ',' . $_->region . "\n\n";
-    
+              . "\n\n\tCity/State or Zip: " . ''
+              . $_->city . ','
+              . $_->region . "\n\n";
+
             my %mail = (
-    
+
                 To      => 'dan@thoughtpivot.com',
                 Cc      => 'dan@thoughtpivot.com',
                 From    => 'contact@after5detroit.com',
                 Subject => 'after5detroit: Newsletter Sign-Up!',
                 Message => $message
             );
-    
+
             sendmail(%mail) or die $Mail::Sendmail::error;
-    
+
             print "OK. Log says:\n", $Mail::Sendmail::log;
         }
     }
@@ -1496,7 +1504,7 @@ get '/dojox/image/data.json' => sub {
                 'thumb' => "$_",
                 'large' => "$_",
                 'title' => $gallery->title,
-                'link'  => '' # I've disabled this temporarily.
+                'link'  => ''                # I've disabled this temporarily.
             );
 
             push @gallery, \%items;
@@ -1509,6 +1517,12 @@ get '/dojox/image/data.json' => sub {
 };
 
 ### After5 Tools
+
+sub filter_content {
+
+    my ($self, $content) = shift;
+
+}
 
 sub process_photo {
 

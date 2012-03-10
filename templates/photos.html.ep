@@ -176,7 +176,7 @@
         
         <% } %>
 
-	<div class="block_see_more"><a href="/search?types=gallery">See More &rarr;</a></div>
+	%= include 'modules/block_more_galleries', more_galleries => $self->{GALLERIES}
 
         <div class="ad_space_block">
     

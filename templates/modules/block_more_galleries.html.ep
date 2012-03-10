@@ -1,0 +1,32 @@
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.form.Form");
+    dojo.require("dojox.form.DropDownSelect");
+
+//]]></script>
+
+<div class="block_more_galleries">
+    
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/photos" method="get">
+        
+        <select class="block_more_galleries_list" name="id" onchange='this.form.submit()'>
+        
+            <% my $gallery_position; %>
+            
+            <% for my $galleries (@{$more_galleries}) { %>
+            
+            <% $gallery_position++; %>
+            
+            <% next if $gallery_position <= 3; %>
+    
+            <option value="<%= $galleries->id %>"><%== substr( HTML::FormatText->format_string($galleries->title), 0, 45 ); %></option>
+            
+            <% } %>
+            
+        </select>
+        
+	<noscript><button type="submit" style="float: right;">GO</button></noscript>
+
+    </div>
+    
+</div>
