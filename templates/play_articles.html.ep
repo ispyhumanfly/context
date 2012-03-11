@@ -46,12 +46,6 @@
 	
 	<% next unless $articles->id == int($self->param('id')); %>
 	    
-	<% } else { %>
-	
-	<% my $first = @{$self->{ARTICLES}}; %>
-        
-	<% next unless $articles->id == $first->[0]->id; %>
-	
 	<% } %>
 	
 	<% for ( split /\s+/, $articles->photos ) { %>
@@ -122,6 +116,8 @@
 
 		<% my $next_articles_counter; %>
 		
+		<% my $next_article; %>
+		
 	    	<% for (@{$self->{ARTICLES}}) { %>
 
 		    <% $next_articles_counter++; %>
@@ -129,10 +125,16 @@
 		    <% if ($self->param('id')) { %>
 		    
 		    <% next unless $_->id < int($self->param('id')); %>
-			
-		    <% } %>
+		    
+		    <% $next_article = $_; %>
+		    
+		    <% } elsif (not $self->param('id')) { %>
 		
-		    <a href="/play/articles?id=<%= $_->id %>">Next</a>
+		    <% $next_article = @{$self->{ARTICLES}}->[+1]; %>
+		    
+		    <% } %>
+		    
+		    <a href="/play/articles?id=<%= $next_article->id %>">Next</a>
 		    
 		    <% last; %>
 		    
@@ -141,6 +143,8 @@
 	    </div>
 	
 	</h3>
+	
+	<% last unless $self->param('id'); %>
     	
     <% } %>
 
@@ -160,10 +164,10 @@
 	
 	<% next unless $more_articles->id < int($self->param('id')); %>
 	    
-	<% } else { %>
+	<% } elsif (not $self->param('id')) { %>
 	
-	<% next if $more_articles->id == @{$self->{ARTICLES}}->[0]->id; %>
-
+	<% next if $more_articles_counter == 0; %>
+	
 	<% } %>
 	
 	<% $more_articles_counter++; %>
@@ -215,7 +219,7 @@
     
                     <% for ( split /\s+/, $ad->photos ) { %>
     
-                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
+                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
     
                     <% last; # ONLY SHOW ONE %>
     

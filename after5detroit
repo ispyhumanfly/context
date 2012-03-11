@@ -397,9 +397,10 @@ get '/work/professional_development' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to('/work/professional_development?tags=professional_group')
-        unless $self->param('tags');
-        
+    return $self->redirect_to(
+        '/work/professional_development?tags=professional_group')
+      unless $self->param('tags');
+
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -418,17 +419,17 @@ get '/work/professional_development' => sub {
 
     # Work
     if ($self->param('tags')) {
-        
+
         my $tags = $self->param('tags');
-        
+
         my @work = $MODEL->resultset('Content')->search(
             {pages => {like => '%work%'}, tags => {like => "%$tags%"}},
             {page => 1, rows => 100, order_by => 'id DESC'},
         )->all;
-    
+
         $self->{'WORK'} = \@work;
     }
-    
+
     # Networking
     my @networking = $MODEL->resultset('Content')->search(
         {   pages => {like => '%work%'},
@@ -476,10 +477,13 @@ get '/play' => sub {
     $self->{'FEATURES'} = \@features;
 
     # Articles
-    my @buzz =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%article%'}},
-        {order_by => 'id DESC'})->all;
+    my @buzz = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%play%'},
+            types => {like => '%article%'},
+            tags  => {like => '%article%'}
+        },
+        {order_by => 'id DESC'}
+    )->all;
 
     $self->{'BUZZ'} = \@buzz;
 
@@ -597,15 +601,15 @@ get '/play/articles' => sub {
 
     my $self = shift;
 
-    unless ($self->param('id')) {
-
-        my $first =
-          $MODEL->resultset('Content')
-          ->search(
-            {pages => {like => 'play'}, types => {like => '%article%'}},
-            {order_by => 'id DESC'})->first;
-        return $self->redirect_to('/play/articles?id=' . $first->id);
-    }
+    #unless ($self->param('id')) {
+    #
+    #    my $first =
+    #      $MODEL->resultset('Content')
+    #      ->search(
+    #        {pages => {like => 'play'}, types => {like => '%article%'}},
+    #        {order_by => 'id DESC'})->first;
+    #    return $self->redirect_to('/play/articles?id=' . $first->id);
+    #}
 
     # Ads
     my @ads =
@@ -625,7 +629,10 @@ get '/play/articles' => sub {
 
     # Articles / More Articles
     my @articles = $MODEL->resultset('Content')->search(
-        {pages => {like => '%play%'}, types => {like => '%article%'}},
+        {   pages => {like => '%play%'},
+            types => {like => '%article%'},
+            tags  => {like => '%article%'}
+        },
         {page => 1, rows => 50, order_by => 'id DESC'}
     )->all;
 

@@ -270,7 +270,7 @@ body {
     margin-right: 10px;
     margin-bottom: 10px;
     border: 1px solid #1a3721; 
-    width: 150px; height: auto; 
+    width: 150px; height: 100px; 
     
 }
 
@@ -295,21 +295,23 @@ body {
 
     float: left;
     margin-left: 25px;
-    width: 150px;
+    width: 155px;
     background-color: #e6e2e3;
+}
+
+#content_container .content_work_left p {
+
+    font-family: Verdana Bold;
+    font-size: 7.5pt;
 }
 
 #content_container .content_work_left_heading {
 
-/*    background-image: url('/HeadlineSplatter.png');
-    background-repeat: no-repeat;
-    background-position: right;
-*/    color: white;
+    font-family: Verdana Bold;
+    color: white;
     font-size: 12px;
-    font-weight: bold;
-    height: 28px;
-    background-color: #1a3721;
-    vertical-align: middle;
+    text-align: left;
+    height: 27px;
     padding: 5px;
     
 }
@@ -327,8 +329,8 @@ body {
 #content_container .content_work_center {
 
     float: left;
-    width: 520px;
-    margin-left: 20px;
+    width: 515px;
+    margin-left: 12px;
 }
 
 #content_container .para_image_left {

@@ -10,7 +10,7 @@
 
 <div class="content_work_left">
     
-    <div class="content_work_left_heading">Professional Development</div>
+    <h1 class="content_work_left_heading">Professional Development</h1>
     
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'professional_group' %> href="/work/professional_development?tags=professional_group">Professional Groups</a></p>
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'social' %> href="/work/professional_development?tags=social">Social</a></p>
@@ -19,7 +19,7 @@
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'volunteer' %> href="/work/professional_development?tags=volunteer">Volunteer</a></p>
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'resources' %> href="/work/professional_development?tags=resources">Resources</a></p>
 
-    <div class="content_work_left_heading">Employers</div>
+    <h1 class="content_work_left_heading" style="padding-top: 11px; padding-bottom: 1px;">Employers</h1>
 
     <p><a href="/about/contact">Post a Job</a></p>
     <p><a href="http://www.connectafter5.com" target="_blank">Connect After5</a></p>
@@ -66,7 +66,11 @@
     
         <% if ($professional_development->body ne '') { %>
         
-        <div class="work_content_text"><%== HTML::FormatText->format_string($professional_development->body) %></div>
+        <div class="work_content_text">
+            
+            <%== substr( HTML::FormatText->format_string($professional_development->body), 0, 500 ) %>
+        
+        </div>
     
         <% } %>
     
@@ -99,21 +103,23 @@
             
             <% for (@{$self->{WORK}}) { %>
 
-                <% if (@{$self->{WORK}}->[$next_work_counter + $professional_development_length]) { %>
+                <% my $index = $next_work_counter + $professional_development_length; %>
                 
-                <% my $next_work = @{$self->{WORK}}->[$next_work_counter + $professional_development_length]; %>
+                <% if (@{$self->{WORK}}->[$index]) { %>
                 
-                <% $next_work_counter++; %>
-                
-                <% if ($self->param('id')) { %>
-                
-                <% next unless $_->id < int($self->param('id')); %>
+                    <% my $next_work = @{$self->{WORK}}->[$index]; %>
                     
-                <% } %>
-            
-                <a href="/work/professional_development?tags=<%= $tags %>&id=<%= $next_work->id %>">Next</a>
+                    <% $next_work_counter++; %>
+                    
+                    <% if ($self->param('id')) { %>
+                    
+                    <% next unless $_->id < int($self->param('id')); %>
+                        
+                    <% } %>
                 
-                <% last; %>
+                    <a href="/work/professional_development?tags=<%= $tags %>&id=<%= $next_work->id %>">Next</a>
+                    
+                    <% last; %>
 
                 <% } %>
                 
