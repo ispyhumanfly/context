@@ -432,7 +432,7 @@ get '/work/professional_development' => sub {
 
     # Networking
     my @networking = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%work%'},
+        {   
             types => {like => '%event%'},
             tags  => {like => '%networking%'},
         },
