@@ -397,6 +397,9 @@ get '/work/professional_development' => sub {
 
     my $self = shift;
 
+    return $self->redirect_to('/work/professional_development?tags=professional_group')
+        unless $self->param('tags');
+        
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -413,16 +416,19 @@ get '/work/professional_development' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-
     # Work
-
-    my @work = $MODEL->resultset('Content')->search(
-        {pages => {like => '%work%'}},
-        {page => 1, rows => 100, order_by => 'id DESC'},
-    )->all;
-
-    $self->{'WORK'} = \@work;
-
+    if ($self->param('tags')) {
+        
+        my $tags = $self->param('tags');
+        
+        my @work = $MODEL->resultset('Content')->search(
+            {pages => {like => '%work%'}, tags => {like => "%$tags%"}},
+            {page => 1, rows => 100, order_by => 'id DESC'},
+        )->all;
+    
+        $self->{'WORK'} = \@work;
+    }
+    
     # Networking
     my @networking = $MODEL->resultset('Content')->search(
         {   pages => {like => '%work%'},

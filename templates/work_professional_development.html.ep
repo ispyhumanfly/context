@@ -2,6 +2,7 @@
 % layout 'default';
 %
 % my $professional_development_length = 5;
+% my $tags = $self->param('tags');
 
 <script type="text/javascript">//<![CDATA[
 
@@ -11,13 +12,12 @@
     
     <div class="content_work_left_heading">Professional Development</div>
     
-    <p><a  href="/work/professional_development?tags=professional_group">Professional Group</a></p>
-<!--    <p><a  href="/work/professional_development?tags=networking">Networking</a></p>-->
-    <p><a  href="/work/professional_development?tags=social">Social</a></p>
-    <p><a  href="/work/professional_development?tags=cultural">Cultural</a></p>
-    <p><a  href="/work/professional_development?tags=board_openings">Board Openings</a></p>
-    <p><a  href="/work/professional_development?tags=volunteer">Volunteer</a></p>
-    <p><a  href="/work/professional_development?tags=resources">Resources</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'professional_group' %> href="/work/professional_development?tags=professional_group">Professional Groups</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'social' %> href="/work/professional_development?tags=social">Social</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'cultural' %> href="/work/professional_development?tags=cultural">Cultural</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'board_openings' %> href="/work/professional_development?tags=board_openings">Board Openings</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'volunteer' %> href="/work/professional_development?tags=volunteer">Volunteer</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'resources' %> href="/work/professional_development?tags=resources">Resources</a></p>
 
     <div class="content_work_left_heading">Employers</div>
 
@@ -43,12 +43,6 @@
 	<% next unless $professional_development->id <= int($self->param('id')); %>
 	    
 	<% } %>
-	
-        <% if ($self->param('tags')) { %>
-        
-        <% next unless $professional_development->tags eq $self->param('tags'); %>
-        
-        <% } %>
         
         <% $professional_development_counter++; %>
                 
@@ -105,18 +99,22 @@
             
             <% for (@{$self->{WORK}}) { %>
 
+                <% if (@{$self->{WORK}}->[$next_work_counter + $professional_development_length]) { %>
+                
                 <% my $next_work = @{$self->{WORK}}->[$next_work_counter + $professional_development_length]; %>
                 
                 <% $next_work_counter++; %>
                 
-                <% if ($self->param('id') == $_->id) { %>
+                <% if ($self->param('id')) { %>
                 
-                <a href="/work/professional_development?id=<%= $next_work->id %>">Next</a>
+                <% next unless $_->id < int($self->param('id')); %>
+                    
+                <% } %>
+            
+                <a href="/work/professional_development?tags=<%= $tags %>&id=<%= $next_work->id %>">Next</a>
                 
-                <% } elsif ((not $self->param('id')) and ($next_work_counter == $professional_development_length)) { %>
-                
-                <a href="/work/professional_development?id=<%= $next_work->id %>">Next</a>
-                
+                <% last; %>
+
                 <% } %>
                 
             <% } %>

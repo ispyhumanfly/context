@@ -212,10 +212,10 @@ body {
 #content_container h3 {
 
     width: 98%;
+    height: 18px;
     border-top: 1px solid #1a3721;
     background-color: #e6e2e3;
- /*   text-align: right;
- */   color: #1a3721;
+    color: #1a3721;
     padding: 10px;
     font-size: medium;
     font-weight: normal;
@@ -317,6 +317,11 @@ body {
 #content_container .content_work_left p {
     
     padding-left: 5px;
+}
+
+#content_container .content_work_nav_active {
+    
+    text-decoration: underline;
 }
 
 #content_container .content_work_center {
