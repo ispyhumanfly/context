@@ -1,7 +1,7 @@
 % title 'Play';
 % layout 'default';
 %
-% my $past_articles_length = 3;
+% my $past_people_length = 3;
 
 <script type="text/javascript">//<![CDATA[
  
@@ -148,25 +148,31 @@
 
     <div class="content_right_padding">
     
-    <% my $past_articles_counter; %>
+    <% my $past_people_counter; %>
     
-    <% for my $past_articles (@{$self->{PEOPLE}}) { %>
+    <% for my $past_people (@{$self->{PEOPLE}}) { %>
 
 	<% if ($self->param('id')) { %>
 	
-	<% next unless $past_articles->id < int($self->param('id')); %>
+	<% next unless $past_people->id < int($self->param('id')); %>
 	    
 	<% } else { %>
 	
-	<% next if $past_articles->id == @{$self->{PEOPLE}}->[0]->id; %>
+	<% next if $past_people->id == @{$self->{PEOPLE}}->[0]->id; %>
 
 	<% } %>
 	
-	<% $past_articles_counter++; %>
+	<% $past_people_counter++; %>
+
+	<% if ($past_people_counter > 1) { %>
 	
-	<% for ( split /\s+/, $past_articles->photos ) { %>
+	<hr />
 	
-	<a title="<%= $past_articles->title %>" href="/play/people?id=<%= $past_articles->id %>">
+	<% } %>
+
+	<% for ( split /\s+/, $past_people->photos ) { %>
+	
+	<a title="<%= $past_people->title %>" href="/play/people?id=<%= $past_people->id %>">
 	    <img class="block_thumbnails_right" src="<%= $_ %>"/>
 	</a>
 	
@@ -174,29 +180,27 @@
 	
 	<% } %>
 	
-	<div class="block_title"><a href="/play/people?id=<%= $past_articles->id %>"><%= $past_articles->title %></a></div>
+	<div class="block_title"><a href="/play/people?id=<%= $past_people->id %>"><%= $past_people->title %></a></div>
 	
-	<div class="block_text"><%== substr( HTML::FormatText->format_string($past_articles->body), 0, 75 ) %></div>
+	<div class="block_text"><%== substr( HTML::FormatText->format_string($past_people->body), 0, 75 ) %></div>
 	
         <div class="read_more_left">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/play/people?id=<%= $past_articles->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $past_articles->id %>">Edit</a>        
+            <a href="/play/people?id=<%= $past_people->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $past_people->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/play/people?id=<%= $past_articles->id %>">Read More</a>
+            <a href="/play/people?id=<%= $past_people->id %>">Read More</a>
             
             <% } %>
 
         </div>
 	
-	<% last if $past_articles_counter == $past_articles_length; %>
+	<% last if $past_people_counter == $past_people_length; %>
 	
-	<hr />
-    
     <% } %>
 
 	<div class="block_see_more"><a href="/search?tags=people">See More &rarr;</a></div>

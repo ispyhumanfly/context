@@ -132,7 +132,13 @@
             <% next if $more_galleries->types =~ m/ad/g; %>
             
             <% $more_galleries_counter++; %>
+
+            <% if ($more_galleries_counter > 1) { %>
             
+            <hr />
+            
+            <% } %>
+    
             <% for ( split /\s+/, $more_galleries->photos ) { %>
             
             <a title="<%= $more_galleries->title %>" href="/photos?id=<%= $more_galleries->id %>">
@@ -171,8 +177,6 @@
             </div>
             
             <% last if $more_galleries_counter == $more_galleries_length; %>
-            
-            <hr />
         
         <% } %>
 

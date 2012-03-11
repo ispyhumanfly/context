@@ -159,18 +159,24 @@
     <% my $more_articles_counter; %>
     
     <% for my $more_articles (@{$self->{ARTICLES}}) { %>
-
+	
 	<% if ($self->param('id')) { %>
 	
 	<% next unless $more_articles->id < int($self->param('id')); %>
 	    
 	<% } elsif (not $self->param('id')) { %>
 	
-	<% next if $more_articles_counter == 0; %>
+	<% next unless $more_articles_counter >= 0; %>
 	
 	<% } %>
 	
 	<% $more_articles_counter++; %>
+
+	<% if ($more_articles_counter > 1) { %>
+	
+	<hr />
+	
+	<% } %>
 	
 	<% for ( split /\s+/, $more_articles->photos ) { %>
 	
@@ -202,8 +208,6 @@
         </div>
 	
 	<% last if $more_articles_counter == $more_articles_length; %>
-	
-	<hr />
     
     <% } %>
 
