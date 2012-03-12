@@ -72,7 +72,7 @@ get '/home' => sub {
     # Work
     my @work = $MODEL->resultset('Content')->search(
         {   pages => {like => '%home%'},
-            tags  => {like => '%professional_group%'}
+            types => {like => '%career%'}
         },
         {order_by => 'id DESC'}
     )->all;
