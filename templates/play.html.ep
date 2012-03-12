@@ -216,61 +216,8 @@
             
         </div>
 
-	<div class="block_caption_text">Search for places below &darr;</a></div>
-
-	<div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
-            
-            <label>Cities</label>
-            
-            <select dojoType="dijit.form.Select" name="cities" style="width: 150px;">
-                
-                <option value="birmingham">
-                    Birmingham
-                </option>
-                <option value="detroit">
-                    Detroit
-                </option>
-                <option value="ferndale">
-                    Ferndale
-                </option>
-                <option value="royal_oak">
-                    Royal Oak
-                </option>
-            </select>    
-            
-	    <br />
-	    
-            <label>Interests</label>
-            
-            <select dojoType="dijit.form.Select" name="interests" style="width: 150px;">
-                
-                <option value="dining">
-                    Dining
-                </option>
-                <option value="nightlife">
-                    Nightlife
-                </option>
-                <option value="activities">
-                    Activities
-                </option>
-                <option value="living">
-                    Living
-                </option>
-                
-            </select>    
-	    
-	    <br />
-	    
-	    <label>Search String</label>
-
-	    <div dojoType="dijit.form.TextBox" name="string" style="width: 200px;"></div>
-	    
-	    <br />
-	    
-	    <button dojoType="dijit.form.Button" type="submit" style="margin-right: 8px;">GO</button>
-
-	</div>
-
+	%= include 'modules/block_search_places'
+	
     </div>
 
 </div>

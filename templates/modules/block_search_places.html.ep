@@ -1,0 +1,59 @@
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.form.Form");
+    dojo.require("dojox.form.DropDownSelect");
+
+//]]></script>
+
+<div class="block_caption_text">Search for places below &darr;</a></div>
+
+<div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
+    
+    <label>City</label>
+    
+    <select name="cities" style="width: 175px;">
+        
+        <option value="birmingham">
+            Birmingham
+        </option>
+        <option value="detroit" selected>
+            Detroit
+        </option>
+        <option value="ferndale">
+            Ferndale
+        </option>
+        <option value="royal_oak">
+            Royal Oak
+        </option>
+    </select>    
+    
+    <br />
+    
+    <label>Interest</label>
+    
+    <select name="interests" style="width: 175px;">
+        
+        <option value="dining">
+            Dining
+        </option>
+        <option value="nightlife">
+            Nightlife
+        </option>
+        <option value="activities">
+            Activities
+        </option>
+        <option value="living">
+            Living
+        </option>
+        
+    </select>    
+    
+    <br />
+    
+    <label>Search</label>
+
+    <input type="text" name="string" />
+    
+    <button type="submit" style="float: right; margin-right: 5px;">GO</button>
+
+</div>

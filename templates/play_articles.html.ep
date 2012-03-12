@@ -238,6 +238,8 @@
             
         </div>
 
+	%= include 'modules/block_search_places'
+
     </div>
     
 </div>
