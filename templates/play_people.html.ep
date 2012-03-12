@@ -1,7 +1,7 @@
 % title 'Play';
 % layout 'default';
 %
-% my $past_people_length = 3;
+% my $more_people_length = 3;
 
 <script type="text/javascript">//<![CDATA[
  
@@ -48,10 +48,6 @@
 	
 	<% next unless $people->id == int($self->param('id')); %>
 	    
-	<% } else { %>
-	
-	<% next unless $people->id == @{$self->{PEOPLE}}->[0]->id; %>
-	
 	<% } %>
 	
 	<% for ( split /\s+/, $people->photos ) { %>
@@ -116,19 +112,27 @@
 
 	    <div style="text-align: right; margin-top: -20px;">
 
-		<% my $next_feature_counter; %>
+		<% my $next_people_counter; %>
+		
+		<% my $next_people; %>
 		
 	    	<% for (@{$self->{PEOPLE}}) { %>
 
-		    <% $next_feature_counter++; %>
+		    <% $next_people_counter++; %>
 		    
 		    <% if ($self->param('id')) { %>
 		    
 		    <% next unless $_->id < int($self->param('id')); %>
-			
-		    <% } %>
+		    
+		    <% $next_people = $_; %>
+		    
+		    <% } elsif (not $self->param('id')) { %>
 		
-		    <a href="/play/people?id=<%= $_->id %>">Next</a>
+		    <% $next_people = @{$self->{PEOPLE}}->[+1]; %>
+		    
+		    <% } %>
+		    
+		    <a href="/play/people?id=<%= $next_people->id %>">Next</a>
 		    
 		    <% last; %>
 		    
@@ -138,6 +142,8 @@
 	
 	</h3>
     	
+	<% last unless $self->param('id'); %>
+
     <% } %>
 
 </div>
@@ -148,31 +154,31 @@
 
     <div class="content_right_padding">
     
-    <% my $past_people_counter; %>
+    <% my $more_people_counter; %>
     
-    <% for my $past_people (@{$self->{PEOPLE}}) { %>
+    <% for my $more_people (@{$self->{PEOPLE}}) { %>
 
 	<% if ($self->param('id')) { %>
 	
-	<% next unless $past_people->id < int($self->param('id')); %>
+	<% next unless $more_people->id < int($self->param('id')); %>
 	    
 	<% } else { %>
 	
-	<% next if $past_people->id == @{$self->{PEOPLE}}->[0]->id; %>
+	<% next if $more_people->id == @{$self->{PEOPLE}}->[0]->id; %>
 
 	<% } %>
 	
-	<% $past_people_counter++; %>
+	<% $more_people_counter++; %>
 
-	<% if ($past_people_counter > 1) { %>
+	<% if ($more_people_counter > 1) { %>
 	
 	<hr />
 	
 	<% } %>
 
-	<% for ( split /\s+/, $past_people->photos ) { %>
+	<% for ( split /\s+/, $more_people->photos ) { %>
 	
-	<a title="<%= $past_people->title %>" href="/play/people?id=<%= $past_people->id %>">
+	<a title="<%= $more_people->title %>" href="/play/people?id=<%= $more_people->id %>">
 	    <img class="block_thumbnails_right" src="<%= $_ %>"/>
 	</a>
 	
@@ -180,26 +186,26 @@
 	
 	<% } %>
 	
-	<div class="block_title"><a href="/play/people?id=<%= $past_people->id %>"><%= $past_people->title %></a></div>
+	<div class="block_title"><a href="/play/people?id=<%= $more_people->id %>"><%= $more_people->title %></a></div>
 	
-	<div class="block_text"><%== substr( HTML::FormatText->format_string($past_people->body), 0, 75 ) %></div>
+	<div class="block_text"><%== substr( HTML::FormatText->format_string($more_people->body), 0, 75 ) %></div>
 	
         <div class="read_more_left">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/play/people?id=<%= $past_people->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $past_people->id %>">Edit</a>        
+            <a href="/play/people?id=<%= $more_people->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $more_people->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/play/people?id=<%= $past_people->id %>">Read More</a>
+            <a href="/play/people?id=<%= $more_people->id %>">Read More</a>
             
             <% } %>
 
         </div>
 	
-	<% last if $past_people_counter == $past_people_length; %>
+	<% last if $more_people_counter == $more_people_length; %>
 	
     <% } %>
 

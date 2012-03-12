@@ -164,9 +164,9 @@
 	
 	<% next unless $more_articles->id < int($self->param('id')); %>
 	    
-	<% } elsif (not $self->param('id')) { %>
+	<% } else { %>
 	
-	<% next unless $more_articles_counter >= 0; %>
+	<% next if $more_articles->id == @{$self->{ARTICLES}}->[0]->id; %>
 	
 	<% } %>
 	

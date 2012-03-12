@@ -490,7 +490,8 @@ get '/play' => sub {
     # Places
     my @places = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
-            types => {like => '%place%'}
+            types => {like => '%article%'},
+            tags => {like => '%place%'}
         },
         {order_by => 'id DESC'}
     )->all;
@@ -512,18 +513,6 @@ get '/play' => sub {
 get '/play/people' => sub {
 
     my $self = shift;
-
-    unless ($self->param('id')) {
-
-        my $first = $MODEL->resultset('Content')->search(
-            {   pages => {like => 'play'},
-                types => {like => '%article%'},
-                tags  => {like => '%people%'}
-            },
-            {order_by => 'id DESC'}
-        )->first;
-        return $self->redirect_to('/play/people?id=' . $first->id);
-    }
 
     # Ads
     my @ads =
@@ -600,16 +589,6 @@ get '/play/places' => sub {
 get '/play/articles' => sub {
 
     my $self = shift;
-
-    #unless ($self->param('id')) {
-    #
-    #    my $first =
-    #      $MODEL->resultset('Content')
-    #      ->search(
-    #        {pages => {like => 'play'}, types => {like => '%article%'}},
-    #        {order_by => 'id DESC'})->first;
-    #    return $self->redirect_to('/play/articles?id=' . $first->id);
-    #}
 
     # Ads
     my @ads =
