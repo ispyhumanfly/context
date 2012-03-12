@@ -206,8 +206,8 @@
 		search
 	    </option>
     
-	    <option value="id">
-		id
+	    <option value="permalink">
+		permalink
 	    </option>
     
 	</select>
@@ -250,8 +250,8 @@
 		search
 	    </option>
     
-	    <option value="id" <%= 'selected' if $self->{CONTENT}->pages =~ m/id/i %>>
-		id
+	    <option value="id" <%= 'selected' if $self->{CONTENT}->pages =~ m/permalink/i %>>
+		permalink
 	    </option>
     
 	</select>

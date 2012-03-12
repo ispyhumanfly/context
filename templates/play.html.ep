@@ -62,7 +62,7 @@
 
         <% } %>
 
-	<div class="h1_spacer"><a href="/play/places?id=<%= $places->id %>#<%= $places->id %>"><h1>Places</h1></a></div>
+	<div class="h1_spacer"><a href="/play/places?id=<%= $places->id %>"><h1>Places</h1></a></div>
 
 	<h2><a href="/play/places?id=<%= $places->id %>"><%= $places->title %></a></h2>
 
@@ -105,7 +105,7 @@
 
 	<h2><a href="/play/articles?id=<%= $articles->id %>"><%= $articles->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($articles->body), 0, 400 ) . '...' %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($articles->body), 0, 400 ) %></p>
 
         <div class="read_more_right">
 
@@ -116,7 +116,7 @@
         
             <% } else { %>
         
-            <a href="/play/articles?id=<%= $articles->id %>">Read More...</a>
+            <a href="/play/articles?id=<%= $articles->id %>">Read More</a>
             
             <% } %>
 

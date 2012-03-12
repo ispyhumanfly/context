@@ -35,33 +35,61 @@
         
 	<% for ( split /\s+/, $featured_places->photos ) { %>
 
-        <a dojoType="dojox.image.Lightbox" title="<%= $featured_places->title %>" href="<%= $_ %>">
-            <img class="position_image_left" src="<%= $_ %>" />
-        </a>
+	    <% if ($featured_places_counter == 1) { %>
+    
+	    <a dojoType="dojox.image.Lightbox" title="<%= $featured_places->title %>" href="<%= $_ %>">
+		<img class="para_image_left" src="<%= $_ %>" />
+	    </a>
 
-        <% last; #JUST SHOW ONE %>
+	    <% } else { %>
+
+	    <a dojoType="dojox.image.Lightbox" title="<%= $featured_places->title %>" href="<%= $_ %>">
+		<img class="position_image_left" src="<%= $_ %>" />
+	    </a>
+	    
+	    <% } %>
+	    
+	    <% last; #JUST SHOW ONE %>
 
         <% } %>
 
         <h2><a href="/<%= $featured_places->id %>"><%= $featured_places->title %></a></h2>
     
-        <p><%== HTML::FormatText->format_string($featured_places->body) %></p>
+	<% if ($featured_places_counter == 1) { %>
+	
+        <p><%== $featured_places->body %></p>
     
         <div class="read_more_right">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/<%= $featured_places->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $featured_places->id %>">Edit</a>        
+        
+            <% } %>
+        
+        </div>
+        
+	<% } else { %>
+
+	<p><%== substr( HTML::FormatText->format_string($featured_places->body), 0, 500 ) %></p>
+    
+        <div class="read_more_right">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/play/places?id=<%= $featured_places->id %>">Read More |</a>
             <a href="/editor?mode=update&id=<%= $featured_places->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/<%= $featured_places->id %>">Read More</a>
+            <a href="/play/places?id=<%= $featured_places->id %>">Read More</a>
             
             <% } %>
 
-        </div>
-        
+        </div>	
+	
+	<% } %>
+	
         <% last if $featured_places_counter == $featured_places_length; %>
         
     <% } %>

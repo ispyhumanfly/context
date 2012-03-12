@@ -432,8 +432,7 @@ get '/work/professional_development' => sub {
 
     # Networking
     my @networking = $MODEL->resultset('Content')->search(
-        {   
-            types => {like => '%event%'},
+        {   types => {like => '%event%'},
             tags  => {like => '%networking%'},
         },
         {page => 1, rows => 3, order_by => 'id DESC'}
@@ -491,7 +490,7 @@ get '/play' => sub {
     my @places = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%article%'},
-            tags => {like => '%place%'}
+            tags  => {like => '%place%'}
         },
         {order_by => 'id DESC'}
     )->all;
@@ -551,10 +550,13 @@ get '/play/places' => sub {
 
     unless ($self->param('id')) {
 
-        my $first =
-          $MODEL->resultset('Content')
-          ->search({pages => {like => 'play'}, types => {like => '%place%'}},
-            {order_by => 'id DESC'})->first;
+        my $first = $MODEL->resultset('Content')->search(
+            {   pages => {like => 'play'},
+                types => {like => '%article%'},
+                tags  => {like => '%place%'}
+            },
+            {order_by => 'id DESC'}
+        )->first;
         return $self->redirect_to('/play/places?id=' . $first->id);
     }
 
@@ -576,7 +578,10 @@ get '/play/places' => sub {
 
     # Featured Places
     my @featured_places = $MODEL->resultset('Content')->search(
-        {pages => {like => '%play%'}, types => {like => '%place%'}},
+        {   pages => {like => '%play%'},
+            types => {like => '%article%'},
+            tags  => {like => '%place%'}
+        },
         {page => 1, rows => 100, order_by => 'id DESC'},
     )->all;
 
@@ -836,17 +841,18 @@ get '/:id' => [id => qr/\d+/] => sub {
     my $self = shift;
 
     # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%id%'}, types => {like => '%ad_header%'}},
-        {order_by => 'id DESC'})->all;
+    my @ads = $MODEL->resultset('Content')->search(
+        {pages => {like => '%permalink%'}, types => {like => '%ad_header%'}},
+        {order_by => 'id DESC'}
+    )->all;
 
     $self->{'ADS'} = \@ads;
 
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search(
+        {pages => {like => '%permalink%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
@@ -859,9 +865,9 @@ get '/:id' => [id => qr/\d+/] => sub {
         $self->{'ID'} = $id;
     }
 
-    return $self->render('id');
+    return $self->render('permalink');
 
-} => 'id';
+} => 'permalink';
 
 ### After5 Admin Pages
 

@@ -342,6 +342,15 @@ body {
     width: 375px; height: auto;
 }
 
+#content_container .para_image_left_large {
+
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #1a3721; 
+    width: 425px; height: auto;
+}
+
 #content_container .para_image_right {
 
     float: right;
@@ -681,7 +690,7 @@ body {
     width: 64%;
     background-color: white;
     border-left: 25px solid white;
-    min-height: 600px;
+    min-height: 500px;
 
 }
 
@@ -697,7 +706,7 @@ body {
     width: 30%;
     background-color: #e6e2e3;
     border-right: 25px solid white;
-    min-height: 800px;
+    min-height: 600px;
 
 }
 
