@@ -99,7 +99,7 @@
 
         <% } %>
 
-        <h2><a href="/<%= $featured_places->id %>"><%= $featured_places->title %></a></h2>
+        <h2><a href="/play/places?id=<%= $featured_places->id %>"><%= $featured_places->title %></a></h2>
     
 	<% if ($featured_places_counter == 1) { %>
 	
