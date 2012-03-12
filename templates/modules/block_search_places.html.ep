@@ -5,7 +5,7 @@
 
 //]]></script>
 
-<div class="block_caption_text">Search for places below &darr;</a></div>
+<div class="block_caption_text">Search Places &darr;</a></div>
 
 <div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
     
