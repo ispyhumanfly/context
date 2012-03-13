@@ -37,15 +37,19 @@
 
         <p><%== $staff->body %></p>
 
-        <% if ( $self->session('admin') ) { %>
-
-        <div class="read_more_right">
-
-            <a href="/editor?mode=update&id=<%= $staff->id %>">Edit</a>        	
-            
-        </div>
+        <h3>
         
-        <% } %>
+            <% if ($self->session('admin')) { %>
+    
+            <a href="/editor?mode=update&id=<%= $staff->id %>" style="margin-left; 10px;">Edit</a>
+    	    
+	    <% } else { %>
+    
+	    &nbsp;
+	    
+	    <% } %>
+            
+        </h3>
         
         <% $position++; %>
      
@@ -70,7 +74,7 @@
         <% for ( split /\s+/, $press->photos ) { %>
     
         <a title="<%= $press->title %>" href="<%= $press->link %>" target="_blank">
-            <img class="position_image_left" src="<%= $_ %>" />
+            <img class="about_press_left" src="<%= $_ %>" />
         </a>
     
         <% last; #JUST SHOW ONE %>
@@ -95,6 +99,8 @@
         </div>
         
     <% } %>
+    
+    <h3>&nbsp;</h3>
     
 </div>
 

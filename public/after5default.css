@@ -425,6 +425,16 @@ body {
 
 }
 
+#content_container .about_press_left {
+    
+    float: left;
+    width: 200px;
+    height: 125px;
+    margin: 0px 10px 10px 0;
+    border: 1px solid #1a3721; 
+    
+}
+
 #content_container .about_form_container {
     
     background-color: #e6e2e3;
