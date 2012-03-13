@@ -196,6 +196,7 @@ body {
     -webkit-border-radius: 0 25px 25px 0;
 
 }
+
 #content_container .h1_spacer {
     margin-left: 386px;
     width: 280px;
@@ -400,6 +401,36 @@ body {
     
     margin-left: 385px;
     max-width: 300px;
+}
+
+/* MODULE: content details */
+
+#content_details {
+    
+    font-family: Verdana;
+}
+
+#content_details .title {
+    
+    font-family: Verdana Bold;
+    font-size: small;
+    color: black;
+    padding-bottom: 3px;
+}
+
+#content_details .text {
+    
+    font-size: smaller;
+    color: black;
+    padding-bottom: 3px;
+}
+
+#content_details .link {
+    
+    font-family: Verdana Bold;
+    font-size: small;
+    color: #1a3721;
+    padding-bottom: 3px;
 }
 
 /* about content */

@@ -107,6 +107,8 @@
 
         <p><%== $featured_places->body %></p>
     
+	%= include 'modules/content_details', content => $featured_places
+
         <span class="social_sharing_right">
 
             <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $featured_places->id %>&t=<%= $featured_places->title %>" target="_blank">
@@ -174,22 +176,32 @@
         
 	<% } else { %>
 
-	<p><%== substr( HTML::FormatText->format_string($featured_places->body), 0, 300 ) %></p>
+	<div style="margin-left: 260px; max-width: 250px;">
+
+	    <p><%== substr( HTML::FormatText->format_string($featured_places->body), 0, 300 ) %></p>
+	
+	    <div class="read_more_right">
     
-        <div class="read_more_right">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/play/places?id=<%= $featured_places->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $featured_places->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/play/places?id=<%= $featured_places->id %>">Read More</a>
-            
-            <% } %>
-
-        </div>	
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/play/places?id=<%= $featured_places->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $featured_places->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/play/places?id=<%= $featured_places->id %>">Read More</a>
+		
+		<% } %>
+    
+	    </div>
+    
+	</div>
+		
+	<div style="margin-left: 525px; margin-top: -184px; max-width: 160px; position: absolute;">
+	    
+	    %= include 'modules/content_details', content => $featured_places
+	    
+	</div>
 	
 	<% } %>
 	

@@ -1,0 +1,39 @@
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div id="content_details">
+    
+    <% unless (($content->venue eq '') or ($content->venue =~ /^\s+$/)) { %>
+    
+    <div class="title">Venue</div>
+    
+    <div class="text"><%= $content->venue %></div>
+    
+    <% } %>
+    
+    <% unless (($content->address eq '') or ($content->address =~ /^\s+$/g)) { %>
+    
+    <div class="title">Address</div>
+    
+    <div class="text"><%= $content->address %></div>
+    
+    <% } %>
+
+    <% unless (($content->lat <= 1) and ($content->lng <= 1)) { %>
+    
+    <div class="link">
+	<a href="http://maps.google.com/maps?q=<%= $content->lat %>,<%= $content->lng %>" target="_blank">View Map</a>
+    </div>
+    
+    <% } %>
+
+    <% unless (($content->link eq '') or ($content->link =~ /^\s+$/g)) { %>
+    
+    <div class="link">
+	<a href="<%= $content->link %>" target="_blank">View Website</a>
+    </div>
+    
+    <% } %>
+
+</div>

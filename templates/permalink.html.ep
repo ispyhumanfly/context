@@ -94,37 +94,7 @@
     
     <% } %>
 
-    <% unless (($id->venue eq '') or ($id->venue =~ /^\s+$/)) { %>
-    
-    <h4>Venue</h4>
-    
-    <%= $id->venue %>
-    
-    <% } %>
-    
-    <% unless (($id->address eq '') or ($id->address =~ /^\s+$/g)) { %>
-    
-    <h4>Address</h4>
-    
-    <%= $id->address %>
-    
-    <% } %>
-
-    <% unless (($id->lat <= 1) and ($id->lng <= 1)) { %>
-    
-    <h4>
-	<a href="http://maps.google.com/maps?q=<%= $id->lat %>,<%= $id->lng %>" target="_blank">View Map</a>
-    </h4>
-    
-    <% } %>
-
-    <% unless (($id->link eq '') or ($id->link =~ /^\s+$/g)) { %>
-    
-    <h4>
-	<a href="<%= $id->link %>" target="_blank">View Website</a>
-    </h4>
-    
-    <% } %>
+    %= include 'modules/content_details', content => $id
 
     <span class="social_sharing_right">
 
