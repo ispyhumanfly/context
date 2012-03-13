@@ -107,19 +107,74 @@
 
         <p><%== $featured_places->body %></p>
     
-        <div class="read_more_right">
+        <span class="social_sharing_right">
 
-            <% if ( $self->session('admin') ) { %>
+            <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $featured_places->id %>&t=<%= $featured_places->title %>" target="_blank">
+                <img src="/share/Facebook.png" alt="Facebook"/>
+            </a>
+        
+            <a href="http://www.twitter.com/home?status=<%= $featured_places->title %>,+http://beta.after5detroit.com/<%= $featured_places->id %>" target="_blank">
+                <img src="/share/Twitter.png" alt="Twitter"/>
+            </a>
+        
+            <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $featured_places->id %>" target="_blank">
+                <img src="/share/Digg.png" alt="Digg"/>
+            </a>
+        
+            <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $featured_places->id %>" target="_blank">
+                <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
+            </a>
+            
+        </span>
 
-            <a href="/editor?mode=update&id=<%= $featured_places->id %>">Edit</a>        
-        
-            <% } %>
-        
-        </div>
+	<h3>
+	    
+	    <% if ($self->session('admin')) { %>
+    
+	    <a href="javascript:history.go(-1)">Back | </a>
+	    <a href="/editor?mode=update&id=<%= $featured_places->id %>" style="margin-left; 10px;">Edit</a>
+    	    
+	    <% } else { %>
+    
+	    <a href="javascript:history.go(-1)">Back</a>
+	    
+	    <% } %>
+
+	    <div style="text-align: right; margin-top: -20px;">
+
+		<% my $next_place_counter; %>
+		
+		<% my $next_place; %>
+		
+	    	<% for (@{$self->{FEATURED_PLACES}}) { %>
+
+		    <% $next_place_counter++; %>
+		    
+		    <% if ($self->param('id')) { %>
+		    
+		    <% next unless $_->id < int($self->param('id')); %>
+		    
+		    <% $next_place = $_; %>
+		    
+		    <% } elsif (not $self->param('id')) { %>
+		
+		    <% $next_place = @{$self->{FEATURED_PLACES}}->[+1]; %>
+		    
+		    <% } %>
+		    
+		    <a href="/play/places?id=<%= $next_place->id %>">Next</a>
+		    
+		    <% last; %>
+		    
+		<% } %>
+		
+	    </div>
+	
+	</h3>
         
 	<% } else { %>
 
-	<p><%== substr( HTML::FormatText->format_string($featured_places->body), 0, 500 ) %></p>
+	<p><%== substr( HTML::FormatText->format_string($featured_places->body), 0, 300 ) %></p>
     
         <div class="read_more_right">
 
@@ -176,42 +231,40 @@
 
 <div class="content_right">
 
-    <h1>Calendar</h1>
+    <h1>What Goes Here?</h1>
 
     <div class="content_right_padding">
         
-        <p>A calendar will go here</p>
+        <p>What did you want here?</p>
+
+	<div class="ad_space_block">
+    
+	    <script type="text/javascript">//<![CDATA[
+	    
+		var block_ads = new Array();
+    
+		<% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+		    <% for ( split /\s+/, $ad->photos ) { %>
+    
+		    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
+    
+		    <% last; # ONLY SHOW ONE %>
+    
+		    <% } %>
+    
+		<% } %>
+		
+		var random = Math.floor(Math.random() * block_ads.length);
+		document.write(block_ads[random]);
+    
+	    //]]></script>
+	    
+	</div>
+    
+	%= include 'modules/block_search_places'
         
     </div>
-
-    <h1>Giveaways</h1>
-
-    <div class="ad_space_block">
-
-        <script type="text/javascript">//<![CDATA[
-        
-            var block_ads = new Array();
-
-            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
-
-                <% for ( split /\s+/, $ad->photos ) { %>
-
-                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
-
-                <% last; # ONLY SHOW ONE %>
-
-                <% } %>
-
-            <% } %>
-            
-            var random = Math.floor(Math.random() * block_ads.length);
-            document.write(block_ads[random]);
-
-        //]]></script>
-        
-    </div>
-
-    %= include 'modules/block_search_places'
 
 </div>
 

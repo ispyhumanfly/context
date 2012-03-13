@@ -548,18 +548,6 @@ get '/play/places' => sub {
 
     my $self = shift;
 
-    unless ($self->param('id')) {
-
-        my $first = $MODEL->resultset('Content')->search(
-            {   pages => {like => 'play'},
-                types => {like => '%article%'},
-                tags  => {like => '%place%'}
-            },
-            {order_by => 'id DESC'}
-        )->first;
-        return $self->redirect_to('/play/places?id=' . $first->id);
-    }
-
     # Ads
     my @ads =
       $MODEL->resultset('Content')
