@@ -3,7 +3,25 @@
 //]]></script>
 
 <div id="content_details">
+
+    <% unless (($content->start_datetime eq '') and ($content->stop_datetime eq '')) { %>
     
+    <div class="title">Date</div>
+    
+    <% my $start_date = $content->start_datetime; %>
+    
+    <div class="text">
+        <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
+    </div>
+    
+    <div class="title">Time</div>
+    
+    <div class="text">
+        <%= $start_date->hour_12 %>:<%= $start_date->minute %> <%= $start_date->am_or_pm %>
+    </div>
+    
+    <% } %>
+
     <% unless (($content->venue eq '') or ($content->venue =~ /^\s+$/)) { %>
     
     <div class="title">Venue</div>

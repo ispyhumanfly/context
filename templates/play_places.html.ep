@@ -176,7 +176,6 @@
         
 	<% } else { %>
 
-	<!--<div style="margin-left: 260px; max-width: 260px;">-->
 	<div style="float: left; width: 260px; margin-top: -12px;">
 
 	    <p><%== substr( HTML::FormatText->format_string($featured_places->body), 0, 300 ) %></p>
@@ -198,9 +197,9 @@
     
 	</div>
 		
-	<!--<div style="margin-left: 530px; margin-top: -167px; max-width: 160px; position: absolute;">-->
 	<div style="float: right; width: 160px;">
-	    %= include 'modules/content_details', content => $featured_places
+	    
+	%= include 'modules/content_details', content => $featured_places
 	    
 	</div>
 	

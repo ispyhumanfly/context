@@ -46,6 +46,8 @@
     
         <p><%== HTML::FormatText->format_string($upcoming_events->body) %></p>
     
+	%= include 'modules/content_details', content => $upcoming_events
+	
         <div class="read_more_right">
 
             <% if ( $self->session('admin') ) { %>

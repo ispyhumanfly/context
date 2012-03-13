@@ -78,22 +78,6 @@
 
     <% } %>
 
-    <% unless (($id->start_datetime eq '') and ($id->stop_datetime eq '')) { %>
-    
-    <h4>Date</h4>
-    
-    <% my $start_date = $id->start_datetime; %>
-    
-    Starts on <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
-    
-    <br />
-
-    <% my $stop_date = $id->stop_datetime; %>
-    
-    Ends on <%= $stop_date->day_name %>, <%= $stop_date->month_name %> <%= $stop_date->day %>
-    
-    <% } %>
-
     %= include 'modules/content_details', content => $id
 
     <span class="social_sharing_right">
