@@ -89,7 +89,7 @@
 
 	    <% } else { %>
 
-	    <a dojoType="dojox.image.Lightbox" title="<%= $featured_places->title %>" href="<%= $_ %>">
+	    <a title="<%= $featured_places->title %>" href="/play/places?id=<%= $featured_places->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -247,8 +247,6 @@
 
     <div class="content_right_padding">
         
-        <p>What did you want here again? :)</p>
-
 	<div class="ad_space_block">
     
 	    <script type="text/javascript">//<![CDATA[
@@ -273,9 +271,9 @@
 	    //]]></script>
 	    
 	</div>
-    
-	%= include 'modules/block_search_places'
         
+	%= include 'modules/block_search_places'
+
     </div>
 
 </div>

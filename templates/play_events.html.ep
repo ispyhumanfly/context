@@ -1,12 +1,42 @@
 % title 'Play';
 % layout 'default';
 %
-% my $upcoming_events_length = 10;
+% my $featured_places_length = 5;
 
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dojo.date.locale");
     dojo.require("dojox.widget.Calendar");
+
+    dojo.require("dijit.form.Select");
+
+    dojo.require("dojox.image.Lightbox");
+    dojo.require("dojox.image.ThumbnailPicker");
+    dojo.require("dojo.data.ItemFileReadStore");
+    
+    dojo.addOnLoad(function(){
+        
+        dijit.byId('thumbPicker2').setDataStore(imageItemStore,{ count:20 },
+        {
+            imageThumbAttr: "thumb",
+            imageLargeAttr: "large"
+        });
+	
+	var lightbox;
+	
+	function lightboxShow(packet){
+
+	    lightbox.show({
+		
+		href: packet.largeUrl,
+		title: packet.title
+	    });
+		
+	};
+
+	lightbox = new dojox.image.LightboxDialog().startup();		
+	dojo.subscribe(dijit.byId('thumbPicker2').getClickTopicName(), lightboxShow);
+
+    });
     
 //]]></script>
 
@@ -14,56 +44,168 @@
 
     <h1>Upcoming Events</h1>
 
-    <% my $upcoming_events_counter; %>
+    <% my $featured_places_counter; %>
     
-    <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
+    <% for my $featured_places (@{$self->{UPCOMING_EVENTS}}) { %>
 
 	<% if ($self->param('id')) { %>
 	
-	<% next unless $upcoming_events->id <= int($self->param('id')); %>
+	<% next unless $featured_places->id <= int($self->param('id')); %>
 	    
 	<% } %>
 	
-        <% $upcoming_events_counter++; %>
-                
-        <% if ($upcoming_events_counter > 1) { %>
+        <% $featured_places_counter++; %>
         
-        <hr />
+        <% if ($featured_places_counter == 2) { %>
         
-        <% } %>
+        <h1>More Events</h1>
         
-        <% for ( split /\s+/, $upcoming_events->photos ) { %>
-
-        <a dojoType="dojox.image.Lightbox" title="<%= $upcoming_events->title %>" href="<%= $_ %>">
-            <img class="position_image_left" src="<%= $_ %>" />
-        </a>
-
-        <% last; #JUST SHOW ONE %>
-
-        <% } %>
-
-        <h2><a href="/<%= $upcoming_events->id %>"><%= $upcoming_events->title %></a></h2>
-    
-        <p><%== HTML::FormatText->format_string($upcoming_events->body) %></p>
-    
-	%= include 'modules/content_details', content => $upcoming_events
+        <% } elsif ($featured_places_counter > 2) { %>
 	
-        <div class="read_more_right">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/<%= $upcoming_events->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
+	<hr />
+	
+	<% } %>
         
-            <% } else { %>
+	<div id="#<%= $featured_places->id %>"></div>
         
-            <a href="/<%= $upcoming_events->id %>">Read More</a>
+	<% for ( split /\s+/, $featured_places->photos ) { %>
+
+	    <% if ($featured_places_counter == 1) { %>
+    
+	    <a dojoType="dojox.image.Lightbox" title="<%= $featured_places->title %>" href="<%= $_ %>">
+		<img class="para_image_right" src="<%= $_ %>" />
+	    </a>
+
+	    	<% unless (scalar (split /\s+/, $featured_places->photos) <= 1 ) { %>
+	
+		<div class="content_thumbnails_right">
+		    
+		<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
+		<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $featured_places->id %>"></div>
+	
+		</div>
+	
+		<% } %>
+
+	    <% } else { %>
+
+	    <a title="<%= $featured_places->title %>" href="/play/events?id=<%= $featured_places->id %>">
+		<img class="position_image_left" src="<%= $_ %>" />
+	    </a>
+	    
+	    <% } %>
+	    
+	    <% last; #JUST SHOW ONE %>
+
+        <% } %>
+
+        <h2><a href="/play/events?id=<%= $featured_places->id %>"><%= $featured_places->title %></a></h2>
+    
+	<% if ($featured_places_counter == 1) { %>
+	
+	<h4>By <%= $featured_places->author %></h4>
+
+        <p><%== $featured_places->body %></p>
+    
+	%= include 'modules/content_details', content => $featured_places
+
+        <span class="social_sharing_right">
+
+            <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $featured_places->id %>&t=<%= $featured_places->title %>" target="_blank">
+                <img src="/share/Facebook.png" alt="Facebook"/>
+            </a>
+        
+            <a href="http://www.twitter.com/home?status=<%= $featured_places->title %>,+http://beta.after5detroit.com/<%= $featured_places->id %>" target="_blank">
+                <img src="/share/Twitter.png" alt="Twitter"/>
+            </a>
+        
+            <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $featured_places->id %>" target="_blank">
+                <img src="/share/Digg.png" alt="Digg"/>
+            </a>
+        
+            <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $featured_places->id %>" target="_blank">
+                <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
+            </a>
             
-            <% } %>
+        </span>
 
-        </div>
+	<h3>
+	    
+	    <% if ($self->session('admin')) { %>
+    
+	    <a href="javascript:history.go(-1)">Back | </a>
+	    <a href="/editor?mode=update&id=<%= $featured_places->id %>" style="margin-left; 10px;">Edit</a>
+    	    
+	    <% } else { %>
+    
+	    <a href="javascript:history.go(-1)">Back</a>
+	    
+	    <% } %>
+
+	    <div style="text-align: right; margin-top: -20px;">
+
+		<% my $next_place_counter; %>
+		
+		<% my $next_place; %>
+		
+	    	<% for (@{$self->{UPCOMING_EVENTS}}) { %>
+
+		    <% $next_place_counter++; %>
+		    
+		    <% if ($self->param('id')) { %>
+		    
+		    <% next unless $_->id < int($self->param('id')); %>
+		    
+		    <% $next_place = $_; %>
+		    
+		    <% } elsif (not $self->param('id')) { %>
+		
+		    <% $next_place = @{$self->{UPCOMING_EVENTS}}->[+1]; %>
+		    
+		    <% } %>
+		    
+		    <a href="/play/events?id=<%= $next_place->id %>">Next</a>
+		    
+		    <% last; %>
+		    
+		<% } %>
+		
+	    </div>
+	
+	</h3>
         
-        <% last if $upcoming_events_counter == $upcoming_events_length; %>
+	<% } else { %>
+
+	<div style="float: left; width: 260px; margin-top: -12px;">
+
+	    <p><%== substr( HTML::FormatText->format_string($featured_places->body), 0, 300 ) %></p>
+	
+	    <div class="read_more_right">
+    
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/play/events?id=<%= $featured_places->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $featured_places->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/play/events?id=<%= $featured_places->id %>">Read More</a>
+		
+		<% } %>
+    
+	    </div>
+    
+	</div>
+		
+	<div style="float: right; width: 160px;">
+	    
+	%= include 'modules/content_details', content => $featured_places
+	    
+	</div>
+	
+	<% } %>
+	
+        <% last if $featured_places_counter == $featured_places_length; %>
         
     <% } %>
 
@@ -73,21 +215,21 @@
         
         <div style="text-align: right; margin-top: -20px;">
 
-            <% my $next_event_counter; %>
+            <% my $next_place_counter; %>
             
             <% for (@{$self->{UPCOMING_EVENTS}}) { %>
 
-                <% my $next_event = @{$self->{UPCOMING_EVENTS}}->[$next_event_counter + $upcoming_events_length]; %>
+                <% my $next_place = @{$self->{UPCOMING_EVENTS}}->[$next_place_counter + $featured_places_length]; %>
                 
-                <% $next_event_counter++; %>
+                <% $next_place_counter++; %>
                 
                 <% if ($self->param('id') == $_->id) { %>
                 
-                <a href="/play/events?id=<%= $next_event->id %>">Next</a>
+                <a href="/play/events?id=<%= $next_place->id %>">Next</a>
                 
-                <% } elsif ((not $self->param('id')) and ($next_event_counter == $upcoming_events_length)) { %>
+                <% } elsif ((not $self->param('id')) and ($next_place_counter == $featured_places_length)) { %>
                 
-                <a href="/play/events?id=<%= $next_event->id %>">Next</a>
+                <a href="/play/events?id=<%= $next_place->id %>">Next</a>
                 
                 <% } %>
                 
@@ -101,46 +243,37 @@
 
 <div class="content_right">
 
-    <h1>Calendar</h1>
+    <h1>What Goes Here?</h1>
 
     <div class="content_right_padding">
         
-        <div data-dojo-type="dojox.widget.DailyCalendar">
-  
-	    <script type="dojo/connect" data-dojo-event="onValueSelected" data-dojo-args="start_date">//<![CDATA[
-		
-		window.location="/search?types=event&start_date=" +
-		    dojo.date.locale.format(start_date, {selector: 'date', datePattern: "MM:dd:yyyy"});
+	<div class="ad_space_block">
+    
+	    <script type="text/javascript">//<![CDATA[
 	    
+		var block_ads = new Array();
+    
+		<% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+		    <% for ( split /\s+/, $ad->photos ) { %>
+    
+		    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
+    
+		    <% last; # ONLY SHOW ONE %>
+    
+		    <% } %>
+    
+		<% } %>
+		
+		var random = Math.floor(Math.random() * block_ads.length);
+		document.write(block_ads[random]);
+    
 	    //]]></script>
 	    
 	</div>
-           
-    </div>
-
-    <div class="ad_space_block">
-
-        <script type="text/javascript">//<![CDATA[
         
-            var block_ads = new Array();
+	%= include 'modules/block_search_places'
 
-            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
-
-                <% for ( split /\s+/, $ad->photos ) { %>
-
-                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 300px; height: 250px;' /></a>");
-
-                <% last; # ONLY SHOW ONE %>
-
-                <% } %>
-
-            <% } %>
-            
-            var random = Math.floor(Math.random() * block_ads.length);
-            document.write(block_ads[random]);
-
-        //]]></script>
-        
     </div>
 
 </div>
