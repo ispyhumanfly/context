@@ -103,8 +103,12 @@
     
 	<% if ($featured_places_counter == 1) { %>
 	
+	<% unless (($featured_places->author eq '') or ($featured_places->author =~ /^\s+$/g)) { %>
+	
 	<h4>By <%= $featured_places->author %></h4>
 
+	<% } %>
+	
         <p><%== $featured_places->body %></p>
     
 	%= include 'modules/content_details', content => $featured_places

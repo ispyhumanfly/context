@@ -87,7 +87,7 @@
         
         <% if ($result->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($result->body), 0, 200 ) . '' %></p>
+        <p><%= substr( HTML::FormatText->format_string($result->body), 0, 200 ) %></p>
     
         <% } %>
         

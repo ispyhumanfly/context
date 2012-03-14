@@ -17,7 +17,7 @@
     <div class="title">Time</div>
     
     <div class="text">
-        <%= $start_date->hour_12 %>:<%= $start_date->minute %> <%= $start_date->am_or_pm %>
+        <%= $start_date->hour_12 %>:<%= $start_date->minute %><%= $start_date->second %> <%= $start_date->am_or_pm %>
     </div>
     
     <% } %>
