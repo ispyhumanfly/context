@@ -39,7 +39,7 @@
         
             <% if ($self->session('admin')) { %>
     
-            <a href="/editor?mode=update&id=<%= $staff->id %>" style="margin-left; 10px;">Edit</a>
+            <a href="/editor?mode=update&id=<%= $staff->id %>" style="margin-left: 10px;">Edit</a>
     	    
 	    <% } else { %>
     
@@ -67,7 +67,7 @@
         
         <% } %>
         
-        <h4><%= $press->title %></h4>
+        <h2><a href="<%= $press->link %>" target="_blank"><%= $press->title %></a></h2>
         
         <% for ( split /\s+/, $press->photos ) { %>
     
@@ -90,7 +90,7 @@
         
             <% } else { %>
         
-            <a href="<%= $press->link %>" target="_blank">Read More...</a>
+            <a href="<%= $press->link %>" target="_blank">Read More</a>
             
             <% } %>
     
