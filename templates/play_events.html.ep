@@ -135,39 +135,48 @@
         </span>
 
 	<h3>
-		
+	    
+	    <% if ($self->session('admin')) { %>
+    
+	    <a href="javascript:history.go(-1)">Back | </a>
+	    <a href="/editor?mode=update&id=<%= $upcoming_events->id %>" style="margin-left: 10px;">Edit</a>
+    	    
+	    <% } else { %>
+    
 	    <a href="javascript:history.go(-1)">Back</a>
 	    
+	    <% } %>
+
 	    <div style="text-align: right; margin-top: -20px;">
-    
+
 		<% my $next_event_counter; %>
 		
-		<% for (@{$self->{UPCOMING_EVENTS}}) { %>
-    
-		    <% my $index = $next_event_counter + $upcoming_events_length; %>
+		<% my $next_event; %>
+		
+	    	<% for (@{$self->{UPCOMING_EVENTS}}) { %>
+
+		    <% $next_event_counter++; %>
 		    
-		    <% if (@{$self->{UPCOMING_EVENTS}}->[$index]) { %>
+		    <% if ($self->param('id')) { %>
 		    
-			<% my $next_event = @{$self->{UPCOMING_EVENTS}}->[$index]; %>
-			
-			<% $next_event_counter++; %>
-			
-			<% if ($self->param('id')) { %>
-			
-			<% next unless $_->id < int($self->param('id')); %>
-			    
-			<% } %>
+		    <% next unless $_->id < int($self->param('id')); %>
 		    
-			<a href="/play/events?id=<%= $next_event->id %>">Next</a>
-			
-			<% last; %>
-    
+		    <% $next_event = $_; %>
+		    
+		    <% } elsif (not $self->param('id')) { %>
+		
+		    <% $next_event = @{$self->{UPCOMING_EVENTS}}->[+1]; %>
+		    
 		    <% } %>
+		    
+		    <a href="/play/events?id=<%= $next_event->id %>">Next</a>
+		    
+		    <% last; %>
 		    
 		<% } %>
 		
 	    </div>
-	    
+	
 	</h3>
 	
 	<% } else { %>
@@ -205,7 +214,42 @@
         
     <% } %>
 
-    <h3></h3>
+    <h3>
+	    
+	<a href="javascript:history.go(-1)">Back</a>
+	
+	<div style="text-align: right; margin-top: -20px;">
+
+	    <% my $next_event_counter; %>
+	    
+	    <% for (@{$self->{UPCOMING_EVENTS}}) { %>
+
+		<% my $index = $next_event_counter + $upcoming_events_length; %>
+		
+		<% if (@{$self->{UPCOMING_EVENTS}}->[$index]) { %>
+		
+		    <% my $next_event = @{$self->{UPCOMING_EVENTS}}->[$index]; %>
+		    
+		    <% $next_event_counter++; %>
+		    
+		    <% if ($self->param('id')) { %>
+		    
+		    <% next unless $_->id < int($self->param('id')); %>
+			
+		    <% } %>
+		
+		    <a href="/play/events?id=<%= $next_event->id %>">Next</a>
+		    
+		    <% last; %>
+
+		<% } %>
+		
+	    <% } %>
+	    
+	</div>
+	
+    </h3>
+
      
 </div>
 
