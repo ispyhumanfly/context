@@ -75,7 +75,9 @@
 
 	<h4>By <%= $people->author %></h4>
 	
-	<%== $people->body %>
+	<p><%== $people->body %></p>
+	
+	%= include 'modules/content_details', content => $people
 
         <span class="social_sharing_right">
 
