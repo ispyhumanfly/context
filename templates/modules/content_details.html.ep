@@ -2,7 +2,7 @@
 
 //]]></script>
 
-<div id="content_details">
+<div id="content_details_<%= "$size" if $size %>">
 
     <% unless (($content->start_datetime eq '') and ($content->stop_datetime eq '')) { %>
     

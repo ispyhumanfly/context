@@ -107,7 +107,7 @@
 
         <p><%== $featured_places->body %></p>
     
-	%= include 'modules/content_details', content => $featured_places
+	%= include 'modules/content_details', size => 'large', content => $featured_places
 
         <span class="social_sharing_right">
 
@@ -190,7 +190,7 @@
 		
 	<div style="float: right; width: 160px;">
 	    
-	%= include 'modules/content_details', content => $featured_places
+	%= include 'modules/content_details', size => 'small', content => $featured_places
 	    
 	</div>
 	

@@ -79,7 +79,7 @@
 	
 	<p><%== $articles->body %></p>
 
-	%= include 'modules/content_details', content => $articles
+	%= include 'modules/content_details', content => $articles, size => 'large'
 	
         <span class="social_sharing_right">
 

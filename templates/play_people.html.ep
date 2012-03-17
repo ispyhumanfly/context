@@ -77,7 +77,7 @@
 	
 	<p><%== $people->body %></p>
 	
-	%= include 'modules/content_details', content => $people
+	%= include 'modules/content_details', content => $people, size => 'large'
 
         <span class="social_sharing_right">
 

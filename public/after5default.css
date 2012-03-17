@@ -395,12 +395,12 @@ body {
 
 /* MODULE: content details */
 
-#content_details {
+#content_details_small {
     
     font-family: Verdana;
 }
 
-#content_details .title {
+#content_details_small .title {
     
     font-family: Verdana Bold;
     font-size: small;
@@ -408,17 +408,45 @@ body {
     padding-bottom: 2px;
 }
 
-#content_details .text {
+#content_details_small .text {
     
     font-size: smaller;
     color: black;
     padding-bottom: 5px;
 }
 
-#content_details .link {
+#content_details_small .link {
     
     font-family: Verdana Bold;
     font-size: small;
+    color: #1a3721;
+    padding-bottom: 5px;
+}
+
+#content_details_large {
+    
+    font-family: Verdana;
+}
+
+#content_details_large .title {
+    
+    font-family: Verdana Bold;
+    font-size: large;
+    color: black;
+    padding-bottom: 2px;
+}
+
+#content_details_large .text {
+    
+    font-size: small;
+    color: black;
+    padding-bottom: 5px;
+}
+
+#content_details_large .link {
+    
+    font-family: Verdana Bold;
+    font-size: large;
     color: #1a3721;
     padding-bottom: 5px;
 }
