@@ -187,7 +187,7 @@
 
 <div class="content_right">
 
-    <a href="/play/events"><h1>Events</h1></a>
+    <a href="/play/events"><h1>Events Calendar</h1></a>
 
     <div class="content_right_padding">
         
@@ -203,32 +203,32 @@
 	</div>
 	
 	<div class="block_see_more"><a href="/play/events">See More &rarr;</a></div>
+
+	<div class="ad_space_block">
+    
+	    <script type="text/javascript">//<![CDATA[
+	    
+		var block_ads = new Array();
+    
+		<% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+		    <% for ( split /\s+/, $ad->photos ) { %>
+    
+		    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
+    
+		    <% last; # ONLY SHOW ONE %>
+    
+		    <% } %>
+    
+		<% } %>
+		
+		var random = Math.floor(Math.random() * block_ads.length);
+		document.write(block_ads[random]);
+    
+	    //]]></script>
+	    
+	</div>
 	        
-    </div>
-
-    <div class="ad_space_block">
-
-        <script type="text/javascript">//<![CDATA[
-        
-            var block_ads = new Array();
-
-            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
-
-                <% for ( split /\s+/, $ad->photos ) { %>
-
-                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
-
-                <% last; # ONLY SHOW ONE %>
-
-                <% } %>
-
-            <% } %>
-            
-            var random = Math.floor(Math.random() * block_ads.length);
-            document.write(block_ads[random]);
-
-        //]]></script>
-        
     </div>
     
     <a href="/photos"><h1>Photos</h1></a>
