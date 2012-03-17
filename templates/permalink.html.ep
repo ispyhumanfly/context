@@ -78,7 +78,7 @@
 
     <% } %>
 
-    %= include 'modules/content_details', content => $id
+    %= include 'modules/content_details', content => $id, size => 'large'
 
     <span class="social_sharing_right">
 
