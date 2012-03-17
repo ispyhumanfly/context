@@ -250,7 +250,7 @@
 		search
 	    </option>
     
-	    <option value="id" <%= 'selected' if $self->{CONTENT}->pages =~ m/permalink/i %>>
+	    <option value="permalink" <%= 'selected' if $self->{CONTENT}->pages =~ m/permalink/i %>>
 		permalink
 	    </option>
     

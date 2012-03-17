@@ -77,8 +77,10 @@
     
 	<% } %>
 	
-	<%== $articles->body %>
+	<p><%== $articles->body %></p>
 
+	%= include 'modules/content_details', content => $articles
+	
         <span class="social_sharing_right">
 
             <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $articles->id %>&t=<%= $articles->title %>" target="_blank">
@@ -104,7 +106,7 @@
 	    <% if ($self->session('admin')) { %>
     
 	    <a href="javascript:history.go(-1)">Back | </a>
-	    <a href="/editor?mode=update&id=<%= $articles->id %>" style="margin-left; 10px;">Edit</a>
+	    <a href="/editor?mode=update&id=<%= $articles->id %>" style="margin-left: 10px;">Edit</a>
     	    
 	    <% } else { %>
     

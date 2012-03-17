@@ -119,45 +119,37 @@
 
 <div class="content_right">
 
-    <h1>More Info</h1>
+    <h1></h1>
 
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
-    <% } %>
-
-    <h1>More Something</h1>
-
-    <% for (1...5) { %>
-
-    <p>Some stuff goes here</p>
-
-    <% } %>
-
-    <div class="ad_space_block">
-
-        <script type="text/javascript">//<![CDATA[
+    <div class="content_right_padding">
         
-            var block_ads = new Array();
-
-            <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
-
-                <% for ( split /\s+/, $ad->photos ) { %>
-
-                block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
-
-                <% last; # ONLY SHOW ONE %>
-
-                <% } %>
-
-            <% } %>
-            
-            var random = Math.floor(Math.random() * block_ads.length);
-            document.write(block_ads[random]);
-
-        //]]></script>
+	<div class="ad_space_block">
+    
+	    <script type="text/javascript">//<![CDATA[
+	    
+		var block_ads = new Array();
+    
+		<% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+    
+		    <% for ( split /\s+/, $ad->photos ) { %>
+    
+		    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
+    
+		    <% last; # ONLY SHOW ONE %>
+    
+		    <% } %>
+    
+		<% } %>
+		
+		var random = Math.floor(Math.random() * block_ads.length);
+		document.write(block_ads[random]);
+    
+	    //]]></script>
+	    
+	</div>
         
+	%= include 'modules/block_search_places'
+
     </div>
 
 </div>
