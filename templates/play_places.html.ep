@@ -131,7 +131,7 @@
 
 	<h3>
 	    
-	    <% if ($self->session('admin')) { %>
+<!--	    <% if ($self->session('admin')) { %>
     
 	    <a href="javascript:history.go(-1)">Back | </a>
 	    <a href="/editor?mode=update&id=<%= $featured_places->id %>" style="margin-left: 10px;">Edit</a>
@@ -171,7 +171,7 @@
 		<% } %>
 		
 	    </div>
-	
+-->	
 	</h3>
         
 	<% } else { %>

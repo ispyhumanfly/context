@@ -1,7 +1,7 @@
 % title 'Play';
 % layout 'default';
 %
-% my $upcoming_events_length = 5;
+% my $upcoming_events_length = 10;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -136,7 +136,7 @@
 
 	<h3>
 	    
-	    <% if ($self->session('admin')) { %>
+<!--	    <% if ($self->session('admin')) { %>
     
 	    <a href="javascript:history.go(-1)">Back | </a>
 	    <a href="/editor?mode=update&id=<%= $upcoming_events->id %>" style="margin-left: 10px;">Edit</a>
@@ -176,6 +176,7 @@
 		<% } %>
 		
 	    </div>
+	-->
 	
 	</h3>
 	
