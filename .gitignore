@@ -2,7 +2,7 @@
 !.gitignore
 !.perltidyrc
 *~
-ai
+mockups
 blib
 Makefile*
 !Makefile.PL
