@@ -179,6 +179,7 @@ body {
     margin-top: 0px;
     font-size: larger;
     text-align: right;
+    vertical-align: middle;
     padding-top: 5px;
     padding-right: 30px;
     background-color: #1a3721;
@@ -286,30 +287,26 @@ body {
 
     float: left;
     margin-left: 25px;
-    width: 155px;
+    width: 200px;
     background-color: #e6e2e3;
 }
 
 #content_container .content_work_left p {
 
     font-family: Verdana Bold;
-    font-size: 7.5pt;
+    font-size: 8.5pt;
+    padding-left: 5px;
 }
 
 #content_container .content_work_left_heading {
 
     font-family: Verdana Bold;
     color: white;
-    font-size: 12px;
+    font-size: 15px;
     text-align: left;
-    height: 27px;
+    height: 35px;
     padding: 5px;
     
-}
-
-#content_container .content_work_left p {
-    
-    padding-left: 5px;
 }
 
 #content_container .content_work_nav_active {
@@ -320,7 +317,7 @@ body {
 #content_container .content_work_center {
 
     float: left;
-    width: 515px;
+    width: 485px;
     margin-left: 12px;
 }
 
