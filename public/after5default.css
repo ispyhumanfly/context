@@ -552,6 +552,17 @@ body {
     font-family: Verdana Bold;
 }
 
+#content_container .read_more_left_live {
+
+    padding-top: 0px;
+    padding-bottom: 10px;
+    color: #1a3721;
+    text-align: left;
+    font-size: small;
+    margin-left: 75px;
+    font-family: Verdana Bold;
+}
+
 #content_container .content_spacer {
     
     clear: both;
