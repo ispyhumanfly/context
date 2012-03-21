@@ -2,7 +2,7 @@
 
 BEGIN {
 
-    local $ENV{MOJO_MAX_MESSAGE_SIZE} = 1 * (1024 * 1024 * 1024);
+    $ENV{MOJO_MAX_MESSAGE_SIZE} = 1 * (1024 * 1024 * 1024);
 
 }
 
@@ -1495,6 +1495,12 @@ get '/dojox/image/data.json' => sub {
 
 ### After5 Tools
 
+sub filter_content {
+
+    my ($self, $content) = shift;
+
+}
+
 sub process_photo {
 
     my ($upload, $id) = @_;
@@ -1542,7 +1548,7 @@ sub process_photo {
         return @new_photos;
     }
 
-    return;
+    return undef;
 }
 
 sub google_local {
@@ -1557,7 +1563,7 @@ sub google_local {
         return $data->results;
     }
 
-    return;
+    return undef;
 }
 
 sub encode_string {

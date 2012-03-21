@@ -96,40 +96,50 @@
     
     <h1 style="clear: both;">Featured Lifestyle</h1>
     
+    <% my $position_lifestyle = 1; %>
+    
     <% for my $featured_lifestyle (@{$self->{FEATURED_LIFESTYLE}}) { %>
 
-	<% for ( split /\s+/, $featured_lifestyle->photos ) { %>
+    	<% next unless $featured_lifestyle->position == $position_lifestyle; %>
 
-	<a dojoType="dojox.image.Lightbox" title="<%= $featured_lifestyle->title %>" href="<%= $_ %>">
-	    <img class="para_image_right" src="<%= $_ %>" />
-	</a>
-
-        <% last; #JUST SHOW ONE %>
-
-	<% } %>
-
-	<h2><a href="/<%= $featured_lifestyle->id %>"><%= $featured_lifestyle->title %></a></h2>
-
-	<p><%== substr( HTML::FormatText->format_string($featured_lifestyle->body), 0, 500 ) . '' %></p>
-
-        <div class="read_more_right">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/<%= $featured_lifestyle->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $featured_lifestyle->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/<%= $featured_lifestyle->id %>">Read More</a>
-            
-            <% } %>
-
-        </div>
+	<% if ($position_lifestyle == 1) { %>
+	
+	    <% for ( split /\s+/, $featured_lifestyle->photos ) { %>
+    
+	    <a dojoType="dojox.image.Lightbox" title="<%= $featured_lifestyle->title %>" href="<%= $_ %>">
+		<img class="para_image_right" src="<%= $_ %>" />
+	    </a>
+    
+	    <% last; #JUST SHOW ONE %>
+    
+	    <% } %>
+    
+	    <h2><a href="/<%= $featured_lifestyle->id %>"><%= $featured_lifestyle->title %></a></h2>
+    
+	    <p><%== substr( HTML::FormatText->format_string($featured_lifestyle->body), 0, 500 ) . '' %></p>
+    
+	    <div class="read_more_right">
+    
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/<%= $featured_lifestyle->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $featured_lifestyle->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $featured_lifestyle->id %>">Read More</a>
+		
+		<% } %>
+    
+	    </div>
+	    
+	    <% } %>
+	    
+	<% $position_lifestyle++; %>
 
     <% } %>
 
-    <h3><a href="/search?cities=ferndale&tags=lifestyle">More Lifestyle &rarr;</a></h3>
+    <h3><a href="/search?cities=ferndale&tags=lifestyle&interests=living">More Lifestyle &rarr;</a></h3>
 
 </div>
 
