@@ -278,7 +278,7 @@
 	    
 	</div>
         
-	%= include 'modules/block_search_places'
+	%= include 'modules/block_search_places', mode => 'search_bar_mini'
 
     </div>
 
