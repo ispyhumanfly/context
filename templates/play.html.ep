@@ -27,7 +27,7 @@
 
 	<h2><a href="/play/people?id=<%= $people->id %>"><%= $people->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($people->body), 0, 400 ) %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($people->body), 0, 300 ) %></p>
 
         <div class="read_more_right">
 
@@ -66,7 +66,7 @@
 
 	<h2><a href="/play/places?id=<%= $places->id %>"><%= $places->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($places->body), 0, 400 ) %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($places->body), 0, 300 ) %></p>
 
         <div class="read_more_right">
 
@@ -105,7 +105,7 @@
 
 	<h2><a href="/play/articles?id=<%= $articles->id %>"><%= $articles->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($articles->body), 0, 400 ) %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($articles->body), 0, 300 ) %></p>
 
         <div class="read_more_right">
 
