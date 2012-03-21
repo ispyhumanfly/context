@@ -5,7 +5,15 @@
 
 //]]></script>
 
+<% if ($mode eq 'search_bar_mini') { %>
+
 <div class="block_caption_text">Search Places &darr;</a></div>
+
+<% } elsif ($mode eq 'search_bar_header') { %>
+
+<div class="content_right_padding">
+    
+<% } %>
 
 <div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
     
@@ -57,3 +65,9 @@
     <button type="submit" style="float: right; margin-right: 5px;">GO</button>
 
 </div>
+
+<% if ($mode eq 'header_bar') { %>
+
+</div>
+
+<% } %>

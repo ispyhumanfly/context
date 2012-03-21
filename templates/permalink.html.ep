@@ -119,9 +119,13 @@
 
 <div class="content_right">
 
-    <h1></h1>
+    <h1>Advanced Search</h1>
+    
+    %= include 'modules/block_search_places', mode => 'header_search_bar'
 
     <div class="content_right_padding">
+	
+	<div class="block_caption_text">&nbsp;</div>
         
 	<div class="ad_space_block">
     
@@ -147,8 +151,6 @@
 	    //]]></script>
 	    
 	</div>
-        
-	%= include 'modules/block_search_places'
 
     </div>
 
