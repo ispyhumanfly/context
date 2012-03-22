@@ -64,7 +64,7 @@ get '/home' => sub {
     # Live
     my @live =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%home%'}, tags => {like => '%city_life%'}},
+      ->search({pages => {like => '%home%'}, tags => {like => '%lifestyle%'}},
         {order_by => 'id DESC'})->all;
 
     $self->{'LIVE'} = \@live;
