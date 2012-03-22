@@ -73,7 +73,7 @@
 		    <li class="title">Discover Royal Oak</li>
 		    <li><a href="/search?interests=dining&cities=royal_oak">Dining</a></li>
 		    <li><a href="/search?interests=nightlife&cities=royal_oak">Nightlife</a></li>
-		    <li><a href="/search?interests=activies&cities=royal_oak">Activities</a></li>
+		    <li><a href="/search?interests=activities&cities=royal_oak">Activities</a></li>
 		    <li><a href="/search?interests=living&cities=royal_oak">Living</a></li>
 		</ul>
 		

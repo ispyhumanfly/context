@@ -43,17 +43,13 @@
                 <option value="<%= 'Submit an Event' %>">
                     Submit an Event
                 </option>
-                
-                <option value="<%= 'Submit a Job' %>">
-                    Submit a Job
-                </option>
-                
-                <option value="<%= 'Submit an Internship' %>">
-                    Submit an Internship
-                </option>
-                
+                    
                 <option value="<%= 'Submit a Volunteer/Board Position' %>">
                     Submit a Volunteer/Board Position
+                </option>
+
+                <option value="<%= 'Advertise with After5' %>">
+                    Advertise with After5
                 </option>
                 
                 <option value="<%= 'Careers at After 5' %>">
@@ -114,20 +110,20 @@
     
     <span class="social_sharing_right">
 
-        <a href="http://www.facebook.com/sharer.php?u=http://beta.after5ferndale.com/id&t=title" target="_blank">
-            <img src="/FacebookShare.png" alt="Facebook"/>
+        <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/about/contact&t=<%= 'Contact After5' %>" target="_blank">
+            <img src="/share/Facebook.png" alt="Facebook"/>
         </a>
     
-        <a href="http://www.twitter.com/home?status=title,+http://beta.after5ferndale.com/id" target="_blank">
-            <img src="/TwitterShare.png" alt="Twitter"/>
+        <a href="http://www.twitter.com/home?status=<%= 'Contact After5' %>,+http://beta.after5detroit.com/about/contact" target="_blank">
+            <img src="/share/Twitter.png" alt="Twitter"/>
         </a>
     
-        <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5ferndale.com/id" target="_blank">
-            <img src="/DiggShare.png" alt="Digg"/>
+        <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/about/contact" target="_blank">
+            <img src="/share/Digg.png" alt="Digg"/>
         </a>
     
-        <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5ferndale.com/id" target="_blank">
-            <img src="/StumbleUponShare.png" alt="Stumble Upon"/>
+        <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/about/contact" target="_blank">
+            <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
         </a>
         
     </span>
@@ -157,7 +153,7 @@
         <div class="block_about_box" onclick="window.location='/about/newsletter';">
 
             <div class="block_about_box_title">Newsletter</div>
-            <div class="block_about_box_text">Get the inside scoop on exciting events happening around Detroit!</div>            
+            <div class="block_about_box_text">Get weekly updates on exciting happenings around town!</div>            
             
         </div>
 

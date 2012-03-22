@@ -650,8 +650,8 @@ body {
     background-color: white;
     width: 99.5%;
     height: 88px;
-    margin-top: 7px;
-    margin-bottom: 7px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     cursor: pointer;
 }
 
@@ -661,7 +661,7 @@ body {
     color: #1a3721;
     font-size: larger;
     text-align: left;
-    padding: 5px 5px 0px 5px;
+    padding: 12px 5px 0px 5px;
 }
 
 #content_container .block_about_box_text {
@@ -686,7 +686,7 @@ body {
 #content_container .block_more_galleries {
    
     font-size: small;
-    margin-top: 30px;
+    margin-top: 5px;
     padding: 3px;
     background-color: #1a3721;
    
@@ -901,7 +901,7 @@ body {
 
 }
 
-#footer_container ol {
+#footer_container ul {
     list-style: none;
 }
 

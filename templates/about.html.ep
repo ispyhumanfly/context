@@ -125,7 +125,7 @@
         <div class="block_about_box">
 
             <div class="block_about_box_title" onclick="window.location='/about/newsletter';">Newsletter</div>
-            <div class="block_about_box_text">Get the inside scoop on exciting events happening around Detroit!</div>            
+            <div class="block_about_box_text">Get weekly updates on exciting happenings around town!</div>            
             
         </div>
 

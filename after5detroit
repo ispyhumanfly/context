@@ -132,6 +132,7 @@ get '/live/birmingham' => sub {
     # Featured Lifestyle
     my @featured_lifestyle = $MODEL->resultset('Content')->search(
         {   pages  => {like => '%live%'},
+            types  => {like => '%place%'},
             tags   => {like => '%lifestyle%'},
             cities => {like => '%birmingham%'}
         },
@@ -190,6 +191,7 @@ get '/live/detroit' => sub {
     # Featured Lifestyle
     my @featured_lifestyle = $MODEL->resultset('Content')->search(
         {   pages  => {like => '%live%'},
+            types  => {like => '%place%'},
             tags   => {like => '%lifestyle%'},
             cities => {like => '%detroit%'}
         },
@@ -248,6 +250,7 @@ get '/live/ferndale' => sub {
     # Featured Lifestyle
     my @featured_lifestyle = $MODEL->resultset('Content')->search(
         {   pages  => {like => '%live%'},
+            types  => {like => '%place%'},
             tags   => {like => '%lifestyle%'},
             cities => {like => '%ferndale%'}
         },
@@ -306,6 +309,7 @@ get '/live/royal_oak' => sub {
     # Featured Lifestyle
     my @featured_lifestyle = $MODEL->resultset('Content')->search(
         {   pages  => {like => '%live%'},
+            types  => {like => '%place%'},
             tags   => {like => '%lifestyle%'},
             cities => {like => '%royal_oak%'}
         },
@@ -431,11 +435,22 @@ get '/work/professional_development' => sub {
     }
 
     # Networking
+    my $format = $MODEL->storage->datetime_parser;
+
+    my $start_period = DateTime->now;
+    my $end_period = $start_period->add(months => 3, days => 1);
+
     my @networking = $MODEL->resultset('Content')->search(
-        {   types => {like => '%event%'},
-            tags  => {like => '%networking%'},
+        {   types          => {like => '%event%'},
+            tags           => {like => '%networking%'},
+            start_datetime => {
+                -between => [
+                    $format->format_datetime($start_period),
+                    $format->format_datetime($end_period)
+                ]
+            }
         },
-        {page => 1, rows => 3, order_by => 'id DESC'}
+        {page => 1, rows => 3, order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'NETWORKING'} = \@networking;
@@ -617,7 +632,7 @@ get '/play/articles' => sub {
 get '/play/events' => sub {
 
     my $self = shift;
-    
+
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -1042,7 +1057,7 @@ post '/api/content/create' => sub {
     }
 
     if ($self->param('body')) {
-
+after5detroit
         $MODEL->resultset('Content')->search({id => $new_content->id})
           ->update({body => encode_string($self->param('body'))});
     }
@@ -1342,7 +1357,7 @@ post '/api/contact/message' => sub {
 
             my %mail = (
 
-                To      => 'dan@thoughtpivot.com',
+                To      => 'kerry@after5detroit.com',
                 Cc      => 'dan@thoughtpivot.com',
                 From    => 'contact@after5detroit.com',
                 Subject => 'after5detroit: ' . $self->param('subject'),
@@ -1385,7 +1400,7 @@ post '/api/newsletter/message' => sub {
 
             my %mail = (
 
-                To      => 'dan@thoughtpivot.com',
+                To      => 'kerry@after5detroit.com',
                 Cc      => 'dan@thoughtpivot.com',
                 From    => 'contact@after5detroit.com',
                 Subject => 'after5detroit: Newsletter Sign-Up!',

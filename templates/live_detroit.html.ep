@@ -73,7 +73,7 @@
 		    <li class="title">Discover Detroit</li>
 		    <li><a href="/search?interests=dining&cities=detroit">Dining</a></li>
 		    <li><a href="/search?interests=nightlife&cities=detroit">Nightlife</a></li>
-		    <li><a href="/search?interests=activies&cities=detroit">Activities</a></li>
+		    <li><a href="/search?interests=activities&cities=detroit">Activities</a></li>
 		    <li><a href="/search?interests=living&cities=detroit">Living</a></li>
 		</ul>
 		

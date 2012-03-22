@@ -180,6 +180,8 @@
         
         <% } %>
 
+        <div class="content_spacer"></div>
+
 	%= include 'modules/block_more_galleries', more_galleries => $self->{GALLERIES}
 
         <div class="ad_space_block">

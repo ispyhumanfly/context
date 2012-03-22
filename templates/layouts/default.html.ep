@@ -121,57 +121,57 @@
 	    <div id="footer_container">
     
 		<div>
-		    <ol>
+		    <ul>
 			<li><a href="/live" style="font-weight: bold; font-size: large;">Live</a></li>
 			<li><a href="/live/birmingham">Birmingham</a></li>
 			<li><a href="/live/detroit">Detroit</a></li>
 			<li><a href="/live/ferndale">Ferndale</a></li>
 			<li><a href="/live/royal_oak">Royal Oak</a></li>
     
-		    </ol>
+		    </ul>
 		</div>
     
 		<div>
-		    <ol>
+		    <ul>
 			<li><a href="/work" style="font-weight: bold; font-size: large;">Work</a></li>
 			<li><a href="/work/professional_development">Professional Development</a></li>
-		    </ol>
+		    </ul>
 		</div>
     
 		<div>
-		    <ol>
+		    <ul>
 			<li><a href="/play" style="font-weight: bold; font-size: large;">Play</a></li>
 			<li><a href="/play/people">People</a></li>
 			<li><a href="/play/places">Places</a></li>
 			<li><a href="/play/articles">Articles</a></li>
 			<li><a href="/play/events">Events</a></li>
-		    </ol>
+		    </ul>
 		</div>
     
 		<div>
-		    <ol>
+		    <ul>
 			<li><a href="/photos" style="font-weight: bold; font-size: large;">Photos</a></li>
-		    </ol>
+		    </ul>
 		</div>
     
 		<div>
-		    <ol>
+		    <ul>
 			<li><a href="/about" style="font-weight: bold; font-size: large;">About</a></li>
 			<li><a href="/about/contact">Contact</a></li>
 			<li><a href="/about/newsletter">Newsletter</a></li>
-		    </ol>
+		    </ul>
     
 		</div>
     
 		<% if ( $self->session('admin') ) { %>
     
 		<div>
-		    <ol>
+		    <ul>
 			<li><a href="/dashboard" style="font-weight: bold; font-size: large;">Dashboard</a></li>
 			<li><a href="/settings">Settings</a></li>
 			<li><a href="/editor?mode=create">Editor</a></li>
 			<li><a href="/logout">Logout</a></li>
-		    </ol>
+		    </ul>
 		</div>
     
 		<% } %>
