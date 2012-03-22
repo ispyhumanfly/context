@@ -484,25 +484,53 @@ body {
     
     background-color: #e6e2e3;
     border-bottom: 1px solid #1a3721;
-    width: 99.5%;
+    width: 97.5%;
     height: 600px;
     padding: 10px;
 }
 
-#content_container .about_form_right {
-
-    text-align: center;
-}
-
-#content_container .about_form_right label {
-
-    font-size: smaller;
-
-}
-
-#content_container .about_form_right textarea {
+#content_container .about_form_caption_box {
     
-    width: 400px;
+    border: 1px solid  #1a3721;
+    background-color: white;
+    font-size: small;
+    padding: 10px;
+    text-align: left;
+}
+
+#content_container .about_form_area {
+
+}
+
+#content_container .about_form_area label {
+
+    font-size: small;
+    vertical-align: middle;
+    display: inline-block;
+
+}
+
+#content_container .about_form_area select {
+
+    width: 200px;
+}
+
+#content_container .about_form_area input {
+
+    width: 200px;
+
+}
+
+#content_container .about_form_area textarea {
+    
+    margin-top: 5px;
+    border: 2px inset;
+    width: 197px;
+    height: 100px;
+}
+
+#content_container .about_form_area button {
+    
 }
 
 #content_container .about_stock_photo {

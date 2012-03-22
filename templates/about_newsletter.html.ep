@@ -22,41 +22,62 @@
         
         <hr />
 
-        <div dojoType="dijit.form.Form" class="about_form_right" encType="multipart/form-data" action="/api/newsletter/message" method="post">
+        <form class="about_form_area" encType="multipart/form-data" action="/api/newsletter/message" method="post">
     
-            <label>Please provide us with a name.*</label>
+            <div style="float: left; text-align: right; margin-left: 10px; max-width: 315px; ">
+                
+                <div class="about_form_caption_box">
 
-            <br />
+                    The mission of After5 Detroit is to get young people really excited about living in this area.
+                    We connect you to the best that metro Detroit has to offer.
+                    
+                    <br />
+                    <br />
+                    
+                    Our newsletter highlights an eclictic variety of events, destinations, and fun information that will
+                    make living, working and playing in Detroit even more enjoyable.
+                    
+                    <br />
+                    <br />
+                    
+                    So get the inside scoop on can't-miss events, restaurants, parties and more - every week - in
+                    our email Newsletter.
+                    
+                </div>
+
+            </div>
             
-	    <div dojoType="dijit.form.TextBox" name="name"></div>
-
-            <br />
-
-            <label>Please provide a valid email address.*</label>
-            
-            <br />
-	    
-	    <div dojoType="dijit.form.TextBox" name="email"></div>
-
-            <br />
-
-            <label>Please enter a City/State or Zip.</label>
-
-            <br />
-            
-	    <div dojoType="dijit.form.TextBox" name="city_state_zip"></div>
-
-            <br />
-            <br />
-
-            <button dojoType="dijit.form.Button" type="reset">Clear</button>            
-            <button dojoType="dijit.form.Button" type="submit">Send</button>
+            <div style="float: right; text-align: right; margin-right: 10px;">
+                    
+                <label>*Name:</label>
     
-        </div>
+                <input type="text" name="name"></input>
+    
+                <br />
+    
+                <label>*Email:</label>
+                        
+                <input type="text" name="email"></input>
+    
+                <br />
+    
+                <label>*City/State/Zip</label>
+    
+                <input type="text" name="city_state_zip"></input>
+    
+                <br />
+               
+                    
+                <button type="reset">Clear</button>            
+                <button type="submit">Send</button>
+             
+            </div>
+            
+        </form>
         
     </div>
     
-    <span class="social_sharing_right">
+    <span class="social_sharing_center">
 
         <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/about/newsletter&t=<%= 'After5 Newsletter' %>" target="_blank">
             <img src="/share/Facebook.png" alt="Facebook"/>

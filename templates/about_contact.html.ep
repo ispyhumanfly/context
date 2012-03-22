@@ -28,13 +28,13 @@
         
         <hr />
         
-        <div dojoType="dijit.form.Form" class="about_form_right" encType="multipart/form-data" action="/api/contact/message" method="post">
+        <form class="about_form_area" encType="multipart/form-data" action="/api/contact/message" method="post">
             
-            <div style="float: left; margin-left: 50px; width: 200px;">
+            <div style="float: left; margin-left: 35px; text-align: right;">
 
                 <label>Subject</label>
                 
-                <select dojoType="dijit.form.Select" name="subject">
+                <select name="subject">
                     
                     <option value="<%= 'General Inquiries' %>">
                         General Inquiries
@@ -62,52 +62,53 @@
     
                 <label>Name</label>
                 
-                <div dojoType="dijit.form.TextBox" name="name"></div>
+                <input type="text" name="name"></input>
     
                 <br />
     
                 <label>City/State/Zip</label>
                 
-                <div dojoType="dijit.form.TextBox" name="city_state_zip"></div>
-    
-                <br />
-    
-                <label>Email</label>
+                <input type="text" name="city_state_zip"></input>
                 
-                <div dojoType="dijit.form.TextBox" name="email"></div>
-    
                 <br />
-                
+                    
             </div>
             
-            <div style="float: right; margin-right: 10px; width: 250px;">
+            <div style="float: right; margin-right: 35px; text-align: right;">
+
+                <label>Email</label>
+                
+                <input type="text" name="email"></input>
+    
+                <br />
 
                 <label>Phone</label>
-                
-                <div dojoType="dijit.form.TextBox" name="phone"></div>
+
+                <input type="text" name="phone"></input>
     
                 <br />
                 
-                <label>Message</label>
-    
-                <textarea dojoType="dijit.form.SimpleTextarea" name="message"></textarea>
+                <label style="margin-top: -100px;">Message</label>
+                
+                <textarea name="message"></textarea>
     
                 <br />
     
             </div>
         
-            <div class="content_spacer">
+            <div class="content_spacer"></div>
                 
-                <button dojoType="dijit.form.Button" type="reset">Clear</button>            
-                <button dojoType="dijit.form.Button" type="submit">Send</button>
+                <div style="text-align: center;">
                     
-            </div>            
-
-        </div>
+                    <button type="reset">Clear</button>            
+                    <button type="submit">Send</button>
+                    
+                </div>
+        </form>
         
     </div>
     
-    <span class="social_sharing_right">
+    <span class="social_sharing_center">
 
         <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/about/contact&t=<%= 'Contact After5' %>" target="_blank">
             <img src="/share/Facebook.png" alt="Facebook"/>
