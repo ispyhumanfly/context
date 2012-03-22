@@ -146,7 +146,7 @@
         
             <% for ( split /\s+/, $events->photos ) { %>
             
-            <a title="<%= $events->title %>" href="/play/events?id=<%= $events->id %>">
+            <a title="<%= $events->title %>" href="/play/events?start_datetime=<%= $events->start_datetime->epoch %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -154,7 +154,7 @@
             
             <% } %>
              
-            <div class="block_title"><a href="/play/events?id=<%= $events->id %>"><%= $events->title %></a></div>
+            <div class="block_title"><a href="/play/events?start_datetime=<%= $events->start_datetime->epoch %>"><%= $events->title %></a></div>
             
 	    <div class="block_text">
 		
@@ -170,12 +170,12 @@
     
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/play/events?id=<%= $events->id %>">Read More |</a>
+                <a href="/play/events?start_datetime=<%= $events->start_datetime->epoch %>">Read More |</a>
                 <a href="/editor?mode=update&id=<%= $events->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/play/events?id=<%= $events->id %>">Read More</a>
+                <a href="/play/events?start_datetime=<%= $events->start_datetime->epoch %>">Read More</a>
                 
                 <% } %>
     

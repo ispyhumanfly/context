@@ -442,23 +442,33 @@ get '/work/professional_development' => sub {
         $self->{'WORK'} = \@work;
     }
 
+    ## Networking
+    #my $format = $MODEL->storage->datetime_parser;
+    #
+    #my $start_period = DateTime->now;
+    #my $end_period = $start_period->add(months => 3, days => 1);
+    #
+    #my @networking = $MODEL->resultset('Content')->search(
+    #    {   types          => {like => '%event%'},
+    #        tags           => {like => '%networking%'},
+    #        start_datetime => {
+    #            -between => [
+    #                $format->format_datetime($start_period),
+    #                $format->format_datetime($end_period)
+    #            ]
+    #        }
+    #    },
+    #    {page => 1, rows => 3, order_by => 'start_datetime ASC'}
+    #)->all;
+    #
+    #$self->{'NETWORKING'} = \@networking;
+
+    
     # Networking
-    my $format = $MODEL->storage->datetime_parser;
-
-    my $start_period = DateTime->now;
-    my $end_period = $start_period->add(months => 3, days => 1);
-
     my @networking = $MODEL->resultset('Content')->search(
         {   types          => {like => '%event%'},
-            tags           => {like => '%networking%'},
-            start_datetime => {
-                -between => [
-                    $format->format_datetime($start_period),
-                    $format->format_datetime($end_period)
-                ]
-            }
-        },
-        {page => 1, rows => 3, order_by => 'start_datetime ASC'}
+            tags           => {like => '%networking%'}},
+        {page => 1, rows => 3, order_by => 'start_datetime DESC'}
     )->all;
 
     $self->{'NETWORKING'} = \@networking;

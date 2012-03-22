@@ -7,7 +7,7 @@
 
 <% if ($mode eq 'search_bar_mini') { %>
 
-<div class="block_caption_text">Search Places &darr;</a></div>
+<div class="block_caption_text">Search After5 &darr;</a></div>
 
 <% } elsif ($mode eq 'search_bar_header') { %>
 

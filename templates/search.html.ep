@@ -90,12 +90,6 @@
         <p><%= substr( HTML::FormatText->format_string($result->body), 0, 200 ) %></p>
     
         <% } %>
-        
-        <% if (($self->param('types') =~ m/event/i) and (defined $result->start_datetime)) { %>
-                
-            <p><%= $result->start_datetime->mdy(':'); %></p>
-            
-        <% } %>
             
         <div class="read_more_right">
             
@@ -122,7 +116,7 @@
 
 <div class="content_right">
 
-    <h1>Advanced Search</h1>
+    <h1>Search After5</h1>
     
     %= include 'modules/block_search_places', mode => 'header_search_bar'
 
