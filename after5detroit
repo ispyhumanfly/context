@@ -317,7 +317,7 @@ get '/live/royal_oak' => sub {
         {   pages  => {like => '%live%'},
             types  => {like => '%place%'},
             tags   => {like => '%lifestyle%'},
-            cities => {like => '%royal_oak%'}
+            cities => {like => '%royal_oak%'},
             interests => {like => '%living%'},
             position => 1
         },
