@@ -318,6 +318,8 @@ get '/live/royal_oak' => sub {
             types  => {like => '%place%'},
             tags   => {like => '%lifestyle%'},
             cities => {like => '%royal_oak%'}
+            interests => {like => '%living%'},
+            position => 1
         },
         {page => 1, rows => 1, order_by => 'id DESC'}
     )->all;

@@ -29,81 +29,80 @@
         <hr />
         
         <div dojoType="dijit.form.Form" class="about_form_right" encType="multipart/form-data" action="/api/contact/message" method="post">
-    
-            <label>Subject</label>
-        
-            <br />
             
-            <select dojoType="dijit.form.Select" name="subject">
+            <div style="float: left; margin-left: 50px; width: 200px;">
+
+                <label>Subject</label>
                 
-                <option value="<%= 'General Inquiries' %>">
-                    General Inquiries
-                </option>
-                
-                <option value="<%= 'Submit an Event' %>">
-                    Submit an Event
-                </option>
+                <select dojoType="dijit.form.Select" name="subject">
                     
-                <option value="<%= 'Submit a Volunteer/Board Position' %>">
-                    Submit a Volunteer/Board Position
-                </option>
-
-                <option value="<%= 'Advertise with After5' %>">
-                    Advertise with After5
-                </option>
-                
-                <option value="<%= 'Careers at After 5' %>">
-                    Careers at After 5
-                </option>
-                
-            </select>    
-
-            <br />
-            
-            <label>Name</label>
-	    
-            <br />
-            
-	    <div dojoType="dijit.form.TextBox" name="name"></div>
-
-            <br />
-
-            <label>City/State/Zip</label>
-	    
-            <br />
-            
-	    <div dojoType="dijit.form.TextBox" name="city_state_zip"></div>
-
-            <br />
-
-            <label>Email</label>
-	    
-            <br />
-            
-	    <div dojoType="dijit.form.TextBox" name="email"></div>
-
-            <br />
-
-            <label>Phone</label>
-	    
-            <br />
-            
-	    <div dojoType="dijit.form.TextBox" name="phone"></div>
-
-            <br />
-	    
-            <label>Message</label>
-
-            <br />
-            
-            <textarea dojoType="dijit.form.SimpleTextarea" name="message"></textarea>
-
-            <br />
-            <br />
-
-            <button dojoType="dijit.form.Button" type="reset">Clear</button>            
-            <button dojoType="dijit.form.Button" type="submit">Send</button>
+                    <option value="<%= 'General Inquiries' %>">
+                        General Inquiries
+                    </option>
+                    
+                    <option value="<%= 'Submit an Event' %>">
+                        Submit an Event
+                    </option>
+                        
+                    <option value="<%= 'Submit a Volunteer/Board Position' %>">
+                        Submit a Volunteer/Board Position
+                    </option>
     
+                    <option value="<%= 'Advertise with After5' %>">
+                        Advertise with After5
+                    </option>
+                    
+                    <option value="<%= 'Careers at After 5' %>">
+                        Careers at After 5
+                    </option>
+                    
+                </select>    
+    
+                <br />
+    
+                <label>Name</label>
+                
+                <div dojoType="dijit.form.TextBox" name="name"></div>
+    
+                <br />
+    
+                <label>City/State/Zip</label>
+                
+                <div dojoType="dijit.form.TextBox" name="city_state_zip"></div>
+    
+                <br />
+    
+                <label>Email</label>
+                
+                <div dojoType="dijit.form.TextBox" name="email"></div>
+    
+                <br />
+                
+            </div>
+            
+            <div style="float: right; margin-right: 10px; width: 250px;">
+
+                <label>Phone</label>
+                
+                <div dojoType="dijit.form.TextBox" name="phone"></div>
+    
+                <br />
+                
+                <label>Message</label>
+    
+                <textarea dojoType="dijit.form.SimpleTextarea" name="message"></textarea>
+    
+                <br />
+    
+            </div>
+        
+            <div class="content_spacer">
+                
+                <button dojoType="dijit.form.Button" type="reset">Clear</button>            
+                <button dojoType="dijit.form.Button" type="submit">Send</button>
+                    
+            </div>            
+
         </div>
         
     </div>
