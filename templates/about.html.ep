@@ -53,7 +53,7 @@
      
     <% } %>
     
-    <h1 style="clear: both;">Press</h1>
+    <h1 style="clear: both; margin-top: -7px;">Press</h1>
 
     <% my $press_counter; %>
     
