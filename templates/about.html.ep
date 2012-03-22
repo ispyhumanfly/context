@@ -118,13 +118,13 @@
         <div class="block_about_box" onclick="window.location='/about/contact';">
 
             <div class="block_about_box_title">Contact Us</div>
-            <div class="block_about_box_text">Suggestions, questions, ad inquiries? Send us a message!</div>            
+            <div class="block_about_box_text">Suggestions, questions or ad inquiries? Send us a message!</div>            
             
         </div>
 
-        <div class="block_about_box">
+        <div class="block_about_box" onclick="window.location='/about/newsletter';">
 
-            <div class="block_about_box_title" onclick="window.location='/about/newsletter';">Newsletter</div>
+            <div class="block_about_box_title">Newsletter</div>
             <div class="block_about_box_text">Get weekly updates on exciting happenings around town!</div>            
             
         </div>

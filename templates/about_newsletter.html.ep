@@ -94,7 +94,7 @@
         <div class="block_about_box" onclick="window.location='/about/contact';">
 
             <div class="block_about_box_title">Contact Us</div>
-            <div class="block_about_box_text">Suggestions, questions, ad inquiries? Send us a message!</div>            
+            <div class="block_about_box_text">Suggestions, questions or inquiries? Send us a message!</div>            
             
         </div>
 

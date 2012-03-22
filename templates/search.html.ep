@@ -123,90 +123,37 @@
 <div class="content_right">
 
     <h1>Advanced Search</h1>
+    
+    %= include 'modules/block_search_places', mode => 'header_search_bar'
 
     <div class="content_right_padding">
-    
-        <p>Search below for your perfect night out or new favorite hotspot.</p>
-    
-        <div class="block_caption_text">Filter by city and interest... &darr;</a></div>
+	
+	<div class="block_caption_text">&nbsp;</div>
         
-        <div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
+	<div class="ad_space_block">
     
-            <p>
-                
-                <label>Cities</label>
-                
-                <select dojoType="dijit.form.Select" name="cities" style="width: 150px;">
-                    
-                    <option value="birmingham">
-                        Birmingham
-                    </option>
-                    <option value="detroit">
-                        Detroit
-                    </option>
-                    <option value="ferndale">
-                        Ferndale
-                    </option>
-                    <option value="royal_oak">
-                        Royal Oak
-                    </option>
-                </select>    
+	    <script type="text/javascript">//<![CDATA[
+	    
+		var block_ads = new Array();
     
-            </p>
-            
-            <p>
-                    
-                <label>Interests</label>
-                
-                <select dojoType="dijit.form.Select" name="interests" style="width: 150px;">
-                    
-                    <option value="dining">
-                        Dining
-                    </option>
-                    <option value="nightlife">
-                        Nightlife
-                    </option>
-                    <option value="activities">
-                        Activities
-                    </option>
-                    <option value="living">
-                        Living
-                    </option>
-                    
-                </select>    
+		<% for my $ad (@{$self->{ADS_BLOCK}}) { %>
     
-            </p>
-            
-            <div class="block_caption_text">Filter by some other thing... &darr;</a></div>
-
-            <button dojoType="dijit.form.Button" type="submit">Update</button>
+		    <% for ( split /\s+/, $ad->photos ) { %>
     
-        </div>
-        
-        <div class="ad_space_block">
+		    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
     
-            <script type="text/javascript">//<![CDATA[
-            
-                var block_ads = new Array();
+		    <% last; # ONLY SHOW ONE %>
     
-                <% for my $ad (@{$self->{ADS_BLOCK}}) { %>
+		    <% } %>
     
-                    <% for ( split /\s+/, $ad->photos ) { %>
+		<% } %>
+		
+		var random = Math.floor(Math.random() * block_ads.length);
+		document.write(block_ads[random]);
     
-                    block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
-    
-                    <% last; # ONLY SHOW ONE %>
-    
-                    <% } %>
-    
-                <% } %>
-                
-                var random = Math.floor(Math.random() * block_ads.length);
-                document.write(block_ads[random]);
-    
-            //]]></script>
-            
-        </div>
+	    //]]></script>
+	    
+	</div>
 
     </div>
 
