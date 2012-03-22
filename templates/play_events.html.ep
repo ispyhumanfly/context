@@ -49,9 +49,9 @@
     
     <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
 
-	<% if ($self->param('id')) { %>
+	<% if ($self->param('start_datetime')) { %>
 	
-	<% next unless $upcoming_events->id <= int($self->param('id')); %>
+	<% next unless $upcoming_events->start_datetime->epoch <= int($self->param('start_datetime')); %>
 	    
 	<% } %>
 	
@@ -90,7 +90,7 @@
 
 	    <% } else { %>
 
-	    <a title="<%= $upcoming_events->title %>" href="/play/events?id=<%= $upcoming_events->id %>">
+	    <a title="<%= $upcoming_events->title %>" href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -100,7 +100,7 @@
 
         <% } %>
 
-        <h2><a href="/play/events?id=<%= $upcoming_events->id %>"><%= $upcoming_events->title %></a></h2>
+        <h2><a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>"><%= $upcoming_events->title %></a></h2>
     
 	<% if ($upcoming_events_counter == 1) { %>
 	
@@ -190,12 +190,12 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/play/events?id=<%= $upcoming_events->id %>">Read More |</a>
+		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/play/events?id=<%= $upcoming_events->id %>">Read More</a>
+		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">Read More</a>
 		
 		<% } %>
     
@@ -233,13 +233,13 @@
 		    
 		    <% $next_event_counter++; %>
 		    
-		    <% if ($self->param('id')) { %>
+		    <% if ($self->param('start_datetime')) { %>
 		    
-		    <% next unless $_->id < int($self->param('id')); %>
+		    <% next unless $_->start_datetime->epoch < int($self->param('start_datetime')); %>
 			
 		    <% } %>
 		
-		    <a href="/play/events?id=<%= $next_event->id %>">Next</a>
+		    <a href="/play/events?start_datetime=<%= $next_event->start_datetime->epoch %>">Next</a>
 		    
 		    <% last; %>
 

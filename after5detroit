@@ -82,7 +82,7 @@ get '/home' => sub {
     # Galleries
     my @galleries = $MODEL->resultset('Content')->search(
         {pages => {like => '%home%'}, types => {like => '%gallery%'}},
-        {page => 1, rows => 10, order_by => 'id DESC'}
+        {page => 1, rows => 18, order_by => 'id DESC'}
     )->all;
 
     $self->{'GALLERIES'} = \@galleries;
@@ -524,7 +524,7 @@ get '/play' => sub {
     my @events =
       $MODEL->resultset('Content')
       ->search({pages => {like => '%play%'}, types => {like => '%event%'}},
-        {order_by => 'id DESC'})->all;
+        {order_by => 'start_datetime DESC'})->all;
 
     $self->{'EVENTS'} = \@events;
 
@@ -660,7 +660,7 @@ get '/play/events' => sub {
     # Upcoming Events
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {pages => {like => '%play%'}, types => {like => '%event%'}},
-        {page => 1, rows => 50, order_by => 'id DESC'}
+        {page => 1, rows => 50, order_by => 'start_datetime DESC'}
     )->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;

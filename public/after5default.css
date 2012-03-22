@@ -341,6 +341,15 @@ body {
     width: 375px; height: auto;
 }
 
+#content_container .para_image_left_small {
+
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #1a3721; 
+    width: 275px; height: auto;
+}
+
 #content_container .para_image_left_large {
 
     float: left;
@@ -398,6 +407,12 @@ body {
 #content_container .para_text_right {
     
     margin-left: 385px;
+    max-width: 300px;
+}
+
+#content_container .para_text_right_small {
+    
+    margin-left: 285px;
     max-width: 300px;
 }
 

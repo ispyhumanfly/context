@@ -114,7 +114,7 @@
 
 	<h2><a href="/<%= $live->id %>"><%= $live->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($live->body), 0, 400 ); %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($live->body), 0, 300 ); %></p>
 
             <div class="read_more_right">
 
@@ -158,7 +158,7 @@
 
 	<h2><a href="/<%= $work->id %>"><%= $work->title %></a></h2>
 
-	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($work->body), 0, 400 ); %></p>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($work->body), 0, 300 ); %></p>
 
             <div class="read_more_right">
 
