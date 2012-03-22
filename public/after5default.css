@@ -134,6 +134,8 @@ body {
     text-decoration: none;
 }
 
+/* search form */
+
 #navigation_container .search_form {
 
     text-align: right;
@@ -154,6 +156,16 @@ body {
     font-weight: lighter;
     background-color: #8bc53e;
 
+}
+
+::-webkit-input-placeholder {
+   
+   color: white;
+}
+
+::-moz-placeholder {
+   
+   color: white;
 }
 
 #content_container {
