@@ -134,7 +134,8 @@ get '/live/birmingham' => sub {
         {   pages  => {like => '%live%'},
             types  => {like => '%place%'},
             tags   => {like => '%lifestyle%'},
-            cities => {like => '%birmingham%'}
+            cities => {like => '%birmingham%'},
+            position => 1
         },
         {page => 1, rows => 1, order_by => 'id DESC'}
     )->all;
@@ -193,7 +194,8 @@ get '/live/detroit' => sub {
         {   pages  => {like => '%live%'},
             types  => {like => '%place%'},
             tags   => {like => '%lifestyle%'},
-            cities => {like => '%detroit%'}
+            cities => {like => '%detroit%'},
+            position => 1
         },
         {page => 1, rows => 1, order_by => 'id DESC'}
     )->all;
@@ -252,7 +254,8 @@ get '/live/ferndale' => sub {
         {   pages  => {like => '%live%'},
             types  => {like => '%place%'},
             tags   => {like => '%lifestyle%'},
-            cities => {like => '%ferndale%'}
+            cities => {like => '%ferndale%'},
+            position => 1
         },
         {page => 1, rows => 1, order_by => 'id DESC'}
     )->all;

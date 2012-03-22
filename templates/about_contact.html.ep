@@ -30,7 +30,7 @@
         
         <div dojoType="dijit.form.Form" class="about_form_right" encType="multipart/form-data" action="/api/contact/message" method="post">
     
-            <label>What can we help you with?</label>
+            <label>Subject</label>
         
             <br />
             
@@ -60,7 +60,7 @@
 
             <br />
             
-            <label>Please provide us with a name.*</label>
+            <label>Name</label>
 	    
             <br />
             
@@ -68,7 +68,7 @@
 
             <br />
 
-            <label>Please enter a City/State or Zip.</label>
+            <label>City/State/Zip</label>
 	    
             <br />
             
@@ -76,7 +76,7 @@
 
             <br />
 
-            <label>Please provide a valid email address.*</label>
+            <label>Email</label>
 	    
             <br />
             
@@ -84,7 +84,7 @@
 
             <br />
 
-            <label>Would you like for us to call you back?</label>
+            <label>Phone</label>
 	    
             <br />
             
@@ -92,7 +92,7 @@
 
             <br />
 	    
-            <label>Please describe the nature of this contact.</label>
+            <label>Message</label>
 
             <br />
             
