@@ -230,11 +230,6 @@
 	    
 	    <% for (@{$self->{UPCOMING_EVENTS}}) { %>
 
-		<% my $local_datetime = DateTime->now; %>
-		<% $local_datetime = $local_datetime->epoch; %>
-    
-		<% next if $_->start_datetime->epoch < $local_datetime; %>
-
 		<% my $index = $next_event_counter + $upcoming_events_length; %>
 		
 		<% if (@{$self->{UPCOMING_EVENTS}}->[$index]) { %>
@@ -247,6 +242,13 @@
 		    
 			<% next unless $_->start_datetime->epoch < int($self->param('start_datetime')); %>
 		    
+		    <% } else { %>
+		    
+		    	<% my $local_datetime = DateTime->now; %>
+			<% $local_datetime = $local_datetime->epoch; %>
+    
+			<% next if $_->start_datetime->epoch < $local_datetime; %>
+
 		    <% } %>
 		
 		    <a href="/play/events?start_datetime=<%= $next_event->start_datetime->epoch %>">Next</a>
