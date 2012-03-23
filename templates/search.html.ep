@@ -91,7 +91,7 @@
     
         <% } %>
             
-        <div class="read_more_right">
+        <div class="read_more_right" style="margin-right: 50px;">
             
             <% if ( $self->session('admin') ) { %>
     

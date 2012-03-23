@@ -140,6 +140,11 @@
         
         <% for my $events (@{$self->{EVENTS}}) { %>
         
+	    <% my $local_datetime = DateTime->now; %>
+	    <% $local_datetime = $local_datetime->epoch; %>
+	    
+	    <% next if $events->start_datetime->epoch < $local_datetime; %>
+	    
             <% $events_counter++; %>
             
             <% next if $events_counter > 3; %>

@@ -48,11 +48,18 @@
     <% my $upcoming_events_counter; %>
     
     <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
-
+	    
 	<% if ($self->param('start_datetime')) { %>
 	
-	<% next unless $upcoming_events->start_datetime->epoch <= int($self->param('start_datetime')); %>
+	    <% next unless $upcoming_events->start_datetime->epoch >= int($self->param('start_datetime')); %>
 	    
+	<% } else { %>
+	
+	    <% my $local_datetime = DateTime->now; %>
+	    <% $local_datetime = $local_datetime->epoch; %>
+	    
+	    <% next if $upcoming_events->start_datetime->epoch < $local_datetime; %>
+    
 	<% } %>
 	
         <% $upcoming_events_counter++; %>
@@ -66,9 +73,7 @@
 	<hr />
 	
 	<% } %>
-        
-	<div id="#<%= $upcoming_events->id %>"></div>
-        
+            
 	<% for ( split /\s+/, $upcoming_events->photos ) { %>
 
 	    <% if ($upcoming_events_counter == 1) { %>
@@ -225,6 +230,11 @@
 	    
 	    <% for (@{$self->{UPCOMING_EVENTS}}) { %>
 
+		<% my $local_datetime = DateTime->now; %>
+		<% $local_datetime = $local_datetime->epoch; %>
+    
+		<% next if $_->start_datetime->epoch < $local_datetime; %>
+
 		<% my $index = $next_event_counter + $upcoming_events_length; %>
 		
 		<% if (@{$self->{UPCOMING_EVENTS}}->[$index]) { %>
@@ -235,8 +245,8 @@
 		    
 		    <% if ($self->param('start_datetime')) { %>
 		    
-		    <% next unless $_->start_datetime->epoch < int($self->param('start_datetime')); %>
-			
+			<% next unless $_->start_datetime->epoch < int($self->param('start_datetime')); %>
+		    
 		    <% } %>
 		
 		    <a href="/play/events?start_datetime=<%= $next_event->start_datetime->epoch %>">Next</a>

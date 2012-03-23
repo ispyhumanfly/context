@@ -61,7 +61,7 @@ get '/home' => sub {
 
     $self->{'PLAY'} = \@play;
 
-    # Live
+    # Live (Featured LIfestyle)
     my @live =
       $MODEL->resultset('Content')
       ->search({pages => {like => '%home%'}, tags => {like => '%lifestyle%'}},
@@ -436,43 +436,22 @@ get '/work/professional_development' => sub {
 
         my @work = $MODEL->resultset('Content')->search(
             {pages => {like => '%work%'}, tags => {like => "%$tags%"}},
-            {page => 1, rows => 100, order_by => 'id DESC'},
+            {page => 1, rows => 500, order_by => 'id DESC'},
         )->all;
 
         $self->{'WORK'} = \@work;
     }
 
-    ## Networking
-    #my $format = $MODEL->storage->datetime_parser;
-    #
-    #my $start_period = DateTime->now;
-    #my $end_period = $start_period->add(months => 3, days => 1);
-    #
-    #my @networking = $MODEL->resultset('Content')->search(
-    #    {   types          => {like => '%event%'},
-    #        tags           => {like => '%networking%'},
-    #        start_datetime => {
-    #            -between => [
-    #                $format->format_datetime($start_period),
-    #                $format->format_datetime($end_period)
-    #            ]
-    #        }
-    #    },
-    #    {page => 1, rows => 3, order_by => 'start_datetime ASC'}
-    #)->all;
-    #
-    #$self->{'NETWORKING'} = \@networking;
-
-    
     # Networking
     my @networking = $MODEL->resultset('Content')->search(
         {   types          => {like => '%event%'},
-            tags           => {like => '%networking%'}},
-        {page => 1, rows => 3, order_by => 'start_datetime DESC'}
+            tags           => {like => '%networking%'}
+        },
+        {page => 1, rows => 500, order_by => 'start_datetime ASC'}
     )->all;
-
+    
     $self->{'NETWORKING'} = \@networking;
-
+    
     return $self->render('work_professional_development');
 
 } => 'work_professional_development';
@@ -534,7 +513,7 @@ get '/play' => sub {
     my @events =
       $MODEL->resultset('Content')
       ->search({pages => {like => '%play%'}, types => {like => '%event%'}},
-        {order_by => 'start_datetime DESC'})->all;
+        {order_by => 'start_datetime ASC'})->all;
 
     $self->{'EVENTS'} = \@events;
 
@@ -670,7 +649,7 @@ get '/play/events' => sub {
     # Upcoming Events
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {pages => {like => '%play%'}, types => {like => '%event%'}},
-        {page => 1, rows => 50, order_by => 'start_datetime DESC'}
+        {page => 1, rows => 500, order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;

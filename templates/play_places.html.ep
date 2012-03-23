@@ -65,9 +65,7 @@
 	<hr />
 	
 	<% } %>
-        
-	<div id="#<%= $featured_places->id %>"></div>
-        
+                
 	<% for ( split /\s+/, $featured_places->photos ) { %>
 
 	    <% if ($featured_places_counter == 1) { %>
@@ -76,7 +74,7 @@
 		<img class="para_image_right" src="<%= $_ %>" />
 	    </a>
 
-	    	<% unless (scalar (split /\s+/, $featured_places->photos) <= 1 ) { %>
+	    	<% unless (scalar (split /\s+/, $featured_places->photos ) <= 1 ) { %>
 	
 		<div class="content_thumbnails_right">
 		    

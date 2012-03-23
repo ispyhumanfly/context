@@ -140,6 +140,11 @@
         
         <% for my $networking (@{$self->{NETWORKING}}) { %>
         
+            <% my $local_datetime = DateTime->now; %>
+	    <% $local_datetime = $local_datetime->epoch; %>
+	    
+	    <% next if $networking->start_datetime->epoch < $local_datetime; %>
+                        
             <% $networking_counter++; %>
                 
             <% for ( split /\s+/, $networking->photos ) { %>
@@ -179,11 +184,9 @@
     
             </div>
     
-            <% unless ($networking_counter == @{$self->{NETWORKING}}) { %>
+            <% last if $networking_counter >= 3;  %>
             
             <hr />
-            
-            <% } %>
         
         <% } %>
 
