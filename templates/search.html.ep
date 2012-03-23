@@ -90,7 +90,9 @@
             <a title="<%= $result->title %>" href="<%= $result->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
-            
+        
+            <% last; %>
+        
         <% } %>
             
         <% unless (($result->title eq '') or ($result->title =~ /^\s+$/g)) { %>
