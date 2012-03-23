@@ -12,18 +12,6 @@
     <% my $result_counter; %>
     
     <% for my $result (@{$self->{SEARCH_RESULTS}}) { %>
-
-        <% $result_counter++; %>
-        
-        <% if ($result_counter == 1) { %>
-        
-        <h1>Search Results</h1>
-        
-        <% } elsif ($result_counter > 1) { %>
-	
-	<hr />
-	
-	<% } %>
         
         <% if ($self->param('pages')) { %>
         
@@ -84,6 +72,18 @@
             <% next unless (($result->title =~ m/$string/i) or ($result->body =~ m/$string/i)); %>
 
         <% } %>
+
+        <% $result_counter++; %>
+        
+        <% if ($result_counter == 1) { %>
+        
+        <h1>Search Results</h1>
+        
+        <% } elsif ($result_counter > 1) { %>
+	
+	<hr />
+	
+	<% } %>
         
         <% for ( split /\s+/, $result->photos ) { %>
 
