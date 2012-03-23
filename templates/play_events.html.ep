@@ -78,16 +78,16 @@
 
 	    <% if ($upcoming_events_counter == 1) { %>
     
-	    <a dojoType="dojox.image.Lightbox" title="<%= $upcoming_events->title %>" href="<%= $_ %>">
-		<img class="para_image_right" src="<%= $_ %>" />
-	    </a>
+		<a dojoType="dojox.image.Lightbox" title="<%= $upcoming_events->title %>" href="<%= $_ %>">
+		    <img class="para_image_right" src="<%= $_ %>" />
+		</a>
 
 	    	<% unless (scalar (split /\s+/, $upcoming_events->photos) <= 1 ) { %>
 	
 		<div class="content_thumbnails_right">
 		    
-		<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-		<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $upcoming_events->id %>"></div>
+		    <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
+		    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $upcoming_events->id %>"></div>
 	
 		</div>
 	
