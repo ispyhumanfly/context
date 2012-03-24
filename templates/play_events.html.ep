@@ -2,6 +2,7 @@
 % layout 'default';
 %
 % my $upcoming_events_length = 10;
+% my $last_start_datetime;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -139,51 +140,7 @@
             
         </span>
 
-	<h3>
-	    
-<!--	    <% if ($self->session('admin')) { %>
-    
-	    <a href="javascript:history.go(-1)">Back | </a>
-	    <a href="/editor?mode=update&id=<%= $upcoming_events->id %>" style="margin-left: 10px;">Edit</a>
-    	    
-	    <% } else { %>
-    
-	    <a href="javascript:history.go(-1)">Back</a>
-	    
-	    <% } %>
-
-	    <div style="text-align: right; margin-top: -20px;">
-
-		<% my $next_event_counter; %>
-		
-		<% my $next_event; %>
-		
-	    	<% for (@{$self->{UPCOMING_EVENTS}}) { %>
-
-		    <% $next_event_counter++; %>
-		    
-		    <% if ($self->param('id')) { %>
-		    
-		    <% next unless $_->id < int($self->param('id')); %>
-		    
-		    <% $next_event = $_; %>
-		    
-		    <% } elsif (not $self->param('id')) { %>
-		
-		    <% $next_event = @{$self->{UPCOMING_EVENTS}}->[+1]; %>
-		    
-		    <% } %>
-		    
-		    <a href="/play/events?id=<%= $next_event->id %>">Next</a>
-		    
-		    <% last; %>
-		    
-		<% } %>
-		
-	    </div>
-	-->
-	
-	</h3>
+	<h3></h3>
 	
 	<% } else { %>
 
@@ -216,8 +173,14 @@
 	
 	<% } %>
 	
-        <% last if $upcoming_events_counter == $upcoming_events_length; %>
-        
+	<% if ($upcoming_events_counter == $upcoming_events_length) { %>
+	
+	    <% $last_start_datetime = $upcoming_events->start_datetime->epoch; %>
+	    
+	    <% last; %>
+	
+	<% } %>
+	
     <% } %>
 
     <h3>
@@ -225,44 +188,20 @@
 	<a href="javascript:history.go(-1)">Back</a>
 	
 	<div style="text-align: right; margin-top: -20px;">
-
-	    <% my $next_event_counter; %>
 	    
 	    <% for (@{$self->{UPCOMING_EVENTS}}) { %>
-
-		<% my $index = $next_event_counter + $upcoming_events_length; %>
+	    
+		<% next if $_->start_datetime->epoch <= $last_start_datetime; %>
 		
-		<% if (@{$self->{UPCOMING_EVENTS}}->[$index]) { %>
+		<a href="/play/events?start_datetime=<%= $_->start_datetime->epoch; %>">Next</a>
 		
-		    <% my $next_event = @{$self->{UPCOMING_EVENTS}}->[$index]; %>
-		    
-		    <% $next_event_counter++; %>
-		    
-		    <% if ($self->param('start_datetime')) { %>
-		    
-			<% next unless $_->start_datetime->epoch < int($self->param('start_datetime')); %>
-		    
-		    <% } else { %>
-		    
-		    	<% my $local_datetime = DateTime->now; %>
-			<% $local_datetime = $local_datetime->epoch; %>
-    
-			<% next if $_->start_datetime->epoch < $local_datetime; %>
-
-		    <% } %>
-		
-		    <a href="/play/events?start_datetime=<%= $next_event->start_datetime->epoch %>">Next</a>
-		    
-		    <% last; %>
-
-		<% } %>
+		<% last; %>
 		
 	    <% } %>
 	    
 	</div>
 	
     </h3>
-
      
 </div>
 
