@@ -122,7 +122,7 @@
 
         </div>
 
-    <% last; #JUST SHOW ONE %>
+	<% last; %>
 
     <% } %>
     
@@ -132,67 +132,11 @@
 
 <div class="content_right">
 
-    <a href="/play/events"><h1>Events</h1></a>
+    <a href="/play/events"><h1>Events Calendar</h1></a>
 
     <div class="content_right_padding">
         
-        <% my $events_counter; %>
-        
-        <% for my $events (@{$self->{EVENTS}}) { %>
-        
-	    <% my $local_datetime = DateTime->now; %>
-	    <% $local_datetime = $local_datetime->epoch; %>
-	    
-	    <% next if $events->start_datetime->epoch < $local_datetime; %>
-	    
-            <% $events_counter++; %>
-            
-            <% next if $events_counter > 3; %>
-        
-            <% for ( split /\s+/, $events->photos ) { %>
-            
-            <a title="<%= $events->title %>" href="/play/events?start_datetime=<%= $events->start_datetime->epoch %>">
-                <img class="block_thumbnails_right" src="<%= $_ %>"/>
-            </a>
-            
-            <% last; #JUST SHOW ONE %>
-            
-            <% } %>
-             
-            <div class="block_title"><a href="/play/events?start_datetime=<%= $events->start_datetime->epoch %>"><%= $events->title %></a></div>
-            
-	    <div class="block_text">
-		
-	    <% if (($events->start_datetime ne '') or ($events->start_datetime =~ /^\s+$/g)) { %>
-	    
-            <%= $events->start_datetime->day_name %>, <%= $events->start_datetime->day %> <%= $events->start_datetime->month_name %>
-            
-	    <% } %>
-	    
-	    </div>
-            
-            <div class="read_more_left">
-    
-                <% if ( $self->session('admin') ) { %>
-    
-                <a href="/play/events?start_datetime=<%= $events->start_datetime->epoch %>">Read More |</a>
-                <a href="/editor?mode=update&id=<%= $events->id %>">Edit</a>        
-            
-                <% } else { %>
-            
-                <a href="/play/events?start_datetime=<%= $events->start_datetime->epoch %>">Read More</a>
-                
-                <% } %>
-    
-            </div>
-    
-            <% if ($events_counter < 3) { %>
-            
-            <hr />
-            
-            <% } %>
-        
-        <% } %>
+	%= include 'modules/block_events_calendar'
 
 	<div class="block_see_more"><a href="/search?types=event">See More &rarr;</a></div>
 	
