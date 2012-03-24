@@ -817,10 +817,22 @@ get '/search' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Search Results
-    my @search_results =
-      $MODEL->resultset('Content')
-      ->search(undef, {page => 1, rows => 1000, order_by => 'id DESC'})->all;
+    
+    my @search_results;
+    
+    if ($self->param('types') eq 'event') {
 
+        @search_results =
+          $MODEL->resultset('Content')
+          ->search(undef, {page => 1, rows => 1000, order_by => 'start_datetime ASC'})->all;
+    }
+    else {
+
+        @search_results =
+          $MODEL->resultset('Content')
+          ->search(undef, {page => 1, rows => 1000, order_by => 'id DESC'})->all;
+    }
+    
     $self->{'SEARCH_RESULTS'} = \@search_results;
 
     return $self->render('search');

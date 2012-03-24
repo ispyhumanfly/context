@@ -52,7 +52,7 @@
             <% next unless ($result->types =~ m/$types/i); %>
         
             <% if (($types =~ m/event/i) and ($self->param('start_date'))) { %>
-                
+
                 <% if (defined $result->start_datetime) { %>
                 
                 <% my $start_date = $self->param('start_date'); %>
@@ -61,8 +61,20 @@
                 
                 <% } %>
                 
+            <% } elsif ($types =~ m/event/i) { %>
+
+                <% if (defined $result->start_datetime) { %>
+                
+                    <% my $local_datetime = DateTime->now; %>
+                    
+                    <% $local_datetime = $local_datetime->epoch; %>
+                
+                    <% next if $result->start_datetime->epoch < $local_datetime; %>
+
+                <% } %>
+            
             <% } %>
-        
+            
         <% } %>
 
         <% if ($self->param('string')) { %>
@@ -87,7 +99,7 @@
         
         <% for ( split /\s+/, $result->photos ) { %>
 
-            <a title="<%= $result->title %>" href="<%= $result->id %>">
+            <a title="<%= $result->title %>" href="/<%= $result->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
         
@@ -97,7 +109,7 @@
             
         <% unless (($result->title eq '') or ($result->title =~ /^\s+$/g)) { %>
         
-        <h2><%= $result->title %></h2>
+        <a href="/<%= $result->id %>"><h2><%= $result->title %></h2></a>
     
         <% } %>
 
