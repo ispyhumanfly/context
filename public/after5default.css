@@ -1006,7 +1006,7 @@ body {
 	padding: 0px;
 	text-align: center;
 	/*width: 180px;*/
-        width: 310px;
+        width: 312px;
 	overflow: hidden;
         background-color: white; /**/
 }
@@ -1015,14 +1015,14 @@ body {
 	overflow: hidden;
 	position: relative;
 	margin: auto;
-	width: 310px;
+	width: 312px;
         background-color: white; /**/
 }
 .dojoxCalendar .no-header .dojoxCalendarBody {
 	height: 162px;
 }
 .dojoxCalendar .dijitCalendarDayLabels, .dojoxCalendarMonthLabels, .dojoxCalendarYearLabels, .dojoxCal-MY-labels {
-	width: 310px;
+	width: 312px;
 	height: 138px;
 	top: 0px;
 	position: absolute;
@@ -1032,7 +1032,7 @@ body {
         
 }
 .dojoxCalendar .dojoxCalendarBody > div {
-	width: 310px;
+	width: 312px;
         
 }
 .dojoxCalendar .dijitCalendarDateTemplate {
@@ -1056,7 +1056,7 @@ body {
 .dojoxCalendarHeader {
 	height: 20px;
 	/*width: 172px;*/
-        width: 310px;
+        width: 312px;
 	padding: 4px 4px 0;
         background-color: white; /**/
 }
