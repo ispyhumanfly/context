@@ -132,7 +132,7 @@
 
 <div class="content_right">
 
-    <a href="/search?tags=networking"><h1>Networking Events</h1></a>
+    <a href="/search?types=event&tags=networking"><h1>Networking Events</h1></a>
 
     <div class="content_right_padding">
         
