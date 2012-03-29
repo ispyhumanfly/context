@@ -89,9 +89,8 @@ body {
     background-image: url('/NavigationBground.png');
     background-color: white;
     text-align: left;
-    height: 37px;
+    height: 35px;
     font-family: Verdana Bold;
-    font-weight: bold;
     border-bottom: 10px solid white;
 }
 
@@ -108,14 +107,12 @@ body {
     float: left;
     position: relative;
     font-size: 15px;
-    text-decoration: none;
-
 }
 
 #navigation_container a {
 
     display: block;
-    padding: 9px 25px 0 25px;
+    padding: 7px 25px 0 25px;
     color: #ffffff;
     text-decoration: none;
 }
@@ -123,7 +120,7 @@ body {
 #navigation_container a:hover {
 
     display: block;
-    padding: 9px 25px 0 25px;
+    padding: 7px 25px 0 25px;
     margin: 0px;
     color: #ffffff;
     height: 28px;
@@ -143,7 +140,7 @@ body {
 #navigation_container .search_form {
 
     text-align: right;
-    padding-top: 6.2px;
+    padding-top: 5px;
 
 }
 
@@ -215,9 +212,8 @@ body {
 #content_container h2 {
 
     color: #1a3721;
-    font-family: Verdana;
-    font-size: larger;
-    font-weight: normal;
+    font-family: Verdana Bold;
+    font-size: large;
     margin-top: 0px;
     margin-bottom: 5px;
 }
@@ -742,7 +738,6 @@ body {
     
     width: 310px;
     height: auto;
-    border: 0px;
 
 }
 

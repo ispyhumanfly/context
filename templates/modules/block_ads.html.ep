@@ -1,0 +1,31 @@
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dojo.date.locale");
+    dojo.require("dojox.widget.Calendar");
+    
+//]]></script>
+
+<div class="ad_space_block">
+
+    <script type="text/javascript">//<![CDATA[
+    
+        var block_ads = new Array();
+    
+        <% for my $ad (@{$ads_block}) { %>
+    
+            <% for ( split /\s+/, $ad->photos ) { %>
+    
+            block_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' class='block_ad_image' /></a>");
+    
+            <% last; # ONLY SHOW ONE %>
+    
+            <% } %>
+    
+        <% } %>
+        
+        var random = Math.floor(Math.random() * block_ads.length);
+        document.write(block_ads[random]);
+    
+    //]]></script>
+
+</div>

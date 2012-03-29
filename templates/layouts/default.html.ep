@@ -7,8 +7,10 @@
 
 	<title>after5detroit.com :: <%= title %></title>
 
+	
 	<link rel="stylesheet" type="text/css" href="/after5default.css">
    
+	
         <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dijit/themes/nihilo/nihilo.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/image/resources/Lightbox.css">
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/image/resources/image.css">
@@ -97,7 +99,7 @@
 	
 			    <% for ( split /\s+/, $ad->photos ) { %>
 	
-			    header_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 728px; height: 90px;' /></a>");
+			    header_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
 	
 			    <% last; # ONLY SHOW ONE %>
 	
