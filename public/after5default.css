@@ -877,12 +877,15 @@ body {
     text-align: right;
     margin-right: 50px;
     padding: 10px;
+    border: 0px;
 }
 
 #content_container .social_sharing img {
 
     width: 30px;
-    height: 30px;    
+    height: 30px;
+    border: 0px;
+    
 }
 
 #content_container .social_sharing_right {
@@ -893,12 +896,14 @@ body {
     margin-right: 48px;
     padding: 10px;
     float: right;
+    border: 0px;
 }
 
 #content_container .social_sharing_right img {
     
     width: 30px;
     height: 30px;
+    border: 0px;
 }
 
 #content_container .social_sharing_center {
@@ -908,12 +913,14 @@ body {
     text-align: center;
     padding-top: 10px;
     padding-bottom: 5px;
+    border: 0px;
 }
 
 #content_container .social_sharing_center img {
     
     width: 35px;
     height: 35px;
+    border: 0px;
 }
 
 #content_container .content_thumbnails_right {
