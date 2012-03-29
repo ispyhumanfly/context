@@ -3,6 +3,8 @@
 @font-face {
 
     font-family: Verdana;
+    font-weight: normal;
+    font-style: normal;
     src: url("/fonts/Verdana.ttf");
 }
 
@@ -10,6 +12,8 @@
 @font-face {
 
     font-family: Verdana Italic;
+    font-weight: normal;
+    font-style: italic;
     src: url("/fonts/Verdana Italic.ttf");
 }
 
@@ -17,14 +21,9 @@
 @font-face {
 
     font-family: Verdana Bold;
+    font-weight: bold;
+    font-style: normal;
     src: url("/fonts/Verdana Bold.ttf");
-}
-
-/* Verdana Bold Italic*/
-@font-face {
-
-    font-family: Verdana Bold Italic;
-    src: url("/fonts/Verdana Bold Italic.ttf");
 }
 
 /* Verdana Bold Italic*/
@@ -39,6 +38,7 @@ body {
     background-color: #222;
     width: 1080px;
     font-family: Verdana;
+    font-size:100%;
     overflow-x: hidden;
     margin:0px auto;
     text-align: center;
@@ -90,7 +90,7 @@ body {
     background-color: white;
     text-align: left;
     height: 37px;
-    font-family: Verdana Bold;
+    font-family: Verdana;
     font-weight: bold;
     border-bottom: 10px solid white;
 }
@@ -107,7 +107,7 @@ body {
 
     float: left;
     position: relative;
-    font-size: 15px;
+    font-size: 1em;
     text-decoration: none;
 
 }
@@ -194,11 +194,11 @@ body {
     width: 91%;
     height: 33px;
     margin-top: 0px;
-    font-size: larger;
-    font-weight: lighter;
+    font-size: 1em;
+    font-weight: bolder;
     text-align: right;
     vertical-align: middle;
-    padding-top: 5px;
+    padding-top: 8px;
     padding-right: 30px;
     background-color: #1a3721;
     border-radius: 0 25px 25px 0;
@@ -592,13 +592,15 @@ body {
 
 #content_container .read_more_right {
 
+
+    font-family: Verdana;
     padding-top: 0px;
     padding-bottom: 10px;
     color: #1a3721;
     text-align: right;
     font-size: small;
+    font-weight: bolder;
     margin-right: 75px;
-    font-family: Verdana Bold;
 }
 
 #content_container .read_more_left {
@@ -609,7 +611,8 @@ body {
     text-align: left;
     margin-left: 0px;
     font-size: 10px;
-    font-family: Verdana Bold;
+    font-weight: bolder;
+    font-family: Verdana;
 }
 
 #content_container .read_more_left_live {
