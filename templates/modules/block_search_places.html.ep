@@ -9,7 +9,7 @@
     
     <label>City</label>
     
-    <select name="cities" style="width: 175px; margin-right: 5px; padding: 0px;">
+    <select name="cities" style="width: 150px; margin-right: 5px; padding: 0px;">
         
         <option value="birmingham">
             Birmingham
@@ -25,11 +25,11 @@
         </option>
     </select>    
     
-    <br />
+    <div class="content_spacer"></div>
     
     <label>Interest</label>
     
-    <select name="interests" style="width: 175px; margin-right: 5px; padding: 0px;">
+    <select name="interests" style="width: 150px; margin-right: 5px; padding: 0px;">
         
         <option value="dining">
             Dining
@@ -46,11 +46,11 @@
         
     </select>    
     
-    <br />
+    <div class="content_spacer"></div>
     
     <label>Filter</label>
 
-    <input type="text" name="string" style="width: 175px; padding: 0px;"/>
+    <input type="text" name="string" style="width: 100px; padding: 0px;"/>
     
     <button type="submit" style="margin-right: 5px;">Search</button>
 

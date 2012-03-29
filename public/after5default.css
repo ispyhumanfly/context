@@ -56,9 +56,9 @@ body {
     
 }
 
-.b { font-family: Verdana Bold; font-weight: normal; }
+.b { font-family: Verdana; font-weight: bold; }
 
-.i { font-family: Verdana Italic; }
+.i { font-family: Verdana; font-style: italic; }
 
 #header_container {
 
@@ -239,7 +239,8 @@ body {
 #content_container h4 {
 
     color: #222;
-    font-family: Verdana Bold;
+    font-family: Verdana;
+    font-weight: bold;
     font-size: small;
     margin-top: 0px;
     margin-bottom: 10px;
@@ -437,7 +438,7 @@ body {
 
 #content_details_small .title {
     
-    font-family: Verdana Bold;
+    font-weight: bold;
     font-size: small;
     color: black;
     padding-bottom: 2px;
@@ -452,7 +453,7 @@ body {
 
 #content_details_small .link {
     
-    font-family: Verdana Bold;
+    font-weight: bold;
     font-size: small;
     color: #1a3721;
     padding-bottom: 5px;
@@ -465,7 +466,7 @@ body {
 
 #content_details_large .title {
     
-    font-family: Verdana Bold;
+    font-weight: bold;
     font-size: large;
     color: black;
     padding-bottom: 2px;
@@ -480,7 +481,7 @@ body {
 
 #content_details_large .link {
     
-    font-family: Verdana Bold;
+    font-weight: bold;
     font-size: large;
     color: #1a3721;
     padding-bottom: 5px;
@@ -627,7 +628,8 @@ body {
     text-align: left;
     font-size: small;
     margin-left: 125px;
-    font-family: Verdana Bold;
+    font-weight: bold;
+    font-family: Verdana;
 }
 
 #content_container .content_spacer {
@@ -665,9 +667,9 @@ body {
 #content_container .block_title {
 
     color: #222;
-    font-family: Verdana Bold;
+    font-family: Verdana;
     font-size: small;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 #content_container .block_text {
@@ -728,7 +730,8 @@ body {
 
 #content_container .block_about_box_title {
     
-    font-family: Verdana Bold;
+    font-family: Verdana;
+    font-weight: bold;
     color: #1a3721;
     font-size: larger;
     text-align: left;
@@ -737,7 +740,8 @@ body {
 
 #content_container .block_about_box_text {
     
-    font-family: Verdana Bold;
+    font-family: Verdana;
+    font-weight: bold;
     padding: 5px;
     text-align: left;
     font-color: black;
@@ -793,7 +797,8 @@ body {
 
 #live_bullet_navigation .title {
     
-    font-family: Verdana Bold;
+    font-family: Verdana;
+    font-weight: bolder;
     font-size: large;
 }
 
