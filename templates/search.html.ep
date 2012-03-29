@@ -183,7 +183,7 @@
 
     <h1>Search After5</h1>
     
-    %= include 'modules/block_search_places', mode => 'header_search_bar'
+    %= include 'modules/block_search_places'
 
     <div class="content_right_padding">
 	

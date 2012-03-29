@@ -215,7 +215,9 @@
 
         %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
     
-	%= include 'modules/block_search_places', mode => 'search_bar_mini'
+	<h1>Search After5</h1>
+	
+	%= include 'modules/block_search_places'
 
     </div>
     

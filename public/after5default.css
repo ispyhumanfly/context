@@ -89,7 +89,7 @@ body {
     background-image: url('/NavigationBground.png');
     background-color: white;
     text-align: left;
-    height: 37px;
+    height: 36px;
     font-family: Verdana;
     font-weight: bold;
     border-bottom: 10px solid white;
@@ -115,7 +115,7 @@ body {
 #navigation_container a {
 
     display: block;
-    padding: 9px 25px 0 25px;
+    padding: 8px 25px 0 25px;
     color: #ffffff;
     text-decoration: none;
 }
@@ -123,7 +123,7 @@ body {
 #navigation_container a:hover {
 
     display: block;
-    padding: 9px 25px 0 25px;
+    padding: 8px 25px 0 25px;
     margin: 0px;
     color: #ffffff;
     height: 28px;
@@ -195,10 +195,10 @@ body {
     height: 33px;
     margin-top: 0px;
     font-size: 1em;
-    font-weight: bolder;
+    font-weight: bold;
     text-align: right;
     vertical-align: middle;
-    padding-top: 8px;
+    padding-top: 0.7em;
     padding-right: 30px;
     background-color: #1a3721;
     border-radius: 0 25px 25px 0;
@@ -217,7 +217,7 @@ body {
     color: #1a3721;
     font-family: Verdana;
     font-size: larger;
-    font-weight: normal;
+    font-weight: bold;
     margin-top: 0px;
     margin-bottom: 5px;
 }
@@ -230,7 +230,8 @@ body {
     background-color: #e6e2e3;
     color: #1a3721;
     padding: 10px;
-    font-size: medium;
+    font-size: 1em;
+    font-weight: bold;
     clear: both;
     list-style-type: square;
 }
@@ -288,9 +289,10 @@ body {
 #content_container .work_content_title {
 
     color: #1a3721;
-    font-family: Verdana Bold;
+    font-family: Verdana;
     font-size: large;
-    font-weight: normal;
+    font-weight: bold;
+    
 }
 
 #content_container .work_content_text {
@@ -312,15 +314,17 @@ body {
 
 #content_container .content_work_left p {
 
-    font-family: Verdana Bold;
+    font-family: Verdana;
+    font-weight: bold;
     font-size: 8.5pt;
     padding-left: 5px;
 }
 
 #content_container .content_work_left_heading {
 
-    font-family: Verdana Bold;
+    font-family: Verdana;
     color: white;
+    font-weight: bold;
     font-size: 15px;
     text-align: left;
     height: 35px;

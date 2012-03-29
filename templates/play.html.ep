@@ -141,9 +141,11 @@
 	<div class="block_see_more" style="margin-top: -12px;"><a href="/search?types=event">See More &rarr;</a></div>
 	
         %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
-
-	%= include 'modules/block_search_places', mode => 'search_bar_mini'
 	
     </div>
+
+    <h1>Search After5</h1>
+
+    %= include 'modules/block_search_places'
 
 </div>

@@ -5,21 +5,11 @@
 
 //]]></script>
 
-<% if ($mode eq 'search_bar_mini') { %>
-
-<div class="block_caption_text">Search After5 &darr;</a></div>
-
-<% } elsif ($mode eq 'search_bar_header') { %>
-
-<div class="content_right_padding">
-    
-<% } %>
-
 <div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
     
     <label>City</label>
     
-    <select name="cities" style="width: 175px;">
+    <select name="cities" style="width: 175px; margin-right: 5px; padding: 0px;">
         
         <option value="birmingham">
             Birmingham
@@ -39,7 +29,7 @@
     
     <label>Interest</label>
     
-    <select name="interests" style="width: 175px;">
+    <select name="interests" style="width: 175px; margin-right: 5px; padding: 0px;">
         
         <option value="dining">
             Dining
@@ -58,16 +48,10 @@
     
     <br />
     
-    <label>Search</label>
+    <label>Filter</label>
 
-    <input type="text" name="string" />
+    <input type="text" name="string" style="width: 175px; padding: 0px;"/>
     
-    <button type="submit" style="float: right; margin-right: 5px;">GO</button>
+    <button type="submit" style="margin-right: 5px;">Search</button>
 
 </div>
-
-<% if ($mode eq 'header_bar') { %>
-
-</div>
-
-<% } %>
