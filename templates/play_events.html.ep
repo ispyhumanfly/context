@@ -49,14 +49,15 @@
 	    
 	<% if ($self->param('start_datetime')) { %>
 	
-	    <% next unless $upcoming_events->start_datetime->epoch >= int($self->param('start_datetime')); %>
+	    <% my $requested_datetime = DateTime->from_epoch( epoch => int($self->param('start_datetime'))); %>
+	    
+	    <% next unless $upcoming_events->start_datetime->epoch >= $requested_datetime->epoch; %>
 	    
 	<% } else { %>
 	
 	    <% my $local_datetime = DateTime->now; %>
-	    <% $local_datetime = $local_datetime->epoch; %>
 	    
-	    <% next if $upcoming_events->start_datetime->epoch < $local_datetime; %>
+	    <% next if $upcoming_events->start_datetime->day_of_year < $local_datetime->day_of_year; %>
     
 	<% } %>
 	
@@ -191,6 +192,7 @@
 		<% next if $_->start_datetime->epoch <= $last_start_datetime; %>
 		
 		<a href="/play/events?start_datetime=<%= $_->start_datetime->epoch; %>">Next</a>
+		
 		
 		<% last; %>
 		
