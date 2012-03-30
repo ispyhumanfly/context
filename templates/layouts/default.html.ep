@@ -184,6 +184,12 @@
 	    %= include 'modules/content_message', message => $self->param('message') 			
 	    % }
 	
+	    <!--[if lt IE 9 ]>
+	    
+	    %= include 'modules/content_message', message => "Please upgrade to Internet Explorer 9 for the best viewing experience. Otherwise, please switch to Safari/Chrome or Firefox!" 			
+	    
+	    <![endif]-->
+
 	</div>
 
     </body>
