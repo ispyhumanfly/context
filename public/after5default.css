@@ -1025,10 +1025,11 @@ body {
     overflow-x: no-content;
     overflow-y: no-display;
     
-    right: 5px;
+    top: 40%;
+    left: 40%;
+    
     padding: 0;
     position: fixed;
-    bottom: 10px;
     vertical-align: middle;
     z-index: 999;
     text-align: left;
@@ -1042,6 +1043,7 @@ body {
     width: 200px;
     height: auto;
     cursor: pointer;
+    padding: 25px;
     
     border-radius: 5px 5px 5px 5px;
     -moz-border-radius: 5px 5px 5px 5px;
