@@ -1432,13 +1432,13 @@ post '/api/newsletter/message' => sub {
             print "OK. Log says:\n", $Mail::Sendmail::log;
 
             my $text = 'Message successfully sent!';
-            return $self->redirect_to("/about/contact?message=$text");
+            return $self->redirect_to("/about/newsletter?message=$text");
         }
     }
     else {
         
         my $text = 'Error sending message. Please try again!';
-        return $self->redirect_to("/about/contact?message=$text");
+        return $self->redirect_to("/about/newsletter?message=$text");
     }
 
     return $self->redirect_to('about_newsletter');
