@@ -1354,6 +1354,10 @@ post '/api/contact/message' => sub {
             my $message =
                 "\n\nContact Message from After5...\n\n\tName: "
               . $self->param('name')
+              . "\n\n\tAge: "
+              . $self->param('age')
+              . "\n\n\tGender: "
+              . $self->param('gender')
               . "\n\n\tEmail: "
               . $self->param('email')
               . "\n\n\tCity/State or Zip: " . ''
@@ -1368,7 +1372,7 @@ post '/api/contact/message' => sub {
 
                 To      => 'kerry@after5detroit.com',
                 Cc      => 'dan@thoughtpivot.com',
-                From    => 'contact@after5detroit.com',
+                From    => 'no-reply@after5detroit.com',
                 Subject => 'after5detroit: ' . $self->param('subject'),
                 Message => $message
             );
@@ -1378,6 +1382,11 @@ post '/api/contact/message' => sub {
             print "OK. Log says:\n", $Mail::Sendmail::log;
 
         }
+    }
+    else {
+        
+        my $message = 'There seems to be some trouble processing your request. Please try again!';
+        return $self->redirect_to("/about/contact?message=$message");
     }
 
     return $self->redirect_to('about_contact');
@@ -1401,6 +1410,10 @@ post '/api/newsletter/message' => sub {
             my $message =
                 "\n\nNewsletter Sign-Up from After5...\n\n\tName: "
               . $self->param('name')
+              . "\n\n\tAge: "
+              . $self->param('age')
+              . "\n\n\tGender: "
+              . $self->param('gender')
               . "\n\n\tEmail: "
               . $self->param('email')
               . "\n\n\tCity/State or Zip: " . ''
@@ -1411,7 +1424,7 @@ post '/api/newsletter/message' => sub {
 
                 To      => 'kerry@after5detroit.com',
                 Cc      => 'dan@thoughtpivot.com',
-                From    => 'contact@after5detroit.com',
+                From    => 'no-reply@after5detroit.com',
                 Subject => 'after5detroit: Newsletter Sign-Up!',
                 Message => $message
             );

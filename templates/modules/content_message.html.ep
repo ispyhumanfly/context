@@ -1,0 +1,32 @@
+<script type="text/javascript">//<![CDATA[
+
+    dojo.addOnLoad(_initMessage);
+
+    function _initMessage() {
+
+        var message  = dojo.byId("content_message");
+
+        dojo.fadeOut({
+            
+          node: message, duration: 1000, onEnd: function() {
+            message.style.display = "none";
+          }
+          
+        }).play(1500);
+    }
+    
+//]]></script>
+
+<div id="content_message">
+    
+    <div class="message_box">
+        
+        <div class="message_text">
+            
+          <%= $message %>
+          
+        </div>
+
+    </div>
+
+</div>

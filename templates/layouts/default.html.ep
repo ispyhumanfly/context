@@ -23,7 +23,6 @@
             dojo.require("dijit.form.TextBox");
             dojo.require("dijit.form.Button");
 	    dojo.require("dojox.image.Lightbox");
-	    dojo.require("dijit.Dialog");
 
             dojo.addOnLoad(_initLoader);
 
@@ -116,7 +115,7 @@
 
 		</div>
 	            
-		<%= content %>
+		%= content
     
 	    </div>
     
@@ -180,6 +179,10 @@
 		
 	    </div>
 	    
+	    % if ($self->param('message')) {
+	    %= include 'modules/content_message', message => $self->param('message') 			
+	    % }
+	
 	</div>
 
     </body>

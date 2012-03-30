@@ -1,11 +1,5 @@
 % title 'About';
 % layout 'default';
-%
-%
-%
-% opendir(my $stock_dir, "public/stock/");
-% my @stock_photos = grep(/\.jpg|png|gif$/,readdir($stock_dir));
-% closedir($stock_dir);
 
 <script type="text/javascript">//<![CDATA[
 
@@ -15,7 +9,7 @@
 //]]></script>
 
 <div class="content_left">
-
+    
     <h1>Contact Us</h1>
 
     <div class="about_form_container">
@@ -65,7 +59,51 @@
                 <input type="text" name="name"></input>
     
                 <br />
+
+                <label>Age</label>
+                
+                <select name="age">
+                    
+                    <option value="<%= '21-25' %>">
+                        21-25
+                    </option>
+                    
+                    <option value="<%= '26-30' %>">
+                        26-30
+                    </option>
+                        
+                    <option value="<%= ' 31-35' %>">
+                         31-35
+                    </option>
     
+                    <option value="<%= '36-40' %>">
+                        36-40
+                    </option>
+                    
+                    <option value="<%= '40+' %>">
+                        40+
+                    </option>
+                    
+                </select>    
+
+                <br />
+
+                <label>Gender</label>
+                
+                <select name="gender">
+                    
+                    <option value="<%= 'Male' %>">
+                        Male
+                    </option>
+                    
+                    <option value="<%= 'Female' %>">
+                        Female
+                    </option>
+                    
+                </select>    
+
+                <br />
+                
                 <label>City/State/Zip</label>
                 
                 <input type="text" name="city_state_zip"></input>

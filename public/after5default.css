@@ -932,13 +932,20 @@ body {
 #content_loader {
 
     background: #222;
-    height: 2500px; /* I made this really huge on purpose */
+    
+    /* I made this really huge on purpose */
+    height: 10000px; 
+    width: 10000px;
+    
+    /* Hide the scroll bars. */
+    overflow-x: no-content;
+    overflow-y: no-display;
+    
     left: 0;
     padding: 0;
     position: absolute;
     top: 0;
     vertical-align: middle;
-    width: 100%;
     z-index: 999;
     text-align: left;
 }
@@ -1010,6 +1017,45 @@ body {
 
     color: white;
     text-decoration: none;
+}
+
+#content_message {
+    
+    /* Hide the scroll bars. */
+    overflow-x: no-content;
+    overflow-y: no-display;
+    
+    right: 5px;
+    padding: 0;
+    position: fixed;
+    bottom: 10px;
+    vertical-align: middle;
+    z-index: 999;
+    text-align: left;
+
+}
+
+#content_message .message_box {
+        
+    border: 2px solid  #1a3721;
+    background-color: #8bc53e;
+    width: 200px;
+    height: auto;
+    cursor: pointer;
+    
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+}
+
+#content_message .message_text {
+    
+    font-family: Verdana;
+    font-weight: normal;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: larger;
 }
 
 #content_editor {
