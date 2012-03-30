@@ -1066,7 +1066,7 @@ post '/api/content/create' => sub {
     }
 
     if ($self->param('body')) {
-after5detroit
+
         $MODEL->resultset('Content')->search({id => $new_content->id})
           ->update({body => encode_string($self->param('body'))});
     }
@@ -1155,8 +1155,14 @@ after5detroit
           if scalar @photos >= 1;
     }
 
-    $self->redirect_to('/' . $new_content->id);
-
+    my $id = $new_content->id;
+    
+    my $text =
+    
+        'After5 content successfully created.'
+        . "<a href='/$id'>Click here to view permalink page.</a>";
+        
+    return $self->redirect_to("/editor?mode=update&id=$id&message=$text");    
 };
 
 post '/api/content/update' => sub {
@@ -1310,9 +1316,16 @@ post '/api/content/update' => sub {
     $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->update({modified_datetime => DateTime->now});
 
-    my $id = $self->param('id');
-    $self->redirect_to("/$id");
 
+    my $id = $self->param('id');
+    
+    my $text =
+    
+        'After5 content successfully updated.'
+        . "<a href='/$id'>Click here to view permalink page.</a>";
+        
+    return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
+    
 };
 
 any '/api/content/remove' => sub {
@@ -1330,8 +1343,9 @@ any '/api/content/remove' => sub {
     unlink "public/$_" for @content_photos;
 
     $content->delete;
-
-    return $self->redirect_to('dashboard');
+    
+    my $text = 'After5 content successfully removed.';
+    return $self->redirect_to("/dashboard?message=$text");
 
 };
 
@@ -1495,7 +1509,8 @@ post '/api/settings/update' => sub {
 
     $MODEL->resultset('Settings')->update({about => $self->param('about')});
 
-    return $self->redirect_to('settings');
+    my $text = 'After5 settings successfully updated.';
+    return $self->redirect_to("/settings?message=$text");
 
 };
 

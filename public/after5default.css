@@ -1060,6 +1060,12 @@ body {
     font-size: larger;
 }
 
+#content_message .message_text a {
+    
+    text-decoration: none;
+    color: inherit;
+}
+
 #content_editor {
     
     width: 200px;

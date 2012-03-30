@@ -23,7 +23,7 @@
         
         <div class="message_text">
             
-          <%= $message %>
+          <%== $message %>
           
         </div>
 
