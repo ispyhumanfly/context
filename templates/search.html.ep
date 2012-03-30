@@ -175,8 +175,16 @@
         
     <% } %>
 
+    <% if ($result_counter > 1) { %>
+
     <h3><a href="javascript:history.go(-1)">Back</a></h3>
 
+    <% } else { %>
+    
+    %= include 'modules/content_message', message => "Sorry, we can't find what you're looking for."
+    
+    <% } %>
+    
 </div>
 
 <div class="content_right">
