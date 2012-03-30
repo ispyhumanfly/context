@@ -34,21 +34,10 @@
     dojo.require("dojox.editor.plugins.PrettyPrint");
     dojo.require("dojox.editor.plugins.TextColor");
     dojo.require("dojox.editor.plugins.PasteFromWord");
-
-    <% if ($self->param('mode') eq 'create') { %>
     
-    function create_content () {
+    function submit_content () {
 	
-	dojo.xhrPost({form: dojo.byId('content_form'), handleAs: 'text'});
-	window.location = "/dashboard";
-    }
-    
-    <% } elsif ($self->param('mode') eq 'update') { %>
-    
-    function update_content () {
-	
-	dojo.xhrPost({form: dojo.byId('content_form'), handleAs: 'text'});
-	window.location = "/editor?mode=update&id=<%= $self->{CONTENT}->id %>";
+	document.getElementById('content_form').submit();
     }
     
     function remove_photo (id, photo) {
@@ -57,8 +46,6 @@
 	dojo.byId(photo).innerHTML = "";
     }
     
-    <% } %>
-
 //]]></script>
 
 <% if ( $self->session('admin') ) { %>
@@ -782,19 +769,22 @@
        
 	<% } %>
 
-	<h3>&nbsp;</h3>
+	<h3>
+	    
+	    <% if ( $self->param('mode') eq 'create' ) { %>
+	    
+	    <a href="javascript:submit_content()">Create</a>
 	
-	<% if ( $self->param('mode') eq 'create' ) { %>
+	    <% } elsif ( $self->param('mode') eq 'update' ) { %>
+	    
+	    <a href="javascript:submit_content()">Update |</a>
+	    <a href="/api/content/remove?id=<%= $self->{CONTENT}->id %>">Remove |</a>
+	    <a href="/<%= $self->{CONTENT}->id %>">Permalink Page</a>
+	    
+	    <% } %>
 	
-	<button dojoType="dijit.form.Button" type="submit">Create</button>
 	
-	<% } elsif ( $self->param('mode') eq 'update' ) { %>
-	
-	<button dojoType="dijit.form.Button" type="submit">Update</button>
-	<button dojoType="dijit.form.Button" onclick="window.location='/api/content/remove?id=<%= $self->{CONTENT}->id %>'">Remove</button>
-	<button dojoType="dijit.form.Button" onclick="window.location='/<%= $self->{CONTENT}->id %>'">Show Content</button>
-	
-	<% } %>
+	</h3>
 	    
     </div>
 
@@ -883,7 +873,7 @@
     
     <div data-dojo-type="dijit.MenuSeparator"></div>
 
-    <div dojoType="dijit.MenuItem" onClick="update_content();">
+    <div dojoType="dijit.MenuItem" onClick="submit_content();">
         Save Current Progress
     </div>
 
