@@ -1354,10 +1354,6 @@ post '/api/contact/message' => sub {
             my $message =
                 "\n\nContact Message from After5...\n\n\tName: "
               . $self->param('name')
-              . "\n\n\tAge: "
-              . $self->param('age')
-              . "\n\n\tGender: "
-              . $self->param('gender')
               . "\n\n\tEmail: "
               . $self->param('email')
               . "\n\n\tCity/State or Zip: " . ''
@@ -1434,7 +1430,15 @@ post '/api/newsletter/message' => sub {
             sendmail(%mail) or die $Mail::Sendmail::error;
 
             print "OK. Log says:\n", $Mail::Sendmail::log;
+
+            my $text = 'Message successfully sent!';
+            return $self->redirect_to("/about/contact?message=$text");
         }
+    }
+    else {
+        
+        my $text = 'Error sending message. Please try again!';
+        return $self->redirect_to("/about/contact?message=$text");
     }
 
     return $self->redirect_to('about_newsletter');
