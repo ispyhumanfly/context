@@ -1030,7 +1030,7 @@ body {
     overflow-x: no-content;
     overflow-y: no-display;
     
-    top: 40%;
+    top: 25px;
     left: 40%;
     
     padding: 0;
@@ -1043,8 +1043,8 @@ body {
 
 #content_message .message_box {
         
-    border: 2px solid  #1a3721;
-    background-color: #8bc53e;
+    border: 2px solid  #222;
+    background-color: #e6e2e3;
     width: 200px;
     height: auto;
     cursor: pointer;

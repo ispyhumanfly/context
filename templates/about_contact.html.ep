@@ -20,11 +20,11 @@
             
         </div>
         
-        <hr />
+        <div class="content_spacer"></div>
         
         <form class="about_form_area" encType="multipart/form-data" action="/api/contact/message" method="post">
             
-            <div style="float: left; margin-left: 35px; text-align: right;">
+            <div style="float: left; margin-left: 35px; text-align: right; margin-top: 8px;">
 
                 <label>Subject</label>
                 
@@ -68,7 +68,7 @@
                     
             </div>
             
-            <div style="float: right; margin-right: 35px; text-align: right;">
+            <div style="float: right; margin-right: 35px; text-align: right; margin-top: 8px;">
 
                 <label>Email</label>
                 
