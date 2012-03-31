@@ -122,7 +122,7 @@
     
 	    <div id="footer_container">
     
-		<div>
+		<div style="margin-left: 35px;">
 		    <ul>
 			<li><a href="/live" style="font-weight: bold; font-size: large;">Live</a></li>
 			<li><a href="/live/birmingham">Birmingham</a></li>
@@ -164,20 +164,6 @@
 		    </ul>
     
 		</div>
-    
-		<% if ( $self->session('admin') ) { %>
-    
-		<div>
-		    <ul>
-			<li><a href="/dashboard" style="font-weight: bold; font-size: large;">Dashboard</a></li>
-			<li><a href="/settings">Settings</a></li>
-			<li><a href="/editor?mode=create">Editor</a></li>
-			<li><a href="/logout">Logout</a></li>
-		    </ul>
-		</div>
-    
-		<% } %>
-		
 	    </div>
 	    
 	    % if ($self->param('message')) {
@@ -186,7 +172,7 @@
 	
 	    <!--[if lt IE 9 ]>
 	    
-	    %= include 'modules/content_message', message => "Please upgrade to Internet Explorer 9 for the best viewing experience. Otherwise, please switch to Safari/Chrome or Firefox!" 			
+	    %= include 'modules/content_message', message => "Hi, you're using an older version of Internet Explorer. <br /><br /><a href='http://windows.microsoft.com/en-US/internet-explorer/downloads/ie-9/worldwide-languages'>You can click here to upgrade to IE9 from Microsoft's website.</a><br /><br />Otherwise, please switch to Safari/Chrome or Firefox for better viewing!" 			
 	    
 	    <![endif]-->
 
