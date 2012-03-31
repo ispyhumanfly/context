@@ -582,7 +582,7 @@ body {
 
 #content_container .about_stock_photo img {
 
-    width: 625px;
+    width: auto;
     height: 350px;
     border: 1px solid #1a3721; 
 }
@@ -1030,7 +1030,7 @@ body {
     overflow-x: no-content;
     overflow-y: no-display;
     
-    top: 25px;
+    top: 40%;
     left: 40%;
     
     padding: 0;
@@ -1043,8 +1043,8 @@ body {
 
 #content_message .message_box {
         
-    border: 2px solid  #222;
-    background-color: #e6e2e3;
+    border: 2px solid  #1a3721;
+    background-color: #8bc53e;
     width: 200px;
     height: auto;
     cursor: pointer;
