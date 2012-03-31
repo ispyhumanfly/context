@@ -16,7 +16,7 @@
 
        <div class="about_stock_photo">
             
-            <img src="/stock/Easter%20Weekend%20Events.jpg"></img>
+            <img src="<%= $self->{STOCK_PHOTO} %>"></img>
             
         </div>
         

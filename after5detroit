@@ -15,6 +15,7 @@ use HTML::FormatText;
 use Archive::Extract;
 use Mail::Sendmail;
 use File::Copy;
+use IO::Dir;
 use Encode;
 
 use lib 'lib';
@@ -131,12 +132,12 @@ get '/live/birmingham' => sub {
 
     # Featured Lifestyle
     my @featured_lifestyle = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            types  => {like => '%place%'},
-            tags   => {like => '%lifestyle%'},
-            cities => {like => '%birmingham%'},
+        {   pages     => {like => '%live%'},
+            types     => {like => '%place%'},
+            tags      => {like => '%lifestyle%'},
+            cities    => {like => '%birmingham%'},
             interests => {like => '%living%'},
-            position => 1
+            position  => 1
         },
         {page => 1, rows => 1, order_by => 'id DESC'}
     )->all;
@@ -192,12 +193,12 @@ get '/live/detroit' => sub {
 
     # Featured Lifestyle
     my @featured_lifestyle = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            types  => {like => '%place%'},
-            tags   => {like => '%lifestyle%'},
-            cities => {like => '%detroit%'},
+        {   pages     => {like => '%live%'},
+            types     => {like => '%place%'},
+            tags      => {like => '%lifestyle%'},
+            cities    => {like => '%detroit%'},
             interests => {like => '%living%'},
-            position => 1
+            position  => 1
         },
         {page => 1, rows => 1, order_by => 'id DESC'}
     )->all;
@@ -253,12 +254,12 @@ get '/live/ferndale' => sub {
 
     # Featured Lifestyle
     my @featured_lifestyle = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            types  => {like => '%place%'},
-            tags   => {like => '%lifestyle%'},
-            cities => {like => '%ferndale%'},
+        {   pages     => {like => '%live%'},
+            types     => {like => '%place%'},
+            tags      => {like => '%lifestyle%'},
+            cities    => {like => '%ferndale%'},
             interests => {like => '%living%'},
-            position => 1
+            position  => 1
         },
         {page => 1, rows => 1, order_by => 'id DESC'}
     )->all;
@@ -314,12 +315,12 @@ get '/live/royal_oak' => sub {
 
     # Featured Lifestyle
     my @featured_lifestyle = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            types  => {like => '%place%'},
-            tags   => {like => '%lifestyle%'},
-            cities => {like => '%royal_oak%'},
+        {   pages     => {like => '%live%'},
+            types     => {like => '%place%'},
+            tags      => {like => '%lifestyle%'},
+            cities    => {like => '%royal_oak%'},
             interests => {like => '%living%'},
-            position => 1
+            position  => 1
         },
         {page => 1, rows => 1, order_by => 'id DESC'}
     )->all;
@@ -444,14 +445,14 @@ get '/work/professional_development' => sub {
 
     # Networking
     my @networking = $MODEL->resultset('Content')->search(
-        {   types          => {like => '%event%'},
-            tags           => {like => '%networking%'}
+        {   types => {like => '%event%'},
+            tags  => {like => '%networking%'}
         },
         {page => 1, rows => 500, order_by => 'start_datetime ASC'}
     )->all;
-    
+
     $self->{'NETWORKING'} = \@networking;
-    
+
     return $self->render('work_professional_development');
 
 } => 'work_professional_development';
@@ -741,6 +742,8 @@ get '/about' => sub {
 
     $self->{'PRESS'} = \@press;
 
+    $self->{'STOCK_PHOTO'} = stock_photo();
+
     return $self->render('about');
 
 } => 'about';
@@ -765,6 +768,8 @@ get '/about/contact' => sub {
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
+
+    $self->{'STOCK_PHOTO'} = stock_photo();
 
     return $self->render('about_contact');
 
@@ -791,6 +796,9 @@ get '/about/newsletter' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
+    $self->{'STOCK_PHOTO'} = stock_photo();
+    
+    return $self->render('about_newsletter');
 
 } => 'about_newsletter';
 
@@ -817,22 +825,24 @@ get '/search' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Search Results
-    
+
     my @search_results;
-    
+
     if ($self->param('types') eq 'event') {
 
         @search_results =
           $MODEL->resultset('Content')
-          ->search(undef, {page => 1, rows => 1000, order_by => 'start_datetime ASC'})->all;
+          ->search(undef,
+            {page => 1, rows => 1000, order_by => 'start_datetime ASC'})->all;
     }
     else {
 
         @search_results =
           $MODEL->resultset('Content')
-          ->search(undef, {page => 1, rows => 1000, order_by => 'id DESC'})->all;
+          ->search(undef, {page => 1, rows => 1000, order_by => 'id DESC'})
+          ->all;
     }
-    
+
     $self->{'SEARCH_RESULTS'} = \@search_results;
 
     return $self->render('search');
@@ -945,6 +955,7 @@ get '/dashboard' => sub {
       $MODEL->resultset('Content')
       ->search(undef,
         {page => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
+
     $self->{'RECENT_UPDATES'} = \@recent_updates;
 
     return $self->render('dashboard');
@@ -961,6 +972,7 @@ get '/editor' => sub {
     my $content =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
+
     $self->{'CONTENT'} = $content;
 
     # Recent Updates
@@ -968,6 +980,7 @@ get '/editor' => sub {
       $MODEL->resultset('Content')
       ->search(undef,
         {page => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
+
     $self->{'RECENT_UPDATES'} = \@recent_updates;
 
     return $self->render('editor');
@@ -1156,13 +1169,13 @@ post '/api/content/create' => sub {
     }
 
     my $id = $new_content->id;
-    
+
     my $text =
-    
-        'After5 content successfully created.'
-        . "<a href='/$id'>Click here to view permalink page.</a>";
-        
-    return $self->redirect_to("/editor?mode=update&id=$id&message=$text");    
+
+      'After5 content successfully created.'
+      . "<a href='/$id'>Click here to view permalink page.</a>";
+
+    return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 };
 
 post '/api/content/update' => sub {
@@ -1318,14 +1331,14 @@ post '/api/content/update' => sub {
 
 
     my $id = $self->param('id');
-    
+
     my $text =
-    
-        'After5 content successfully updated.'
-        . "<a href='/$id'>Click here to view permalink page.</a>";
-        
+
+      'After5 content successfully updated.'
+      . "<a href='/$id'>Click here to view permalink page.</a>";
+
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
-    
+
 };
 
 any '/api/content/remove' => sub {
@@ -1343,7 +1356,7 @@ any '/api/content/remove' => sub {
     unlink "public/$_" for @content_photos;
 
     $content->delete;
-    
+
     my $text = 'After5 content successfully removed.';
     return $self->redirect_to("/dashboard?message=$text");
 
@@ -1390,13 +1403,13 @@ post '/api/contact/message' => sub {
             sendmail(%mail) or die $Mail::Sendmail::error;
 
             print "OK. Log says:\n", $Mail::Sendmail::log;
-            
+
             my $text = 'Message successfully sent!';
             return $self->redirect_to("/about/contact?message=$text");
         }
     }
     else {
-        
+
         my $text = 'Error sending message. Please try again!';
         return $self->redirect_to("/about/contact?message=$text");
     }
@@ -1450,7 +1463,7 @@ post '/api/newsletter/message' => sub {
         }
     }
     else {
-        
+
         my $text = 'Error sending message. Please try again!';
         return $self->redirect_to("/about/newsletter?message=$text");
     }
@@ -1606,7 +1619,7 @@ sub process_photo {
         return @new_photos;
     }
 
-    return undef;
+    return;
 }
 
 sub google_local {
@@ -1621,12 +1634,37 @@ sub google_local {
         return $data->results;
     }
 
-    return undef;
+    return;
 }
 
 sub encode_string {
 
     return Encode::encode('ISO-8859-1', shift);
+}
+
+sub stock_photo {
+
+    my $self = shift;
+
+    my $photos = IO::Dir->new("public/stock/");
+
+    my @random_stock;
+
+    if (defined $photos) {
+
+        while (defined($_ = $photos->read)) {
+
+            push @random_stock, $_
+              unless -d $_ or $_ =~ m/^\./g;
+        }
+
+        undef $photos;
+    }
+
+    my $stock_photo =
+      "/stock/" . $random_stock[int(rand(scalar @random_stock))];
+      
+    return $stock_photo;
 }
 
 app->secret('after5detroit.com');
