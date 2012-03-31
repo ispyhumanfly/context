@@ -582,8 +582,8 @@ body {
 
 #content_container .about_stock_photo img {
 
-    max-width: 600px;
-    max-height: 350px;
+    width: auto;
+    height: 350px;
     border: 1px solid #1a3721; 
 }
 
