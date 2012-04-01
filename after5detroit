@@ -797,7 +797,7 @@ get '/about/newsletter' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     $self->{'STOCK_PHOTO'} = stock_photo();
-    
+
     return $self->render('about_newsletter');
 
 } => 'about_newsletter';
@@ -1188,46 +1188,74 @@ post '/api/content/update' => sub {
 
     if (($self->param('start_date')) and ($self->param('start_time'))) {
 
-        my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
-            $self->param('start_date') . $self->param('start_time'));
+        try {
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({start_datetime => $start_datetime});
+            my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
+                $self->param('start_date') . $self->param('start_time'));
+
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({start_datetime => $start_datetime});
+        }
+        catch {
+
+            editor_error($self, 'update', $self->param('id'), $_);
+        }
 
     }
 
     if (($self->param('stop_date')) and ($self->param('stop_time'))) {
 
-        my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
-            $self->param('stop_date') . $self->param('stop_time'));
+        try {
+            
+            my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
+                $self->param('stop_date') . $self->param('stop_time'));
+    
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({stop_datetime => $stop_datetime});
+        }
+        catch {
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({stop_datetime => $stop_datetime});
-
+            editor_error($self, 'update', $self->param('id'), $_);
+        }
     }
 
     if ($self->param('author')) {
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({author => encode_string($self->param('author'))});
+        try {
+            
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({author => encode_string($self->param('author'))});
+        }
+        catch {
+
+            editor_error($self, 'update', $self->param('id'), $_);
+        }
     }
 
     if ($self->param('title')) {
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({title => encode_string($self->param('title'))});
+        try {
+            
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({title => encode_string($self->param('title'))});    
+        }
+        catch {
+
+            editor_error($self, 'update', $self->param('id'), $_);
+        }
     }
 
     if ($self->param('body')) {
 
-        #my $id = $self->param('id');
-        #
-        #my $text = $self->param('body');
-        #
-        #return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
-    
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({body => encode_string($self->param('body'))});
+        try { 
+        
+            $MODEL->resultset('Content')->search({id => $self->param('id')})
+              ->update({body => encode_string($self->param('body'))});
+        }
+        catch {
+            
+            editor_error($self, 'update', $self->param('id'), $_);
+        }
     }
 
     if ($self->param('interests')) {
@@ -1669,8 +1697,31 @@ sub stock_photo {
 
     my $stock_photo =
       "/stock/" . $random_stock[int(rand(scalar @random_stock))];
-      
+
     return $stock_photo;
+}
+
+sub editor_error {
+
+    my ($self, $mode, $id, $text) = @_;
+    
+    given ($mode) {
+        
+        when ('update') {
+            
+            return $self->redirect_to(
+                "/editor?mode=update&id=$id&message=$text");
+        }
+        
+        when ('create') {
+            
+        }
+        default {
+            
+        }
+    }
+    
+    return
 }
 
 app->secret('after5detroit.com');
