@@ -40,6 +40,23 @@
 
         //]]></script>
 
+	<% if ($self->session('admin')) { %>
+	
+	<script type="text/javascript" src="/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script >
+	
+	<script type="text/javascript" >//<![CDATA[
+
+	    tinyMCE.init({
+		
+		mode : "textareas",
+		theme : "advanced"
+		
+	    });
+	    
+	//]]></script>
+
+	<% } %>
+	
     </head>
 
     <body class="nihilo">

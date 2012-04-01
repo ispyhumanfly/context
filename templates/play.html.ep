@@ -87,7 +87,7 @@
 
     <% } %>
 
-    <h3><a href="/search?types=place">More Places &rarr;</a></h3>
+    <h3><a href="/search?types=article&tags=place">More Places &rarr;</a></h3>
     
     <% for my $articles (@{$self->{BUZZ}}) { %>
         

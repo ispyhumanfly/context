@@ -7,23 +7,18 @@
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/PasteFromWord.css" />
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/editor/plugins/resources/css/Save.css" />
 
+</script >
+
 <!--<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/form/resources/UploaderFileList.css" />
 -->
 
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dijit.form.TextBox");
-    dojo.require("dijit.form.Textarea");
     dojo.require("dijit.form.DateTextBox");
     dojo.require("dijit.form.TimeTextBox");
     dojo.require("dijit.form.MultiSelect");
     dojo.require("dojox.form.DropDownSelect");
 
-    //dojo.require("dojox.form.Uploader");
-    //dojo.require("dojox.form.uploader.plugins.Flash");
-    //dojo.require("dojox.form.uploader.FileList");
-
-    dojo.require("dijit.Editor");
     dojo.require("dijit.Menu");
 
     dojo.require("dijit._editor.plugins.AlwaysShowToolbar");
@@ -36,7 +31,7 @@
     dojo.require("dojox.editor.plugins.PasteFromWord");
     
     function submit_content () {
-	
+    	
 	document.getElementById('content_form').submit();
     }
     
@@ -45,7 +40,7 @@
 	dojo.xhrPost({ url: '/api/photo/remove', postData: 'id=' + id + '&photo=' + photo + '' })
 	dojo.byId(photo).innerHTML = "";
     }
-    
+  
 //]]></script>
 
 <% if ( $self->session('admin') ) { %>
@@ -54,11 +49,11 @@
 
     <% if ( $self->param('mode') eq 'create' ) { %>
 
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/api/content/create" method="post" id="content_form">
+    <form encType="multipart/form-data" action="/api/content/create" method="post" id="content_form">
 
     <% } elsif ( $self->param('mode') eq 'update' ) { %>
 
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/api/content/update?id=<%= $self->{CONTENT}->id %>" method="post" id="content_form">
+    <form encType="multipart/form-data" action="/api/content/update?id=<%= $self->{CONTENT}->id %>" method="post" id="content_form">
 
     <% } %>
 	
@@ -76,7 +71,7 @@
     
 	<% } %>
 	
-	<h4>The author of this entry.</h4>
+	<h4>Author</h4>
     
 	<% if ( $self->param('mode') eq 'create' ) { %>
 		
@@ -88,7 +83,7 @@
 
 	<% } %>
 
-	<h4>The title of this entry.</h4>
+	<h4>Title</h4>
 
 	<% if ( $self->param('mode') eq 'create' ) { %>
 
@@ -104,13 +99,13 @@
 	
 	<h4>Body</h4>
 
-	<textarea dojoType="dijit.Editor" name="body"  extraPlugins="[{name: 'save', url: '/cpanel/content/update'}, 'prettyprint', 'AlwaysShowToolbar', 'pastefromword', 'createLink', 'unlink', 'insertImage','foreColor', 'hiliteColor', 'fontName', 'fontSize', 'formatBlock']"></textarea>
+	<textarea name="body"></textarea>
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
 
 	<h4 style="clear: both;">Body</h4>
 
-	<textarea dojoType="dijit.Editor" name="body"  extraPlugins="[{name: 'save', url: '/cpanel/content/update'}, 'prettyprint', 'AlwaysShowToolbar', 'pastefromword', 'createLink', 'unlink', 'insertImage', 'foreColor', 'hiliteColor', 'fontName', 'fontSize', 'formatBlock']" value="<%= $self->{CONTENT}->body %>"><%= $self->{CONTENT}->body %></textarea>
+	<textarea id="content_editor" name="body"><%= $self->{CONTENT}->body %></textarea>
 	
 	<% } %>
 
@@ -141,6 +136,7 @@
 	<div id="<%= $_ %>" style="display: inline;">
     	
 	    <img src="<%= $_ %>" class="more_thumbnails_left" />
+	    
 	    <div style="display: inline;" onclick="remove_photo(<%= $self->{CONTENT}->id %>, '<%= $_ %>')">X</div>
 	    
 	</div>
@@ -152,7 +148,121 @@
 	<% } %>
 
 	<h3>&nbsp;</h3>
+
+	<h1>Details</h1>
+        
+	<% if ( $self->param('mode') eq 'create' ) { %>
+    
+	<h4>Link</h4>
 	
+	<div dojoType="dijit.form.TextBox" name="link" value=""></div>
+    
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h4>Link</h4>
+    
+	<div dojoType="dijit.form.TextBox" name="link" value="<%= $self->{CONTENT}->link %>"></div>
+    
+	<% } %>
+    
+	<% if ( $self->param('mode') eq 'create' ) { %>
+    
+	<h4>Venue</h4>
+	
+	<div dojoType="dijit.form.TextBox" name="venue" value=""></div>
+    
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h4>Venue</h4>
+    
+	<div dojoType="dijit.form.TextBox" name="venue" value="<%= $self->{CONTENT}->venue %>"></div>
+    
+	<% } %>
+    
+	<% if ( $self->param('mode') eq 'create' ) { %>
+    
+	<h4>Address</h4>
+	
+	<div dojoType="dijit.form.TextBox" name="address" value=""></div>
+    
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	<h4>Address</h4>
+    
+	<div dojoType="dijit.form.TextBox" name="address" value="<%= $self->{CONTENT}->address %>"></div>
+    
+	<% } %>
+    
+	<% if ( $self->param('mode') eq 'create' ) { %>
+    
+	<h4>Start Date</h4>
+	
+	<input dojoType="dijit.form.DateTextBox" name="start_date" value="" />
+
+	<h4>Start Time</h4>
+    
+	<input dojoType="dijit.form.TimeTextBox" name="start_time" value="" />
+    
+	<h4>Stop Date</h4>
+    
+	<input dojoType="dijit.form.DateTextBox" name="stop_date" value="" />
+        
+	<h4>Stop Time</h4>
+    
+	<input dojoType="dijit.form.TimeTextBox" name="stop_time" value="" />
+    
+    
+	<% } elsif ( $self->param('mode') eq 'update' ) { %>
+    
+	    <% if ( $self->{CONTENT}->start_datetime ne '') { %>
+	
+	    <h4>Start Date</h4>
+        
+	    <input dojoType="dijit.form.DateTextBox" name="start_date" value="<%= $self->{CONTENT}->start_datetime->ymd %>"/>
+
+	    <h4>Start Time</h4>
+    
+	    <input dojoType="dijit.form.TimeTextBox" name="start_time" value="T<%= $self->{CONTENT}->start_datetime->hms %>"/>
+	    
+	    <% } else { %>
+	    
+	    <h4>Start Date</h4>
+	    
+	    <input dojoType="dijit.form.DateTextBox" name="start_date" value=""/>
+	    
+	    <h4>Start Time</h4>
+    
+	    <input dojoType="dijit.form.TimeTextBox" name="start_time" value=""/>
+	    
+	    <% } %>
+	    
+
+	    <% if ( $self->{CONTENT}->stop_datetime ne '') { %>
+	    
+	    <h4>Stop Date</h4>
+	    
+	    <input dojoType="dijit.form.DateTextBox" name="stop_date" value="<%= $self->{CONTENT}->stop_datetime->ymd %>"/>
+
+	    <h4>Stop Time</h4>
+    
+	    <input dojoType="dijit.form.TimeTextBox" name="stop_time" value="T<%= $self->{CONTENT}->stop_datetime->hms %>"/>
+   	    
+	    <% } else { %>
+
+	    <h4>Stop Date</h4>
+	    
+	    <input dojoType="dijit.form.DateTextBox" name="stop_date" value="" />
+
+	    <h4>Stop Time</h4>
+    
+	    <input dojoType="dijit.form.TimeTextBox" name="stop_time" value="" />
+	    
+	    <% } %>
+       
+	<% } %>
+	
+	<h3>&nbsp;</h3>
+
 	<h1>Placement</h1>
     
 	<% if ( $self->param('mode') eq 'create' ) { %>
@@ -596,11 +706,7 @@
 	</select>
     
 	<% } %>
-    
-	<h3>&nbsp;</h3>
-    
-	<h1>Links, Places and Events</h1>
-    
+
 	<% if ( $self->param('mode') eq 'create' ) { %>
     
 	<h4>Interests</h4>
@@ -659,116 +765,6 @@
     
 	<% } %>
     
-	<% if ( $self->param('mode') eq 'create' ) { %>
-    
-	<h4>Link</h4>
-	
-	<div dojoType="dijit.form.TextBox" name="link" value=""></div>
-    
-	<% } elsif ( $self->param('mode') eq 'update' ) { %>
-    
-	<h4>Link</h4>
-    
-	<div dojoType="dijit.form.TextBox" name="link" value="<%= $self->{CONTENT}->link %>"></div>
-    
-	<% } %>
-    
-	<% if ( $self->param('mode') eq 'create' ) { %>
-    
-	<h4>Venue</h4>
-	
-	<div dojoType="dijit.form.TextBox" name="venue" value=""></div>
-    
-	<% } elsif ( $self->param('mode') eq 'update' ) { %>
-    
-	<h4>Venue</h4>
-    
-	<div dojoType="dijit.form.TextBox" name="venue" value="<%= $self->{CONTENT}->venue %>"></div>
-    
-	<% } %>
-    
-	<% if ( $self->param('mode') eq 'create' ) { %>
-    
-	<h4>Address</h4>
-	
-	<div dojoType="dijit.form.TextBox" name="address" value=""></div>
-    
-	<% } elsif ( $self->param('mode') eq 'update' ) { %>
-    
-	<h4>Address</h4>
-    
-	<div dojoType="dijit.form.TextBox" name="address" value="<%= $self->{CONTENT}->address %>"></div>
-    
-	<% } %>
-    
-	<% if ( $self->param('mode') eq 'create' ) { %>
-    
-	<h4>Start Date</h4>
-	
-	<input dojoType="dijit.form.DateTextBox" name="start_date" value="" />
-
-	<h4>Start Time</h4>
-    
-	<input dojoType="dijit.form.TimeTextBox" name="start_time" value="" />
-    
-	<h4>Stop Date</h4>
-    
-	<input dojoType="dijit.form.DateTextBox" name="stop_date" value="" />
-        
-	<h4>Stop Time</h4>
-    
-	<input dojoType="dijit.form.TimeTextBox" name="stop_time" value="" />
-    
-    
-	<% } elsif ( $self->param('mode') eq 'update' ) { %>
-    
-	    <% if ( $self->{CONTENT}->start_datetime ne '') { %>
-	
-	    <h4>Start Date</h4>
-        
-	    <input dojoType="dijit.form.DateTextBox" name="start_date" value="<%= $self->{CONTENT}->start_datetime->ymd %>"/>
-
-	    <h4>Start Time</h4>
-    
-	    <input dojoType="dijit.form.TimeTextBox" name="start_time" value="T<%= $self->{CONTENT}->start_datetime->hms %>"/>
-	    
-	    <% } else { %>
-	    
-	    <h4>Start Date</h4>
-	    
-	    <input dojoType="dijit.form.DateTextBox" name="start_date" value=""/>
-	    
-	    <h4>Start Time</h4>
-    
-	    <input dojoType="dijit.form.TimeTextBox" name="start_time" value=""/>
-	    
-	    <% } %>
-	    
-
-	    <% if ( $self->{CONTENT}->stop_datetime ne '') { %>
-	    
-	    <h4>Stop Date</h4>
-	    
-	    <input dojoType="dijit.form.DateTextBox" name="stop_date" value="<%= $self->{CONTENT}->stop_datetime->ymd %>"/>
-
-	    <h4>Stop Time</h4>
-    
-	    <input dojoType="dijit.form.TimeTextBox" name="stop_time" value="T<%= $self->{CONTENT}->stop_datetime->hms %>"/>
-   	    
-	    <% } else { %>
-
-	    <h4>Stop Date</h4>
-	    
-	    <input dojoType="dijit.form.DateTextBox" name="stop_date" value="" />
-
-	    <h4>Stop Time</h4>
-    
-	    <input dojoType="dijit.form.TimeTextBox" name="stop_time" value="" />
-	    
-	    <% } %>
-       
-	<% } %>
-
 	<h3>
 	    
 	    <% if ( $self->param('mode') eq 'create' ) { %>
@@ -786,7 +782,7 @@
 	
 	</h3>
 	    
-    </div>
+    </form>
 
 </div>
 

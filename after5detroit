@@ -1220,6 +1220,12 @@ post '/api/content/update' => sub {
 
     if ($self->param('body')) {
 
+        #my $id = $self->param('id');
+        #
+        #my $text = $self->param('body');
+        #
+        #return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
+    
         $MODEL->resultset('Content')->search({id => $self->param('id')})
           ->update({body => encode_string($self->param('body'))});
     }
