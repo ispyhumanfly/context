@@ -212,7 +212,7 @@
         
 	%= include 'modules/block_events_calendar'
 
-	<div class="block_see_more" style="margin-top: -12px;"><a href="/search?types=event">See More &rarr;</a></div>
+	<div class="block_see_more" style="margin-top: -12px;"><a href="/play/events">See More &rarr;</a></div>
 
 	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
         
