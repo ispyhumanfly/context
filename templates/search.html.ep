@@ -67,7 +67,7 @@
                 
                     <% my $local_datetime = DateTime->now; %>
                     
-                    <% next if $result->start_datetime->day_of_year < $local_datetime->day_of_year; %>
+                    <% next if $result->stop_datetime->day_of_year < $local_datetime->day_of_year; %>
 
                 <% } %>
             
