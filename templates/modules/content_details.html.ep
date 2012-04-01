@@ -13,8 +13,8 @@
     
     <div class="text">
         
-	<%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
-	<%= $stop_date->day_name %>, <%= $stop_date->month_name %> <%= $stop_date->day %>
+	<%= $start_date->day_name; %>, <%= $start_date->month_name; %> <%= $start_date->day; %> - 
+	<%= $stop_date->day_name; %>, <%= $stop_date->month_name; %> <%= $stop_date->day; %>
 	
     </div>
     
