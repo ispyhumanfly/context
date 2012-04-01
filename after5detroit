@@ -1192,121 +1192,121 @@ post '/api/content/update' => sub {
 
     if (($self->param('start_date')) and ($self->param('start_time'))) {
 
-        try {
+        #try {
 
             my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
                 $self->param('start_date') . $self->param('start_time'));
 
             $content->update({start_datetime => $start_datetime});
-        }
-        catch {
-
-            error_message($self, 'update', $self->param('id'), $_);
-        }
+        #}
+        #catch {
+        #
+        #    error_message($self, 'update', $self->param('id'), $_);
+        #}
 
     }
 
     if (($self->param('stop_date')) and ($self->param('stop_time'))) {
 
-        try {
+        #try {
 
             my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
                 $self->param('stop_date') . $self->param('stop_time'));
 
             $content->update({stop_datetime => $stop_datetime});
-        }
-        catch {
-
-            error_message($self, 'update', $self->param('id'), $_);
-        }
+        #}
+        #catch {
+        #
+        #    error_message($self, 'update', $self->param('id'), $_);
+        #}
     }
 
     if ($self->param('author')) {
 
-        try {
+        #try {
 
             $content->update({author => encode_string($self->param('author'))});
-        }
-        catch {
-
-            error_message('update', $self->param('id'), $_);
-        }
+        #}
+        #catch {
+        #
+        #    error_message('update', $self->param('id'), $_);
+        #}
     }
 
     if ($self->param('title')) {
 
-        try {
+        #try {
 
             $content->update({title => encode_string($self->param('title'))});
-        }
-        catch {
-
-            error_message($self, 'update', $self->param('id'), $_);
-        }
+        #}
+        #catch {
+        #
+        #    error_message($self, 'update', $self->param('id'), $_);
+        #}
     }
 
     if ($self->param('body')) {
 
-        try {
+        #try {
 
             $content->update({body => encode_string($self->param('body'))});
-        }
-        catch {
-
-            error_message($self, 'update', $self->param('id'), $_);
-        }
+        #}
+        #catch {
+        #
+        #    error_message($self, 'update', $self->param('id'), $_);
+        #}
     }
 
     if ($self->param('interests')) {
 
-        try {
+        #try {
 
             push @interests, $_ for $self->param('interests');
             $content->update({interests => "@interests"});
-        }
-        catch {
-            
-            error_message($self, 'update', $self->param('id'), $_);
-        }
+        #}
+        #catch {
+        #    
+        #    error_message($self, 'update', $self->param('id'), $_);
+        #}
     }
 
     if ($self->param('pages')) {
 
-        try {
+        #try {
 
             push @pages, $_ for $self->param('pages');
             $content->update({pages => "@pages"});
-        }
-        catch {
-
-            error_message($self, 'update', $self->param('id'), $_);
-        }
+        #}
+        #catch {
+        #
+        #    error_message($self, 'update', $self->param('id'), $_);
+        #}
     }
 
     if ($self->param('types')) {
 
-        try {
+        #try {
             
             push @types, $_ for $self->param('types');
             $content->update({types => "@types"});
-        }
-        catch {
-            
-            error_message($self, 'update', $self->param('id'), $_);
-        }
+        #}
+        #catch {
+        #    
+        #    error_message($self, 'update', $self->param('id'), $_);
+        #}
     }
 
     if ($self->param('tags')) {
 
-        try {
+        #try {
         
             push @tags, $_ for $self->param('tags');
             $content->update({tags => "@tags"});
-        }
-        catch {
-            
-            error_message($self, 'update', $self->param('id'), $_);
-        }
+        #}
+        #catch {
+        #    
+        #    error_message($self, 'update', $self->param('id'), $_);
+        #}
     }
 
     if ($self->param('cities')) {
@@ -1375,7 +1375,6 @@ post '/api/content/update' => sub {
 
     $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->update({modified_datetime => DateTime->now});
-
 
     my $id = $self->param('id');
 
