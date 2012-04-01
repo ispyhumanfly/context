@@ -11,6 +11,19 @@
 
 <!--<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.0/dojox/form/resources/UploaderFileList.css" />
 -->
+	
+<script type="text/javascript" src="/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script >
+
+<script type="text/javascript" >//<![CDATA[
+
+    tinyMCE.init({
+	
+	mode : "textareas",
+	theme : "advanced"
+	
+    });
+    
+//]]></script>
 
 <script type="text/javascript">//<![CDATA[
 
