@@ -1186,6 +1186,10 @@ post '/api/content/update' => sub {
 
     my (@tags, @cities, @types, @interests, @pages, @photos);
 
+    my $content =
+      $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->single;
+
     if (($self->param('start_date')) and ($self->param('start_time'))) {
 
         try {
@@ -1193,12 +1197,11 @@ post '/api/content/update' => sub {
             my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
                 $self->param('start_date') . $self->param('start_time'));
 
-            $MODEL->resultset('Content')->search({id => $self->param('id')})
-              ->update({start_datetime => $start_datetime});
+            $content->update({start_datetime => $start_datetime});
         }
         catch {
 
-            editor_error($self, 'update', $self->param('id'), $_);
+            error_message($self, 'update', $self->param('id'), $_);
         }
 
     }
@@ -1206,88 +1209,104 @@ post '/api/content/update' => sub {
     if (($self->param('stop_date')) and ($self->param('stop_time'))) {
 
         try {
-            
+
             my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
                 $self->param('stop_date') . $self->param('stop_time'));
-    
-            $MODEL->resultset('Content')->search({id => $self->param('id')})
-              ->update({stop_datetime => $stop_datetime});
+
+            $content->update({stop_datetime => $stop_datetime});
         }
         catch {
 
-            editor_error($self, 'update', $self->param('id'), $_);
+            error_message($self, 'update', $self->param('id'), $_);
         }
     }
 
     if ($self->param('author')) {
 
         try {
-            
-            $MODEL->resultset('Content')->search({id => $self->param('id')})
-              ->update({author => encode_string($self->param('author'))});
+
+            $content->update({author => encode_string($self->param('author'))});
         }
         catch {
 
-            editor_error($self, 'update', $self->param('id'), $_);
+            error_message('update', $self->param('id'), $_);
         }
     }
 
     if ($self->param('title')) {
 
         try {
-            
-            $MODEL->resultset('Content')->search({id => $self->param('id')})
-              ->update({title => encode_string($self->param('title'))});    
+
+            $content->update({title => encode_string($self->param('title'))});
         }
         catch {
 
-            editor_error($self, 'update', $self->param('id'), $_);
+            error_message($self, 'update', $self->param('id'), $_);
         }
     }
 
     if ($self->param('body')) {
 
-        try { 
-        
-            $MODEL->resultset('Content')->search({id => $self->param('id')})
-              ->update({body => encode_string($self->param('body'))});
+        try {
+
+            $content->update({body => encode_string($self->param('body'))});
         }
         catch {
-            
-            editor_error($self, 'update', $self->param('id'), $_);
+
+            error_message($self, 'update', $self->param('id'), $_);
         }
     }
 
     if ($self->param('interests')) {
 
-        push @interests, $_ for $self->param('interests');
+        try {
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({interests => "@interests"});
+            push @interests, $_ for $self->param('interests');
+            $content->update({interests => "@interests"});
+        }
+        catch {
+            
+            error_message($self, 'update', $self->param('id'), $_);
+        }
     }
 
     if ($self->param('pages')) {
 
-        push @pages, $_ for $self->param('pages');
+        try {
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({pages => "@pages"});
+            push @pages, $_ for $self->param('pages');
+            $content->update({pages => "@pages"});
+        }
+        catch {
+
+            error_message($self, 'update', $self->param('id'), $_);
+        }
     }
 
     if ($self->param('types')) {
 
-        push @types, $_ for $self->param('types');
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({types => "@types"});
+        try {
+            
+            push @types, $_ for $self->param('types');
+            $content->update({types => "@types"});
+        }
+        catch {
+            
+            error_message($self, 'update', $self->param('id'), $_);
+        }
     }
 
     if ($self->param('tags')) {
 
-        push @tags, $_ for $self->param('tags');
-
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({tags => "@tags"});
+        try {
+        
+            push @tags, $_ for $self->param('tags');
+            $content->update({tags => "@tags"});
+        }
+        catch {
+            
+            error_message($self, 'update', $self->param('id'), $_);
+        }
     }
 
     if ($self->param('cities')) {
@@ -1328,15 +1347,10 @@ post '/api/content/update' => sub {
 
     if ($self->param('venue')) {
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({venue => encode_string($self->param('venue'))});
+        $content->update({venue => encode_string($self->param('venue'))});
     }
 
     if ($self->param('default_photo')) {
-
-        my $content =
-          $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->single;
 
         @photos = split /\s+/, $content->photos;
 
@@ -1355,8 +1369,7 @@ post '/api/content/update' => sub {
         push @photos,
           process_photo($self->req->upload('photos'), $self->param('id'));
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->update({photos => "@photos"})
+        $content->update({photos => "@photos"})
           if scalar @photos >= 1;
     }
 
@@ -1368,8 +1381,8 @@ post '/api/content/update' => sub {
 
     my $text =
 
-      'After5 content successfully updated.'
-      . "<a href='/$id'>Click here to view permalink page.</a>";
+      'Content updated.'
+      . "<a href='/$id'>You can click here to view the permalink page.</a>";
 
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 
@@ -1629,12 +1642,11 @@ sub process_photo {
 
                     if ($_ =~ m/jpg|png|gif$/i) {
 
-                        my $checksum = Mojo::Util::md5_sum($_);
-                        my $path     = "/photos/$checksum.img";
-
-                        move "/tmp/$_", "public/$path"
-                          and push @new_photos, $path;
-
+                        my $checksum    = Mojo::Util::md5_sum($_);
+                        my $path        = "public/photos/$checksum.img";
+                        
+                        move "/tmp/$_", "$path"
+                          and push @new_photos, "/$path";
                     }
                 }
             }
@@ -1644,12 +1656,12 @@ sub process_photo {
     }
     elsif ($upload->filename =~ m/jpg|png|gif$/i) {
 
-        my $checksum = Mojo::Util::md5_sum($upload->filename);
-        my $path     = "/photos/$checksum.img";
+        my $checksum    = Mojo::Util::md5_sum($_);
+        my $path        = "public/photos/$checksum.img";
+        
+        $upload->move_to("$path");
 
-        $upload->move_to('public' . $path);
-
-        push @new_photos, $path;
+        push @new_photos, "/$path";
         return @new_photos;
     }
 
@@ -1701,27 +1713,27 @@ sub stock_photo {
     return $stock_photo;
 }
 
-sub editor_error {
+sub error_message {
 
     my ($self, $mode, $id, $text) = @_;
-    
+
     given ($mode) {
-        
+
         when ('update') {
-            
+
             return $self->redirect_to(
                 "/editor?mode=update&id=$id&message=$text");
         }
-        
-        when ('create') {
-            
-        }
-        default {
-            
-        }
+
+        #when ('create') {
+        #
+        #}
+        #default {
+        #
+        #}
     }
-    
-    return
+
+    return;
 }
 
 app->secret('after5detroit.com');

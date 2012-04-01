@@ -166,7 +166,7 @@
         <div class="block_about_box" onclick="window.location='/about/newsletter';">
 
             <div class="block_about_box_title">Newsletter</div>
-            <div class="block_about_box_text">Get weekly updates on exciting happenings around town!</div>            
+            <div class="block_about_box_text">Get weekly updates on happenings around town!</div>            
             
         </div>
 
