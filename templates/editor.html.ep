@@ -25,6 +25,12 @@
 	dojo.xhrPost({ url: '/api/photo/remove', postData: 'id=' + id + '&photo=' + photo + '' })
 	dojo.byId(photo).innerHTML = "";
     }
+    
+    function default_photo (id, photo) {
+	
+	dojo.xhrPost({ url: '/api/content/update', postData: 'id=' + id + '&default_photo=' + photo + '' })
+	dojo.byId(photo).innerHTML = "";
+    }
 
     tinyMCE.init({
 	

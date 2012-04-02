@@ -17,7 +17,20 @@
     <div class="title">Time</div>
     
     <div class="text">
-        <%= $start_date->hour_12 %>:<%= $start_date->minute %><%= $start_date->second %> <%= $start_date->am_or_pm %>
+	
+        <%= $start_date->hour_12 %>:<%= sprintf '%02d', $start_date->minute %> <%= $start_date->am_or_pm %>
+    
+	-
+	
+	<% unless (($content->stop_datetime eq '') or ($content->stop_datetime =~ /^\s+$/)) { %>
+	
+	<% my $stop_date = $content->stop_datetime; %>
+
+	<%= $stop_date->hour_12 %>:<%= sprintf '%02d', $stop_date->minute %> <%= $stop_date->am_or_pm %>
+
+
+	<% } %>
+	
     </div>
     
     <% } %>
