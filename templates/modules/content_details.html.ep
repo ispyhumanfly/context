@@ -4,7 +4,7 @@
 
 <div id="content_details_<%= "$size" if $size %>">
 
-    <% unless (($content->start_datetime eq '') and ($content->stop_datetime eq '')) { %>
+    <% unless (($content->start_datetime eq '') or ($content->start_datetime =~ /^\s+$/)) { %>
     
     <div class="title">Date</div>
     

@@ -9,10 +9,10 @@
 
 <div data-dojo-type="dojox.widget.DailyCalendar">
 
-    <script type="dojo/connect" data-dojo-event="onValueSelected" data-dojo-args="start_date">//<![CDATA[
+    <script type="dojo/connect" data-dojo-event="onValueSelected" data-dojo-args="stop_date">//<![CDATA[
         
-        window.location="/search?types=event&start_date=" +
-            dojo.date.locale.format(start_date, {selector: 'date', datePattern: "MM:dd:yyyy"});
+        window.location="/search?types=event&stop_date=" +
+            dojo.date.locale.format(stop_date, {selector: 'date', datePattern: "MM:dd:yyyy"});
     
     //]]></script>
     
