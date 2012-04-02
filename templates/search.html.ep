@@ -173,13 +173,13 @@
         
     <% } %>
 
-    <% if ($result_counter == 0) { %>
+    <% if ($result_counter >= 1) { %>
 
     <h3><a href="javascript:history.go(-1)">Back</a></h3>
 
-    <% } else { %>
+    <% } elsif ($result_counter < 1) { %>
     
-    %= include 'modules/content_message', message => "Sorry! We can't find what you're looking for - please try a different search."
+    %= include 'modules/content_message', message => "$result_counter Sorry! We can't find what you're looking for - please try a different search."
     
     <% } %>
     
