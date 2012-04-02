@@ -2,7 +2,7 @@
 % layout 'default';
 %
 % my $upcoming_events_length = 10;
-% my $last_stop_datetime;
+% my $last_start_datetime;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -47,9 +47,9 @@
     
     <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
 	    
-	<% if ($self->param('stop_datetime')) { %>
+	<% if ($self->param('start_datetime')) { %>
 	
-	    <% my $requested_datetime = DateTime->from_epoch( epoch => int($self->param('stop_datetime'))); %>
+	    <% my $requested_datetime = DateTime->from_epoch( epoch => int($self->param('start_datetime'))); %>
 	    
 	    <% next unless $upcoming_events->stop_datetime->epoch >= $requested_datetime->epoch; %>
 	    
@@ -94,7 +94,7 @@
 
 	    <% } else { %>
 
-	    <a title="<%= $upcoming_events->title %>" href="/play/events?stop_datetime=<%= $upcoming_events->stop_datetime->epoch %>">
+	    <a title="<%= $upcoming_events->title %>" href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -104,7 +104,7 @@
 
         <% } %>
 
-        <h2><a href="/play/events?stop_datetime=<%= $upcoming_events->stop_datetime->epoch %>"><%= $upcoming_events->title %></a></h2>
+        <h2><a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>"><%= $upcoming_events->title %></a></h2>
     
 	<% if ($upcoming_events_counter == 1) { %>
 	
@@ -150,12 +150,12 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/play/events?stop_datetime=<%= $upcoming_events->stop_datetime->epoch %>">Read More |</a>
+		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/play/events?stop_datetime=<%= $upcoming_events->stop_datetime->epoch %>">Read More</a>
+		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">Read More</a>
 		
 		<% } %>
     
@@ -173,7 +173,7 @@
 	
 	<% if ($upcoming_events_counter == $upcoming_events_length) { %>
 	
-	    <% $last_stop_datetime = $upcoming_events->stop_datetime->epoch; %>
+	    <% $last_start_datetime = $upcoming_events->start_datetime->epoch; %>
 	    
 	    <% last; %>
 	
@@ -189,9 +189,9 @@
 	    
 	    <% for (@{$self->{UPCOMING_EVENTS}}) { %>
 	    
-		<% next if $_->stop_datetime->epoch <= $last_stop_datetime; %>
+		<% next if $_->start_datetime->epoch <= $last_start_datetime; %>
 		
-		<a href="/play/events?stop_datetime=<%= $_->stop_datetime->epoch; %>">Next</a>
+		<a href="/play/events?start_datetime=<%= $_->start_datetime->epoch; %>">Next</a>
 		
 		
 		<% last; %>

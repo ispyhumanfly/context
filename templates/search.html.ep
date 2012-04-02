@@ -51,13 +51,13 @@
             
             <% next unless ($result->types =~ m/$types/i); %>
         
-            <% if (($types =~ m/event/i) and ($self->param('stop_date'))) { %>
+            <% if (($types =~ m/event/i) and ($self->param('start_date'))) { %>
 
                 <% if (defined $result->stop_datetime) { %>
                 
-                <% my $stop_date = $self->param('stop_date'); %>
+                <% my $start_date = $self->param('start_date'); %>
                 
-                <% next unless $result->stop_datetime->mdy(':') =~ m/$stop_date/i; %>
+                <% next unless $result->stop_datetime->mdy(':') =~ m/$start_date/i; %>
                 
                 <% } %>
                 

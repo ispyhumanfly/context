@@ -650,7 +650,7 @@ get '/play/events' => sub {
     # Upcoming Events
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {pages => {like => '%play%'}, types => {like => '%event%'}},
-        {page => 1, rows => 500, order_by => 'stop_datetime ASC'}
+        {page => 1, rows => 500, order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
