@@ -20,6 +20,12 @@ Modern::Perl Mojolicious::Lite DBIx::Class::Candy SQL::Translator
 DateTime::Format::SQLite DateTime::Format::ISO8601 Crypt::SaltedHash 
 Try::Tiny HTML::FormatText REST::Google::Search
 
+=head2 Thirdparty Applications
+
+After5 uses the JavaScript TinyMCE application for its editor.
+Please download http://www.tinymce.com/track.php?url=http%3A%2F%2Fgithub.com%2Fdownloads%2Ftinymce%2Ftinymce%2Ftinymce_3.4.9.zip
+and place it into public/tinymce to enable.
+
 =head1 BUGS
 
 http://github.com/thoughtpivot/after5detroit.com/issues
