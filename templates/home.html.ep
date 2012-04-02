@@ -30,7 +30,7 @@
     
 	    <h2><a href="/<%= $play->id %>"><%= $play->title %></a></h2>
     
-	    <div id="content_body_truncated" class="right"><%== substr( HTML::FormatText->format_string($play->body), 0, 350 ); %></div>
+	    <p class="para_text_right"><%== substr( HTML::FormatText->format_string($play->body), 0, 350 ); %></p>
     
 	    <div class="read_more_right">
 		
@@ -63,7 +63,7 @@
 
 	    <h2><a href="/<%= $play->id %>"><%= $play->title %></a></h2>
 	
-	    <div id="content_body_truncated"><%== substr( HTML::FormatText->format_string($play->body), 0, 300 ); %><div>
+	    <p><%== substr( HTML::FormatText->format_string($play->body), 0, 300 ); %><p>
 	
 	    <div class="read_more_right">
 
@@ -111,7 +111,7 @@
 
 	<h2><a href="/<%= $live->id %>"><%= $live->title %></a></h2>
 
-	<div id="content_body_truncated" class="right"><%== substr( HTML::FormatText->format_string($live->body), 0, 300 ); %></div>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($live->body), 0, 300 ); %></p>
 
             <div class="read_more_right">
 
@@ -155,7 +155,7 @@
 
 	<h2><a href="/<%= $work->id %>"><%= $work->title %></a></h2>
 
-	<div id="content_body_truncated" class="right"><%== substr( HTML::FormatText->format_string($work->body), 0, 300 ); %></div>
+	<p class="para_text_right"><%== substr( HTML::FormatText->format_string($work->body), 0, 300 ); %></p>
 
             <div class="read_more_right">
 

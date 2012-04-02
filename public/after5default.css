@@ -799,6 +799,12 @@ body {
     max-width: 300px;
 }
 
+#content_body_truncated .position_right {
+    
+    margin-left: 385px;
+    max-width: 300px;
+}
+
 
 /* more galleries drop-down */
 
@@ -873,7 +879,7 @@ body {
 #content_container .content_left {
 
     float: left;
-    width: 62%;
+    width: 63%;
     background-color: white;
     border-left: 25px solid white;
     min-height: 500px;
