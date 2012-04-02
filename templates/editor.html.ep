@@ -9,6 +9,7 @@
 
     dojo.require("dijit.form.DateTextBox");
     dojo.require("dijit.form.TimeTextBox");
+    dojo.require("dijit.form.Select");
     dojo.require("dijit.form.MultiSelect");
     dojo.require("dojox.form.DropDownSelect");
 
@@ -647,7 +648,7 @@
     
 	<h4>Position</h4>
     
-	<select dojoType="dijit.form.MultiSelect" multiple="false" name="position" size="10">
+	<select dojoType="dijit.form.Select" name="position" size="10">
     
 	    <option value="none" selected>
 		none
@@ -679,29 +680,29 @@
     
 	<h4>Position</h4>
     
-	<select dojoType="dijit.form.MultiSelect" multiple="false" name="position" size="10">
+	<select dojoType="dijit.form.Select" name="position" size="10">
     
-	    <option value="none" <%= 'selected' if $self->{CONTENT}->position =~ m/none/i %>>
+	    <option value="none" <%== 'selected="selected"' if $self->{CONTENT}->position =~ m/none/i %>>
 		none
 	    </option>
     
-	    <option value="1" <%= 'selected' if $self->{CONTENT}->position =~ m/1/i %>>
+	    <option value="1" <%== 'selected="selected"' if $self->{CONTENT}->position =~ m/1/i %>>
 		1
 	    </option>
     
-	    <option value="2" <%= 'selected' if $self->{CONTENT}->position =~ m/2/i %>>
+	    <option value="2" <%== 'selected="selected"' if $self->{CONTENT}->position =~ m/2/i %>>
 		2
 	    </option>
     
-	    <option value="3" <%= 'selected' if $self->{CONTENT}->position =~ m/3/i %>>
+	    <option value="3" <%== 'selected="selected"' if $self->{CONTENT}->position =~ m/3/i %>>
 		3    
 	    </option>
     
-	    <option value="4" <%= 'selected' if $self->{CONTENT}->position =~ m/4/i %>>
+	    <option value="4" <%== 'selected="selected"' if $self->{CONTENT}->position =~ m/4/i %>>
 		4
 	    </option>
     
-	    <option value="5" <%= 'selected' if $self->{CONTENT}->position =~ m/5/i %>>
+	    <option value="5" <%== 'selected="selected"' if $self->{CONTENT}->position =~ m/5/i %>>
 		5
 	    </option>
     
