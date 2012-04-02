@@ -173,7 +173,7 @@
         
     <% } %>
 
-    <% if ($result_counter > 1) { %>
+    <% if ($result_counter > 2) { %>
 
     <h3><a href="javascript:history.go(-1)">Back</a></h3>
 
