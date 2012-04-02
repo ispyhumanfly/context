@@ -77,7 +77,7 @@
     
 	<% } %>
 	
-	<p><%== $articles->body %></p>
+	<div id="content_body"><%== $articles->body %></div>
 
 	%= include 'modules/content_details', content => $articles, size => 'large'
 	

@@ -56,10 +56,6 @@ body {
     
 }
 
-.b { font-family: Verdana; font-weight: bold; }
-
-.i { font-family: Verdana; font-style: italic; }
-
 #header_container {
 
     background-image: url('/HeaderBground.png');
@@ -758,6 +754,51 @@ body {
     border: 0px;
 
 }
+
+
+/* editor stuff */
+
+#content_body {
+    
+    color: black;
+    font-family: Verdana;
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+#content_body p, span {
+
+    font-size: 13px;
+    color: black;
+    font-family: Verdana;
+    margin: 0;
+    padding: 0;
+    
+}
+
+
+#content_body_truncated {
+
+    color: black;
+    font-family: Verdana;
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#content_body_truncated .right {
+    
+    margin-left: 385px;
+    max-width: 300px;
+}
+
+#content_body_truncated .right_small {
+    
+    margin-left: 285px;
+    max-width: 300px;
+}
+
 
 /* more galleries drop-down */
 

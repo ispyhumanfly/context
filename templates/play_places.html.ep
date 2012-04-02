@@ -103,7 +103,7 @@
 	
 	<h4>By <%= $featured_places->author %></h4>
 
-        <p><%== $featured_places->body %></p>
+        <div id="content_body"><%== $featured_places->body %></div>
     
 	%= include 'modules/content_details', size => 'large', content => $featured_places
 

@@ -75,7 +75,7 @@
 
 	<h4>By <%= $people->author %></h4>
 	
-	<p><%== $people->body %></p>
+	<div id="content_body"><%== $people->body %></div>
 	
 	%= include 'modules/content_details', content => $people, size => 'large'
 

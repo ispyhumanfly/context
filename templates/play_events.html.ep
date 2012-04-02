@@ -114,7 +114,7 @@
 
 	<% } %>
 	
-        <p><%== $upcoming_events->body %></p>
+        <div id="content_body"><%== $upcoming_events->body %></div>
     
 	%= include 'modules/content_details', content => $upcoming_events, size => 'large'
 

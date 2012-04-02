@@ -83,7 +83,7 @@
     
 	<% } %>
 	
-	<%== $neighbors->body %>
+	<div id="content_body"><%== $neighbors->body %></div>
 
         <span class="social_sharing_right">
 
