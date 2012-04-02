@@ -28,6 +28,7 @@
 
     tinyMCE.init({
 	
+	content_css : "tinymce.css",
 	mode : "textareas",
 	theme : "advanced",
 	
