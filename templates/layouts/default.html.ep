@@ -109,7 +109,7 @@
 	
 			    <% for ( split /\s+/, $ad->photos ) { %>
 	
-			    header_ads.push("<a href='<%= $ad->link %>' onclick='update_clicks(<%= $ad->id %>)' target='_blank'><img src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
+			    header_ads.push("<a href='<%= $ad->link %>' onclick='update_clicks(<%= $ad->id %>)' target='_blank'><img onclick='update_views(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
 			    
 			    <% last; # ONLY SHOW ONE %>
 			    
