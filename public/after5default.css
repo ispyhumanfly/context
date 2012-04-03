@@ -491,7 +491,7 @@ body {
     margin-right: 10px;
     margin-bottom: 10px;
     border: 1px solid #1a3721; 
-    width: 275px; height: auto;
+    width: 275px; height: 200px;
 }
 
 #content_container .about_image_right {

@@ -17,11 +17,11 @@
 
     <% for my $views ( @{$self->{VIEWS}} ) { %>
         
-        <h2><a href="/<%= $views->id%>"><%= $views->title %></a></h2>
+        <h2><a href="/<%= $views->id; %>"><%= $views->title; %></a></h2>
 
         <% for ( split /\s+/, $views->photos ) { %>
         
-        <a title="<%= $views->title %>" href="/<%= $views->id %>">
+        <a title="<%= $views->title; %>" href="/<%= $views->id; %>">
             <img class="para_image_left_cpanel" src="<%= $_ %>" />
         </a>
         
