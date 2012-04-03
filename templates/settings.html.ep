@@ -60,6 +60,10 @@
         After5 Editor
     </div>
 
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/analytics';">
+        After5 Analytics
+    </div>
+
     <div data-dojo-type="dijit.MenuSeparator"></div>
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
