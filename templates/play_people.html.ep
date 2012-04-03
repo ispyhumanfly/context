@@ -88,19 +88,19 @@
 
         <span class="social_sharing_right">
 
-            <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/<%= $people->id %>&t=<%= $people->title %>" target="_blank">
+            <a href="http://www.facebook.com/sharer.php?u=http://after5detroit.com/<%= $people->id %>&t=<%= $people->title %>" target="_blank">
                 <img src="/share/Facebook.png" alt="Facebook"/>
             </a>
         
-            <a href="http://www.twitter.com/home?status=<%= $people->title %>,+http://beta.after5detroit.com/<%= $people->id %>" target="_blank">
+            <a href="http://www.twitter.com/home?status=<%= $people->title %>,+http://after5detroit.com/<%= $people->id %>" target="_blank">
                 <img src="/share/Twitter.png" alt="Twitter"/>
             </a>
         
-            <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/<%= $people->id %>" target="_blank">
+            <a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.com/<%= $people->id %>" target="_blank">
                 <img src="/share/Digg.png" alt="Digg"/>
             </a>
         
-            <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/<%= $people->id %>" target="_blank">
+            <a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.com/<%= $people->id %>" target="_blank">
                 <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
             </a>
             
