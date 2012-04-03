@@ -158,7 +158,7 @@
 
 	    <div id="content_body_truncated" class="right">
 		
-		<%== substr( HTML::FormatText->format_string($upcoming_events->body), 0, 400 ) %>
+		<%== substr( HTML::FormatText->format_string($upcoming_events->body), 0, 300 ) %>
 		
 	    </div>
 	
