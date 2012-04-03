@@ -38,12 +38,12 @@
 	      }).play(100);
 	    }
 	    
-	    function update_clicks (id) {
+	    function Temp_update_clicks (id) {
 	
 		dojo.xhrPost({ url: '/api/analytics/clicks', postData: 'id=' + id + '' })
 	    }
 	    
-	    function update_views (id) {
+	    function Temp_update_views (id) {
 	
 		dojo.xhrPost({ url: '/api/analytics/views', postData: 'id=' + id + '' })
 	    }
@@ -109,7 +109,7 @@
 	
 			    <% for ( split /\s+/, $ad->photos ) { %>
 	
-			    header_ads.push("<a href='<%= $ad->link %>' onclick='update_clicks(<%= $ad->id %>)' target='_blank'><img onload='update_views(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
+			    header_ads.push("<a href='<%= $ad->link %>' onclick='Temp_update_clicks(<%= $ad->id %>)' target='_blank'><img onload='Temp_update_views(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
 			    
 			    <% last; # ONLY SHOW ONE %>
 			    
