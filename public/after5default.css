@@ -767,16 +767,44 @@ body {
     margin-bottom: 15px;
 }
 
-#content_body p, span {
+#content_body font {
 
     font-size: 13px;
     color: black;
     font-family: Verdana;
-    margin: 0;
-    padding: 0;
+}
+
+#content_body p {
+
+    font-size: 13px;
+    color: black;
+    font-family: Verdana;
+/*    margin: 0;
+    padding: 0;*/
     
 }
 
+#content_body span {
+
+    font-size: 13px;
+    color: black;
+    font-family: Verdana;
+    background-color: white;
+/*    margin: 0;
+    padding: 0;*/
+    
+}
+
+#content_body b, strong {
+
+    font-size: 13px;
+    color: black;
+    font-family: Verdana;
+    font-style: bold;
+/*    margin: 0;
+    padding: 0;*/
+    
+}
 
 #content_body_truncated {
 

@@ -5,9 +5,9 @@
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/> 
 
-	<title>after5detroit.com :: <%= title %></title>
-
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+
+	<title>after5detroit.com :: <%= title %></title>
 
 	<link rel="stylesheet" type="text/css" href="/after5default.css">
    
@@ -36,6 +36,11 @@
 		  loader.style.display = "none";
 		}
 	      }).play(100);
+	    }
+	    
+	    function update_analytics (type, id) {
+	
+		dojo.xhrPost({ url: '/api/analytics', postData: 'type=' + type + '&id=' + id + '' })
 	    }
 
         //]]></script>

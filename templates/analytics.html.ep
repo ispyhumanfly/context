@@ -1,0 +1,146 @@
+% title 'Analytics';
+% layout 'default';
+%
+% my $recent_update_length = 10;
+
+<script type="text/javascript">//<![CDATA[
+
+    dojo.require("dijit.Menu");
+
+//]]></script>
+
+<% if ( $self->session('admin') ) { %>
+
+<div class="content_left">
+
+    <a href="/home"><h1>Most Viewed</h1></a>
+
+    <% for my $views ( @{$self->{VIEWS}} ) { %>
+        
+        <h2><a href="/<%= $views->id%>"><%= $views->title %></a></h2>
+
+        <% for ( split /\s+/, $views->photos ) { %>
+        
+        <a title="<%= $views->title %>" href="/<%= $views->id %>">
+            <img class="para_image_left_cpanel" src="<%= $_ %>" />
+        </a>
+        
+        <% last; %>
+        
+        <% } %>
+        
+        <% if ($views->body ne '') { %>
+        
+        <p><%= substr( HTML::FormatText->format_string($views->body), 0, 200 ) %></p>
+    
+        <% } %>
+        
+        <div class="read_more_right">
+            
+            <% if ( $self->session('admin') ) { %>
+    
+            <a href="/<%= $views->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $views->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/<%= $views->id %>">Read More</a>
+            
+            <% } %>
+        
+        </div>
+        
+        <div class="content_spacer"></div>
+            
+    <% } %>
+
+</div>
+
+<div class="content_right">
+
+    <h1>Recent Updates</h1>
+
+    <div class="content_right_padding">
+        
+        <% my $recent_updates_counter; %>
+        
+        <% for my $recent_updates (@{$self->{RECENT_UPDATES}}) { %>
+        
+            <% $recent_updates_counter++; %>
+            
+            <% next if $recent_updates_counter > $recent_update_length; %>
+        
+            <% for ( split /\s+/, $recent_updates->photos ) { %>
+            
+            <a title="<%= $recent_updates->title %>" href="/<%= $recent_updates->id %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+            <div class="block_title"><%= $recent_updates->title %></div>
+            
+            <div class="block_text">
+            
+            <% if ($recent_updates->body ne '') { %>
+
+            <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %>  
+        
+            <% } %>
+    
+            </div>
+        
+            <div class="read_more_left">
+    
+                <a href="/<%= $recent_updates->id %>">Read More |</a>
+                <a href="/editor?mode=update&id=<%= $recent_updates->id %>">Edit</a>        
+    
+            </div>
+    
+            <% if ($recent_updates_counter < $recent_update_length) { %>
+            
+            <hr />
+            
+            <% } %>
+        
+        <% } %>
+
+    </div>
+    
+    <h1>Documentation</h1>
+
+    <div class="content_right_padding">
+
+    <p>Documentation is coming soon. :)</p>
+    
+    </div>    
+    
+</div>
+
+<!-- Dashboard Menu -->
+
+<div id="dashboard_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
+
+    <div dojoType="dijit.MenuItem" onClick="window.location='/dashboard';">
+        After5 Dashboard
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="window.location='/settings';">
+        After5 Settings
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
+        After5 Editor
+    </div>
+
+    <div data-dojo-type="dijit.MenuSeparator"></div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
+        Logout of After5
+    </div>
+
+</div>
+
+<% } %>

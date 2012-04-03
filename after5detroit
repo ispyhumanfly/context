@@ -1001,6 +1001,22 @@ get '/settings' => sub {
 
 } => 'settings';
 
+get '/analytics' => sub {
+    
+    my $self = shift;
+    
+     # Views
+    my @views = $MODEL->resultset('Content')->search(
+        {pages => {like => '%play%'}, types => {like => '%event%'}},
+        {page => 1, rows => 500, order_by => 'views'}
+    )->all;
+    
+    $self->{'VIEWS'} = \@views;
+    
+    return $self->render('analytics');
+    
+} => 'analytics';
+
 ### After5 Form API
 
 post '/api/login' => sub {
