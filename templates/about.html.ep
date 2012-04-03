@@ -21,6 +21,14 @@
         
         <% } %>
         
+        <!-- Analytics -->
+	
+        <script type="text/javascript">//<![CDATA[
+
+	update_views(<%= $staff->id; %>);
+
+	//]]></script>
+        
         <h2 style="margin-top: -8px;"><%= $staff->author %></h2>
 
         <h4><%= $staff->title %></h4>
@@ -67,6 +75,13 @@
         
         <% } %>
         
+        <!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	update_views(<%= $press->id; %>);
+
+	//]]></script>
+            
         <h2><a href="<%= $press->link %>" target="_blank"><%= $press->title %></a></h2>
         
         <% for ( split /\s+/, $press->photos ) { %>

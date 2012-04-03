@@ -46,6 +46,13 @@
     
 	<% if ($position == 1) { %>
 	    
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    update_clicks(<%= $city_life->id; %>);
+
+	    //]]></script>
+	    
 	    <% for ( split /\s+/, $city_life->photos ) { %>
     
 	    <a dojoType="dojox.image.Lightbox" title="<%= $city_life->title %>" href="/<%= $city_life->id %>">
@@ -104,6 +111,13 @@
 
 	<% if ($position_lifestyle == 1) { %>
 	
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    update_views(<%= $featured_lifestyle->id; %>);
+
+	    //]]></script>
+	    
 	    <% for ( split /\s+/, $featured_lifestyle->photos ) { %>
     
 	    <a dojoType="dojox.image.Lightbox" title="<%= $featured_lifestyle->title %>" href="<%= $_ %>">
@@ -157,6 +171,13 @@
 	    
 	    <% next if $neighbors->types =~ m/ad/i; %>
     
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    update_views(<%= $neighbors->id; %>);
+
+	    //]]></script>
+	    
 	    <% for ( split /\s+/, $neighbors->photos ) { %>
 	    
 	    <a title="<%= $neighbors->title %>" href="/live/birmingham/neighbors?id=<%= $neighbors->id %>">

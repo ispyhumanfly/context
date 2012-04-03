@@ -54,6 +54,13 @@
 	
 	<% } %>
 	
+	<!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	update_clicks(<%= $neighbors->id; %>);
+
+	//]]></script>
+	    
 	<% for ( split /\s+/, $neighbors->photos ) { %>
 
 	<a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
@@ -168,6 +175,13 @@
 	    <% } %>
 	    
 	    <% $more_neighbors_counter++; %>
+	    
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    update_views(<%= $more_neighbors->id; %>);
+
+	    //]]></script>
 	    
 	    <% for ( split /\s+/, $more_neighbors->photos ) { %>
 	    
