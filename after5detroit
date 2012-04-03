@@ -1005,13 +1005,19 @@ get '/analytics' => sub {
     
     my $self = shift;
     
-     # Views
-    my @views = $MODEL->resultset('Content')->search(
-        {pages => {like => '%play%'}, types => {like => '%event%'}},
-        {page => 1, rows => 500, order_by => 'views'}
+    # Views
+    my @views = $MODEL->resultset('Content')->search({},
+        {page => 1, rows => 500, order_by => 'views DESC'}
     )->all;
     
     $self->{'VIEWS'} = \@views;
+
+    # Clicks
+    my @clicks = $MODEL->resultset('Content')->search({},
+        {page => 1, rows => 500, order_by => 'clicks DESC'}
+    )->all;
+    
+    $self->{'CLICKS'} = \@clicks;
     
     return $self->render('analytics');
     
@@ -1600,19 +1606,21 @@ post '/api/settings/update' => sub {
 
 };
 
-post '/api/analytics/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
+post '/api/analytics/:type' => [type => qr/\w+/] => sub {
 
     my $self = shift;
 
     if ($self->param('id')) {
 
         my $content =
-          $MODEL->resultset('Content')->search({id => $self->param('id')});
+          $MODEL->resultset('Content')->search({id => $self->param('id')})->single;
 
         given ($self->param('type')) {
 
             when ('views') {
 
+                say "The views are: " . $content->views;
+                
                 $content->update(
                     {
                         views => $content->views + 1
@@ -1621,6 +1629,8 @@ post '/api/analytics/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
             }
 
             when ('clicks') {
+
+                say "The clicks are: " . $content->clicks;
 
                 $content->update(
                     {

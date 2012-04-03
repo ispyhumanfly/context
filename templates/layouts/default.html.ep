@@ -38,9 +38,14 @@
 	      }).play(100);
 	    }
 	    
-	    function update_analytics (type, id) {
+	    function update_clicks (id) {
 	
-		dojo.xhrPost({ url: '/api/analytics', postData: 'type=' + type + '&id=' + id + '' })
+		dojo.xhrPost({ url: '/api/analytics/clicks', postData: 'id=' + id + '' })
+	    }
+	    
+	    function update_views (id) {
+	
+		dojo.xhrPost({ url: '/api/analytics/views', postData: 'id=' + id + '' })
 	    }
 
         //]]></script>
@@ -99,22 +104,22 @@
 		    <script type="text/javascript">//<![CDATA[
 		    
 			var header_ads = new Array();
-
+			
 			<% for my $ad (@{$self->{ADS}}) { %>
 	
 			    <% for ( split /\s+/, $ad->photos ) { %>
 	
-			    header_ads.push("<a href='<%= $ad->link %>' target='_blank'><img src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
-	
+			    header_ads.push("<a href='<%= $ad->link %>' onclick='update_clicks(<%= $ad->id %>)' target='_blank'><img src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
+			    
 			    <% last; # ONLY SHOW ONE %>
-	
+			    
 			    <% } %>
 	
 			<% } %>
 			
 			var random = Math.floor(Math.random() * header_ads.length);
 			document.write(header_ads[random]);
-	    
+			
 		    //]]></script>
 
 		<% } %>

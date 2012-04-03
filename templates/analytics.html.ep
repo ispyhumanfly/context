@@ -16,44 +16,83 @@
     <a href="/home"><h1>Most Viewed</h1></a>
 
     <% for my $views ( @{$self->{VIEWS}} ) { %>
-        
-        <h2><a href="/<%= $views->id; %>"><%= $views->title; %></a></h2>
 
+        <% next unless defined $views->views; %>
+        
         <% for ( split /\s+/, $views->photos ) { %>
         
         <a title="<%= $views->title; %>" href="/<%= $views->id; %>">
-            <img class="para_image_left_cpanel" src="<%= $_ %>" />
+            <img style="width: 50px; height: 50px; float: left; margin-right: 5px;" src="<%= $_ %>" />
         </a>
         
         <% last; %>
         
         <% } %>
+
+        <h4><a href="/<%= $views->id; %>"></%=><%= $views->title; %></a></h4>
         
-        <% if ($views->body ne '') { %>
+        <span style="font-size: smaller; color: grey;">
+            
+        <% if ($views->views ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($views->body), 0, 200 ) %></p>
+        Views: <%= $views->views %>
     
         <% } %>
         
-        <div class="read_more_right">
-            
-            <% if ( $self->session('admin') ) { %>
+        <% if ($views->clicks ne '') { %>
+        
+        Clicks: <%= $views->clicks %>
     
-            <a href="/<%= $views->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $views->id %>">Edit</a>        
+        <% } %>
         
-            <% } else { %>
-        
-            <a href="/<%= $views->id %>">Read More</a>
-            
-            <% } %>
-        
-        </div>
+        </span>
         
         <div class="content_spacer"></div>
             
     <% } %>
 
+    <h3></h3>
+    
+    <a href="/home"><h1>Most Clicked</h1></a>
+
+    <% for my $clicks ( @{$self->{CLICKS}} ) { %>
+
+        <% next unless defined $clicks->clicks; %>
+        
+        <% for ( split /\s+/, $clicks->photos ) { %>
+        
+        <a title="<%= $clicks->title; %>" href="/<%= $clicks->id; %>">
+            <img style="width: 50px; height: 50px; float: left; margin-right: 5px;" src="<%= $_ %>" />
+        </a>
+        
+        <% last; %>
+        
+        <% } %>
+
+        <h4><a href="/<%= $clicks->id; %>"></%=><%= $clicks->title; %></a></h4>
+        
+        <span style="font-size: smaller; color: grey;">
+            
+        <% if ($clicks->views ne '') { %>
+        
+        Views: <%= $clicks->views %>
+    
+        <% } %>
+        
+        <% if ($clicks->clicks ne '') { %>
+        
+        Clicks: <%= $clicks->clicks %>
+    
+        <% } %>
+        
+        </span>
+        
+        <div class="content_spacer"></div>
+            
+    <% } %>
+
+    <h3></h3>
+    
 </div>
 
 <div class="content_right">
