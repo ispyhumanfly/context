@@ -33,18 +33,18 @@
         
         <span style="font-size: smaller; color: grey;">
             
-        <% if ($views->views ne '') { %>
+            <% if ($views->views ne '') { %>
+            
+            Views: <%= $views->views %>
         
-        Views: <%= $views->views %>
-    
-        <% } %>
+            <% } %>
+            
+            <% if ($views->clicks ne '') { %>
+            
+            Clicks: <%= $views->clicks %>
         
-        <% if ($views->clicks ne '') { %>
-        
-        Clicks: <%= $views->clicks %>
-    
-        <% } %>
-        
+            <% } %>
+            
         </span>
         
         <div class="content_spacer"></div>
@@ -73,17 +73,17 @@
         
         <span style="font-size: smaller; color: grey;">
             
-        <% if ($clicks->views ne '') { %>
+            <% if ($clicks->views ne '') { %>
+            
+            Views: <%= $clicks->views %>
         
-        Views: <%= $clicks->views %>
-    
-        <% } %>
+            <% } %>
+            
+            <% if ($clicks->clicks ne '') { %>
+            
+            Clicks: <%= $clicks->clicks %>
         
-        <% if ($clicks->clicks ne '') { %>
-        
-        Clicks: <%= $clicks->clicks %>
-    
-        <% } %>
+            <% } %>
         
         </span>
         
