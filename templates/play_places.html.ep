@@ -70,9 +70,16 @@
 
 	    <% if ($featured_places_counter == 1) { %>
     
-	    <a dojoType="dojox.image.Lightbox" title="<%= $featured_places->title %>" href="<%= $_ %>">
-		<img class="para_image_right" src="<%= $_ %>" />
-	    </a>
+		<!-- Analytics -->
+		<script type="text/javascript">//<![CDATA[
+
+		update_clicks(<%= $featured_places->id; %>);
+
+		//]]></script>
+	    
+		<a dojoType="dojox.image.Lightbox" title="<%= $featured_places->title %>" href="<%= $_ %>">
+		    <img class="para_image_right" src="<%= $_ %>" />
+		</a>
 
 	    	<% unless (scalar (split /\s+/, $featured_places->photos ) <= 1 ) { %>
 	
@@ -87,6 +94,13 @@
 
 	    <% } else { %>
 
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    update_views(<%= $featured_places->id; %>);
+
+	    //]]></script>
+	    
 	    <a title="<%= $featured_places->title %>" href="/play/places?id=<%= $featured_places->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>

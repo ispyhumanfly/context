@@ -48,6 +48,13 @@
 	    
 	<% } %>
 	
+	<!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	update_clicks(<%= $articles->id; %>);
+
+	//]]></script>
+	    
 	<% for ( split /\s+/, $articles->photos ) { %>
 
 	<a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
@@ -180,6 +187,13 @@
 	
 	<% } %>
 	
+	<!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	update_views(<%= $more_articles->id; %>);
+
+	//]]></script>
+	    
 	<% for ( split /\s+/, $more_articles->photos ) { %>
 	
 	<a title="<%= $more_articles->title %>" href="/play/articles?id=<%= $more_articles->id %>">

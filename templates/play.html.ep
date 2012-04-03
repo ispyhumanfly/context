@@ -13,6 +13,13 @@
 
         <% next if $people->types =~ m/ad|gallery|event/i; %>
         
+	<!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	update_views(<%= $people->id; %>);
+
+	//]]></script>
+	    
 	<% for ( split /\s+/, $people->photos ) { %>
 
 	<a title="<%= $people->title %>" href="/play/people?id=<%= $people->id %>">
@@ -52,6 +59,13 @@
 
     <% for my $places (@{$self->{PLACES}}) { %>
 
+	<!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	update_views(<%= $places->id; %>);
+
+	//]]></script>
+	    
 	<% for ( split /\s+/, $places->photos ) { %>
 
 	<a title="<%= $places->title %>" href="/play/places?id=<%= $places->id %>">
@@ -91,6 +105,13 @@
     
     <% for my $articles (@{$self->{BUZZ}}) { %>
         
+	<!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	update_views(<%= $articles->id; %>);
+
+	//]]></script>
+	    
 	<% for ( split /\s+/, $articles->photos ) { %>
 
 	<a title="<%= $articles->title %>" href="/play/articles?id=<%= $articles->id %>">

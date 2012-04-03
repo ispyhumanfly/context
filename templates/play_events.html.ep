@@ -76,7 +76,14 @@
 	<% for ( split /\s+/, $upcoming_events->photos ) { %>
 
 	    <% if ($upcoming_events_counter == 1) { %>
-    
+	    
+		<!-- Analytics -->
+		<script type="text/javascript">//<![CDATA[
+
+		update_clicks(<%= $upcoming_events->id; %>);
+
+		//]]></script>
+	    
 		<a dojoType="dojox.image.Lightbox" title="<%= $upcoming_events->title %>" href="<%= $_ %>">
 		    <img class="para_image_right" src="<%= $_ %>" />
 		</a>
@@ -94,6 +101,13 @@
 
 	    <% } else { %>
 
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    update_views(<%= $upcoming_events->id; %>);
+
+	    //]]></script>
+	    
 	    <a title="<%= $upcoming_events->title %>" href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
