@@ -37,13 +37,19 @@ any '/a5' => sub {
     return $self->redirect_to('home');
 };
 
-any '/a5/:anything' => [anything => qr/\w*/] => sub {
+any '/a5/:one' => [one => qr/\w*/] => sub {
 
     my $self = shift;
     return $self->redirect_to('home');
 };
 
-any '/a5/:anything/:really' => [anything => qr/\w*/, really => qr/\w*/] => sub {
+any '/a5/:one/:two' => [one => qr/\w*/, two => qr/\w*/] => sub {
+
+    my $self = shift;
+    return $self->redirect_to('home');
+};
+
+any '/a5/:one/:two/:three' => [one => qr/\w*/, two => qr/\w*/, three => qr/\w*/] => sub {
 
     my $self = shift;
     return $self->redirect_to('home');
