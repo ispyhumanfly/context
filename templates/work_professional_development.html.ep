@@ -51,41 +51,52 @@
         
         <% } %>
         
-        <% for ( split /\s+/, $professional_development->photos ) { %>
+        <!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
 
-        <a title="<%= $professional_development->title %>" href="<%= $professional_development->link %>" target="_blank">
-            <img class="work_image_left" src="<%= $_ %>" />
-        </a>
+	update_views(<%= $professional_development->id; %>);
 
-        <% last; #JUST SHOW ONE %>
-
-        <% } %>
-
-        <div class="work_content_title"><a href="<%= $professional_development->link %>" target="_blank"><%= $professional_development->title %></a></div>
+	//]]></script>
+        
+        <div onclick="update_clicks(<%= $professional_development->id; %>);">
+               
+            <% for ( split /\s+/, $professional_development->photos ) { %>
     
-        <% if ($professional_development->body ne '') { %>
-        
-        <div class="work_content_text">
-            
-            <%== substr( HTML::FormatText->format_string($professional_development->body), 0, 500 ) %>
-        
-        </div>
+            <a title="<%= $professional_development->title %>" href="<%= $professional_development->link %>" target="_blank">
+                <img class="work_image_left" src="<%= $_ %>" />
+            </a>
     
-        <% } %>
+            <% last; #JUST SHOW ONE %>
     
-        <div class="read_more_right">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="<%= $professional_development->link %>" target="_blank">View Website |</a>
-            <a href="/editor?mode=update&id=<%= $professional_development->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="<%= $professional_development->link %>" target="_blank">View Website</a>
-            
             <% } %>
-
+    
+            <div class="work_content_title"><a href="<%= $professional_development->link %>" target="_blank"><%= $professional_development->title %></a></div>
+        
+            <% if ($professional_development->body ne '') { %>
+            
+            <div class="work_content_text">
+                
+                <%== substr( HTML::FormatText->format_string($professional_development->body), 0, 500 ) %>
+            
+            </div>
+        
+            <% } %>
+        
+            <div class="read_more_right">
+    
+                <% if ( $self->session('admin') ) { %>
+    
+                <a href="<%= $professional_development->link %>" target="_blank">View Website |</a>
+                <a href="/editor?mode=update&id=<%= $professional_development->id %>">Edit</a>        
+            
+                <% } else { %>
+            
+                <a href="<%= $professional_development->link %>" target="_blank">View Website</a>
+                
+                <% } %>
+    
+            </div>
+        
         </div>
         
         <% last if $professional_development_counter == $professional_development_length; %>
@@ -146,7 +157,14 @@
 	    <% next if $networking->start_datetime->epoch < $local_datetime; %>
                         
             <% $networking_counter++; %>
-                
+            
+            <!-- Analytics -->
+            <script type="text/javascript">//<![CDATA[
+
+            update_views(<%= $networking->id; %>);
+
+            //]]></script>
+            
             <% for ( split /\s+/, $networking->photos ) { %>
             
             <a title="<%= $networking->title %>" href="/<%= $networking->id %>">
