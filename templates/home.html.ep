@@ -30,7 +30,11 @@
     
 	    <h2><a href="/<%= $play->id %>"><%= $play->title %></a></h2>
     
-	    <p class="para_text_right"><%== substr( HTML::FormatText->format_string($play->body), 0, 350 ); %></p>
+	    <div id="content_body" class="right">
+		
+		<%== substr( HTML::FormatText->format_string($play->body), 0, 350 ); %>
+		
+	    </div>
     
 	    <div class="read_more_right">
 		

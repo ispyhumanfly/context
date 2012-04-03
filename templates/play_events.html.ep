@@ -142,9 +142,13 @@
 	
 	<% } else { %>
 
-	<div style="float: left; width: 260px; margin-top: -12px;">
+	<div style="float: left; width: 248px; margin-top: -5px;">
 
-	    <p><%== substr( HTML::FormatText->format_string($upcoming_events->body), 0, 500 ) %></p>
+	    <div id="content_body_truncated" class="right">
+		
+		<%== substr( HTML::FormatText->format_string($upcoming_events->body), 0, 400 ) %>
+		
+	    </div>
 	
 	    <div class="read_more_right">
     

@@ -113,11 +113,15 @@
 
         <% if (($result->types eq 'event') or ($result->tags eq 'place') or ($result->types eq 'place')) { %>
         
-	<div style="float: left; width: 260px; margin-top: -12px;">
+	<div style="float: left; width: 248px; margin-top: -5px;">
 
             <% unless (($result->body eq '') or ($result->body =~ /^\s+$/g)) { %>
     
-            <p><%== substr( HTML::FormatText->format_string($result->body), 0, 500 ) %></p>
+            <div id="content_body_truncated">
+                
+                <%== substr( HTML::FormatText->format_string($result->body), 0, 500 ) %>
+                
+            </div>
 
             <% } %>
     
@@ -148,7 +152,11 @@
 
             <% unless (($result->body eq '') or ($result->body =~ /^\s+$/g)) { %>
     
-            <p><%== substr( HTML::FormatText->format_string($result->body), 0, 500 ) %></p>
+            <div id="content_body_truncated">
+                
+                <%== substr( HTML::FormatText->format_string($result->body), 0, 400 ) %>
+                
+            </div>
 
             <% } %>
     
