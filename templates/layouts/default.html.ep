@@ -38,8 +38,6 @@
 	      }).play(100);
 	    }
 	    
-	    window.onload=function(){
-		
 	    function update_clicks (id) {
 	
 		dojo.xhrPost({ url: '/api/analytics/clicks', postData: 'id=' + id + '' })
@@ -48,8 +46,6 @@
 	    function update_views (id) {
 	
 		dojo.xhrPost({ url: '/api/analytics/views', postData: 'id=' + id + '' })
-	    }
-	    
 	    }
 
         //]]></script>
