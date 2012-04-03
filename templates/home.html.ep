@@ -15,18 +15,11 @@
 	<% next unless $play->position == $position; %>
     
 	<% if ($position == 1) { %>
-	
-	    <!-- Analytics -->
-	    <script type="text/javascript">//<![CDATA[
-
-	    update_views(<%= $play->id; %>);
-
-	    //]]></script>
 	    
 	    <% for ( split /\s+/, $play->photos ) { %>
     
-	    <a title="<%= $play->title; %>" href="/<%= $play->id; %>" onclick="update_clicks(<%= $play->id; %>);">
-		<img class="para_image_left" src="<%= $_; %>" />
+	    <a title="<%= $play->title %>" href="/<%= $play->id %>">
+		<img class="para_image_left" src="<%= $_ %>" />
 	    </a>
     
 	    <% last; #JUST SHOW ONE %>
@@ -35,7 +28,14 @@
     
 	    <div class="h1_spacer"><a href="/play"><h1>Play</h1></a></div>
     
-	    <h2><a href="/<%= $play->id; %>" onclick="update_clicks(<%= $play->id; %>);"><%= $play->title; %></a></h2>
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    update_views(<%= $play->id; %>);
+
+	    //]]></script>
+	
+	    <h2><a href="/<%= $play->id %>"><%= $play->title %></a></h2>
     
 	    <div id="content_body" class="right">
 		
@@ -47,12 +47,12 @@
 		
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/<%= $play->id %>" onclick="update_clicks(<%= $play->id; %>);">Read More |</a>
+		<a href="/<%= $play->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $play->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/<%= $play->id %>" onclick="update_clicks(<%= $play->id; %>);">Read More</a>
+		<a href="/<%= $play->id %>">Read More</a>
 		
 		<% } %>
 		
@@ -66,12 +66,12 @@
 	    update_views(<%= $play->id; %>);
 
 	    //]]></script>
-	    
+	
 	    <hr />        
 	
 	    <% for ( split /\s+/, $play->photos ) { %>
     
-	    <a title="<%= $play->title %>" href="/<%= $play->id %>" onclick="update_clicks(<%= $play->id; %>);">
+	    <a title="<%= $play->title %>" href="/<%= $play->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
     
@@ -79,7 +79,7 @@
     
 	    <% } %>
 
-	    <h2><a href="/<%= $play->id %>" onclick="update_clicks(<%= $play->id; %>);"><%= $play->title %></a></h2>
+	    <h2><a href="/<%= $play->id %>"><%= $play->title %></a></h2>
 	
 	    <div id="content_body_truncated">
 		
@@ -91,12 +91,12 @@
 
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/<%= $play->id %>" onclick="update_clicks(<%= $play->id; %>);">Read More |</a>
+		<a href="/<%= $play->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $play->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/<%= $play->id %>" onclick="update_clicks(<%= $play->id; %>);">Read More</a>
+		<a href="/<%= $play->id %>">Read More</a>
 		
 		<% } %>
 
@@ -128,7 +128,7 @@
 	
 	<% for ( split /\s+/, $live->photos ) { %>
 
-	<a title="<%= $live->title %>" href="/<%= $live->id %>" onclick="update_clicks(<%= $live->id; %>);">
+	<a title="<%= $live->title %>" href="/<%= $live->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -138,7 +138,7 @@
 
 	<div class="h1_spacer"><a href="/live"><h1>Live</h1></a></div>
 
-	<h2><a href="/<%= $live->id %>" onclick="update_clicks(<%= $live->id; %>)"><%= $live->title %></a></h2>
+	<h2><a href="/<%= $live->id %>"><%= $live->title %></a></h2>
 
 	    <div id="content_body_truncated" class="right">
 		
@@ -150,12 +150,12 @@
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/<%= $live->id %>" onclick="update_clicks(<%= $live->id; %>);">Read More |</a>
+                <a href="/<%= $live->id %>">Read More |</a>
                 <a href="/editor?mode=update&id=<%= $live->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/<%= $live->id %>" onclick="update_clicks(<%= $live->id; %>);">Read More</a>
+                <a href="/<%= $live->id %>">Read More</a>
                 
                 <% } %>
 
@@ -180,10 +180,10 @@
 	update_views(<%= $work->id; %>);
 
 	//]]></script>
-	    
+	
 	<% for ( split /\s+/, $work->photos ) { %>
 
-	<a title="<%= $work->title %>" href="/<%= $work->id %>" onclick="update_clicks(<%= $work->id; %>);">
+	<a title="<%= $work->title %>" href="/<%= $work->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -193,7 +193,7 @@
 
 	<div class="h1_spacer"><a href="/work"><h1>Work</h1></a></div>
 
-	<h2><a href="/<%= $work->id %>" onclick="update_clicks(<%= $work->id; %>);"><%= $work->title %></a></h2>
+	<h2><a href="/<%= $work->id %>"><%= $work->title %></a></h2>
 
 	    <div id="content_body_truncated" class="right">
 
@@ -205,12 +205,12 @@
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/<%= $work->id %>" onclick="update_clicks(<%= $work->id; %>);">Read More |</a>
+                <a href="/<%= $work->id %>">Read More |</a>
                 <a href="/editor?mode=update&id=<%= $work->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/<%= $work->id %>" onclick="update_clicks(<%= $work->id; %>);">Read More</a>
+                <a href="/<%= $work->id %>">Read More</a>
                 
                 <% } %>
 
@@ -251,17 +251,10 @@
             <% $galleries_counter++; %>
         
             <% next if $galleries->types =~ m/ad/i; %>
-
-	    <!-- Analytics -->
-	    <script type="text/javascript">//<![CDATA[
-
-	    update_views(<%= $galleries->id; %>);
-
-	    //]]></script>
-	    
+    
             <% for ( split /\s+/, $galleries->photos ) { %>
             
-            <a title="<%= $galleries->title %>" href="/photos?id=<%= $galleries->id %>" onclick="update_clicks(<%= $galleries->id; %>);">
+            <a title="<%= $galleries->title %>" href="/photos?id=<%= $galleries->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -271,13 +264,11 @@
             
 	    <% if ($galleries->title ne '') { %>
 	    
-	    <div class="block_title" onclick="update_clicks(<%= $galleries->id; %>);">
-		<a href="/photos?id=<%= $galleries->id %>"><%= $galleries->title %></a>
-	    </div>
+	    <div class="block_title"><a href="/photos?id=<%= $galleries->id %>"><%= $galleries->title %></a></div>
 	    
 	    <% } %>
 	    
-	    <div class="block_text" onclick="update_clicks(<%= $galleries->id; %>);">
+	    <div class="block_text">
 		
 	    <% if ($galleries->body ne '') { %>
 	    
@@ -287,7 +278,7 @@
 	    
 	    </div>
 	    
-            <div class="read_more_left" onclick="update_clicks(<%= $galleries->id; %>);">
+            <div class="read_more_left">
 
                 <% if ( $self->session('admin') ) { %>
     
