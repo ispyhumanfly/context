@@ -147,7 +147,7 @@
 
 	    <div id="content_body_truncated">
 		
-		<%== substr( HTML::FormatText->format_string($featured_places->body), 0, 200 ) %>
+		<%== substr( HTML::FormatText->format_string($featured_places->body), 0, 250 ) %>
 		
 	    </div>
 	
