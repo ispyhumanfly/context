@@ -1194,10 +1194,11 @@ post '/api/content/update' => sub {
 
         #try {
 
-            my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
-                $self->param('start_date') . $self->param('start_time'));
+        my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
+            $self->param('start_date') . $self->param('start_time'));
 
-            $content->update({start_datetime => $start_datetime});
+        $content->update({start_datetime => $start_datetime});
+
         #}
         #catch {
         #
@@ -1210,10 +1211,11 @@ post '/api/content/update' => sub {
 
         #try {
 
-            my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
-                $self->param('stop_date') . $self->param('stop_time'));
+        my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
+            $self->param('stop_date') . $self->param('stop_time'));
 
-            $content->update({stop_datetime => $stop_datetime});
+        $content->update({stop_datetime => $stop_datetime});
+
         #}
         #catch {
         #
@@ -1225,7 +1227,8 @@ post '/api/content/update' => sub {
 
         #try {
 
-            $content->update({author => encode_string($self->param('author'))});
+        $content->update({author => encode_string($self->param('author'))});
+
         #}
         #catch {
         #
@@ -1237,7 +1240,8 @@ post '/api/content/update' => sub {
 
         #try {
 
-            $content->update({title => encode_string($self->param('title'))});
+        $content->update({title => encode_string($self->param('title'))});
+
         #}
         #catch {
         #
@@ -1249,7 +1253,8 @@ post '/api/content/update' => sub {
 
         #try {
 
-            $content->update({body => encode_string($self->param('body'))});
+        $content->update({body => encode_string($self->param('body'))});
+
         #}
         #catch {
         #
@@ -1261,11 +1266,12 @@ post '/api/content/update' => sub {
 
         #try {
 
-            push @interests, $_ for $self->param('interests');
-            $content->update({interests => "@interests"});
+        push @interests, $_ for $self->param('interests');
+        $content->update({interests => "@interests"});
+
         #}
         #catch {
-        #    
+        #
         #    error_message($self, 'update', $self->param('id'), $_);
         #}
     }
@@ -1274,8 +1280,9 @@ post '/api/content/update' => sub {
 
         #try {
 
-            push @pages, $_ for $self->param('pages');
-            $content->update({pages => "@pages"});
+        push @pages, $_ for $self->param('pages');
+        $content->update({pages => "@pages"});
+
         #}
         #catch {
         #
@@ -1286,12 +1293,13 @@ post '/api/content/update' => sub {
     if ($self->param('types')) {
 
         #try {
-            
-            push @types, $_ for $self->param('types');
-            $content->update({types => "@types"});
+
+        push @types, $_ for $self->param('types');
+        $content->update({types => "@types"});
+
         #}
         #catch {
-        #    
+        #
         #    error_message($self, 'update', $self->param('id'), $_);
         #}
     }
@@ -1299,12 +1307,13 @@ post '/api/content/update' => sub {
     if ($self->param('tags')) {
 
         #try {
-        
-            push @tags, $_ for $self->param('tags');
-            $content->update({tags => "@tags"});
+
+        push @tags, $_ for $self->param('tags');
+        $content->update({tags => "@tags"});
+
         #}
         #catch {
-        #    
+        #
         #    error_message($self, 'update', $self->param('id'), $_);
         #}
     }
@@ -1353,16 +1362,16 @@ post '/api/content/update' => sub {
     if ($self->param('default_photo')) {
 
         @photos = split /\s+/, $content->photos;
-        
+
         my $default = $self->param('default_photo');
-        
+
         for (my $i = 0; $i <= scalar @photos; $i++) {
-        
+
             undef $photos[$i] if $photos[$i] =~ m/^$default/i;
         }
-        
+
         unshift @photos, $default;
-        
+
         $content->update({photos => "@photos"});
     }
 
@@ -1575,6 +1584,44 @@ post '/api/settings/update' => sub {
 
 };
 
+post '/api/analytics/:type/:id' => [type => qr/\w+/, id => qr/\d+/] => sub {
+
+    my $self = shift;
+
+    if ($self->param('id')) {
+
+        my $content =
+          $MODEL->resultset('Content')->search({id => $self->param('id')});
+
+        given ($self->param('type')) {
+
+            when ('views') {
+
+                $content->update(
+                    {
+                        views => $content->views + 1
+                    }
+                );
+            }
+
+            when ('clicks') {
+
+                $content->update(
+                    {
+                        clicks => $content->clicks + 1
+                    }
+                );
+            }
+
+            default {
+
+                $content->close;
+            }
+        }
+    }
+
+    return;
+};
 
 ## After5 Dojo JSON Data Stores
 

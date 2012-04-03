@@ -51,7 +51,7 @@
 	
 	    <% my $requested_datetime = DateTime->from_epoch( epoch => int($self->param('start_datetime'))); %>
 	    
-	    <% next unless $upcoming_events->stop_datetime->epoch >= $requested_datetime->epoch; %>
+	    <% next unless $upcoming_events->start_datetime->epoch >= $requested_datetime->epoch; %>
 	    
 	<% } else { %>
 	
