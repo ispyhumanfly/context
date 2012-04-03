@@ -127,7 +127,19 @@
             
         </span>
 
-	<h3></h3>
+	<h3>
+        
+            <% if ($self->session('admin')) { %>
+    
+            <a href="/editor?mode=update&id=<%= $featured_places->id %>" style="margin-left: 10px;">Edit</a>
+    	    
+	    <% } else { %>
+    
+	    &nbsp;
+	    
+	    <% } %>
+            
+        </h3>
         
 	<% } else { %>
 
