@@ -38,6 +38,13 @@
 
 	<% } %>
 
+        <!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	update_clicks(<%= $galleries->id; %>);
+
+	//]]></script>
+            
         <h1><%== $galleries->title %></h1>
 
         <div id="gallery_container">
@@ -139,6 +146,13 @@
             
             <% } %>
     
+            <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    update_views(<%= $more_galleries->id; %>);
+
+	    //]]></script>
+            
             <% for ( split /\s+/, $more_galleries->photos ) { %>
             
             <a title="<%= $more_galleries->title %>" href="/photos?id=<%= $more_galleries->id %>">
