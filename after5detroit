@@ -43,6 +43,12 @@ any '/a5/:anything' => [anything => qr/\w*/] => sub {
     return $self->redirect_to('home');
 };
 
+any '/a5/:anything/:really' => [anything => qr/\w*/, really => qr/\w*/] => sub {
+
+    my $self = shift;
+    return $self->redirect_to('home');
+};
+
 ### After5 Client Pages
 
 get '/home' => sub {
