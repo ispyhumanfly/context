@@ -31,8 +31,13 @@ any '/' => sub {
     my $self = shift;
     return $self->redirect_to('home');
 };
+any '/a5' => sub {
 
-any '/a5/:string' => [string => qr/^\w+/] => sub {
+    my $self = shift;
+    return $self->redirect_to('home');
+};
+
+any '/a5/:anything' => [anything => qr/\w*/] => sub {
 
     my $self = shift;
     return $self->redirect_to('home');
