@@ -152,7 +152,7 @@
 
             <% unless (($result->body eq '') or ($result->body =~ /^\s+$/g)) { %>
     
-            <div id="content_body_truncated">
+            <div id="content_body_truncated" class="right_search">
                 
                 <%== substr( HTML::FormatText->format_string($result->body), 0, 400 ) %>
                 

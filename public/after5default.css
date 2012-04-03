@@ -799,6 +799,12 @@ body {
     max-width: 300px;
 }
 
+#content_body_truncated .right_search {
+    
+    margin-left: 385px;
+    max-width: 300px;
+}
+
 #content_body_truncated .position_right {
     
     margin-left: 385px;
