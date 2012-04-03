@@ -95,13 +95,6 @@
 	
 	<% } %>
         
-        <!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
-
-	update_views(<%= $result->id; %>);
-
-	//]]></script>
-        
         <% for ( split /\s+/, $result->photos ) { %>
 
             <a title="<%= $result->title %>" href="/<%= $result->id %>">
