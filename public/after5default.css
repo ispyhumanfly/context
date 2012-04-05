@@ -806,6 +806,10 @@ body {
     
 }
 
+#content_body .dashboard {
+    max-width: 200px;
+}
+
 #content_body_truncated {
 
     color: black;
@@ -1525,4 +1529,20 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 .nihilo .dojoxLightboxGroupText {
 	color:#666; 
 	font-size:8pt;
+}
+
+/* dashboard analytics */
+
+#dashboard_analytics {
+    
+}
+
+#dashboard_analytics span {
+    
+    font-size: smaller;
+    color: grey;
+}
+
+#dashboard_analytics a {
+    
 }

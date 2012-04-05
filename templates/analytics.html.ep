@@ -11,7 +11,7 @@
 
 <% if ( $self->session('admin') ) { %>
 
-<div class="content_left">
+<div class="content_left" style="display: inline;">
 
     <a href="/home"><h1>Most Viewed</h1></a>
 
@@ -19,35 +19,29 @@
 
         <% next unless defined $views->views; %>
         
+        <h2><a href="/<%= $views->id; %>"><%= $views->title; %></a></h2>
+
+        %= include 'modules/dashboard_analytics', content => $views
+
         <% for ( split /\s+/, $views->photos ) { %>
         
-        <a title="<%= $views->title; %>" href="/<%= $views->id; %>">
-            <img style="width: 50px; height: 50px; float: left; margin-right: 5px;" src="<%= $_ %>" />
+        <a title="<%= $views->title %>" href="/<%= $views->id %>">
+            <img class="para_image_left_cpanel" src="<%= $_ %>" />
         </a>
         
         <% last; %>
         
         <% } %>
-
-        <h4><a href="/<%= $views->id; %>"></%=><%= $views->title; %></a></h4>
         
-        <span style="font-size: smaller; color: grey;">
-            
-            <% if ($views->views ne '') { %>
-            
-            Views: <%= $views->views %>
+        <% if ($views->body ne '') { %>
         
-            <% } %>
+        <div id="content_body" style="max-width: 250px;">
             
-            <% if ($views->clicks ne '') { %>
-            
-            Clicks: <%= $views->clicks %>
+            <%= substr( HTML::FormatText->format_string($views->body), 0, 100 ) %>
         
-            <% } %>
-            
-        </span>
-        
-        <div class="content_spacer"></div>
+        </div>
+    
+        <% } %>
             
     <% } %>
 

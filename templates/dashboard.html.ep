@@ -19,7 +19,9 @@
 
         <% next if $home->types =~ m/ad_header|ad_block|gallery/i; %>
         
-        <h2><a href="/<%= $home->id%>"><%= $home->title %></a></h2>
+        <h2><a href="/<%= $home->id; %>"><%= $home->title; %></a></h2>
+
+        %= include 'modules/dashboard_analytics', content => $home
 
         <% for ( split /\s+/, $home->photos ) { %>
         
@@ -33,7 +35,11 @@
         
         <% if ($home->body ne '') { %>
         
-        <p><%= substr( HTML::FormatText->format_string($home->body), 0, 200 ) . '' %></p>
+        <div id="content_body" class="dashboard">
+            
+            <%= substr( HTML::FormatText->format_string($home->body), 0, 200 ) %>
+        
+        </div>
     
         <% } %>
         
@@ -65,6 +71,8 @@
         <% next if $live->types =~ m/ad_header|ad_block|gallery/i; %>
 
         <h2><a href="/<%= $live->id%>"><%= $live->title %></a></h2>
+
+        %= include 'modules/dashboard_analytics', content => $live
 
         <% for ( split /\s+/, $live->photos ) { %>
         
@@ -111,6 +119,8 @@
         
         <h2><a href="/<%= $work->id%>"><%= $work->title %></a></h2>
 
+        %= include 'modules/dashboard_analytics', content => $work
+
         <% for ( split /\s+/, $work->photos ) { %>
         
         <a title="<%= $work->title %>" href="/<%= $work->id %>">
@@ -155,6 +165,8 @@
         <% next if $play->types =~ m/ad_header|ad_block|gallery/i; %>
         
         <h2><a href="/<%= $play->id%>"><%= $play->title %></a></h2>
+
+        %= include 'modules/dashboard_analytics', content => $play
 
         <% for ( split /\s+/, $play->photos ) { %>
         
@@ -201,6 +213,8 @@
 
         <h2><a href="/<%= $photos->id%>"><%= $photos->title %></a></h2>
 
+        %= include 'modules/dashboard_analytics', content => $photos
+
         <% for ( split /\s+/, $photos->photos ) { %>
         
         <a title="<%= $photos->title %>" href="/<%= $photos->id %>">
@@ -245,6 +259,8 @@
         <% next if $about->types =~ m/ad_header|ad_block|gallery/i; %>
         
         <h2><a href="/<%= $about->id%>"><%= $about->title %></a></h2>
+
+        %= include 'modules/dashboard_analytics', content => $about
 
         <% for ( split /\s+/, $about->photos ) { %>
         
@@ -291,6 +307,8 @@
         
         <h2><a href="/<%= $none->id%>"><%= $none->title %></a></h2>
 
+        %= include 'modules/dashboard_analytics', content => $none
+
         <% for ( split /\s+/, $none->photos ) { %>
         
         <a title="<%= $none->title %>" href="/<%= $none->id %>">
@@ -332,13 +350,13 @@
 
 <div class="content_right">
 
-    <h1>Recent Updates</h1>
+    <h1>New Content</h1>
 
     <div class="content_right_padding">
         
         <% my $recent_updates_counter; %>
         
-        <% for my $recent_updates (@{$self->{RECENT_UPDATES}}) { %>
+        <% for my $recent_updates (@{$self->{NEW_CONTENT}}) { %>
         
             <% $recent_updates_counter++; %>
             

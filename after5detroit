@@ -967,13 +967,13 @@ get '/dashboard' => sub {
         {page => 1, rows => 15, order_by => 'id DESC'})->all;
     $self->{'NONE'} = \@none;
 
-    # Recent Updates
-    my @recent_updates =
+    # New Content
+    my @new_content =
       $MODEL->resultset('Content')
       ->search(undef,
-        {page => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
+        {page => 1, rows => 25, order_by => 'create_datetime DESC'})->all;
 
-    $self->{'RECENT_UPDATES'} = \@recent_updates;
+    $self->{'NEW_CONTENT'} = \@new_content;
 
     return $self->render('dashboard');
 
