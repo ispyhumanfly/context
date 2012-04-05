@@ -15,7 +15,7 @@
     
             <% for ( split /\s+/, $ad->photos ) { %>
     
-            block_ads.push("<a href='<%= $ad->link %>' onclick='Temp_update_clicks(<%= $ad->id %>)' target='_blank'><img onload='Temp_update_views(<%= $ad->id %>)' src='<%= $_ %>' src='<%= $_ %>' class='block_ad_image' /></a>");
+            block_ads.push("<a href='<%= $ad->link %>' onclick='Clicks.push(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' src='<%= $_ %>' class='block_ad_image' /></a>");
     
             <% last; # ONLY SHOW ONE %>
     
