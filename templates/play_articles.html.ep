@@ -51,7 +51,7 @@
 	<!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_clicks(<%= $articles->id; %>);
+	Clicks.push(<%= $articles->id; %>);
 
 	//]]></script>
 	    
@@ -190,7 +190,7 @@
 	<!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_views(<%= $more_articles->id; %>);
+	Views.push(<%= $more_articles->id; %>);
 
 	//]]></script>
 	    

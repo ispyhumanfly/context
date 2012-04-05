@@ -25,7 +25,7 @@
 	
         <script type="text/javascript">//<![CDATA[
 
-	update_views(<%= $staff->id; %>);
+	Views.push(<%= $staff->id; %>);
 
 	//]]></script>
         
@@ -78,7 +78,7 @@
         <!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_views(<%= $press->id; %>);
+	Views.push(<%= $press->id; %>);
 
 	//]]></script>
             

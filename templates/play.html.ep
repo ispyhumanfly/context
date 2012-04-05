@@ -16,7 +16,7 @@
 	<!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_views(<%= $people->id; %>);
+	Views.push(<%= $people->id; %>);
 
 	//]]></script>
 	    
@@ -62,7 +62,7 @@
 	<!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_views(<%= $places->id; %>);
+	Views.push(<%= $places->id; %>);
 
 	//]]></script>
 	    
@@ -108,7 +108,7 @@
 	<!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_views(<%= $articles->id; %>);
+	Views.push(<%= $articles->id; %>);
 
 	//]]></script>
 	    

@@ -73,7 +73,7 @@
 		<!-- Analytics -->
 		<script type="text/javascript">//<![CDATA[
 
-		update_clicks(<%= $featured_places->id; %>);
+		Clicks.push(<%= $featured_places->id; %>);
 
 		//]]></script>
 	    
@@ -97,7 +97,7 @@
 	    <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    update_views(<%= $featured_places->id; %>);
+	    Views.push(<%= $featured_places->id; %>);
 
 	    //]]></script>
 	    

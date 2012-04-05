@@ -54,7 +54,7 @@
         <!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_views(<%= $professional_development->id; %>);
+	Views.push(<%= $professional_development->id; %>);
 
 	//]]></script>
         
@@ -161,7 +161,7 @@
             <!-- Analytics -->
             <script type="text/javascript">//<![CDATA[
 
-            update_views(<%= $networking->id; %>);
+            Views.push(<%= $networking->id; %>);
 
             //]]></script>
             

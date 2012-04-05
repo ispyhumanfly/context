@@ -80,7 +80,7 @@
 		<!-- Analytics -->
 		<script type="text/javascript">//<![CDATA[
 
-		update_clicks(<%= $upcoming_events->id; %>);
+		Clicks.push(<%= $upcoming_events->id; %>);
 
 		//]]></script>
 	    
@@ -104,7 +104,7 @@
 	    <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    update_views(<%= $upcoming_events->id; %>);
+	    Views.push(<%= $upcoming_events->id; %>);
 
 	    //]]></script>
 	    

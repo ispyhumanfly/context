@@ -41,7 +41,7 @@
         <!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	//update_clicks(<%= $galleries->id; %>);
+	Clicks.push(<%= $galleries->id; %>);
 
 	//]]></script>
             
@@ -149,7 +149,7 @@
             <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    //update_views(<%= $more_galleries->id; %>);
+	    Views.push(<%= $more_galleries->id; %>);
 
 	    //]]></script>
             

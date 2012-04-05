@@ -94,7 +94,14 @@
 	<hr />
 	
 	<% } %>
-        
+
+        <!-- Analytics -->
+        <script type="text/javascript">//<![CDATA[
+
+        Views.push(<%= $result->id; %>);
+
+        //]]></script>
+
         <% for ( split /\s+/, $result->photos ) { %>
 
             <a title="<%= $result->title %>" href="/<%= $result->id %>">
