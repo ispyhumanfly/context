@@ -37,13 +37,6 @@
 	<% next unless $galleries->id == $first->[0]->id; %>
 
 	<% } %>
-
-        <!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
-
-	//Clicks.push(<%= $galleries->id; %>);
-
-	//]]></script>
             
         <h1><%== $galleries->title %></h1>
 
@@ -73,6 +66,13 @@
             </a>
             
         </span>
+
+        <!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	Clicks.push(<%= $galleries->id; %>);
+
+	//]]></script>
         
         <h3>
             
