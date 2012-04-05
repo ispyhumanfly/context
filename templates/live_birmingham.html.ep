@@ -49,7 +49,7 @@
 	    <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    update_clicks(<%= $city_life->id; %>);
+	    Clicks.push(<%= $city_life->id; %>);
 
 	    //]]></script>
 	    
@@ -114,7 +114,7 @@
 	    <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    update_views(<%= $featured_lifestyle->id; %>);
+	    Views.push(<%= $featured_lifestyle->id; %>);
 
 	    //]]></script>
 	    
@@ -174,7 +174,7 @@
 	    <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    update_views(<%= $neighbors->id; %>);
+	    Views.push(<%= $neighbors->id; %>);
 
 	    //]]></script>
 	    

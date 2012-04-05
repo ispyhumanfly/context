@@ -26,22 +26,14 @@
         <% for ( split /\s+/, $views->photos ) { %>
         
         <a title="<%= $views->title %>" href="/<%= $views->id %>">
-            <img class="para_image_left_cpanel" src="<%= $_ %>" />
+            <img class="para_image_left_cpanel" style="width: 65px;"src="<%= $_ %>" />
         </a>
         
         <% last; %>
         
         <% } %>
-        
-        <% if ($views->body ne '') { %>
-        
-        <div id="content_body" style="max-width: 250px;">
-            
-            <%= substr( HTML::FormatText->format_string($views->body), 0, 100 ) %>
-        
-        </div>
     
-        <% } %>
+        <div class="content_spacer"><br /></div>
             
     <% } %>
 
@@ -91,7 +83,7 @@
 
 <div class="content_right">
 
-    <h1>Recent Updates</h1>
+    <h1>Most Popular</h1>
 
     <div class="content_right_padding">
         

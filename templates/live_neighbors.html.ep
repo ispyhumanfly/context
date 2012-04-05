@@ -57,7 +57,7 @@
 	<!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_clicks(<%= $neighbors->id; %>);
+	Clicks.push(<%= $neighbors->id; %>);
 
 	//]]></script>
 	    
@@ -179,7 +179,7 @@
 	    <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    update_views(<%= $more_neighbors->id; %>);
+	    Views.push(<%= $more_neighbors->id; %>);
 
 	    //]]></script>
 	    
