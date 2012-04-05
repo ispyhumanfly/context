@@ -42,7 +42,7 @@
     <!-- Analytics -->
     <script type="text/javascript">//<![CDATA[
 
-    update_clicks(<%= $id->id; %>);
+    Clicks.push(<%= $id->id; %>);
 
     //]]></script>
 	    

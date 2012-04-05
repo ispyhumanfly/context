@@ -31,7 +31,7 @@
 	    <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    update_views(<%= $play->id; %>);
+	    Views.push(<%= $play->id; %>);
 
 	    //]]></script>
 	
@@ -63,7 +63,7 @@
 	    <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    update_views(<%= $play->id; %>);
+	    Views.push(<%= $play->id; %>);
 
 	    //]]></script>
 	
@@ -122,7 +122,7 @@
 	<!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_views(<%= $live->id; %>);
+	Views.push(<%= $live->id; %>);
 
 	//]]></script>
 	
@@ -177,7 +177,7 @@
 	<!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	update_views(<%= $work->id; %>);
+	Views.push(<%= $work->id; %>);
 
 	//]]></script>
 	
@@ -251,6 +251,13 @@
             <% $galleries_counter++; %>
         
             <% next if $galleries->types =~ m/ad/i; %>
+    
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+    
+	    Views.push(<%= $galleries->id; %>);
+    
+	    //]]></script>
     
             <% for ( split /\s+/, $galleries->photos ) { %>
             

@@ -26,7 +26,32 @@
 	    dojo.require("dojox.image.Lightbox");
 
             dojo.addOnLoad(_initLoader);
+	    dojo.addOnLoad(_initAnalytics);
 
+	    var Views 	= new Array();
+	    var Clicks 	= new Array();
+	    
+	    function _initAnalytics() {
+
+		if (Views.length > 0) {
+
+		    for (var index = 0; index < Views.length ; index++) {
+			
+			var id = Views[index];
+			dojo.xhrPost({ url: '/api/analytics/views', postData: 'id=' + id + '' });    
+		    }
+		}
+
+		if (Clicks.length > 0) {
+
+		    for (var index = 0; index < Clicks.length ; index++) {
+			
+			var id = Clicks[index];
+			dojo.xhrPost({ url: '/api/analytics/clicks', postData: 'id=' + id + '' });    
+		    }
+		}		
+	    }
+	    
 	    function _initLoader() {
 
 	      var loader  = dojo.byId("content_loader");
@@ -47,7 +72,7 @@
 	
 		dojo.xhrPost({ url: '/api/analytics/views', postData: 'id=' + id + '' })
 	    }
-
+	    
         //]]></script>
 	
     </head>
