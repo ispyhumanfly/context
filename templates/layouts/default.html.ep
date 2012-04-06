@@ -10,70 +10,8 @@
 	<title>after5detroit.com :: <%= title %></title>
 
 	<link rel="stylesheet" type="text/css" href="/after5default.css">
-   
 	
-        <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dijit/themes/nihilo/nihilo.css">
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/image/resources/Lightbox.css">
-	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/image/resources/image.css">
-
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" djConfig="parseOnLoad:true"></script>
-
-        <script type="text/javascript">//<![CDATA[
-
-            dojo.require("dijit.form.Form");
-            dojo.require("dijit.form.TextBox");
-            dojo.require("dijit.form.Button");
-	    dojo.require("dojox.image.Lightbox");
-
-            dojo.addOnLoad(_initLoader);
-	    dojo.addOnLoad(_initAnalytics);
-
-	    var Views 	= new Array();
-	    var Clicks 	= new Array();
-	    
-	    function _initAnalytics() {
-
-		if (Views.length > 0) {
-
-		    for (var index = 0; index < Views.length ; index++) {
-			
-			var id = Views[index];
-			dojo.xhrPost({ url: '/api/analytics/views', postData: 'id=' + id + '' });    
-		    }
-		}
-
-		if (Clicks.length > 0) {
-
-		    for (var index = 0; index < Clicks.length ; index++) {
-			
-			var id = Clicks[index];
-			dojo.xhrPost({ url: '/api/analytics/clicks', postData: 'id=' + id + '' });    
-		    }
-		}		
-	    }
-	    
-	    function _initLoader() {
-
-	      var loader  = dojo.byId("content_loader");
-
-	      dojo.fadeOut({
-		node: loader, duration: 250, onEnd: function() {
-		  loader.style.display = "none";
-		}
-	      }).play(100);
-	    }
-	    
-	    function Temp_update_clicks (id) {
-	
-		dojo.xhrPost({ url: '/api/analytics/clicks', postData: 'id=' + id + '' })
-	    }
-	    
-	    function Temp_update_views (id) {
-	
-		dojo.xhrPost({ url: '/api/analytics/views', postData: 'id=' + id + '' })
-	    }
-	    
-        //]]></script>
+	%= include 'modules/dojo_toolkit'
 	
     </head>
 

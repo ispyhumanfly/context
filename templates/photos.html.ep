@@ -3,23 +3,8 @@
 %
 % my $more_galleries_length = 3;
 
-<script type="text/javascript">//<![CDATA[
+<script type="text/javascript">//<![CDATA[   
 
-    dojo.require('dojox.image.Gallery');
-    dojo.require("dojox.image.SlideShow");
-    dojo.require("dojo.data.ItemFileReadStore"); 
-    		
-    dojo.addOnLoad(function(){
-            
-        dijit.byId('gallery').setDataStore(imageItemStore,{ count:10 },
-        {
-            imageThumbAttr: "thumb",
-            imageLargeAttr: "large",
-            titleAttr: "blank"
-        });
-        
-    });
-            
 
 //]]></script>
 
@@ -41,7 +26,7 @@
         <!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	//Clicks.push(<%= $galleries->id; %>);
+	Clicks.push(<%= $galleries->id; %>);
 
 	//]]></script>
             

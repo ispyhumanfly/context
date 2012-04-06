@@ -5,37 +5,6 @@
 
 <script type="text/javascript">//<![CDATA[
  
-    dojo.require("dijit.form.Select");
-
-    dojo.require("dojox.image.Lightbox");
-    dojo.require("dojox.image.ThumbnailPicker");
-    dojo.require("dojo.data.ItemFileReadStore");
-    
-    dojo.addOnLoad(function(){
-        
-        dijit.byId('thumbPicker2').setDataStore(imageItemStore,{ count:20 },
-        {
-            imageThumbAttr: "thumb",
-            imageLargeAttr: "large"
-        });
-	
-	var lightbox;
-	
-	function lightboxShow(packet){
-
-	    lightbox.show({
-		
-		href: packet.largeUrl,
-		title: packet.title
-	    });
-		
-	};
-
-	lightbox = new dojox.image.LightboxDialog().startup();		
-	dojo.subscribe(dijit.byId('thumbPicker2').getClickTopicName(), lightboxShow);
-
-    });
-    
 //]]></script>
 
 <div class="content_left">
