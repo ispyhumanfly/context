@@ -14,6 +14,7 @@
     dojo.require("dijit.form.TextBox");
     dojo.require("dijit.form.Button");
     dojo.require("dijit.form.Select");
+    dojo.require("dojox.form.DropDownSelect");
 
     dojo.require('dojox.image.Gallery');
     dojo.require("dojox.image.SlideShow");    
@@ -22,11 +23,11 @@
     
     dojo.require("dojo.data.ItemFileReadStore");
 
+    var Path    = window.location.pathname;
+    var Query   = window.location.search;
+
     var Views 	= new Array();
     var Clicks 	= new Array();
-
-    var url_path    = window.location.pathname;
-    var url_query   = window.location.search;
 
     function _initLoader() {
 
@@ -109,21 +110,21 @@
 
     dojo.addOnLoad(_initLoader);
 
-    if (url_query.match(/message/g)) {
+    if (Query.match(/message/g)) {
     
         dojo.addOnLoad(_initMessage);
     }
         
-    if (url_path.match(/photos/g)) {
+    if (Path.match(/photos/g)) {
                 
         dojo.addOnLoad(_initSlideShow);
     } 
     
-    if (url_path.match(/people|articles|events|places/g)) {
+    if (Path.match(/people|articles|events|places/g)) {
 
         dojo.addOnLoad(_initThumbNails);    
     }
 
-    setTimeout("dojo.addOnLoad(_initAnalytics)", 10000);
+    setTimeout("dojo.addOnLoad(_initAnalytics)", 5000);
     
 //]]></script>

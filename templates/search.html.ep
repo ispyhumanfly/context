@@ -3,8 +3,6 @@
 
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dijit.form.Select");
-
 //]]></script>
 
 <div class="content_left">
@@ -194,7 +192,7 @@
 
     <% } elsif ($result_counter < 1) { %>
     
-    %= include 'modules/content_message', message => "$result_counter Sorry! We can't find what you're looking for - please try a different search."
+    %= include 'modules/content_message', message => "Sorry! We can't find what you're looking for - please try a different search."
     
     <% } %>
     

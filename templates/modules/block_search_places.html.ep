@@ -1,8 +1,5 @@
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dijit.form.Form");
-    dojo.require("dojox.form.DropDownSelect");
-
 //]]></script>
 
 <div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
