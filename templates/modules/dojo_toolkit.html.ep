@@ -120,7 +120,7 @@
         dojo.addOnLoad(_initSlideShow);
     } 
     
-    if (Path.match(/people|articles|events|places/g)) {
+    if (Path.match(/people|articles|events|places|\d/g)) {
 
         dojo.addOnLoad(_initThumbNails);    
     }
