@@ -87,7 +87,21 @@
         }		
     }
 
+    function _initMessage() {
+
+        var message  = dojo.byId("content_message");
+
+        dojo.fadeOut({
+            
+          node: message, duration: 1200, onEnd: function() {
+            message.style.display = "none";
+          }
+          
+        }).play(2000);
+    }
+
     dojo.addOnLoad(_initLoader);
+    dojo.addOnLoad(_initMessage);
 
     if (window.location.pathname.match(/photos/g)) {
                 
