@@ -16,6 +16,8 @@
     dojo.require("dijit.form.Select");
     dojo.require("dojox.form.DropDownSelect");
 
+    dojo.require("dijit.Menu");
+
     dojo.require('dojox.image.Gallery');
     dojo.require("dojox.image.SlideShow");    
     dojo.require("dojox.image.Lightbox");
@@ -120,7 +122,7 @@
         dojo.addOnLoad(_initSlideShow);
     } 
     
-    if (Path.match(/people|articles|events|places|\d/g)) {
+    if (Path.match(/people|articles|events|places|live|\d/g)) {
 
         dojo.addOnLoad(_initThumbNails);    
     }
