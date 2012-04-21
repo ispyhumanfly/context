@@ -1,6 +1,5 @@
 <script type="text/javascript">//<![CDATA[
 
-    
 //]]></script>
 
 <span id="dashboard_analytics">
@@ -15,7 +14,7 @@
         
         <% if ($content->clicks ne '') { %>
 
-        and <%= $content->clicks; %> Clicks
+        & <%= $content->clicks; %> Clicks
     
         <% } %>
     </a>

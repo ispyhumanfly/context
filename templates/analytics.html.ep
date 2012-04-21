@@ -1,4 +1,4 @@
-% title 'Analytics';
+% title 'Dashboard';
 % layout 'default';
 %
 % my $recent_update_length = 10;
@@ -9,137 +9,10 @@
 
 <% if ( $self->session('admin') ) { %>
 
-<div class="content_left" style="display: inline;">
-
-    <a href="/home"><h1>Most Viewed</h1></a>
-
-    <% for my $views ( @{$self->{VIEWS}} ) { %>
-
-        <% next unless defined $views->views; %>
-        
-        <h2><a href="/<%= $views->id; %>"><%= $views->title; %></a></h2>
-
-        %= include 'modules/dashboard_analytics', content => $views
-
-        <% for ( split /\s+/, $views->photos ) { %>
-        
-        <a title="<%= $views->title %>" href="/<%= $views->id %>">
-            <img class="para_image_left_cpanel" style="width: 65px;"src="<%= $_ %>" />
-        </a>
-        
-        <% last; %>
-        
-        <% } %>
+<div style="">
     
-        <div class="content_spacer"><br /></div>
-            
-    <% } %>
+    <iframe style="padding-left: 5px; padding-right: 5px; border: 0; width: 99%; min-height: 98%;" src="http://after5detroit.com:8000/"></iframe>
 
-    <h3></h3>
-    
-    <a href="/home"><h1>Most Clicked</h1></a>
-
-    <% for my $clicks ( @{$self->{CLICKS}} ) { %>
-
-        <% next unless defined $clicks->clicks; %>
-        
-        <% for ( split /\s+/, $clicks->photos ) { %>
-        
-        <a title="<%= $clicks->title; %>" href="/<%= $clicks->id; %>">
-            <img style="width: 50px; height: 50px; float: left; margin-right: 5px;" src="<%= $_ %>" />
-        </a>
-        
-        <% last; %>
-        
-        <% } %>
-
-        <h4><a href="/<%= $clicks->id; %>"></%=><%= $clicks->title; %></a></h4>
-        
-        <span style="font-size: smaller; color: grey;">
-            
-            <% if ($clicks->views ne '') { %>
-            
-            Views: <%= $clicks->views %>
-        
-            <% } %>
-            
-            <% if ($clicks->clicks ne '') { %>
-            
-            Clicks: <%= $clicks->clicks %>
-        
-            <% } %>
-        
-        </span>
-        
-        <div class="content_spacer"></div>
-            
-    <% } %>
-
-    <h3></h3>
-    
-</div>
-
-<div class="content_right">
-
-    <h1>Most Popular</h1>
-
-    <div class="content_right_padding">
-        
-        <% my $recent_updates_counter; %>
-        
-        <% for my $recent_updates (@{$self->{MOST_POPULAR}}) { %>
-        
-            <% $recent_updates_counter++; %>
-            
-            <% next if $recent_updates_counter > $recent_update_length; %>
-        
-            <% for ( split /\s+/, $recent_updates->photos ) { %>
-            
-            <a title="<%= $recent_updates->title %>" href="/<%= $recent_updates->id %>">
-                <img class="block_thumbnails_right" src="<%= $_ %>"/>
-            </a>
-            
-            <% last; #JUST SHOW ONE %>
-            
-            <% } %>
-            
-            <div class="block_title"><%= $recent_updates->title %></div>
-            
-            <div class="block_text">
-            
-            <% if ($recent_updates->body ne '') { %>
-
-            <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %>  
-        
-            <% } %>
-    
-            </div>
-        
-            <div class="read_more_left">
-    
-                <a href="/<%= $recent_updates->id %>">Read More |</a>
-                <a href="/editor?mode=update&id=<%= $recent_updates->id %>">Edit</a>        
-    
-            </div>
-    
-            <% if ($recent_updates_counter < $recent_update_length) { %>
-            
-            <hr />
-            
-            <% } %>
-        
-        <% } %>
-
-    </div>
-    
-    <h1>Documentation</h1>
-
-    <div class="content_right_padding">
-
-    <p>Documentation is coming soon. :)</p>
-    
-    </div>    
-    
 </div>
 
 <!-- Dashboard Menu -->
@@ -156,6 +29,10 @@
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
         After5 Editor
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/analytics';">
+        After5 Analytics
     </div>
 
     <div data-dojo-type="dijit.MenuSeparator"></div>
