@@ -1842,5 +1842,6 @@ sub error_message {
     return;
 }
 
+app->log->level('verbose');
 app->secret('after5detroit.com');
 app->start;
