@@ -1,10 +1,10 @@
-#!/usr/bin/env plackup -s FCGI
+#!/usr/bin/env plackup
 
 use Plack::Builder;
 
 builder {
     
   enable 'Deflater';
-  require 'after5detroit';
+  require 'script/after5detroit';
 
 };

@@ -1843,3 +1843,4 @@ sub error_message {
 
 app->log->level('info');
 app->secret('after5detroit.com');
+app->start();

@@ -10,9 +10,9 @@ use After5::Model;
 our $MODEL = After5::Model->connect("dbi:SQLite:after5detroit.db");
 $MODEL->create_ddl_dir(['SQLite', 'MySQL'], '', 'script/');
 
-system 'sqlite3 after5detroit.db < script/After5-Model-1.0a-SQLite.sql';
+system 'sqlite3 after5detroit.db < script/After5-Model-2.0.1-SQLite.sql';
 
-### Setup Settings...
+### Configure Default Settings...
 
 $MODEL->resultset('Settings')->create(
 
@@ -29,5 +29,5 @@ sub salt_password {
     $crypt->add(shift);
 
     return $crypt->generate;
-
+    
 }
