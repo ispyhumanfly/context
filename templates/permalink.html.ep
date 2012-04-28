@@ -14,7 +14,7 @@
     <!-- Analytics -->
     <script type="text/javascript">//<![CDATA[
 
-    Clicks.push(<%= $id->id; %>);
+    Clicks.push(<%= $id->id %>);
 
     //]]></script>
 	    

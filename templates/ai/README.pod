@@ -1,0 +1,21 @@
+=pod
+
+=encoding utf8
+
+=head1 NAME
+
+After5 Adobe Illustrator & Photoshop Source
+
+=head1 DESCRIPTION
+
+This directory contains all .ai and .psd files associated with the various mockups and images for a5.
+
+=head1 BUGS
+
+http://github.com/thoughtpivot/after5detroit.com/issues
+
+=head1 SEE ALSO
+
+http://github.com/thoughtpivot/after5detroit.com/wiki
+
+=cut
