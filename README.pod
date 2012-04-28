@@ -8,7 +8,7 @@ After5Detroit
 
 =head1 SYNOPSIS
 
-    ./after5detroit daemon
+    script/after5detroit daemon
 
 =head1 DESCRIPTION
 
@@ -22,7 +22,7 @@ Try::Tiny HTML::FormatText REST::Google::Search
 
 =head2 TinyMCE
 
-After5 uses the JavaScript TinyMCE application for its editor.
+After5 requires the JavaScript TinyMCE application for its editor.
 Please download and extract v3.4.9 into public/tinymce.
 
 =head1 BUGS
