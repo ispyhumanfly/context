@@ -2,7 +2,10 @@
 
 BEGIN {
 
-    $ENV{MOJO_MAX_MESSAGE_SIZE} = 1 * (1024 * 1024 * 1024);
+    use Cwd;
+    
+    $ENV{'MOJO_HOME'} = getcwd();
+    $ENV{'MOJO_MAX_MESSAGE_SIZE'} = 1 * (1024 * 1024 * 1024);
 }
 
 use Modern::Perl;
@@ -1841,6 +1844,6 @@ sub error_message {
     return;
 }
 
-app->log->level('info');
+#app->log->level('info');
 app->secret('after5detroit.com');
 app->start();

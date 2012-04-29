@@ -5,6 +5,6 @@ use Plack::Builder;
 builder {
     
   enable 'Deflater';
-  require 'script/after5detroit';
+  require 'scripts/after5detroit';
 
 };
