@@ -8,7 +8,7 @@ use lib 'lib';
 use After5::Model;
 
 our $MODEL = After5::Model->connect("dbi:SQLite:after5detroit.db");
-$MODEL->create_ddl_dir(['SQLite', 'MySQL'], '', 'scripts/');
+$MODEL->create_ddl_dir('SQLite', '', 'scripts/');
 
 system 'sqlite3 after5detroit.db < scripts/After5-Model-2.0.1-SQLite.sql';
 
