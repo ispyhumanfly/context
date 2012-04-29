@@ -121,6 +121,8 @@
 
 	<% if ( $self->param('mode') eq 'create' ) { %>
     
+	<h4>Add Photos</h4>
+
 	<input name="photos" type="file" />
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
@@ -509,6 +511,10 @@
 		resources
 	    </option>
 
+	    <option value="job_listings">
+		job_listings
+	    </option>
+	    
 	    <option value="after5_press">
 		after5_press
 	    </option>
@@ -579,6 +585,10 @@
     
 	    <option value="resources" <%= 'selected' if $self->{CONTENT}->tags =~ m/resources/i %>>
 		resources
+	    </option>
+	    
+	    <option value="job_listings" <%= 'selected' if $self->{CONTENT}->tags =~ m/job_listings/i %>>
+		job_listings
 	    </option>
 
 	    <option value="after5_press" <%= 'selected' if $self->{CONTENT}->tags =~ m/after5_press/i %>>
