@@ -586,6 +586,10 @@
 	    <option value="resources" <%= 'selected' if $self->{CONTENT}->tags =~ m/resources/i %>>
 		resources
 	    </option>
+
+	    <option value="local_blogs" <%= 'selected' if $self->{CONTENT}->tags =~ m/local_blogs/i %>>
+		local_blogs
+	    </option>
 	    
 	    <option value="job_listings" <%= 'selected' if $self->{CONTENT}->tags =~ m/job_listings/i %>>
 		job_listings

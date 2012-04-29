@@ -17,6 +17,7 @@
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'board_openings' %> href="/work/professional_development?tags=board_openings">Board Openings</a></p>
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'volunteer' %> href="/work/professional_development?tags=volunteer">Volunteer</a></p>
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'resources' %> href="/work/professional_development?tags=resources">Resources</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'local_blogs' %> href="/work/professional_development?tags=local_blogs">Local Blogs</a></p>
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'job_listings' %> href="/work/professional_development?tags=job_listings">Job Listings</a></p>
 
     <h1 class="content_work_left_heading" style="padding-top: 11px; padding-bottom: 1px;">Employers</h1>
