@@ -152,7 +152,12 @@
     
 		<% } %>
 
+		<!--<span style="font-size: smaller; color: white; margin-bottom: -15px; right: 5px; float: right;">
+		    after5detroit v2.0.0 (c) 2006 - 2012 After5 Detroit, LLC.
+		</span>-->
+		
 	    </div>
+	    
 	    
 	    % if ($self->param('message')) {
 	    %= include 'modules/content_message', message => $self->param('message') 			

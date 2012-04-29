@@ -699,7 +699,7 @@
     
 	<select dojoType="dijit.form.Select" name="position" size="10">
     
-	    <option value="none" <%== 'selected="selected"' if $self->{CONTENT}->position =~ m/none/i %>>
+	    <option value="none" <%== 'selected="selected"' if $self->{CONTENT}->position =~ m/0/i %>>
 		none
 	    </option>
     
