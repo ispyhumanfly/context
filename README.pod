@@ -27,11 +27,11 @@ Please download and extract v3.4.9 into public/tinymce.
 
 =head1 BUGS
 
-http://github.com/thoughtpivot/a5/issues
+http://github.com/thoughtpivot/after5/issues
 
 =head1 SEE ALSO
 
-http://github.com/thoughtpivot/a5/wiki
+http://github.com/thoughtpivot/after5/wiki
 
 =head1 COPYRIGHT
 

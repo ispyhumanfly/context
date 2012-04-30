@@ -110,7 +110,7 @@
 		    <ul>
 			<li><a href="/work" style="font-weight: bold; font-size: large;">Work</a></li>
 			<li><a href="/work/professional_development">Professional Development</a></li>
-			<li><a href="/work/professional_development?tags=job_listings">Job Listings</a></li>
+			<li style="white-space: nowrap;"><a href="/work/professional_development?tags=job_listings">Job Listings</a></li>
 		    </ul>
 		</div>
     
