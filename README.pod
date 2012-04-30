@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-A5
+After5
 
 =head1 SYNOPSIS
 
@@ -12,7 +12,7 @@ A5
 
 =head1 DESCRIPTION
 
-The brains behind after5detroit.com
+The code behind after5detroit.com
 
 =head2 CPAN Modules
 
@@ -22,7 +22,7 @@ Try::Tiny HTML::FormatText REST::Google::Search Task::Plack
 
 =head2 TinyMCE
 
-A5 requires the JavaScript TinyMCE application for its editor.
+After5 requires the JavaScript TinyMCE application for its editor.
 Please download and extract v3.4.9 into public/tinymce.
 
 =head1 BUGS
@@ -35,6 +35,6 @@ http://github.com/thoughtpivot/a5/wiki
 
 =head1 COPYRIGHT
 
-A5 v2.0 (c) 2011-2012 After5 Detroit, LLC. 777 Woodward Ave. Detroit, MI. 48226
+After5 v2.0 (c) 2011-2012 After5 Detroit, LLC. 777 Woodward Ave. Detroit, MI. 48226
 
 =cut

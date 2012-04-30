@@ -12,10 +12,10 @@ This directory contains all .ai and .psd files associated with the various mocku
 
 =head1 BUGS
 
-http://github.com/thoughtpivot/after5detroit.com/issues
+http://github.com/thoughtpivot/a5/issues
 
 =head1 SEE ALSO
 
-http://github.com/thoughtpivot/after5detroit.com/wiki
+http://github.com/thoughtpivot/a5/wiki
 
 =cut
