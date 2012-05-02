@@ -1496,8 +1496,7 @@ post '/api/contact/message' => sub {
 
             my %mail = (
 
-                To      => 'kerry@after5detroit.com',
-                Cc      => 'dan@thoughtpivot.com',
+                To      => 'contact@after5detroit.com',
                 From    => 'no-reply@after5detroit.com',
                 Subject => 'after5detroit: ' . $self->param('subject'),
                 Message => $message
@@ -1550,8 +1549,7 @@ post '/api/newsletter/message' => sub {
 
             my %mail = (
 
-                To      => 'kerry@after5detroit.com',
-                Cc      => 'dan@thoughtpivot.com',
+                To      => 'contact@after5detroit.com',
                 From    => 'no-reply@after5detroit.com',
                 Subject => 'after5detroit: Newsletter Sign-Up!',
                 Message => $message
