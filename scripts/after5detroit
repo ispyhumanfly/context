@@ -10,7 +10,7 @@ BEGIN {
 
 use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
-use Net::Google::FederatedLogin;
+#use Net::Google::FederatedLogin;
 use Crypt::SaltedHash;
 use Try::Tiny;
 use DateTime::Format::ISO8601;
