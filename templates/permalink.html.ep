@@ -1,7 +1,7 @@
 % title 'Feature';
 % layout 'default';
 %
-% my $id = $self->{ID}; 
+% my $content = $self->{CONTENT}; 
 
 <script type="text/javascript">//<![CDATA[
 
@@ -14,11 +14,11 @@
     <!-- Analytics -->
     <script type="text/javascript">//<![CDATA[
 
-    Clicks.push(<%= $id->id %>);
+    Clicks.push(<%= $content->id %>);
 
     //]]></script>
 	    
-    <% for ( split /\s+/, $id->photos ) { %>
+    <% for ( split /\s+/, $content->photos ) { %>
 
     <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
 	<img class="para_image_right" src="<%= $_ %>" />
@@ -28,57 +28,39 @@
 
     <% } %>
 
-    <% unless (scalar (split /\s+/, $id->photos) <= 1 ) { %>
+    <% unless (scalar (split /\s+/, $content->photos) <= 1 ) { %>
 
     <div class="content_thumbnails_right">
 	
     <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $id->id %>"></div>
+    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $content->id %>"></div>
 
     </div>
 
     <% } %>
     
-    <% unless (($id->title eq '') or ($id->title =~ /^\s+$/g)) { %>
+    <% unless (($content->title eq '') or ($content->title =~ /^\s+$/g)) { %>
     
-    <h2><%= $id->title %></h2>
+    <h2><%= $content->title %></h2>
 
     <% } %>
 
-    <% unless (($id->author eq '') or ($id->author =~ /^\s+$/g)) { %>
+    <% unless (($content->author eq '') or ($content->author =~ /^\s+$/g)) { %>
     
-    <h4>By <%= $id->author %></h4>
+    <h4>By <%= $content->author %></h4>
     
     <% } %>
     
-    <% unless (($id->body eq '') or ($id->body =~ /^\s+$/g)) { %>
+    <% unless (($content->body eq '') or ($content->body =~ /^\s+$/g)) { %>
     
-    <div id="content_body"><%== $id->body %></div>
+    <div id="content_body"><%== $content->body %></div>
 
     <% } %>
 
-    %= include 'modules/content_details', content => $id, size => 'large'
+    %= include 'modules/content_details', content => $content, size => 'large'
 
-    <span class="social_sharing_right">
+    %= include 'modules/social_media', mode => 'content', content => $content
 
-	<a href="http://www.facebook.com/sharer.php?u=http://after5detroit.com/<%= $id->id %>&t=<%= $id->title %>" target="_blank">
-	    <img src="/share/Facebook.png" alt="Facebook"/>
-	</a>
-    
-	<a href="http://www.twitter.com/home?status=<%= $id->title %>,+http://after5detroit.com/<%= $id->id %>" target="_blank">
-	    <img src="/share/Twitter.png" alt="Twitter"/>
-	</a>
-    
-	<a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.com/<%= $id->id %>" target="_blank">
-	    <img src="/share/Digg.png" alt="Digg"/>
-	</a>
-    
-	<a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.com/<%= $id->id %>" target="_blank">
-	    <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
-	</a>
-	
-    </span>
-    
     <h3>
                 
         <% if ( $self->session('admin') ) { %>

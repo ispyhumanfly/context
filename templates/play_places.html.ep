@@ -92,25 +92,8 @@
     
 	%= include 'modules/content_details', size => 'large', content => $featured_places
 
-        <span class="social_sharing_right">
+        %= include 'modules/social_media', mode => 'content', content => $featured_places
 
-            <a href="http://www.facebook.com/sharer.php?u=http://after5detroit.com/<%= $featured_places->id %>&t=<%= $featured_places->title %>" target="_blank">
-                <img src="/share/Facebook.png" alt="Facebook"/>
-            </a>
-        
-            <a href="http://www.twitter.com/home?status=<%= $featured_places->title %>,+http://after5detroit.com/<%= $featured_places->id %>" target="_blank">
-                <img src="/share/Twitter.png" alt="Twitter"/>
-            </a>
-        
-            <a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.com/<%= $featured_places->id %>" target="_blank">
-                <img src="/share/Digg.png" alt="Digg"/>
-            </a>
-        
-            <a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.com/<%= $featured_places->id %>" target="_blank">
-                <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
-            </a>
-            
-        </span>
 
 	<h3>
         

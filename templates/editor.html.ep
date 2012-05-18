@@ -835,7 +835,9 @@
             <% } %>
             
             <div class="block_title"><%= $recent_updates->title %></div>
-            
+
+            %= include 'modules/dashboard_analytics', content => $recent_updates, mode => 'block'
+                
             <div class="block_text">
             
 	    <% if ($recent_updates->body ne '') { %>
@@ -887,10 +889,6 @@
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
         After5 Editor
-    </div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/analytics';">
-        After5 Analytics
     </div>
 
     <% if ($self->param('mode') eq 'update') { %>

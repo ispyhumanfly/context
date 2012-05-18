@@ -19,7 +19,7 @@
         
         <h2><a href="/<%= $home->id; %>"><%= $home->title; %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $home
+        %= include 'modules/dashboard_analytics', content => $home, mode => 'content'
 
         <% for ( split /\s+/, $home->photos ) { %>
         
@@ -70,7 +70,7 @@
 
         <h2><a href="/<%= $live->id%>"><%= $live->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $live
+        %= include 'modules/dashboard_analytics', content => $live, mode => 'content'
 
         <% for ( split /\s+/, $live->photos ) { %>
         
@@ -117,7 +117,7 @@
         
         <h2><a href="/<%= $work->id%>"><%= $work->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $work
+        %= include 'modules/dashboard_analytics', content => $work, mode => 'content'
 
         <% for ( split /\s+/, $work->photos ) { %>
         
@@ -211,7 +211,7 @@
 
         <h2><a href="/<%= $photos->id%>"><%= $photos->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $photos
+        %= include 'modules/dashboard_analytics', content => $photos, mode => 'content'
 
         <% for ( split /\s+/, $photos->photos ) { %>
         
@@ -258,7 +258,7 @@
         
         <h2><a href="/<%= $about->id%>"><%= $about->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $about
+        %= include 'modules/dashboard_analytics', content => $about, mode => 'content'
 
         <% for ( split /\s+/, $about->photos ) { %>
         
@@ -305,7 +305,7 @@
         
         <h2><a href="/<%= $none->id%>"><%= $none->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $none
+        %= include 'modules/dashboard_analytics', content => $none, mode => 'content'
 
         <% for ( split /\s+/, $none->photos ) { %>
         
@@ -372,6 +372,8 @@
             
             <div class="block_title"><%= $recent_updates->title %></div>
             
+            %= include 'modules/dashboard_analytics', content => $recent_updates, mode => 'block'
+            
             <div class="block_text">
             
             <% if ($recent_updates->body ne '') { %>
@@ -423,10 +425,6 @@
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
         After5 Editor
-    </div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/analytics';">
-        After5 Analytics
     </div>
 
     <div data-dojo-type="dijit.MenuSeparator"></div>

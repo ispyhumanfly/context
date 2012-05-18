@@ -59,25 +59,7 @@
 
 	%= include 'modules/content_details', content => $articles, size => 'large'
 	
-        <span class="social_sharing_right">
-
-            <a href="http://www.facebook.com/sharer.php?u=http://after5detroit.com/<%= $articles->id %>&t=<%= $articles->title %>" target="_blank">
-                <img src="/share/Facebook.png" alt="Facebook"/>
-            </a>
-        
-            <a href="http://www.twitter.com/home?status=<%= $articles->title %>,+http://after5detroit.com/<%= $articles->id %>" target="_blank">
-                <img src="/share/Twitter.png" alt="Twitter"/>
-            </a>
-        
-            <a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.com/<%= $articles->id %>" target="_blank">
-                <img src="/share/Digg.png" alt="Digg"/>
-            </a>
-        
-            <a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.com/<%= $articles->id %>" target="_blank">
-                <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
-            </a>
-            
-        </span>
+	%= include 'modules/social_media', mode => 'content', content => $articles
 
 	<h3>
 	    
