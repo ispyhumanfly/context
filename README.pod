@@ -18,7 +18,7 @@ The code behind after5detroit.com
 
 Modern::Perl Mojolicious::Lite Task::Plack DBIx::Class::Candy SQL::Translator 
 DateTime::Format::SQLite DateTime::Format::ISO8601 Crypt::SaltedHash 
-Try::Tiny HTML::FormatText REST::Google::Search
+Try::Tiny HTML::FormatText REST::Google::Search Net::Google::FederatedLogin
 
 =head2 TinyMCE
 

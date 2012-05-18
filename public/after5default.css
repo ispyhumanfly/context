@@ -670,6 +670,14 @@ body {
     font-weight: bold;
 }
 
+#content_container .block_analytics {
+
+    /*color: #222;*/
+    font-family: Verdana;
+    font-size: 10px;
+    font-weight: normal;
+}
+
 #content_container .block_text {
     
     font-size: 10px;

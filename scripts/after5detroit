@@ -10,6 +10,7 @@ BEGIN {
 
 use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
+use Net::Google::FederatedLogin;
 use Crypt::SaltedHash;
 use Try::Tiny;
 use DateTime::Format::ISO8601;
@@ -872,16 +873,29 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    if ($self->param('id')) {
+    my $content = $MODEL->resultset('Content')->search({id => $self->param('id')})->single;
 
-        my $id =
-          $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->single;
-        $self->{'ID'} = $id;
+    # Articles
+    if ($content->types =~ m/article/g) {
+        
+        return $self->redirect_to('/play/people?id=' . $content->id)
+            if $content->tags =~ m/people/g;
+
+        return $self->redirect_to('/play/places?id=' . $content->id)
+            if $content->tags =~ m/place/g;
     }
 
-    return $self->render('permalink');
-
+    # Events
+    elsif ($content->types =~ m/event/g) {
+    
+        return $self->redirect_to('/play/events?start_datetime=' . $content->start_datetime->epoch);
+    }
+    else {
+        
+        $self->{'CONTENT'} = $content;
+        return $self->render('permalink');
+    }
+    
 } => 'permalink';
 
 ### After5 Admin Pages
@@ -1002,48 +1016,6 @@ get '/settings' => sub {
     return $self->render('settings');
 
 } => 'settings';
-
-get '/analytics' => sub {
-
-    my $self = shift;
-
-    ## Views
-    #my @views =
-    #  $MODEL->resultset('Content')
-    #  ->search(undef, {page => 1, rows => 500, order_by => 'views DESC'})
-    #  ->all;
-    #
-    #$self->{'VIEWS'} = \@views;
-    #
-    ## Clicks
-    #my @clicks =
-    #  $MODEL->resultset('Content')
-    #  ->search(undef, {page => 1, rows => 500, order_by => 'clicks DESC'})
-    #  ->all;
-    #
-    #$self->{'CLICKS'} = \@clicks;
-
-    ## Most Popular
-    #my @most_popular =
-    #  $MODEL->resultset('Content')->search(undef, {page => 1, rows => 1000})
-    #  ->all;
-    #
-    #my @most_popular_sorted;
-    #
-    #for (@most_popular) {
-    #
-    #    my $score = ($_->views + $_->clicks);
-    #
-    #    unless ($score == 0) {
-    #        $most_popular_sorted[$score] = $_;
-    #    }
-    #}
-    #
-    #$self->{'MOST_POPULAR'} = \@most_popular_sorted;
-
-    return $self->render('analytics');
-
-} => 'analytics';
 
 ### After5 Form API
 
