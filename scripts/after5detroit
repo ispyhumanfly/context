@@ -883,6 +883,10 @@ get '/:id' => [id => qr/\d+/] => sub {
 
         return $self->redirect_to('/play/places?id=' . $content->id)
             if $content->tags =~ m/place/g;
+
+        return $self->redirect_to('/play/articles?id=' . $content->id)
+            if $content->tags =~ m/article/g;
+
     }
 
     # Events
