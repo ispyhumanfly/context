@@ -3,7 +3,7 @@
 BEGIN {
 
     use Cwd;
-    
+
     $ENV{'MOJO_HOME'} = getcwd();
     $ENV{'MOJO_MAX_MESSAGE_SIZE'} = 1 * (1024 * 1024 * 1024);
 }
@@ -856,27 +856,30 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    my $content = $MODEL->resultset('Content')->search({id => $self->param('id')})->single;
+    my $content =
+      $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->single;
 
     # Articles
     if ($content->types =~ m/article/g) {
-        
+
         return $self->redirect_to('/play/people?id=' . $content->id)
-            if $content->tags =~ m/people/g;
+          if $content->tags =~ m/people/g;
 
         return $self->redirect_to('/play/places?id=' . $content->id)
-            if $content->tags =~ m/place/g;
+          if $content->tags =~ m/place/g;
 
         return $self->redirect_to('/play/articles?id=' . $content->id)
-            if $content->tags =~ m/article/g;
+          if $content->tags =~ m/article/g;
     }
 
     # Events
     elsif ($content->types =~ m/event/g) {
-    
-        return $self->redirect_to('/play/events?start_datetime=' . $content->start_datetime->epoch);
+
+        return $self->redirect_to(
+            '/play/events?start_datetime=' . $content->start_datetime->epoch);
     }
-    
+
     # Ads
     my @ads = $MODEL->resultset('Content')->search(
         {pages => {like => '%permalink%'}, types => {like => '%ad_header%'}},
@@ -893,10 +896,10 @@ get '/:id' => [id => qr/\d+/] => sub {
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
-    
+
     $self->{'CONTENT'} = $content;
     return $self->render('permalink');
-    
+
 } => 'permalink';
 
 ### After5 Admin Pages
@@ -906,7 +909,16 @@ get '/login' => sub {
     my $self = shift;
 
     return $self->redirect_to('dashboard') if $self->session('admin');
-    return $self->render('login');
+
+    my $claimed = 'after5detroit.com';
+
+    my $g = Net::Google::FederatedLogin->new(
+        claimed_id => $claimed,
+        return_to  => 'http://after5detroit.com/api/login'
+    );
+    my $auth_url = $g->get_auth_url();
+
+    return $self->redirect_to($auth_url);
 
 } => 'login';
 
@@ -1020,25 +1032,35 @@ get '/settings' => sub {
 
 ### After5 Form API
 
-post '/api/login' => sub {
+any '/api/login' => sub {
 
     my $self = shift;
 
-    my @settings =
-      $MODEL->resultset('Settings')->search({admin => $self->param('admin')});
+   #my @settings =
+   #  $MODEL->resultset('Settings')->search({admin => $self->param('admin')});
+   #
+   #for (@settings) {
+   #
+   #    if (Crypt::SaltedHash->validate(
+   #            $_->password, $self->param('password')
+   #        )
+   #      )
+   #    {
+   #        $self->session(admin => $_->admin);
+   #    }
+   #}
 
-    for (@settings) {
+    my $params = $self->req->params->to_hash;
 
-        if (Crypt::SaltedHash->validate(
-                $_->password, $self->param('password')
-            )
-          )
-        {
-            $self->session(admin => $_->admin);
-        }
-    }
+    my $g = Net::Google::FederatedLogin->new(
+        cgi_params => $params,
+        return_to  => 'http://after5detroit.com/api/login'
+    );
+    my $id = $g->verify_auth();
 
-    return $self->redirect_to('dashboard');
+    $self->session(admin => $id) if $id;
+
+    $self->redirect_to('dashboard');
 
 };
 
@@ -1346,7 +1368,7 @@ post '/api/content/update' => sub {
     if ($self->param('position')) {
 
         my $position = int($self->param('position'));
-        
+
         $MODEL->resultset('Content')->search({id => $self->param('id')})
           ->update({position => $position});
     }
