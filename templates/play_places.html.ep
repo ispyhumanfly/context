@@ -5,9 +5,6 @@
 
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dojox.widget.Calendar");
-
-    dojo.require("dijit.form.Select");
     
 //]]></script>
 
@@ -86,14 +83,17 @@
     
 	<% if ($featured_places_counter == 1) { %>
 	
+	<% unless (($featured_places->author eq '') or ($featured_places->author =~ /^\s+$/g)) { %>
+	
 	<h4>By <%= $featured_places->author %></h4>
+	
+	<% } %>
 
         <div id="content_body"><%== $featured_places->body %></div>
     
 	%= include 'modules/content_details', size => 'large', content => $featured_places
 
         %= include 'modules/social_media', mode => 'content', content => $featured_places
-
 
 	<h3>
         

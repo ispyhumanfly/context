@@ -49,7 +49,11 @@
 	
 	<h2><%= $people->title %></h2>
 
+	<% unless (($people->author eq '') or ($people->author =~ /^\s+$/g)) { %>
+	
 	<h4>By <%= $people->author %></h4>
+	
+	<% } %>
 	
 	<div id="content_body"><%== $people->body %></div>
 	
