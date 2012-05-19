@@ -111,12 +111,20 @@
 		%= content
     
 	    </div>
-    
-	    <div style="clear: right; float: right; margin-top: 15px; margin-right: 72px;">
+    	    
+	    <div style="clear: right; float: right; margin-top: 20px; width: 30%; text-align: center; border-right: 25px solid white;">
+    		
 		<a style="position: relative; top: 15px;" href="https://twitter.com/after5detroit" class="twitter-follow-button" data-align="right" data-width="235px" data-show-count="true" data-lang="en">Follow @After5Detroit</a>
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+		<br />
+		<br />
+		
+		<fb:like href="https://www.facebook.com/pages/After-5-Detroit/46857148306?ref=ts" send="true" width="200" show_faces="false" font="verdana"></fb:like>
+		
 	    </div>
-	    
+
+
 	    <div id="footer_container">
     
 		<div style="margin-left: 25px;">
@@ -175,7 +183,7 @@
 		</div>
 		
 		<% } %>
-		
+				
 	    </div>
 	    
 	    % if ($self->param('message')) {
