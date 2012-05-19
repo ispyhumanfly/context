@@ -10,7 +10,7 @@ BEGIN {
 
 use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
-#use Net::Google::FederatedLogin;
+use Net::Google::FederatedLogin;
 use Crypt::SaltedHash;
 use Try::Tiny;
 use DateTime::Format::ISO8601;
@@ -856,6 +856,27 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
+    my $content = $MODEL->resultset('Content')->search({id => $self->param('id')})->single;
+
+    # Articles
+    if ($content->types =~ m/article/g) {
+        
+        return $self->redirect_to('/play/people?id=' . $content->id)
+            if $content->tags =~ m/people/g;
+
+        return $self->redirect_to('/play/places?id=' . $content->id)
+            if $content->tags =~ m/place/g;
+
+        return $self->redirect_to('/play/articles?id=' . $content->id)
+            if $content->tags =~ m/article/g;
+    }
+
+    # Events
+    elsif ($content->types =~ m/event/g) {
+    
+        return $self->redirect_to('/play/events?start_datetime=' . $content->start_datetime->epoch);
+    }
+    
     # Ads
     my @ads = $MODEL->resultset('Content')->search(
         {pages => {like => '%permalink%'}, types => {like => '%ad_header%'}},
@@ -872,33 +893,9 @@ get '/:id' => [id => qr/\d+/] => sub {
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
-
-    my $content = $MODEL->resultset('Content')->search({id => $self->param('id')})->single;
-
-    # Articles
-    if ($content->types =~ m/article/g) {
-        
-        return $self->redirect_to('/play/people?id=' . $content->id)
-            if $content->tags =~ m/people/g;
-
-        return $self->redirect_to('/play/places?id=' . $content->id)
-            if $content->tags =~ m/place/g;
-
-        return $self->redirect_to('/play/articles?id=' . $content->id)
-            if $content->tags =~ m/article/g;
-
-    }
-
-    # Events
-    elsif ($content->types =~ m/event/g) {
     
-        return $self->redirect_to('/play/events?start_datetime=' . $content->start_datetime->epoch);
-    }
-    else {
-        
-        $self->{'CONTENT'} = $content;
-        return $self->render('permalink');
-    }
+    $self->{'CONTENT'} = $content;
+    return $self->render('permalink');
     
 } => 'permalink';
 
