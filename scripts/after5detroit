@@ -35,7 +35,9 @@ any '/' => sub {
     return $self->redirect_to('home');
 };
 
-### After5 Client Pages
+### After 5 Visitor Pages
+
+## Home
 
 get '/home' => sub {
 
@@ -94,6 +96,8 @@ get '/home' => sub {
     return $self->render('home');
 
 } => 'home';
+
+## Live
 
 get '/live' => sub {
 
@@ -395,6 +399,8 @@ get '/live/:city/neighbors' => [city => qr/\w+/] => sub {
 
 } => 'live_neighbors';
 
+## Work
+
 get '/work' => sub {
 
     my $self = shift;
@@ -459,6 +465,8 @@ get '/work/professional_development' => sub {
     return $self->render('work_professional_development');
 
 } => 'work_professional_development';
+
+## Play
 
 get '/play' => sub {
 
@@ -660,6 +668,8 @@ get '/play/events' => sub {
 
 } => 'play_events';
 
+## Photos
+
 get '/photos' => sub {
 
     my $self = shift;
@@ -703,6 +713,8 @@ get '/photos' => sub {
     return $self->render('photos');
 
 } => 'photos';
+
+## About
 
 get '/about' => sub {
 
@@ -805,6 +817,8 @@ get '/about/newsletter' => sub {
 
 } => 'about_newsletter';
 
+## Search
+
 get '/search' => sub {
 
     my $self = shift;
@@ -852,6 +866,8 @@ get '/search' => sub {
 
 } => 'search';
 
+## Permalink
+
 get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
@@ -860,7 +876,7 @@ get '/:id' => [id => qr/\d+/] => sub {
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
 
-    # Articles
+    # Play Articles
     if ($content->types =~ m/article/g) {
 
         return $self->redirect_to('/play/people?id=' . $content->id)
@@ -873,9 +889,11 @@ get '/:id' => [id => qr/\d+/] => sub {
           if $content->tags =~ m/article/g;
     }
 
-    # Events
+    # Play Events
     elsif ($content->types =~ m/event/g) {
 
+        ## TODO: Make sure this technique works for networking events too...
+        
         return $self->redirect_to(
             '/play/events?start_datetime=' . $content->start_datetime->epoch);
     }
@@ -902,7 +920,7 @@ get '/:id' => [id => qr/\d+/] => sub {
 
 } => 'permalink';
 
-### After5 Admin Pages
+### After 5 Admin Pages
 
 get '/login' => sub {
 
@@ -1030,33 +1048,18 @@ get '/settings' => sub {
 
 } => 'settings';
 
-### After5 Form API
+### After 5 Form API
 
 any '/api/login' => sub {
 
     my $self = shift;
 
-   #my @settings =
-   #  $MODEL->resultset('Settings')->search({admin => $self->param('admin')});
-   #
-   #for (@settings) {
-   #
-   #    if (Crypt::SaltedHash->validate(
-   #            $_->password, $self->param('password')
-   #        )
-   #      )
-   #    {
-   #        $self->session(admin => $_->admin);
-   #    }
-   #}
-
-    my $params = $self->req->params->to_hash;
-
-    my $g = Net::Google::FederatedLogin->new(
-        cgi_params => $params,
+    my $google = Net::Google::FederatedLogin->new(
+        cgi_params => $self->req->params->to_hash,
         return_to  => 'http://after5detroit.com/api/login'
     );
-    my $id = $g->verify_auth();
+    
+    my $id = $google->verify_auth();
 
     $self->session(admin => $id) if $id;
 
@@ -1211,7 +1214,7 @@ post '/api/content/create' => sub {
 
     my $text =
 
-      'After5 content successfully created.'
+      'After 5 content successfully created.'
       . "<a href='/$id'>Click here to view permalink page.</a>";
 
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
@@ -1696,12 +1699,6 @@ get '/dojox/image/data.json' => sub {
 };
 
 ### After5 Tools
-
-sub filter_content {
-
-    my ($self, $content) = shift;
-
-}
 
 sub process_photo {
 

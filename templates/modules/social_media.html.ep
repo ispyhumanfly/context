@@ -28,15 +28,9 @@
   
 //]]></script>
 
-<!--<meta property="og:title" content="After 5 Feature" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://www.after5detroit.com/" />
-<meta property="og:site_name" content="After 5 Detroit" />
-<meta property="fb:admins" content="1085211548" />
--->
 <% } %>
 
-<% if ($mode eq 'content') { %>
+<% if ((ref($content)) and ($mode eq 'metatags')) { %>
 
     <% my $image; %>
 
@@ -47,6 +41,17 @@
     <% last; %>
     
     <% } %>
+
+    <meta property="og:title" content="<%= $content->title %>" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="http://www.after5detroit.com/<%= $content->id %>" />
+    <meta property="og:image" content="http://www.after5detroit.com<%= $image; %>" />
+    <meta property="og:site_name" content="After 5 Detroit" />
+    <meta property="fb:admins" content="1085211548" />
+
+<% } %>
+
+<% if ($mode eq 'content') { %>
         
     <fb:like
         

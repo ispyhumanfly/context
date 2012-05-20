@@ -57,7 +57,8 @@
             lightbox.show({
                 
                 href: packet.largeUrl,
-                title: packet.title
+                title: '',
+                group: packet.group
             });
                 
         };
