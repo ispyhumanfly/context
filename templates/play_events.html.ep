@@ -84,10 +84,8 @@
 
 		//]]></script>
 	    
-		<a dojoType="dojox.image.Lightbox" title="<%= $upcoming_events->title %>" href="<%= $_ %>">
-		    <img class="para_image_right" src="<%= $_ %>" />
-		</a>
-
+		<img class="para_image_right" title="<%= $upcoming_events->title %>" src="<%= $_ %>" />
+		
 	    	<% unless (scalar (split /\s+/, $upcoming_events->photos) <= 1 ) { %>
 	
 		<div class="content_thumbnails_right">

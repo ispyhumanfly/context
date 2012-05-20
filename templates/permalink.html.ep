@@ -20,9 +20,7 @@
 	    
     <% for ( split /\s+/, $content->photos ) { %>
 
-    <a dojoType="dojox.image.Lightbox" href="<%= $_ %>">
-	<img class="para_image_right" src="<%= $_ %>" />
-    </a>
+    <img class="para_image_right" src="<%= $_ %>" title="<%= $content->id; %>" />
 
     <% last; %>
 

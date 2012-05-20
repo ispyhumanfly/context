@@ -26,9 +26,7 @@
 	    
 	    <% for ( split /\s+/, $city_life->photos ) { %>
     
-	    <a dojoType="dojox.image.Lightbox" title="<%= $city_life->title %>" href="<%= $_ %>">
-		<img class="para_image_right" src="<%= $_ %>" />
-	    </a>
+	    <img class="para_image_right" src="<%= $_ %>" title="<%= $city_life->title %>" />
     
 	    <% last; #JUST SHOW ONE %>
     
@@ -91,10 +89,8 @@
 	    
 	    <% for ( split /\s+/, $featured_lifestyle->photos ) { %>
     
-	    <a dojoType="dojox.image.Lightbox" title="<%= $featured_lifestyle->title %>" href="<%= $_ %>">
-		<img class="para_image_right" src="<%= $_ %>" />
-	    </a>
-    
+	    <img class="para_image_right" src="<%= $_ %>" title="<%= $featured_lifestyle->title %>" />
+	
 	    <% last; #JUST SHOW ONE %>
     
 	    <% } %>
