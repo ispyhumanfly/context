@@ -32,7 +32,7 @@
 
 <% if ($mode eq 'metatags') { %>
 
-    <% return unless $content->id; %>
+    <% return unless $content and $content->isa('HASH'); %>
     
     <% my $image; %>
 

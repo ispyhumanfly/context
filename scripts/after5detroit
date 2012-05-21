@@ -20,6 +20,7 @@ use Mail::Sendmail;
 use File::Copy;
 use IO::Dir;
 use Encode;
+use UNIVERSAL;
 
 use lib 'lib';
 use After5::Model;
