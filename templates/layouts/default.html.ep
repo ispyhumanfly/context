@@ -3,6 +3,12 @@
 
     <head>
 	
+	<% if (exists $self->{'CONTENT'}) { %>
+	
+	%= include 'modules/social_media', mode => 'metatags', content => $self->{CONTENT}
+	
+	<% } %>
+	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/> 
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
 	<meta name="google-site-verification" content="Csn_aTdWY2uKRtR93wT3GpRbT1AMQ0PtUNl_0XNFEfM" />
@@ -12,16 +18,8 @@
 	<link rel="stylesheet" type="text/css" href="/after5default.css">
 	
 	%= include 'modules/dojo_toolkit'
-
-	<!-- Social Media -->
 	
 	%= include 'modules/social_media', mode => 'head', content => 'none'
-
-	<% if (exists $self->{'CONTENT'}) { %>
-	
-	%= include 'modules/social_media', mode => 'metatags', content => $self->{CONTENT}
-	
-	<% } %>
 	
 	<!-- Google Analytics -->
 	

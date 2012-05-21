@@ -30,7 +30,7 @@
 
 <% } %>
 
-<% if ((ref($content)) and ($mode eq 'metatags')) { %>
+<% if ($mode eq 'metatags') { %>
 
     <% my $image; %>
 
