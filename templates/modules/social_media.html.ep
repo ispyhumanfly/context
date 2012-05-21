@@ -32,6 +32,8 @@
 
 <% if ($mode eq 'metatags') { %>
 
+    <% return unless $content->id; %>
+    
     <% my $image; %>
 
     <% for ( split /\s+/, $content->photos ) { %>
