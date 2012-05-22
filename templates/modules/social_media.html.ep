@@ -32,24 +32,26 @@
 
 <% if ($mode eq 'metatags') { %>
 
-    <% return unless $content and $content->isa('HASH'); %>
+    <% if ($content) { %>
     
-    <% my $image; %>
+        <% my $image; %>
+    
+        <% for ( split /\s+/, $content->photos ) { %>
+    
+            <% $image = $_; %>
+            
+            <% last; %>
+        
+        <% } %>
 
-    <% for ( split /\s+/, $content->photos ) { %>
-
-    <% $image = $_; %>
-    
-    <% last; %>
-    
+        <meta property="og:title" content="<%= $content->title; %>" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="http://www.after5detroit.com/<%= $content->id; %>" />
+        <meta property="og:image" content="http://www.after5detroit.com<%= $image; %>" />
+        <meta property="og:site_name" content="After 5 Detroit" />
+        <meta property="fb:admins" content="1085211548" />
+        
     <% } %>
-
-    <meta property="og:title" content="<%= $content->title %>" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="http://www.after5detroit.com/<%= $content->id %>" />
-    <meta property="og:image" content="http://www.after5detroit.com<%= $image; %>" />
-    <meta property="og:site_name" content="After 5 Detroit" />
-    <meta property="fb:admins" content="1085211548" />
 
 <% } %>
 
