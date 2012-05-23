@@ -670,7 +670,7 @@
     
 	<select dojoType="dijit.form.Select" name="position" size="10">
     
-	    <option value="none" selected>
+	    <option value="0" selected>
 		none
 	    </option>
     
