@@ -173,7 +173,6 @@
 		
 		<a href="/play/events?start_datetime=<%= $_->start_datetime->epoch; %>">Next</a>
 		
-		
 		<% last; %>
 		
 	    <% } %>

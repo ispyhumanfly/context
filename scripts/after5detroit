@@ -20,12 +20,17 @@ use Mail::Sendmail;
 use File::Copy;
 use IO::Dir;
 use Encode;
-use UNIVERSAL;
 
 use lib 'lib';
 use After5::Model;
 
 our $MODEL = After5::Model->connect('dbi:SQLite:after5detroit.db');
+
+## TODO: A5 needs to be utf8. :(
+
+#our $MODEL =
+#  After5::Model->connect('dbi:SQLite:after5detroit.db', '', '',
+#    {sqlite_unicode => 1});
 
 use Mojolicious::Lite;
 use Mojo::Util;
@@ -895,8 +900,11 @@ get '/:id' => [id => qr/\d+/] => sub {
 
         ## TODO: Make sure this technique works for networking events too...
         
-        return $self->redirect_to(
-            '/play/events?start_datetime=' . $content->start_datetime->epoch);
+        unless ($content->tags =~ m/networking/g) {
+         
+            return $self->redirect_to(
+                '/play/events?start_datetime=' . $content->start_datetime->epoch);
+        }
     }
 
     # Ads
@@ -1059,7 +1067,7 @@ any '/api/login' => sub {
         cgi_params => $self->req->params->to_hash,
         return_to  => 'http://after5detroit.com/api/login'
     );
-    
+
     my $id = $google->verify_auth();
 
     $self->session(admin => $id) if $id;
