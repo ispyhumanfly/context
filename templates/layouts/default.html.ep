@@ -71,7 +71,7 @@
 
 		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search" method="get">
     
-		    <input type="text" class="search_input_text" name="string" placeholder="Search After5"></input>
+		    <input type="text" class="search_input_text" name="string" placeholder="Search After 5"></input>
     
 		</div>
     
