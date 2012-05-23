@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-After5
+After 5
 
 =head1 SYNOPSIS
 
@@ -22,7 +22,7 @@ Try::Tiny HTML::FormatText REST::Google::Search Net::Google::FederatedLogin
 
 =head2 TinyMCE
 
-After5 requires the JavaScript TinyMCE application for its editor.
+After 5 requires the JavaScript TinyMCE application for its editor.
 Please download and extract v3.4.9 into public/tinymce.
 
 =head1 BUGS
@@ -35,6 +35,6 @@ http://github.com/thoughtpivot/after5/wiki
 
 =head1 COPYRIGHT
 
-After5 v2.0 (c) 2011-2012 After5 Detroit, LLC. 777 Woodward Ave. Detroit, MI. 48226
+After 5 v2.0 (c) 2011-2012 After 5 Detroit, Inc. 777 Woodward Ave. Detroit, MI. 48226
 
 =cut

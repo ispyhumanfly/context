@@ -126,7 +126,13 @@
 	    <% } %>
 	    
 	    <% $more_neighbors_counter++; %>
-	    
+
+	    <% if ($more_neighbors_counter > 1) { %>
+	
+	    <hr />
+	
+	    <% } %>
+
 	    <!-- Analytics -->
 	    <script type="text/javascript">//<![CDATA[
 
@@ -165,8 +171,6 @@
 	    
 	    <% last if $more_neighbors_counter == $more_neighbors_length; %>
 	    
-	    <hr />
-	
 	<% } %>
 
 	<div class="block_see_more"><a href="/search?tags=neighbor&cities=<%= $city %>">See More &rarr;</a></div>
