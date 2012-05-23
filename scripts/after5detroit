@@ -1446,8 +1446,8 @@ post '/api/content/update' => sub {
 
     my $text =
 
-      'Content updated.'
-      . "<a href='/$id'>You can click here to view the permalink page.</a>";
+      'Content updated. '
+      . "<a href='/$id'>You can click here to view the Permalink page.</a>";
 
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 
@@ -1469,7 +1469,7 @@ any '/api/content/remove' => sub {
 
     $content->delete;
 
-    my $text = 'After5 content successfully removed.';
+    my $text = 'After 5 content successfully removed.';
     return $self->redirect_to("/dashboard?message=$text");
 
 };
@@ -1491,7 +1491,7 @@ post '/api/contact/message' => sub {
         for (@results) {
 
             my $message =
-                "\n\nContact Message from After5...\n\n\tName: "
+                "\n\nContact Message from After 5...\n\n\tName: "
               . $self->param('name')
               . "\n\n\tEmail: "
               . $self->param('email')
@@ -1544,7 +1544,7 @@ post '/api/newsletter/message' => sub {
         for (@results) {
 
             my $message =
-                "\n\nNewsletter Sign-Up from After5...\n\n\tName: "
+                "\n\nNewsletter Sign-Up from After 5...\n\n\tName: "
               . $self->param('name')
               . "\n\n\tAge: "
               . $self->param('age')
@@ -1632,7 +1632,7 @@ post '/api/settings/update' => sub {
 
     $MODEL->resultset('Settings')->update({about => $self->param('about')});
 
-    my $text = 'After5 settings successfully updated.';
+    my $text = 'After 5 settings successfully updated.';
     return $self->redirect_to("/settings?message=$text");
 
 };
@@ -1673,7 +1673,7 @@ post '/api/analytics/:type' => [type => qr/\w+/] => sub {
     return;
 };
 
-## After5 Dojo JSON Data Stores
+## After 5 Dojo JSON Data Stores
 
 get '/dojox/image/data.json' => sub {
 
@@ -1709,7 +1709,7 @@ get '/dojox/image/data.json' => sub {
 
 };
 
-### After5 Tools
+### After 5 Tools
 
 sub process_photo {
 
