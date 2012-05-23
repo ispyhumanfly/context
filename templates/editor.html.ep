@@ -3,7 +3,7 @@
 %
 % my $recent_update_length = 10;
 
-<script type="text/javascript" src="/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script >
+<script type="text/javascript" src="/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script>
 
 <script type="text/javascript">//<![CDATA[
 
@@ -47,7 +47,6 @@
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_path : true,
 	theme_advanced_statusbar_location : "bottom"
-
 	
     });
   

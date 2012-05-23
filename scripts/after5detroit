@@ -1177,8 +1177,10 @@ post '/api/content/create' => sub {
 
     if ($self->param('position')) {
 
+        my $position = int($self->param('position'));
+
         $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({position => $self->param('position')});
+          ->update({position => $position});
     }
 
     if ($self->param('link')) {
@@ -1224,7 +1226,7 @@ post '/api/content/create' => sub {
     my $text =
 
       'After 5 content successfully created.'
-      . "<a href='/$id'>Click here to view permalink page.</a>";
+      . "<a href='/$id'>Click here to view the Permalink page.</a>";
 
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 };
