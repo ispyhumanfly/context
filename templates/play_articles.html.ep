@@ -184,7 +184,7 @@
 
     </div>
 
-    <h1>Search After5</h1>
+    <h1>Search After 5</h1>
 
     %= include 'modules/block_search_places', mode => 'search_bar_mini'
     

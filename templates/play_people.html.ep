@@ -182,7 +182,7 @@
 
         %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
     
-	<h1>Search After5</h1>
+	<h1>Search After 5</h1>
 	
 	%= include 'modules/block_search_places'
 
