@@ -115,7 +115,7 @@
         <a href="/<%= $result->id %>"><h2><%= $result->title %></h2></a>
     
         <% } %>
-
+        
         <% if (($result->types eq 'event') or ($result->tags eq 'place') or ($result->types eq 'place')) { %>
         
 	<div style="float: left; width: 248px; margin-top: -5px;">
