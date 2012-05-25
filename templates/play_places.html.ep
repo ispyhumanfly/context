@@ -80,7 +80,13 @@
         <h2><a href="/play/places?id=<%= $featured_places->id %>"><%= $featured_places->title %></a></h2>
     
 	<% if ($featured_places_counter == 1) { %>
-	
+
+	<% if ($self->session('admin')) { %>
+    
+	%= include 'modules/dashboard_analytics', content => $featured_places, mode => 'content'
+
+	<% } %>
+    
 	<% unless (($featured_places->author eq '') or ($featured_places->author =~ /^\s+$/g)) { %>
 	
 	<h4>By <%= $featured_places->author %></h4>

@@ -47,6 +47,12 @@
 	
 	<h2><%= $people->title %></h2>
 
+	<% if ($self->session('admin')) { %>
+    
+	%= include 'modules/dashboard_analytics', content => $people, mode => 'content'
+
+	<% } %>
+	
 	<% unless (($people->author eq '') or ($people->author =~ /^\s+$/g)) { %>
 	
 	<h4>By <%= $people->author %></h4>
