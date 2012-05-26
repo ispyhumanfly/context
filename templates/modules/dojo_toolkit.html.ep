@@ -130,4 +130,9 @@
 
     setTimeout("dojo.addOnLoad(_initAnalytics)", 5000);
     
+    function ad_click(id) {
+    
+        dojo.xhrPost({ url: '/api/analytics/clicks', postData: 'id=' + id + '' });    
+    }
+    
 //]]></script>

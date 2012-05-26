@@ -31,7 +31,7 @@
 	  })();
 	
 	//]]></script>
-		
+	
     </head>
 
     <body class="nihilo">
@@ -91,7 +91,7 @@
 	
 			    <% for ( split /\s+/, $ad->photos ) { %>
 	
-			    header_ads.push("<a href='<%= $ad->link %>' onclick='Clicks.push(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
+			    header_ads.push("<a href='<%= $ad->link %>' onclick='ad_click(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
 			    
 			    <% last; # ONLY SHOW ONE %>
 			    

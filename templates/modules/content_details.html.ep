@@ -28,7 +28,6 @@
 
 	<%= $stop_date->hour_12 %>:<%= sprintf '%02d', $stop_date->minute %> <%= $stop_date->am_or_pm %>
 
-
 	<% } %>
 	
     </div>
