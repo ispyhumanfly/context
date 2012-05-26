@@ -1651,14 +1651,14 @@ post '/api/analytics/:type' => [type => qr/\w+/] => sub {
 
             when ('views') {
 
-                say "The views are: " . $content->views;
+                #say "The views are: " . $content->views;
 
                 $content->update({views => $content->views + 1});
             }
 
             when ('clicks') {
 
-                say "The clicks are: " . $content->clicks;
+                #say "The clicks are: " . $content->clicks;
 
                 $content->update({clicks => $content->clicks + 1});
             }
