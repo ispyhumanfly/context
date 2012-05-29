@@ -54,6 +54,10 @@
                         Post a Job
                     </option>
                     
+                    <option value="<%= 'Post a Group' %>">
+                        Post a Group
+                    </option>
+                    
                 </select>    
     
                 <br />

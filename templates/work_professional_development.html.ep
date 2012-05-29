@@ -19,12 +19,13 @@
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'resources' %> href="/work/professional_development?tags=resources">Resources</a></p>
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'local_blogs' %> href="/work/professional_development?tags=local_blogs">Local Blogs</a></p>
     <p><a <%== 'class="content_work_nav_active"' if $tags eq 'job_listings' %> href="/work/professional_development?tags=job_listings">Job Listings</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'career_tips' %> href="/work/professional_development?tags=career_tips">Career Tips</a></p>
 
     <h1 class="content_work_left_heading" style="padding-top: 11px; padding-bottom: 1px;">Employers</h1>
 
     <p><a href="/about/contact">Post a Job</a></p>
     <p><a href="/about/contact">Post a Group</a></p>
-    <p><a href="http://www.connectafter5.com" target="_blank">Connect After5</a></p>
+    <p><a href="http://www.connectafter5.com" target="_blank">Connect After 5</a></p>
     <p><a href="http://www.after5internprogram.com" target="_blank">Intern Program</a></p>
     
 </div>

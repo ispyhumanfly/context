@@ -514,6 +514,10 @@
 		job_listings
 	    </option>
 	    
+	    <option value="career_tips">
+		career_tips
+	    </option>
+	    
 	    <option value="after5_press">
 		after5_press
 	    </option>
