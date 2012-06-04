@@ -907,6 +907,12 @@ get '/:id' => [id => qr/\d+/] => sub {
         }
     }
 
+    # Photo Galleries
+    elsif ($content->types =~ m/gallery/g) {
+    
+        return $self->redirect_to('/photos?id=' . $content->id);
+    }
+    
     # Ads
     my @ads = $MODEL->resultset('Content')->search(
         {pages => {like => '%permalink%'}, types => {like => '%ad_header%'}},
