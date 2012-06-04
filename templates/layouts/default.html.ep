@@ -112,6 +112,8 @@
     
 	    </div>
     	    
+	    <!-- This needs to be moved to the social_media module -->
+	    
 	    <div style="clear: right; float: right; margin-top: 20px; width: 30%; text-align: center; border-right: 25px solid white;">
     		
 		<a style="position: relative; top: 15px;" href="https://twitter.com/after5detroit" class="twitter-follow-button" data-align="right" data-width="235px" data-show-count="true" data-lang="en">Follow @After5Detroit</a>

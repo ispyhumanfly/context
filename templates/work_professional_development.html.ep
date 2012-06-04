@@ -90,7 +90,7 @@
     
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="<%= $professional_development->link %>" target="_blank">View Website |</a>
+                <a href="<%= $professional_development->link %>" target="_blank"><%= 'Read More' ? ( $self->param('tags') eq 'career_tips' ) : 'View Website' %> |</a>
                 <a href="/editor?mode=update&id=<%= $professional_development->id %>">Edit</a>        
             
                 <% } else { %>
