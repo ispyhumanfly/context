@@ -429,21 +429,52 @@ get '/work/professional_development' => sub {
         '/work/professional_development?tags=professional_group')
       unless $self->param('tags');
 
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%work%'}, types => {like => '%ad_header%'}})->all;
+    my (@ads, @ads_block);
 
-    $self->{'ADS'} = \@ads;
+    if ($self->param('tags') eq 'career_tips') {
 
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
-      ->all;
+        # Ads
+        my @ads = $MODEL->resultset('Content')->search(
+            {   title => {like => '%walsh%'},
+                pages => {like => '%work%'},
+                types => {like => '%ad_header%'}
+            }
+        )->all;
 
-    $self->{'ADS_BLOCK'} = \@ads_block;
+        $self->{'ADS'} = \@ads;
+
+        # Ads Block
+        my @ads_block = $MODEL->resultset('Content')->search(
+            {   title => {like => '%walsh%'},
+                pages => {like => '%live%'},
+                types => {like => '%ad_block%'}
+            }
+        )->all;
+
+        $self->{'ADS_BLOCK'} = \@ads_block;
+
+    }
+    else {
+
+        # Ads
+        my @ads =
+          $MODEL->resultset('Content')
+          ->search(
+            {pages => {like => '%work%'}, types => {like => '%ad_header%'}})
+          ->all;
+
+        $self->{'ADS'} = \@ads;
+
+        # Ads Block
+        my @ads_block =
+          $MODEL->resultset('Content')
+          ->search(
+            {pages => {like => '%live%'}, types => {like => '%ad_block%'}})
+          ->all;
+
+        $self->{'ADS_BLOCK'} = \@ads_block;
+
+    }
 
     # Work
     if ($self->param('tags')) {
@@ -899,20 +930,20 @@ get '/:id' => [id => qr/\d+/] => sub {
     elsif ($content->types =~ m/event/g) {
 
         ## TODO: Make sure this technique works for networking events too...
-        
+
         unless ($content->tags =~ m/networking/g) {
-         
-            return $self->redirect_to(
-                '/play/events?start_datetime=' . $content->start_datetime->epoch);
+
+            return $self->redirect_to('/play/events?start_datetime='
+                  . $content->start_datetime->epoch);
         }
     }
 
     # Photo Galleries
     elsif ($content->types =~ m/gallery/g) {
-    
+
         return $self->redirect_to('/photos?id=' . $content->id);
     }
-    
+
     # Ads
     my @ads = $MODEL->resultset('Content')->search(
         {pages => {like => '%permalink%'}, types => {like => '%ad_header%'}},
@@ -1659,14 +1690,22 @@ post '/api/analytics/:type' => [type => qr/\w+/] => sub {
 
                 #say "The views are: " . $content->views;
 
-                $content->update({views => $content->views + 1});
+                $content->update(
+                    {
+                        views => $content->views + 1
+                    }
+                );
             }
 
             when ('clicks') {
 
                 #say "The clicks are: " . $content->clicks;
 
-                $content->update({clicks => $content->clicks + 1});
+                $content->update(
+                    {
+                        clicks => $content->clicks + 1
+                    }
+                );
             }
 
             default {

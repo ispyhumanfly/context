@@ -92,25 +92,25 @@
     
                     <% if ($self->param('tags') eq 'career_tips') { %>
                     
-                        <a href="<%= $professional_development->link %>"> Read More |</a>
+                        <a href="<%= $professional_development->link %>">Read More |</a>
                         
                     <% } else { %>
                     
-                        <a href="<%= $professional_development->link %>" target="_blank"> View Website |</a>
+                        <a href="<%= $professional_development->link %>" target="_blank">View Website |</a>
                     
                     <% } %>
 
-                    <a href="/editor?mode=update&id=<%= $professional_development->id %>">Edit</a>        
+                    <a href="/editor?mode=update&id=<%= $professional_development->id %>"> Edit</a>        
             
                 <% } else { %>
             
                     <% if ($self->param('tags') eq 'career_tips') { %>
                     
-                        <a href="<%= $professional_development->link %>"> Read More</a>
+                        <a href="<%= $professional_development->link %>">Read More</a>
                         
                     <% } else { %>
                     
-                        <a href="<%= $professional_development->link %>" target="_blank"> View Website</a>
+                        <a href="<%= $professional_development->link %>" target="_blank">View Website</a>
                     
                     <% } %>
                 
