@@ -9,6 +9,7 @@ BEGIN {
 }
 
 use Modern::Perl;
+use XML::Simple;
 use REST::Google::Search qw/ LOCAL /;
 use Net::Google::FederatedLogin;
 use Crypt::SaltedHash;
