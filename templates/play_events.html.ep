@@ -32,6 +32,17 @@
 	<% } %>
 	
         <% $upcoming_events_counter++; %>
+
+	<% if (($upcoming_events_counter == 1) and ($self->param('start_datetime')) and ($self->param('id'))) { %>
+	
+	    <% unless ($self->param('id') eq $upcoming_events->id ) { %>
+		
+		<% $upcoming_events_counter--; %>
+		<% next; %>
+		
+	    <% } %>
+	    
+	<% } %>
         
         <% if ($upcoming_events_counter == 2) { %>
         
@@ -76,7 +87,7 @@
 
 	    //]]></script>
 	    
-	    <a title="<%= $upcoming_events->title %>" href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">
+	    <a title="<%= $upcoming_events->title %>" href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -86,35 +97,35 @@
 
         <% } %>
 
-        <h2><a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>"><%= $upcoming_events->title %></a></h2>
+        <h2><a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>"><%= $upcoming_events->title %></a></h2>
     
 	<% if ($upcoming_events_counter == 1) { %>
-	
-	<% unless (($upcoming_events->author eq '') or ($upcoming_events->author =~ /^\s+$/g)) { %>
-	
-	<h4>By <%= $upcoming_events->author %></h4>
-
-	<% } %>
-	
-        <div id="content_body"><%== $upcoming_events->body %></div>
-    
-	%= include 'modules/content_details', content => $upcoming_events, size => 'large'
-
-	%= include 'modules/social_media', mode => 'content', content => $upcoming_events
+		    
+	    <% unless (($upcoming_events->author eq '') or ($upcoming_events->author =~ /^\s+$/g)) { %>
 	    
-	<h3>
-        
-            <% if ($self->session('admin')) { %>
+	    <h4>By <%= $upcoming_events->author %></h4>
     
-            <a href="/editor?mode=update&id=<%= $upcoming_events->id %>" style="margin-left: 10px;">Edit</a>
-    	    
-	    <% } else { %>
-    
-	    &nbsp;
-	    
 	    <% } %>
-            
-        </h3>
+	    
+	    <div id="content_body"><%== $upcoming_events->body %></div>
+	
+	    %= include 'modules/content_details', content => $upcoming_events, size => 'large'
+    
+	    %= include 'modules/social_media', mode => 'content', content => $upcoming_events
+		
+	    <h3>
+	    
+		<% if ($self->session('admin')) { %>
+	
+		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>" style="margin-left: 10px;">Edit</a>
+		
+		<% } else { %>
+	
+		&nbsp;
+		
+		<% } %>
+		
+	    </h3>
 	
 	<% } else { %>
 
@@ -130,12 +141,12 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">Read More |</a>
+		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>">Read More</a>
+		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More</a>
 		
 		<% } %>
     
@@ -171,7 +182,7 @@
 	    
 		<% next if $_->start_datetime->epoch <= $last_start_datetime; %>
 		
-		<a href="/play/events?start_datetime=<%= $_->start_datetime->epoch; %>">Next</a>
+		<a href="/play/events?start_datetime=<%= $_->start_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
 		
 		<% last; %>
 		

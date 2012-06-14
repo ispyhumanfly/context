@@ -68,6 +68,8 @@
     
     <% if ($self->session('admin')) { %>
     
+    <div class="title">Analytics</div>
+
     <div class="text">
     
 	<% if ($content->views ne '') { %>

@@ -473,7 +473,7 @@ get '/work/professional_development' => sub {
             {pages => {like => '%live%'}, types => {like => '%ad_block%'}})
           ->all;
 
-        $self->{'ADS_BLOCK'} = \@ads_block;
+            $self->{'ADS_BLOCK'} = \@ads_block;
 
     }
 
@@ -495,7 +495,7 @@ get '/work/professional_development' => sub {
         {   types => {like => '%event%'},
             tags  => {like => '%networking%'}
         },
-        {page => 1, rows => 3, order_by => 'start_datetime ASC'}
+        {order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'NETWORKING'} = \@networking;
