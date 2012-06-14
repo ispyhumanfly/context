@@ -139,7 +139,7 @@ get '/live/birmingham' => sub {
             tags   => {like => '%city_life%'},
             cities => {like => '%birmingham%'}
         },
-        {page => 1, rows => 100, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'CITY_LIFE'} = \@city_life;
@@ -153,7 +153,7 @@ get '/live/birmingham' => sub {
             interests => {like => '%living%'},
             position  => 1
         },
-        {page => 1, rows => 1, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
@@ -200,7 +200,7 @@ get '/live/detroit' => sub {
             tags   => {like => '%city_life%'},
             cities => {like => '%detroit%'}
         },
-        {page => 1, rows => 100, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'CITY_LIFE'} = \@city_life;
@@ -214,7 +214,7 @@ get '/live/detroit' => sub {
             interests => {like => '%living%'},
             position  => 1
         },
-        {page => 1, rows => 1, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
@@ -261,7 +261,7 @@ get '/live/ferndale' => sub {
             tags   => {like => '%city_life%'},
             cities => {like => '%ferndale%'}
         },
-        {page => 1, rows => 100, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'CITY_LIFE'} = \@city_life;
@@ -275,7 +275,7 @@ get '/live/ferndale' => sub {
             interests => {like => '%living%'},
             position  => 1
         },
-        {page => 1, rows => 1, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
@@ -322,7 +322,7 @@ get '/live/royal_oak' => sub {
             tags   => {like => '%city_life%'},
             cities => {like => '%royal_oak%'}
         },
-        {page => 1, rows => 100, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'CITY_LIFE'} = \@city_life;
@@ -336,7 +336,7 @@ get '/live/royal_oak' => sub {
             interests => {like => '%living%'},
             position  => 1
         },
-        {page => 1, rows => 1, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
@@ -397,7 +397,7 @@ get '/live/:city/neighbors' => [city => qr/\w+/] => sub {
             cities => {like => "%$city%"},
             tags   => {like => '%neighbor%'}
         },
-        {page => 1, rows => 50, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'NEIGHBORS'} = \@neighbors;
@@ -484,7 +484,7 @@ get '/work/professional_development' => sub {
 
         my @work = $MODEL->resultset('Content')->search(
             {pages => {like => '%work%'}, tags => {like => "%$tags%"}},
-            {page => 1, rows => 500, order_by => 'id DESC'},
+            {order_by => 'id DESC'},
         )->all;
 
         $self->{'WORK'} = \@work;
@@ -495,7 +495,7 @@ get '/work/professional_development' => sub {
         {   types => {like => '%event%'},
             tags  => {like => '%networking%'}
         },
-        {page => 1, rows => 500, order_by => 'start_datetime ASC'}
+        {page => 1, rows => 3, order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'NETWORKING'} = \@networking;
@@ -559,14 +559,6 @@ get '/play' => sub {
 
     $self->{'PLACES'} = \@places;
 
-    # Events
-    my @events =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%event%'}},
-        {order_by => 'start_datetime ASC'})->all;
-
-    $self->{'EVENTS'} = \@events;
-
     return $self->render('play');
 
 } => 'play';
@@ -597,7 +589,7 @@ get '/play/people' => sub {
             types => {like => '%article%'},
             tags  => {like => '%people%'}
         },
-        {page => 1, rows => 50, order_by => 'id DESC'},
+        {order_by => 'id DESC'},
     )->all;
 
     $self->{'PEOPLE'} = \@people;
@@ -632,7 +624,7 @@ get '/play/places' => sub {
             types => {like => '%article%'},
             tags  => {like => '%place%'}
         },
-        {page => 1, rows => 100, order_by => 'id DESC'},
+        {page => 1, rows => 5000, order_by => 'id DESC'},
     )->all;
 
     $self->{'FEATURED_PLACES'} = \@featured_places;
@@ -667,7 +659,7 @@ get '/play/articles' => sub {
             types => {like => '%article%'},
             tags  => {like => '%article%'}
         },
-        {page => 1, rows => 50, order_by => 'id DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'ARTICLES'} = \@articles;
@@ -699,7 +691,7 @@ get '/play/events' => sub {
     # Upcoming Events
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {pages => {like => '%play%'}, types => {like => '%event%'}},
-        {page => 1, rows => 500, order_by => 'start_datetime ASC'}
+        {order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
@@ -739,7 +731,7 @@ get '/photos' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Galleries
+    # Galleries / More Galleries
     my @galleries =
       $MODEL->resultset('Content')
       ->search(
@@ -888,13 +880,13 @@ get '/search' => sub {
         @search_results =
           $MODEL->resultset('Content')
           ->search(undef,
-            {page => 1, rows => 1000, order_by => 'start_datetime ASC'})->all;
+            {order_by => 'start_datetime ASC'})->all;
     }
     else {
 
         @search_results =
           $MODEL->resultset('Content')
-          ->search(undef, {page => 1, rows => 1000, order_by => 'id DESC'})
+          ->search(undef, {order_by => 'id DESC'})
           ->all;
     }
 
@@ -1689,8 +1681,6 @@ post '/api/analytics/:type' => [type => qr/\w+/] => sub {
 
             when ('views') {
 
-                #say "The views are: " . $content->views;
-
                 $content->update(
                     {
                         views => $content->views + 1
@@ -1699,8 +1689,6 @@ post '/api/analytics/:type' => [type => qr/\w+/] => sub {
             }
 
             when ('clicks') {
-
-                #say "The clicks are: " . $content->clicks;
 
                 $content->update(
                     {
