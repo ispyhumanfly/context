@@ -473,7 +473,7 @@ get '/work/professional_development' => sub {
             {pages => {like => '%live%'}, types => {like => '%ad_block%'}})
           ->all;
 
-            $self->{'ADS_BLOCK'} = \@ads_block;
+        $self->{'ADS_BLOCK'} = \@ads_block;
 
     }
 
@@ -689,10 +689,10 @@ get '/play/events' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Upcoming Events
-    my @upcoming_events = $MODEL->resultset('Content')->search(
-        {pages => {like => '%play%'}, types => {like => '%event%'}},
-        {order_by => 'start_datetime ASC'}
-    )->all;
+    my @upcoming_events =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%event%'}},
+        {order_by => 'start_datetime ASC'})->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
 
@@ -879,14 +879,12 @@ get '/search' => sub {
 
         @search_results =
           $MODEL->resultset('Content')
-          ->search(undef,
-            {order_by => 'start_datetime ASC'})->all;
+          ->search(undef, {order_by => 'start_datetime ASC'})->all;
     }
     else {
 
         @search_results =
-          $MODEL->resultset('Content')
-          ->search(undef, {order_by => 'id DESC'})
+          $MODEL->resultset('Content')->search(undef, {order_by => 'id DESC'})
           ->all;
     }
 
@@ -902,6 +900,10 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
+    ## TODO: Need to use try/tiny here to make sure that the id requested does
+    ## note exceed the maximum number of articles. Currently this causes After 5
+    ## to render the exception page. This should be handled more gracefully...
+    
     my $content =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
@@ -927,7 +929,8 @@ get '/:id' => [id => qr/\d+/] => sub {
         unless ($content->tags =~ m/networking/g) {
 
             return $self->redirect_to('/play/events?start_datetime='
-                  . $content->start_datetime->epoch);
+                  . $content->start_datetime->epoch . '&id='
+                  . $content->id);
         }
     }
 
@@ -969,11 +972,11 @@ get '/login' => sub {
 
     my $claimed = 'after5detroit.com';
 
-    my $g = Net::Google::FederatedLogin->new(
+    my $google = Net::Google::FederatedLogin->new(
         claimed_id => $claimed,
         return_to  => 'http://after5detroit.com/api/login'
     );
-    my $auth_url = $g->get_auth_url();
+    my $auth_url = $google->get_auth_url();
 
     return $self->redirect_to($auth_url);
 

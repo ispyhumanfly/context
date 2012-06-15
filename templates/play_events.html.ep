@@ -97,7 +97,7 @@
 
         <% } %>
 
-        <h2><a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>"><%= $upcoming_events->title %></a></h2>
+        <h2><%= $upcoming_events->title %></h2>
     
 	<% if ($upcoming_events_counter == 1) { %>
 		    
