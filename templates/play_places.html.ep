@@ -77,8 +77,16 @@
 
         <% } %>
 
-        <h2><a href="/play/places?id=<%= $featured_places->id %>"><%= $featured_places->title %></a></h2>
+	<% if ($featured_places_counter == 1) { %>
+	
+        <h2><%= $featured_places->title %></h2>
     
+	<% } else { %>
+
+        <a href="/play/places?id=<%= $featured_places->id %>"><h2><%= $featured_places->title %></h2></a>
+	
+	<% } %>
+	    
 	<% if ($featured_places_counter == 1) { %>
 	
 	<% unless (($featured_places->author eq '') or ($featured_places->author =~ /^\s+$/g)) { %>

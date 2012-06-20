@@ -34,7 +34,7 @@
         <% $upcoming_events_counter++; %>
 
 	<% if (($upcoming_events_counter == 1) and ($self->param('start_datetime')) and ($self->param('id'))) { %>
-	
+		    
 	    <% unless ($self->param('id') eq $upcoming_events->id ) { %>
 		
 		<% $upcoming_events_counter--; %>
@@ -97,8 +97,16 @@
 
         <% } %>
 
+	<% if ($upcoming_events_counter == 1) { %>
+	
         <h2><%= $upcoming_events->title %></h2>
     
+	<% } else { %>
+
+        <a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>"><h2><%= $upcoming_events->title %></h2></a>
+	
+	<% } %>
+	
 	<% if ($upcoming_events_counter == 1) { %>
 		    
 	    <% unless (($upcoming_events->author eq '') or ($upcoming_events->author =~ /^\s+$/g)) { %>
