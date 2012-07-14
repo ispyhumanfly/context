@@ -96,7 +96,7 @@
     
                     <% if ($self->param('tags') eq 'career_tips') { %>
                     
-                        <a href="<%= $professional_development->link %>">Read More |</a>
+                        <a href="/<%= $professional_development->id %>">Read More |</a>
                         
                     <% } else { %>
                     
@@ -110,7 +110,7 @@
             
                     <% if ($self->param('tags') eq 'career_tips') { %>
                     
-                        <a href="<%= $professional_development->link %>">Read More</a>
+                        <a href="/<%= $professional_development->id %>">Read More</a>
                         
                     <% } else { %>
                     

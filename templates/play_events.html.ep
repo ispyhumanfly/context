@@ -141,7 +141,11 @@
 
 	    <div id="content_body_truncated" class="right">
 		
+		<% eval { %>
+		
 		<%== substr( HTML::FormatText->format_string($upcoming_events->body), 0, 300 ) %>
+		
+		<% }; %>
 		
 	    </div>
 	
