@@ -25,10 +25,12 @@ use Encode;
 use lib 'lib';
 use After5::Model;
 
-our $MODEL =
-  After5::Model->connect('dbi:SQLite:after5detroit.db', '', '',
-    {sqlite_unicode => 1});
+our $MODEL = After5::Model->connect('dbi:SQLite:after5detroit.db');
 
+#our $MODEL =
+#  After5::Model->connect('dbi:SQLite:after5detroit.db', '', '',
+#    {sqlite_unicode => 1});
+    
 use Mojolicious::Lite;
 use Mojo::Util;
 
