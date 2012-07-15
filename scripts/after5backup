@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rm -rf /backup/after5detroit-weekly ; cp -R /srv/after5detroit /backup/after5detroit-weekly

@@ -59,7 +59,7 @@ get '/home' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%home%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
@@ -468,7 +468,7 @@ get '/work/professional_development' => sub {
         my @ads_block =
           $MODEL->resultset('Content')
           ->search(
-            {pages => {like => '%live%'}, types => {like => '%ad_block%'}})
+            {pages => {like => '%work%'}, types => {like => '%ad_block%'}})
           ->all;
 
         $self->{'ADS_BLOCK'} = \@ads_block;
@@ -760,7 +760,7 @@ get '/about' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%about%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
@@ -807,7 +807,7 @@ get '/about/contact' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%about%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
@@ -834,7 +834,7 @@ get '/about/newsletter' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%about%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
