@@ -838,8 +838,6 @@
             <% } %>
             
             <div class="block_title"><%= $recent_updates->title %></div>
-
-            %= include 'modules/dashboard_analytics', content => $recent_updates, mode => 'block'
                 
             <div class="block_text">
             
