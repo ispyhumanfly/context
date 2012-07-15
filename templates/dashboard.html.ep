@@ -252,7 +252,7 @@
 
     <a href="/about"><h1>About</h1></a>
 
-    <% for my $about ( @{$self->{CONTENT}} ) { %>
+    <% for my $about ( @{$self->{ABOUT}} ) { %>
 
         <% next if $about->types =~ m/ad_header|ad_block|gallery/i; %>
         
