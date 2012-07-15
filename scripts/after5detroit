@@ -27,6 +27,8 @@ use After5::Model;
 
 our $MODEL = After5::Model->connect('dbi:SQLite:after5detroit.db');
 
+### TODO: Make After 5 utf8
+
 #our $MODEL =
 #  After5::Model->connect('dbi:SQLite:after5detroit.db', '', '',
 #    {sqlite_unicode => 1});
