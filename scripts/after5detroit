@@ -27,14 +27,9 @@ use After5::Model;
 
 our $MODEL = After5::Model->connect('dbi:SQLite:after5detroit.db');
 
-### TODO: Make After 5 utf8
-
-#our $MODEL =
-#  After5::Model->connect('dbi:SQLite:after5detroit.db', '', '',
-#    {sqlite_unicode => 1});
-    
 use Mojolicious::Lite;
 use Mojo::Util;
+use Mojo::JSON;
 
 any '/' => sub {
 
@@ -762,8 +757,8 @@ get '/about' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%about%'}, types => {like => '%ad_block%'}})
-      ->all;
+      ->search(
+        {pages => {like => '%about%'}, types => {like => '%ad_block%'}})->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -809,8 +804,8 @@ get '/about/contact' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%about%'}, types => {like => '%ad_block%'}})
-      ->all;
+      ->search(
+        {pages => {like => '%about%'}, types => {like => '%ad_block%'}})->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -836,8 +831,8 @@ get '/about/newsletter' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%about%'}, types => {like => '%ad_block%'}})
-      ->all;
+      ->search(
+        {pages => {like => '%about%'}, types => {like => '%ad_block%'}})->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -903,7 +898,7 @@ get '/:id' => [id => qr/\d+/] => sub {
     ## TODO: Need to use try/tiny here to make sure that the id requested does
     ## note exceed the maximum number of articles. Currently this causes After 5
     ## to render the exception page. This should be handled more gracefully...
-    
+
     my $content =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
@@ -1716,7 +1711,6 @@ get '/dojox/image/data.json' => sub {
 
     my $self = shift;
 
-    use Mojo::JSON;
     my $json = Mojo::JSON->new;
 
     if ($self->param('id')) {
@@ -1745,6 +1739,92 @@ get '/dojox/image/data.json' => sub {
     }
 
 };
+
+### After 5 REST API
+
+get '/api/rest/get/:amount/:sort/:results' =>
+  [amount => qr/\w+/, sort => qr/\w+/, results => qr/\w+\.json/] => sub {
+
+    my $self = shift;
+    my $json = Mojo::JSON->new;
+
+    my ($types, $tags, $rows, $order_by);
+
+    $rows = $self->param('amount') if $self->param('amount');
+    $tags = 'none';
+
+    if ($self->param('results')) {
+
+        my $results = $self->param('results');
+
+        $types = '%event%'   if $results =~ m/events.json/i;
+        $types = '%gallery%' if $results =~ m/galleries.json/i;
+
+        $types = '%article%' and $tags = '%people%'
+          if $results =~ m/people.json/i;
+
+        $types = '%article%' and $tags = '%place%'
+          if $results =~ m/places.json/i;
+
+        $types = '%article%' and $tags = '%neighbor%'
+          if $results =~ m/neighbors.json/i;
+
+        $types = '%article%' and $tags = '%article%'
+          if $results =~ m/articles.json/i;
+    }
+
+    if ($self->param('sort')) {
+
+        my $sort = $self->param('sort');
+
+        $order_by = 'views DESC' if $sort eq 'popular';
+        $order_by = 'id DESC'    if $sort eq 'recent';
+    }
+
+    my @content = $MODEL->resultset('Content')->search(
+        {   types => {like => "$types"},
+            tags  => {like => "$tags"}
+        },
+        {page => 1, rows => $rows, order_by => $order_by}
+    )->all;
+
+    my @results;
+
+    for (@content) {
+
+        my %items = (
+
+            id                => $_->id,
+            create_datetime   => $_->create_datetime,
+            modified_datetime => $_->modified_datetime,
+            author            => $_->author,
+            title             => $_->title,
+            types             => $_->types,
+            tags              => $_->tags,
+            cities            => $_->cities,
+            interests         => $_->interests,
+            pages             => $_->pages,
+            photos            => $_->photos,
+            videos            => $_->videos,
+            body              => Mojo::Util::html_escape($_->body),
+            start_datetime    => $_->start_datetime,
+            stop_datetime     => $_->stop_datetime,
+            venue             => $_->venue,
+            address           => $_->address,
+            lat               => $_->lat,
+            lng               => $_->lng,
+            position          => $_->position,
+            link              => $_->link,
+            views             => $_->views,
+            clicks            => $_->clicks
+        );
+        push @results, \%items;
+    }
+
+    my $string = $json->encode({results => \@results});
+    return $self->render(text => $string);
+
+  };
 
 ### After 5 Tools
 
