@@ -1050,7 +1050,7 @@ get '/api' => sub {
 
     my $self = shift;
     
-    return;
+    return $self->render('api');
     
 } => 'api';
 
