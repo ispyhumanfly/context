@@ -1746,8 +1746,6 @@ get '/api/rest/get/:amount/:sort/:results' =>
   [amount => qr/\w+/, sort => qr/\w+/, results => qr/\w+\.json/] => sub {
 
     my $self = shift;
-    my $json = Mojo::JSON->new;
-
     my ($types, $tags, $rows, $order_by);
 
     $rows = $self->param('amount') if $self->param('amount');
@@ -1792,6 +1790,24 @@ get '/api/rest/get/:amount/:sort/:results' =>
 
     for (@content) {
 
+        my ($body_format, @domain_photos);
+
+        if ((   $self->param('strip_html')
+                and ($self->param('strip_html') eq 'true')
+            )
+          )
+        {
+            $body_format = HTML::FormatText->format_string($_->body);
+        }
+        else {
+            $body_format = Mojo::Util::html_escape($_->body);
+        }
+
+        for (split /\s+/, $_->photos) {
+
+            push @domain_photos, 'http://after5detroit.com' . $_;
+        }
+
         my %items = (
 
             id                => $_->id,
@@ -1804,9 +1820,9 @@ get '/api/rest/get/:amount/:sort/:results' =>
             cities            => $_->cities,
             interests         => $_->interests,
             pages             => $_->pages,
-            photos            => $_->photos,
+            photos            => "@domain_photos",
             videos            => $_->videos,
-            body              => Mojo::Util::html_escape($_->body),
+            body              => $body_format,
             start_datetime    => $_->start_datetime,
             stop_datetime     => $_->stop_datetime,
             venue             => $_->venue,
@@ -1821,8 +1837,8 @@ get '/api/rest/get/:amount/:sort/:results' =>
         push @results, \%items;
     }
 
-    my $string = $json->encode({results => \@results});
-    return $self->render(text => $string);
+    my $json = Mojo::JSON->new;
+    return $self->render(text => $json->encode({results => \@results}));
 
   };
 

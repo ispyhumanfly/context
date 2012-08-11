@@ -69,17 +69,44 @@
         <div onclick="update_clicks(<%= $professional_development->id; %>);">
                
             <% for ( split /\s+/, $professional_development->photos ) { %>
+
+            <% if ($self->param('tags') eq 'career_tips') { %>
     
-            <a title="<%= $professional_development->title %>" href="<%= $professional_development->link %>" target="_blank">
+            <a title="<%= $professional_development->title %>" href="<%= $professional_development->link %>">
                 <img class="work_image_left" src="<%= $_ %>" />
             </a>
-    
-            <% last; #JUST SHOW ONE %>
-    
+
+            <% } else { %>
+
+            <a title="<%= $professional_development->title %>" href="<%= $professional_development->link %>" target="_blank">
+                <img class="work_image_left" src="<%= $_ %>" />
+            </a>            
+      
             <% } %>
     
-            <div class="work_content_title"><a href="<%= $professional_development->link %>" target="_blank"><%= $professional_development->title %></a></div>
+            <% last; %>
+    
+            <% } %>
+
+            <% if ($self->param('tags') eq 'career_tips') { %>
+    
+            <div class="work_content_title">
+                
+                <a href="<%= $professional_development->link %>">
+                    <%= $professional_development->title %>
+                </a>
+            </div>
         
+            <% } else { %>
+            
+            <div class="work_content_title">
+                <a href="<%= $professional_development->link %>" target="_blank">
+                    <%= $professional_development->title %>
+                </a>
+            </div>
+      
+            <% } %>
+            
             <% if ($professional_development->body ne '') { %>
             
             <div class="work_content_text">
