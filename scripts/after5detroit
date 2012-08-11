@@ -1046,6 +1046,14 @@ get '/dashboard' => sub {
 
 } => 'dashboard';
 
+get '/api' => sub {
+
+    my $self = shift;
+    
+    return;
+    
+} => 'api';
+
 get '/editor' => sub {
 
     my $self = shift;
