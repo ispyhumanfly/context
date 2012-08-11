@@ -64,7 +64,8 @@
 		    <% if ( $self->session('admin') ) { %>
     
 		    <li><a href="/dashboard">Dashboard</a></li>
-    
+		    <li><a href="/api">API</a></li>
+		    
 		    <% } %>
     
 		</ul>

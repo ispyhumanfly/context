@@ -1790,7 +1790,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
 
     for (@content) {
 
-        my ($body_format, @domain_photos);
+        my ($body_format, @prepared_photos);
 
         if ((   $self->param('strip_html')
                 and ($self->param('strip_html') eq 'true')
@@ -1805,7 +1805,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
 
         for (split /\s+/, $_->photos) {
 
-            push @domain_photos, 'http://after5detroit.com' . $_;
+            push @prepared_photos, 'http://after5detroit.com' . $_;
         }
 
         my %items = (
@@ -1820,7 +1820,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
             cities            => $_->cities,
             interests         => $_->interests,
             pages             => $_->pages,
-            photos            => "@domain_photos",
+            photos            => "@prepared_photos",
             videos            => $_->videos,
             body              => $body_format,
             start_datetime    => $_->start_datetime,
