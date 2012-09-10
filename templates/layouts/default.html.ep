@@ -37,11 +37,7 @@
     <body class="nihilo">
 
 	<div id="content_loader">
-	    <div id="content_loader_inner">
-
-		<!--<img src='/Loader.png' />-->
-
-	    </div>
+	    <div id="content_loader_inner"></div>
 	</div>
 
 	<div id="main_container">
@@ -64,7 +60,6 @@
 		    <% if ( $self->session('admin') ) { %>
     
 		    <li><a href="/dashboard">Dashboard</a></li>
-		    <li><a href="/api">API</a></li>
 		    
 		    <% } %>
     

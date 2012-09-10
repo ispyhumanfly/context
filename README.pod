@@ -17,13 +17,13 @@ The code behind after5detroit.com
 =head2 CPAN Modules
 
 Modern::Perl Mojolicious::Lite Task::Plack DBIx::Class::Candy SQL::Translator 
-DateTime::Format::SQLite DateTime::Format::ISO8601 Crypt::SaltedHash Try::Tiny
-HTML::FormatText REST::Google::Search Net::Google::FederatedLogin XML::Simple
+DateTime::Format::SQLite DateTime::Format::ISO8601 HTML::FormatText
+REST::Google::Search Net::Google::FederatedLogin
 
 =head2 TinyMCE
 
 After 5 requires the JavaScript TinyMCE application for its editor.
-Please download and extract v3.4.9 into public/tinymce.
+Please download and extract v3.4.9 into 'public/tinymce'.
 
 =head1 BUGS
 

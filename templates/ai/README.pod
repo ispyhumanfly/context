@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-After5 Adobe Illustrator & Photoshop Source
+After 5 Adobe Illustrator & Photoshop Source
 
 =head1 DESCRIPTION
 

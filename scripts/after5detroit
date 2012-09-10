@@ -9,11 +9,8 @@ BEGIN {
 }
 
 use Modern::Perl;
-use XML::Simple;
 use REST::Google::Search qw/ LOCAL /;
 use Net::Google::FederatedLogin;
-use Crypt::SaltedHash;
-use Try::Tiny;
 use DateTime::Format::ISO8601;
 use HTML::FormatText;
 use Archive::Extract;
@@ -69,7 +66,7 @@ get '/home' => sub {
 
     $self->{'PLAY'} = \@play;
 
-    # Live (Featured LIfestyle)
+    # Live
     my @live =
       $MODEL->resultset('Content')
       ->search({pages => {like => '%home%'}, tags => {like => '%lifestyle%'}},
@@ -896,7 +893,7 @@ get '/:id' => [id => qr/\d+/] => sub {
     my $self = shift;
 
     ## TODO: Need to use try/tiny here to make sure that the id requested does
-    ## note exceed the maximum number of articles. Currently this causes After 5
+    ## not exceed the maximum number of articles. Currently this causes After 5
     ## to render the exception page. This should be handled more gracefully...
 
     my $content =
@@ -962,6 +959,8 @@ get '/:id' => [id => qr/\d+/] => sub {
 get '/login' => sub {
 
     my $self = shift;
+    
+    $self->session(admin => 'development') if app->mode('development');
 
     return $self->redirect_to('dashboard') if $self->session('admin');
 
@@ -992,7 +991,7 @@ get '/dashboard' => sub {
 
     return $self->redirect_to('login') unless $self->session('admin');
 
-    # Home
+    # Home 
     my @home =
       $MODEL->resultset('Content')->search({pages => {like => '%home%'}},
         {page => 1, rows => 15, order_by => 'id DESC'})->all;
@@ -1046,14 +1045,6 @@ get '/dashboard' => sub {
 
 } => 'dashboard';
 
-get '/api' => sub {
-
-    my $self = shift;
-    
-    return $self->render('api');
-    
-} => 'api';
-
 get '/editor' => sub {
 
     my $self = shift;
@@ -1084,7 +1075,7 @@ get '/settings' => sub {
     my $self = shift;
 
     return $self->redirect_to('login') unless $self->session('admin');
-
+    
     # Settings
     my $settings = $MODEL->resultset('Settings')->first;
     $self->{'SETTINGS'} = $settings;
@@ -1281,130 +1272,57 @@ post '/api/content/update' => sub {
 
     if (($self->param('start_date')) and ($self->param('start_time'))) {
 
-        #try {
-
         my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
             $self->param('start_date') . $self->param('start_time'));
 
         $content->update({start_datetime => $start_datetime});
-
-        #}
-        #catch {
-        #
-        #    error_message($self, 'update', $self->param('id'), $_);
-        #}
-
     }
 
     if (($self->param('stop_date')) and ($self->param('stop_time'))) {
-
-        #try {
 
         my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
             $self->param('stop_date') . $self->param('stop_time'));
 
         $content->update({stop_datetime => $stop_datetime});
-
-        #}
-        #catch {
-        #
-        #    error_message($self, 'update', $self->param('id'), $_);
-        #}
     }
 
     if ($self->param('author')) {
 
-        #try {
-
         $content->update({author => encode_string($self->param('author'))});
-
-        #}
-        #catch {
-        #
-        #    error_message('update', $self->param('id'), $_);
-        #}
     }
 
     if ($self->param('title')) {
 
-        #try {
-
         $content->update({title => encode_string($self->param('title'))});
-
-        #}
-        #catch {
-        #
-        #    error_message($self, 'update', $self->param('id'), $_);
-        #}
     }
 
     if ($self->param('body')) {
 
-        #try {
-
         $content->update({body => encode_string($self->param('body'))});
-
-        #}
-        #catch {
-        #
-        #    error_message($self, 'update', $self->param('id'), $_);
-        #}
     }
 
     if ($self->param('interests')) {
 
-        #try {
-
         push @interests, $_ for $self->param('interests');
         $content->update({interests => "@interests"});
-
-        #}
-        #catch {
-        #
-        #    error_message($self, 'update', $self->param('id'), $_);
-        #}
     }
 
     if ($self->param('pages')) {
 
-        #try {
-
         push @pages, $_ for $self->param('pages');
         $content->update({pages => "@pages"});
-
-        #}
-        #catch {
-        #
-        #    error_message($self, 'update', $self->param('id'), $_);
-        #}
     }
 
     if ($self->param('types')) {
 
-        #try {
-
         push @types, $_ for $self->param('types');
         $content->update({types => "@types"});
-
-        #}
-        #catch {
-        #
-        #    error_message($self, 'update', $self->param('id'), $_);
-        #}
     }
 
     if ($self->param('tags')) {
 
-        #try {
-
         push @tags, $_ for $self->param('tags');
         $content->update({tags => "@tags"});
-
-        #}
-        #catch {
-        #
-        #    error_message($self, 'update', $self->param('id'), $_);
-        #}
     }
 
     if ($self->param('cities')) {
@@ -1958,18 +1876,10 @@ sub error_message {
             return $self->redirect_to(
                 "/editor?mode=update&id=$id&message=$text");
         }
-
-        #when ('create') {
-        #
-        #}
-        #default {
-        #
-        #}
     }
 
     return;
 }
 
-#app->log->level('info');
-app->secret('after5detroit.com');
+app->secret('Something sticky in the basement.');
 app->start();
