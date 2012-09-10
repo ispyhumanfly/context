@@ -837,8 +837,15 @@
             
             <% } %>
             
-            <div class="block_title"><%= $recent_updates->title %></div>
+            <div class="block_title">
+		
+		<a href="/<%= $recent_updates->id %>">
+
+		    <%= $recent_updates->title %>
                 
+		</a>
+	    </div>
+		
             <div class="block_text">
             
 	    <% if ($recent_updates->body ne '') { %>

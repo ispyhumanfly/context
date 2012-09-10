@@ -1572,17 +1572,17 @@ post '/api/settings/update' => sub {
 
     $MODEL->resultset('Settings')->update({admin => $self->param('admin')});
 
-    if (    ($self->param('password_1') ne '')
-        and ($self->param('password_1') eq $self->param('password_2')))
-    {
-
-        my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
-        $crypt->add($self->param('password_1'));
-
-        my $password = $crypt->generate;
-
-        $MODEL->resultset('Settings')->update({password => $password});
-    }
+    #if (    ($self->param('password_1') ne '')
+    #    and ($self->param('password_1') eq $self->param('password_2')))
+    #{
+    #
+    #    my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
+    #    $crypt->add($self->param('password_1'));
+    #
+    #    my $password = $crypt->generate;
+    #
+    #    $MODEL->resultset('Settings')->update({password => $password});
+    #}
 
     $MODEL->resultset('Settings')->update({about => $self->param('about')});
 

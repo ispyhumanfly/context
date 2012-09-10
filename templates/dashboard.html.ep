@@ -1,7 +1,7 @@
 % title 'Dashboard';
 % layout 'default';
 %
-% my $recent_update_length = 10;
+% my $new_content_length = 10;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -352,17 +352,17 @@
 
     <div class="content_right_padding">
         
-        <% my $recent_updates_counter; %>
+        <% my $new_content_counter; %>
         
-        <% for my $recent_updates (@{$self->{NEW_CONTENT}}) { %>
+        <% for my $new_content (@{$self->{NEW_CONTENT}}) { %>
         
-            <% $recent_updates_counter++; %>
+            <% $new_content_counter++; %>
             
-            <% next if $recent_updates_counter > $recent_update_length; %>
+            <% next if $new_content_counter > $new_content_length; %>
         
-            <% for ( split /\s+/, $recent_updates->photos ) { %>
+            <% for ( split /\s+/, $new_content->photos ) { %>
             
-            <a title="<%= $recent_updates->title %>" href="/<%= $recent_updates->id %>">
+            <a title="<%= $new_content->title %>" href="/<%= $new_content->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -370,13 +370,20 @@
             
             <% } %>
             
-            <div class="block_title"><%= $recent_updates->title %></div>
-                        
+            <div class="block_title">
+		
+		<a href="/<%= $new_content->id %>">
+
+		    <%= $new_content->title %>
+                
+		</a>
+	    </div>
+            
             <div class="block_text">
             
-            <% if ($recent_updates->body ne '') { %>
+            <% if ($new_content->body ne '') { %>
 
-            <%== substr( HTML::FormatText->format_string($recent_updates->body), 0, 100 ) %>  
+            <%== substr( HTML::FormatText->format_string($new_content->body), 0, 100 ) %>  
         
             <% } %>
     
@@ -384,12 +391,12 @@
         
             <div class="read_more_left">
     
-                <a href="/<%= $recent_updates->id %>">Read More |</a>
-                <a href="/editor?mode=update&id=<%= $recent_updates->id %>">Edit</a>        
+                <a href="/<%= $new_content->id %>">Read More |</a>
+                <a href="/editor?mode=update&id=<%= $new_content->id %>">Edit</a>        
     
             </div>
     
-            <% if ($recent_updates_counter < $recent_update_length) { %>
+            <% if ($new_content_counter < $new_content_length) { %>
             
             <hr />
             
