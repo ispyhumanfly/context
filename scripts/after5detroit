@@ -2,10 +2,19 @@
 
 BEGIN {
 
-    use Cwd;
-
-    $ENV{'MOJO_HOME'} = getcwd();
-    $ENV{'MOJO_MAX_MESSAGE_SIZE'} = 1 * (1024 * 1024 * 1024);
+    use IO::File;
+    
+    my $conf = new IO::File('conf/after5.conf', 'r')
+        or die "Could not open after5.conf: $!";
+        
+    if (defined $conf) {
+        
+        while (<$conf>) {
+            
+            m/^(\w+)=(.*?)$/i;
+            $ENV{$1} = $2 unless exists $ENV{$1};
+        }
+    }
 }
 
 use Modern::Perl;
@@ -964,11 +973,11 @@ get '/login' => sub {
 
     return $self->redirect_to('dashboard') if $self->session('admin');
 
-    my $claimed = 'after5detroit.com';
+    my $claimed = $ENV{AFTER5_DOMAIN};
 
     my $google = Net::Google::FederatedLogin->new(
         claimed_id => $claimed,
-        return_to  => 'http://after5detroit.com/api/login'
+        return_to  => "http://$ENV{AFTER5_DOMAIN}/api/login"
     );
     my $auth_url = $google->get_auth_url();
 
@@ -1459,8 +1468,8 @@ post '/api/contact/message' => sub {
 
             my %mail = (
 
-                To      => 'contact@after5detroit.com',
-                From    => 'no-reply@after5detroit.com',
+                To      => "contact@$ENV{AFTER5_DOMAIN}",
+                From    => "no-reply@$ENV{AFTER5_DOMAIN}",
                 Subject => 'after5detroit: ' . $self->param('subject'),
                 Message => $message
             );
@@ -1512,8 +1521,8 @@ post '/api/newsletter/message' => sub {
 
             my %mail = (
 
-                To      => 'contact@after5detroit.com',
-                From    => 'no-reply@after5detroit.com',
+                To      => "contact@$ENV{AFTER5_DOMAIN}",
+                From    => "no-reply@$ENV{AFTER5_DOMAIN}",
                 Subject => 'after5detroit: Newsletter Sign-Up!',
                 Message => $message
             );
@@ -1731,7 +1740,8 @@ get '/api/rest/get/:amount/:sort/:results' =>
 
         for (split /\s+/, $_->photos) {
 
-            push @prepared_photos, 'http://after5detroit.com' . $_;
+            ### This may be broken with new variable...
+            push @prepared_photos, "http://$ENV{AFTER5_DOMAIN}" . $_;
         }
 
         my %items = (

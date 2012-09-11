@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
 	<meta name="google-site-verification" content="Csn_aTdWY2uKRtR93wT3GpRbT1AMQ0PtUNl_0XNFEfM" />
 
-	<title>after5detroit.com :: <%= title %></title>
+	<title><%= $ENV{AFTER5_DOMAIN} %> :: <%= title %></title>
 
 	<link rel="stylesheet" type="text/css" href="/after5default.css">
 	
@@ -21,7 +21,7 @@
 	
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-31343777-1']);
-	  _gaq.push(['_setDomainName', 'after5detroit.com']);
+	  _gaq.push(['_setDomainName', '<%= $ENV{AFTER5_DOMAIN} %>']);
 	  _gaq.push(['_trackPageview']);
 	
 	  (function() {
@@ -190,12 +190,6 @@
 	    %= include 'modules/content_message', message => $self->param('message') 			
 	    % }
 	
-	    <!--[if lt IE 9 ]>
-	    
-	    %= include 'modules/content_message', message => "Hi, you're using an older version of Internet Explorer. <br /><br /><a href='http://windows.microsoft.com/en-US/internet-explorer/downloads/ie-9/worldwide-languages'>You can click here to upgrade to IE9 from Microsoft's website.</a><br /><br />Otherwise, please switch to Safari/Chrome or Firefox for better viewing!" 			
-	    
-	    <![endif]-->
-
 	</div>
 
     </body>

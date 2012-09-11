@@ -14,7 +14,7 @@
     font-family: Verdana Italic;
     font-weight: normal;
     font-style: italic;
-    src: url("/fonts/Verdana Italic.ttf");
+    src: url("/fonts/VerdanaItalic.ttf");
 }
 
 /* Verdana Bold */
@@ -23,14 +23,14 @@
     font-family: Verdana Bold;
     font-weight: bold;
     font-style: normal;
-    src: url("/fonts/Verdana Bold.ttf");
+    src: url("/fonts/VerdanaBold.ttf");
 }
 
 /* Verdana Bold Italic*/
 @font-face {
 
     font-family: Verdana Bold Italic;
-    src: url("/fonts/Verdana Bold Italic.ttf");
+    src: url("/fonts/VerdanaBoldItalic.ttf");
 }
 
 body {
