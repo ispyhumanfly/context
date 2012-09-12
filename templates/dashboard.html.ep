@@ -421,21 +421,17 @@
 <div id="dashboard_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
 
     <div dojoType="dijit.MenuItem" onClick="window.location='/dashboard';">
-        After5 Dashboard
-    </div>
-
-    <div dojoType="dijit.MenuItem" onClick="window.location='/settings';">
-        After5 Settings
+        After 5 Dashboard
     </div>
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
-        After5 Editor
+        After 5 Editor
     </div>
 
     <div data-dojo-type="dijit.MenuSeparator"></div>
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
-        Logout of After5
+        Logout of After 5
     </div>
 
 </div>

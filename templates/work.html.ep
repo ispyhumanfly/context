@@ -202,9 +202,15 @@
 	    <% $local_datetime = $local_datetime->epoch; %>
 	    
 	    <% next if $networking->start_datetime->epoch < $local_datetime; %>
-                        
+            
             <% $networking_counter++; %>
             
+	    <% if ($networking_counter > 1) { %>
+	
+	    <hr />
+	
+	    <% } %>
+	
             <!-- Analytics -->
             <script type="text/javascript">//<![CDATA[
 
@@ -251,8 +257,6 @@
     
             <% last if $networking_counter >= 3;  %>
             
-            <hr />
-        
         <% } %>
 
 	<div class="block_see_more"><a href="/search?types=event&tags=networking">See More &rarr;</a></div>

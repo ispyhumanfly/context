@@ -36,17 +36,4 @@ CREATE TABLE content (
   clicks int(1000000000000)
 );
 
---
--- Table: settings
---
-DROP TABLE settings;
-
-CREATE TABLE settings (
-  id INTEGER PRIMARY KEY NOT NULL,
-  admin varchar(32) NOT NULL,
-  password varchar(1000) NOT NULL,
-  about varchar(10000) NOT NULL,
-  create_datetime datetime(50) NOT NULL
-);
-
 COMMIT;

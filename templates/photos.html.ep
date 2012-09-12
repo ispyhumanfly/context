@@ -16,11 +16,6 @@
 
 	<% next unless $galleries->id == int($self->param('id')); %>
 
-	<% } else { %>
-
-        <% my $first = @{$self->{GALLERIES}}; %>
-	<% next unless $galleries->id == $first->[0]->id; %>
-
 	<% } %>
 
         <!-- Analytics -->
@@ -72,29 +67,39 @@
             
             <% } %>
     
-            <div style="text-align: right; margin-top: -20px;">
-    
-                <% my $next_articles_counter; %>
-                
-                <% for (@{$self->{GALLERIES}}) { %>
-    
-                    <% $next_articles_counter++; %>
-                    
-                    <% if ($self->param('id')) { %>
-                    
-                    <% next unless $_->id < int($self->param('id')); %>
-                        
-                    <% } %>
-                
-                    <a href="/photos?id=<%= $_->id %>">Next</a>
-                    
-                    <% last; %>
-                    
-                <% } %>
-                
-            </div>
+	    <div style="text-align: right; margin-top: -20px;">
+
+		<% my $next_gallery_counter; %>
+		
+		<% my $next_gallery; %>
+		
+	    	<% for (@{$self->{GALLERIES}}) { %>
+
+		    <% $next_gallery_counter++; %>
+		    
+		    <% if ($self->param('id')) { %>
+		    
+		    <% next unless $_->id < int($self->param('id')); %>
+		    
+		    <% $next_gallery = $_; %>
+		    
+		    <% } elsif (not $self->param('id')) { %>
+		
+		    <% $next_gallery = @{$self->{GALLERIES}}->[+1]; %>
+		    
+		    <% } %>
+		    
+		    <a href="/photos?id=<%= $next_gallery->id %>">Next</a>
+		    
+		    <% last; %>
+		    
+		<% } %>
+		
+	    </div>
         
         </h3>
+	
+	<% last unless $self->param('id'); %>
 
     <% } %>
         
@@ -110,19 +115,14 @@
         
         <% for my $more_galleries (@{$self->{GALLERIES}}) { %>
     
+            <% next if $more_galleries->types =~ m/ad/g; %>
+            
             <% if ($self->param('id')) { %>
             
             <% next unless $more_galleries->id < int($self->param('id')); %>
                 
-            <% } else { %>
-            
-            <% my $first = @{$self->{GALLERIES}}; %>
-            <% next if $more_galleries->id == $first->[0]->id; %>
-    
             <% } %>
-            
-            <% next if $more_galleries->types =~ m/ad/g; %>
-            
+        
             <% $more_galleries_counter++; %>
 
             <% if ($more_galleries_counter > 1) { %>

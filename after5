@@ -15,12 +15,10 @@ BEGIN {
             $ENV{$1} = $2 unless exists $ENV{$1};
         }
     }
+    
+    system 'sqlite3 after5.db < scripts/after5.sql'
+        unless -e 'after5.db';
 }
-
-#our $MODEL = After5::Model->connect("dbi:SQLite:after5detroit.db");
-#$MODEL->create_ddl_dir('SQLite', '', 'etc/');
-#
-#system 'sqlite3 after5detroit.db < etc/After5-Model-2.0.1-SQLite.sql';
 
 use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
@@ -696,16 +694,6 @@ get '/photos' => sub {
 
     my $self = shift;
 
-    unless ($self->param('id')) {
-
-        my $first =
-          $MODEL->resultset('Content')
-          ->search(
-            {pages => {like => '%photos%'}, types => {like => '%gallery%'}},
-            {order_by => 'id DESC'})->first;
-        return $self->redirect_to('/photos?id=' . $first->id);
-    }
-
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -1069,20 +1057,6 @@ get '/editor' => sub {
     return $self->render('editor');
 
 } => 'editor';
-
-get '/settings' => sub {
-
-    my $self = shift;
-
-    return $self->redirect_to('login') unless $self->session('admin');
-    
-    # Settings
-    my $settings = $MODEL->resultset('Settings')->first;
-    $self->{'SETTINGS'} = $settings;
-
-    return $self->render('settings');
-
-} => 'settings';
 
 ### After 5 Form API
 
@@ -1561,33 +1535,6 @@ post '/api/photo/remove' => sub {
     $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->update({photos => "@photos"})
       if scalar @photos >= 1;
-
-};
-
-post '/api/settings/update' => sub {
-
-    my $self = shift;
-
-    return $self->redirect_to('home') unless $self->session('admin');
-
-    $MODEL->resultset('Settings')->update({admin => $self->param('admin')});
-
-    #if (    ($self->param('password_1') ne '')
-    #    and ($self->param('password_1') eq $self->param('password_2')))
-    #{
-    #
-    #    my $crypt = Crypt::SaltedHash->new(algorithm => 'SHA-256');
-    #    $crypt->add($self->param('password_1'));
-    #
-    #    my $password = $crypt->generate;
-    #
-    #    $MODEL->resultset('Settings')->update({password => $password});
-    #}
-
-    $MODEL->resultset('Settings')->update({about => $self->param('about')});
-
-    my $text = 'After 5 settings successfully updated.';
-    return $self->redirect_to("/settings?message=$text");
 
 };
 
