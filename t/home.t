@@ -1,15 +1,12 @@
 #!/usr/bin/env perl
 
 use Modern::Perl;
-use Test::WWW::Mechanize::Mojo;
 
-my $tester  = Test::Mojo->new();
-my $mech    = Test::WWW::Mechanize::Mojo->new(tester => $tester);
+use Test::More tests => 12;
+use Test::Mojo;
 
-$mech->mojo_app('after5detroit');
-$mech->host('localhost:3000');
+my $t = Test::Mojo->new('After5');
 
-if ($mech->get_ok('/home')) {
+# HTML/XML
+$t->get_ok('/home')->status_is(200);
 
-    $mech->title_is('Home');
-}

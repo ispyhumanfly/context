@@ -220,9 +220,9 @@
     <% } %>
 
     <h3>
-        <a href="/work/professional_development">Professional Development |</a>
-	<a href="/work/professional_development?tags=job_listings">Job Listings |</a>
-	<a href="/work/professional_development?tags=career_tips">Career Tips &rarr;</a>
+        <a href="/work?tags=professional_group">Professional Development |</a>
+	<a href="/work?tags=job_listings">Job Listings |</a>
+	<a href="/work?tags=career_tips">Career Tips &rarr;</a>
 
     </h3>
 

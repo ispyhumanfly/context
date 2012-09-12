@@ -1,8 +1,264 @@
 % title 'Work';
 % layout 'default';
+%
+% my $professional_development_length = 5;
+% my $tags = $self->param('tags');
 
 <script type="text/javascript">//<![CDATA[
 
 //]]></script>
 
-<iframe style="height: 1900px; border: 0px none; width: 110%;" src="http://www.hiredmyway.com/HiredMyWay/inte/after5/" />
+<div class="content_work_left">
+    
+    <h1 class="content_work_left_heading">Professional Development</h1>
+    
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'professional_group' %> href="/work?tags=professional_group">Professional Groups</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'social' %> href="/work?tags=social">Social</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'board_openings' %> href="/work?tags=board_openings">Board Openings</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'volunteer' %> href="/work?tags=volunteer">Volunteer</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'resources' %> href="/work?tags=resources">Resources</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'job_listings' %> href="/work?tags=job_listings">Job Listings</a></p>
+    <p><a <%== 'class="content_work_nav_active"' if $tags eq 'career_tips' %> href="/work?tags=career_tips">Career Tips</a></p>
+
+    <h1 class="content_work_left_heading" style="padding-top: 11px; padding-bottom: 1px;">Employers</h1>
+
+    <p><a href="/about/contact">Post a Job</a></p>
+    <p><a href="/about/contact">Post a Group</a></p>
+    <p><a href="http://www.connectafter5.com" target="_blank">Connect After 5</a></p>
+    <p><a href="http://www.after5internprogram.com" target="_blank">Intern Program</a></p>
+    
+</div>
+
+<div class="content_work_center">
+    
+    <h1>Get Involved</h1>
+
+    <% my $professional_development_counter; %>
+    
+    <% for my $professional_development (@{$self->{WORK}}) { %>
+
+        <% next if $professional_development->types =~ m/ad/i; %>
+        <% next if $professional_development->tags =~ m/networking/i; %>
+    
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $professional_development->id <= int($self->param('id')); %>
+	    
+	<% } %>
+        
+        <% $professional_development_counter++; %>
+                
+        <% if ($professional_development_counter > 1) { %>
+        
+        <hr />
+        
+        <% } %>
+        
+        <!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	Views.push(<%= $professional_development->id; %>);
+
+	//]]></script>
+        
+        <div onclick="update_clicks(<%= $professional_development->id; %>);">
+               
+            <% for ( split /\s+/, $professional_development->photos ) { %>
+
+            <% if ($self->param('tags') eq 'career_tips') { %>
+    
+            <a title="<%= $professional_development->title %>" href="<%= $professional_development->link %>">
+                <img class="work_image_left" src="<%= $_ %>" />
+            </a>
+
+            <% } else { %>
+
+            <a title="<%= $professional_development->title %>" href="<%= $professional_development->link %>" target="_blank">
+                <img class="work_image_left" src="<%= $_ %>" />
+            </a>            
+      
+            <% } %>
+    
+            <% last; %>
+    
+            <% } %>
+
+            <% if ($self->param('tags') eq 'career_tips') { %>
+    
+            <div class="work_content_title">
+                
+                <a href="<%= $professional_development->link %>">
+                    <%= $professional_development->title %>
+                </a>
+            </div>
+        
+            <% } else { %>
+            
+            <div class="work_content_title">
+                <a href="<%= $professional_development->link %>" target="_blank">
+                    <%= $professional_development->title %>
+                </a>
+            </div>
+      
+            <% } %>
+            
+            <% if ($professional_development->body ne '') { %>
+            
+            <div class="work_content_text">
+                
+                <%== substr( HTML::FormatText->format_string($professional_development->body), 0, 500 ) %>
+            
+            </div>
+        
+            <% } %>
+        
+            <div class="read_more_right">
+    
+                <% if ( $self->session('admin') ) { %>
+    
+                    <% if ($self->param('tags') eq 'career_tips') { %>
+                    
+                        <a href="/<%= $professional_development->id %>">Read More |</a>
+                        
+                    <% } else { %>
+                    
+                        <a href="<%= $professional_development->link %>" target="_blank">View Website |</a>
+                    
+                    <% } %>
+
+                    <a href="/editor?mode=update&id=<%= $professional_development->id %>"> Edit</a>        
+            
+                <% } else { %>
+            
+                    <% if ($self->param('tags') eq 'career_tips') { %>
+                    
+                        <a href="/<%= $professional_development->id %>">Read More</a>
+                        
+                    <% } else { %>
+                    
+                        <a href="<%= $professional_development->link %>" target="_blank">View Website</a>
+                    
+                    <% } %>
+                
+                <% } %>
+    
+            </div>
+        
+        </div>
+        
+        <% last if $professional_development_counter == $professional_development_length; %>
+        
+    <% } %>
+
+    <h3 style="width: 95%;">
+
+        <a href="javascript:history.go(-1)">Back</a>
+        
+        <div style="text-align: right; margin-top: -20px;">
+
+            <% my $next_work_counter; %>
+            
+            <% for (@{$self->{WORK}}) { %>
+
+                <% my $index = $next_work_counter + $professional_development_length; %>
+                
+                <% if (@{$self->{WORK}}->[$index]) { %>
+                
+                    <% my $next_work = @{$self->{WORK}}->[$index]; %>
+                    
+                    <% $next_work_counter++; %>
+                    
+                    <% if ($self->param('id')) { %>
+                    
+                    <% next unless $_->id < int($self->param('id')); %>
+                        
+                    <% } %>
+                
+                    <a href="/work/professional_development?tags=<%= $tags %>&id=<%= $next_work->id %>">Next</a>
+                    
+                    <% last; %>
+
+                <% } %>
+                
+            <% } %>
+            
+        </div>
+    
+    </h3>
+
+</div>
+
+<div class="content_right">
+
+    <a href="/search?types=event&tags=networking"><h1>Networking Events</h1></a>
+
+    <div class="content_right_padding">
+        
+        <% my $networking_counter; %>
+        
+        <% for my $networking (@{$self->{NETWORKING}}) { %>
+        
+            <% my $local_datetime = DateTime->now; %>
+	    <% $local_datetime = $local_datetime->epoch; %>
+	    
+	    <% next if $networking->start_datetime->epoch < $local_datetime; %>
+                        
+            <% $networking_counter++; %>
+            
+            <!-- Analytics -->
+            <script type="text/javascript">//<![CDATA[
+
+            Views.push(<%= $networking->id; %>);
+
+            //]]></script>
+            
+            <% for ( split /\s+/, $networking->photos ) { %>
+            
+            <a title="<%= $networking->title %>" href="/<%= $networking->id %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+            <div class="block_title"><a href="/<%= $networking->id %>"><%= $networking->title %></a></div>
+            
+            <div class="block_text">
+		
+	    <% if (($networking->start_datetime ne '') or ($networking->start_datetime =~ /^\s+$/g)) { %>
+	    
+            <%= $networking->start_datetime->day_name %>, <%= $networking->start_datetime->day %> <%= $networking->start_datetime->month_name %>
+            
+	    <% } %>
+	    
+	    </div>
+            
+            <div class="read_more_left">
+    
+                <% if ( $self->session('admin') ) { %>
+    
+                <a href="/<%= $networking->id %>">Read More |</a>
+                <a href="/editor?mode=update&id=<%= $networking->id %>">Edit</a>        
+            
+                <% } else { %>
+            
+                <a href="/<%= $networking->id %>">Read More</a>
+                
+                <% } %>
+    
+            </div>
+    
+            <% last if $networking_counter >= 3;  %>
+            
+            <hr />
+        
+        <% } %>
+
+	<div class="block_see_more"><a href="/search?types=event&tags=networking">See More &rarr;</a></div>
+
+        %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
+    </div>
+
+</div>

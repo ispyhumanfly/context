@@ -9,7 +9,7 @@
 
 	<title><%= $ENV{AFTER5_DOMAIN} %> :: <%= title %></title>
 
-	<link rel="stylesheet" type="text/css" href="/after5default.css">
+	<link rel="stylesheet" type="text/css" href="/default.css">
 	
 	%= include 'modules/dojo_toolkit'
 	
@@ -139,9 +139,9 @@
 		<div>
 		    <ul>
 			<li><a href="/work" style="font-weight: bold; font-size: large;">Work</a></li>
-			<li><a href="/work/professional_development">Professional Development</a></li>
-			<li style="white-space: nowrap;"><a href="/work/professional_development?tags=job_listings">Job Listings</a></li>
-			<li style="white-space: nowrap;"><a href="/work/professional_development?tags=career_tips">Career Tips</a></li>
+			<li><a href="/work?tags=professional_group">Professional Development</a></li>
+			<li style="white-space: nowrap;"><a href="/work?tags=job_listings">Job Listings</a></li>
+			<li style="white-space: nowrap;"><a href="/work?tags=career_tips">Career Tips</a></li>
 
 		    </ul>
 		</div>
@@ -183,7 +183,7 @@
 		</div>
 		
 		<% } %>
-				
+		
 	    </div>
 	    
 	    % if ($self->param('message')) {

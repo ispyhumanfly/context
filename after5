@@ -4,7 +4,7 @@ BEGIN {
 
     use IO::File;
     
-    my $conf = new IO::File('conf/after5.conf', 'r')
+    my $conf = new IO::File('etc/after5.conf', 'r')
         or die "Could not open after5.conf: $!";
         
     if (defined $conf) {
@@ -16,6 +16,11 @@ BEGIN {
         }
     }
 }
+
+#our $MODEL = After5::Model->connect("dbi:SQLite:after5detroit.db");
+#$MODEL->create_ddl_dir('SQLite', '', 'etc/');
+#
+#system 'sqlite3 after5detroit.db < etc/After5-Model-2.0.1-SQLite.sql';
 
 use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
@@ -31,7 +36,7 @@ use Encode;
 use lib 'lib';
 use After5::Model;
 
-our $MODEL = After5::Model->connect('dbi:SQLite:after5detroit.db');
+our $MODEL = After5::Model->connect('dbi:SQLite:after5.db');
 
 use Mojolicious::Lite;
 use Mojo::Util;
@@ -412,23 +417,9 @@ get '/live/:city/neighbors' => [city => qr/\w+/] => sub {
 get '/work' => sub {
 
     my $self = shift;
-    return $self->redirect_to('work_professional_development');
-
-} => 'work';
-
-get '/work/job_listings' => sub {
-
-    my $self = shift;
-    return $self->redirect_to('work_professional_development');
-
-} => 'work_job_listings';
-
-get '/work/professional_development' => sub {
-
-    my $self = shift;
 
     return $self->redirect_to(
-        '/work/professional_development?tags=professional_group')
+        '/work?tags=professional_group')
       unless $self->param('tags');
 
     my (@ads, @ads_block);
@@ -501,9 +492,9 @@ get '/work/professional_development' => sub {
 
     $self->{'NETWORKING'} = \@networking;
 
-    return $self->render('work_professional_development');
+    return $self->render('work');
 
-} => 'work_professional_development';
+} => 'work';
 
 ## Play
 
@@ -1788,25 +1779,27 @@ sub process_photo {
 
     if ($upload->filename =~ m/zip$/i) {
 
+        my $temp = $ENV{AFTER5_TEMP_PATH};
+        
         my $zip_file = $upload->filename;
-        $upload->move_to("/tmp/$zip_file");
+        $upload->move_to("$temp/$zip_file");
 
-        my $archive = Archive::Extract->new(archive => "/tmp/$zip_file");
+        my $archive = Archive::Extract->new(archive => "$temp/$zip_file");
 
         if ($archive->is_zip) {
 
-            my $ok = $archive->extract(to => '/tmp/');
+            my $ok = $archive->extract(to => "$temp/");
 
             for (@{$archive->files}) {
 
-                unless (-d "/tmp/$_") {
+                unless (-d "$temp/$_") {
 
                     if ($_ =~ m/jpg|png|gif$/i) {
 
                         my $checksum = Mojo::Util::md5_sum($_);
                         my $path     = "/photos/$checksum.img";
 
-                        move "/tmp/$_", "public/$path"
+                        move "$temp/$_", "public/$path"
                           and push @new_photos, $path;
 
                     }
