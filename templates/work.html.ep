@@ -174,7 +174,7 @@
                         
                     <% } %>
                 
-                    <a href="/work/professional_development?tags=<%= $tags %>&id=<%= $next_work->id %>">Next</a>
+                    <a href="/work?tags=<%= $tags %>&id=<%= $next_work->id %>">Next</a>
                     
                     <% last; %>
 
