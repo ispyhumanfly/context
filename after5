@@ -1831,5 +1831,6 @@ sub error_message {
     return;
 }
 
+app->config(hypnotoad => {listen => ['http://*:80']});
 app->secret('Something sticky in the basement.');
 app->start();
