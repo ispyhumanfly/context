@@ -1,13 +1,6 @@
--- 
--- Created by SQL::Translator::Producer::SQLite
--- Created on Sat Apr 28 12:28:27 2012
--- 
 
 BEGIN TRANSACTION;
 
---
--- Table: content
---
 DROP TABLE content;
 
 CREATE TABLE content (
