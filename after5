@@ -948,7 +948,7 @@ get '/login' => sub {
 
     my $self = shift;
     
-    $self->session(admin => 'development') if app->mode('development');
+    #$self->session(admin => 'development') if app->mode('development');
     return $self->redirect_to('dashboard') if $self->session('admin');
 
     my $claimed = $ENV{AFTER5_DOMAIN};
@@ -1065,7 +1065,7 @@ any '/api/login' => sub {
 
     my $google = Net::Google::FederatedLogin->new(
         cgi_params => $self->req->params->to_hash,
-        return_to  => 'http://after5detroit.com/api/login'
+        return_to  => "http://$ENV{AFTER5_DOMAIN}/api/login"
     );
 
     my $id = $google->verify_auth();
