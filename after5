@@ -948,7 +948,7 @@ get '/login' => sub {
 
     my $self = shift;
     
-    $self->session(admin => 'development') if app->mode('development');
+    $self->session(admin => 'development') if app->mode eq 'development';
     return $self->redirect_to('dashboard') if $self->session('admin');
 
     my $claimed = $ENV{AFTER5_DOMAIN};
