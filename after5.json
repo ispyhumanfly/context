@@ -2,7 +2,7 @@
     "title"     : "After 5 Detroit",
     "domain"    : "after5detroit.com",
     "temp"      : "/tmp",
-    "log"       : "after5.log",
+    "log_file"  : "after5.log",
 
     "google_analytics"    :
     
@@ -30,8 +30,8 @@
     
     {
         "listen"    : "http://*:80",
-        "pid_file"  : "/tmp/after5.pid",
-        "lock_file" : "/tmp/after5.lock",
+        "pid_file"  : "after5.pid",
+        "lock_file" : "after5.lock",
         "workers"   : "10"    
     }    
 }

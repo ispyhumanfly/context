@@ -9,6 +9,7 @@ BEGIN {
 use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
 use Net::Google::FederatedLogin;
+use DateTime::Format::SQLite;
 use DateTime::Format::ISO8601;
 use HTML::FormatText;
 use Archive::Extract;
@@ -1828,6 +1829,6 @@ sub error_message {
 
 ### After 5 Mojolicious Configuration
 
-app->log->path(app->config->{log}) if app->mode('production');
+app->log->path(app->config->{log_file}) if app->mode('production');
 app->secret('Something sticky in the basement.');
 app->start();
