@@ -2,21 +2,7 @@
 
 BEGIN {
 
-    use IO::File;
-    
-    my $conf = new IO::File('etc/after5.conf', 'r')
-        or die "Could not open after5.conf: $!";
-        
-    if (defined $conf) {
-        
-        while (<$conf>) {
-            
-            m/^(\w+)=(.*?)$/i;
-            $ENV{$1} = $2 unless exists $ENV{$1};
-        }
-    }
-    
-    system 'sqlite3 after5.db < scripts/after5.sql'
+    system 'sqlite3 after5.db < after5.sql'
         unless -e 'after5.db';
 }
 
@@ -34,11 +20,13 @@ use Encode;
 use lib 'lib';
 use After5::Model;
 
-our $MODEL = After5::Model->connect('dbi:SQLite:after5.db');
+our $MODEL  = After5::Model->connect('dbi:SQLite:after5.db');
 
 use Mojolicious::Lite;
 use Mojo::Util;
 use Mojo::JSON;
+
+plugin 'JSONConfig';
 
 any '/' => sub {
 
@@ -528,7 +516,7 @@ get '/play' => sub {
     $self->{'FEATURES'} = \@features;
 
     # Articles
-    my @buzz = $MODEL->resultset('Content')->search(
+    my @articles = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%article%'},
             tags  => {like => '%article%'}
@@ -536,7 +524,7 @@ get '/play' => sub {
         {order_by => 'id DESC'}
     )->all;
 
-    $self->{'BUZZ'} = \@buzz;
+    $self->{'ARTICLES'} = \@articles;
 
     # Places
     my @places = $MODEL->resultset('Content')->search(
@@ -948,14 +936,16 @@ get '/login' => sub {
 
     my $self = shift;
     
+    my $domain = app->config->{domain};
+    
     $self->session(admin => 'development') if app->mode eq 'development';
     return $self->redirect_to('dashboard') if $self->session('admin');
 
-    my $claimed = $ENV{AFTER5_DOMAIN};
+    my $claimed = $domain;
 
     my $google = Net::Google::FederatedLogin->new(
         claimed_id => $claimed,
-        return_to  => "http://$ENV{AFTER5_DOMAIN}/api/login"
+        return_to  => "http://$domain/api/login"
     );
     my $auth_url = $google->get_auth_url();
 
@@ -1063,9 +1053,11 @@ any '/api/login' => sub {
 
     my $self = shift;
 
+    my $domain = app->config->{domain};
+    
     my $google = Net::Google::FederatedLogin->new(
         cgi_params => $self->req->params->to_hash,
-        return_to  => "http://$ENV{AFTER5_DOMAIN}/api/login"
+        return_to  => "http://$domain/api/login"
     );
 
     my $id = $google->verify_auth();
@@ -1413,6 +1405,8 @@ post '/api/contact/message' => sub {
       )
     {
 
+        my $domain = app->config->{domain};
+        
         my @results = google_local($self->param('city_state_zip'));
 
         for (@results) {
@@ -1432,9 +1426,9 @@ post '/api/contact/message' => sub {
 
             my %mail = (
 
-                To      => "contact@$ENV{AFTER5_DOMAIN}",
-                From    => "no-reply@$ENV{AFTER5_DOMAIN}",
-                Subject => 'after5detroit: ' . $self->param('subject'),
+                To      => "contact@$domain",
+                From    => "no-reply@$domain",
+                Subject => "$domain :: " . $self->param('subject'),
                 Message => $message
             );
 
@@ -1466,6 +1460,8 @@ post '/api/newsletter/message' => sub {
       )
     {
 
+        my $domain = app->config->{domain};
+
         my @results = google_local($self->param('city_state_zip'));
 
         for (@results) {
@@ -1485,9 +1481,9 @@ post '/api/newsletter/message' => sub {
 
             my %mail = (
 
-                To      => "contact@$ENV{AFTER5_DOMAIN}",
-                From    => "no-reply@$ENV{AFTER5_DOMAIN}",
-                Subject => 'after5detroit: Newsletter Sign-Up!',
+                To      => "contact@$domain",
+                From    => "no-reply@$domain",
+                Subject => "$domain :: Newsletter Sign-Up!",
                 Message => $message
             );
 
@@ -1678,7 +1674,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
         for (split /\s+/, $_->photos) {
 
             ### This may be broken with new variable...
-            push @prepared_photos, "http://$ENV{AFTER5_DOMAIN}" . $_;
+            push @prepared_photos, 'http://' . app->config->{domain} . '' . $_;
         }
 
         my %items = (
@@ -1725,7 +1721,7 @@ sub process_photo {
 
     if ($upload->filename =~ m/zip$/i) {
 
-        my $temp = $ENV{AFTER5_TEMP_PATH};
+        my $temp = app->config->{temp};
         
         my $zip_file = $upload->filename;
         $upload->move_to("$temp/$zip_file");
@@ -1830,8 +1826,8 @@ sub error_message {
     return;
 }
 
-### After 5 Application Configuration
+### After 5 Mojolicious Configuration
 
-app->config(hypnotoad => {listen => ['http://*:80']});
+app->log->path(app->config->{log}) if app->mode('production');
 app->secret('Something sticky in the basement.');
 app->start();

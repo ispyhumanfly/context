@@ -7,7 +7,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
 	<meta name="google-site-verification" content="Csn_aTdWY2uKRtR93wT3GpRbT1AMQ0PtUNl_0XNFEfM" />
 
-	<title><%= $ENV{AFTER5_DOMAIN} %> :: <%= title %></title>
+	<title><%= app->config->{title} %> :: <%= title %></title>
 
 	<link rel="stylesheet" type="text/css" href="/default.css">
 	
@@ -20,8 +20,8 @@
 	<script type="text/javascript">//<![CDATA[
 	
 	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-31343777-1']);
-	  _gaq.push(['_setDomainName', '<%= $ENV{AFTER5_DOMAIN} %>']);
+	  _gaq.push(['_setAccount', '<%= app->config->{google_analytics}->{account} %>']);
+	  _gaq.push(['_setDomainName', '<%= app->config->{google_analytics}->{domain} %>']);
 	  _gaq.push(['_trackPageview']);
 	
 	  (function() {
@@ -108,20 +108,7 @@
     
 	    </div>
     	    
-	    <!-- This needs to be moved to the social_media module -->
-	    
-	    <div style="clear: right; float: right; margin-top: 20px; width: 30%; text-align: center; border-right: 25px solid white;">
-    		
-		<a style="position: relative; top: 15px;" href="https://twitter.com/after5detroit" class="twitter-follow-button" data-align="right" data-width="235px" data-show-count="true" data-lang="en">Follow @After5Detroit</a>
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-		<br />
-		<br />
-		
-		<fb:like href="https://www.facebook.com/pages/After-5-Detroit/46857148306?ref=ts" send="true" width="200" show_faces="false" font="verdana"></fb:like>
-		
-	    </div>
-
+	    %= include 'modules/social_media', mode => 'block', content => 'none'
 
 	    <div id="footer_container">
     

@@ -101,18 +101,18 @@
 
     <h3><a href="/search?types=article&tags=place">More Places &rarr;</a></h3>
     
-    <% for my $articles (@{$self->{BUZZ}}) { %>
+    <% for my $article (@{$self->{ARTICLES}}) { %>
         
 	<!-- Analytics -->
 	<script type="text/javascript">//<![CDATA[
 
-	Views.push(<%= $articles->id; %>);
+	Views.push(<%= $article->id; %>);
 
 	//]]></script>
 	    
-	<% for ( split /\s+/, $articles->photos ) { %>
+	<% for ( split /\s+/, $article->photos ) { %>
 
-	<a title="<%= $articles->title %>" href="/play/articles?id=<%= $articles->id %>">
+	<a title="<%= $article->title %>" href="/play/articles?id=<%= $article->id %>">
 	    <img class="para_image_left" src="<%= $_ %>" />
 	</a>
 
@@ -120,22 +120,22 @@
 
         <% } %>
 
-	<div class="h1_spacer"><a href="/play/articles?id=<%= $articles->id %>"><h1>Articles</h1></a></div>
+	<div class="h1_spacer"><a href="/play/articles?id=<%= $article->id %>"><h1>Articles</h1></a></div>
 
-	<h2><a href="/play/articles?id=<%= $articles->id %>"><%= $articles->title %></a></h2>
+	<h2><a href="/play/articles?id=<%= $article->id %>"><%= $article->title %></a></h2>
 
-	<div id="content_body_truncated" class="right"><%== substr( HTML::FormatText->format_string($articles->body), 0, 300 ) %></div>
+	<div id="content_body_truncated" class="right"><%== substr( HTML::FormatText->format_string($article->body), 0, 300 ) %></div>
 
         <div class="read_more_right">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/play/articles?id=<%= $articles->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $articles->id %>">Edit</a>        
+            <a href="/play/articles?id=<%= $article->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
         
             <% } else { %>
         
-            <a href="/play/articles?id=<%= $articles->id %>">Read More</a>
+            <a href="/play/articles?id=<%= $article->id %>">Read More</a>
             
             <% } %>
 

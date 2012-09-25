@@ -1,0 +1,37 @@
+{ 
+    "title"     : "After 5 Detroit",
+    "domain"    : "after5detroit.com",
+    "temp"      : "/tmp",
+    "log"       : "after5.log",
+
+    "google_analytics"    :
+    
+    {
+        "account"   : "UA-31343777-1",
+        "domain"    : "after5detroit.com"
+    },
+    
+    "facebook"  :
+    
+    {
+        "appid"     : "111526485542517",
+        "domain"    : "after5detroit.com",
+        "link"      : "https://www.facebook.com/pages/After-5-Detroit/46857148306?ref=ts"
+    },
+    
+    "twitter"   :
+    
+    {
+        "domain"    : "after5detroit.com",
+        "link"      : "https://twitter.com/after5detroit"
+    },
+    
+    "hypnotoad" :
+    
+    {
+        "listen"    : "http://*:80",
+        "pid_file"  : "/tmp/after5.pid",
+        "lock_file" : "/tmp/after5.lock",
+        "workers"   : "10"    
+    }    
+}
