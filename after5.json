@@ -4,7 +4,7 @@
     "temp"      : "/tmp",
     "log_file"  : "after5.log",
 
-    "google_analytics"    :
+    "google"    :
     
     {
         "account"   : "UA-31343777-1",

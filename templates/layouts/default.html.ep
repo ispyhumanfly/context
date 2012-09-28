@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#" lang="en-US">
 
     <head>
-		
+	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/> 
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
 	<meta name="google-site-verification" content="Csn_aTdWY2uKRtR93wT3GpRbT1AMQ0PtUNl_0XNFEfM" />
@@ -20,8 +20,8 @@
 	<script type="text/javascript">//<![CDATA[
 	
 	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', '<%= app->config->{google_analytics}->{account} %>']);
-	  _gaq.push(['_setDomainName', '<%= app->config->{google_analytics}->{domain} %>']);
+	  _gaq.push(['_setAccount', '<%= app->config->{google}->{account} %>']);
+	  _gaq.push(['_setDomainName', '<%= app->config->{google}->{domain} %>']);
 	  _gaq.push(['_trackPageview']);
 	
 	  (function() {
