@@ -7,159 +7,199 @@
 
 <div class="content_left">
 
-    <% for my $people (@{$self->{FEATURES}}) { %>
+    <% my $article_position = 1; %>
 
-        <% next if $people->types =~ m/ad|gallery|event/i; %>
-        
-	<!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
-
-	Views.push(<%= $people->id; %>);
-
-	//]]></script>
-	    
-	<% for ( split /\s+/, $people->photos ) { %>
-
-	<a title="<%= $people->title %>" href="/play/people?id=<%= $people->id %>">
-	    <img class="para_image_left" src="<%= $_ %>" />
-	</a>
-
-        <% last; #JUST SHOW ONE %>
-
-        <% } %>
-
-	<div class="h1_spacer"><a href="/play/people?id=<%= $people->id %>"><h1>People</h1></a></div>
-
-	<h2><a href="/play/people?id=<%= $people->id %>"><%= $people->title %></a></h2>
-
-	<div id="content_body_truncated" class="right"><%== substr( HTML::FormatText->format_string($people->body), 0, 300 ) %></div>
-
-        <div class="read_more_right">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/play/people?id=<%= $people->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $people->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/play/people?id=<%= $people->id %>">Read More</a>
-            
-            <% } %>
-
-        </div>
-
-    <% last; #JUST SHOW ONE %>
-
-    <% } %>
-
-    <h3><a href="/search?tags=people">More People &rarr;</a></h3>
-
-    <% for my $places (@{$self->{PLACES}}) { %>
-
-	<!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
-
-	Views.push(<%= $places->id; %>);
-
-	//]]></script>
-	    
-	<% for ( split /\s+/, $places->photos ) { %>
-
-	<a title="<%= $places->title %>" href="/play/places?id=<%= $places->id %>">
-	    <img class="para_image_left" src="<%= $_ %>" />
-	</a>
-
-        <% last; #JUST SHOW ONE %>
-
-        <% } %>
-
-	<div class="h1_spacer"><a href="/play/places?id=<%= $places->id %>"><h1>Places</h1></a></div>
-
-	<h2><a href="/play/places?id=<%= $places->id %>"><%= $places->title %></a></h2>
-
-	<div id="content_body_truncated" class="right"><%== substr( HTML::FormatText->format_string($places->body), 0, 300 ) %></div>
-
-        <div class="read_more_right">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/play/places?id=<%= $places->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $places->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/play/places?id=<%= $places->id %>">Read More</a>
-            
-            <% } %>
-
-        </div>
-
-    <% last; #JUST SHOW ONE %>
-
-    <% } %>
-
-    <h3><a href="/search?types=article&tags=place">More Places &rarr;</a></h3>
-    
     <% for my $article (@{$self->{ARTICLES}}) { %>
         
-	<!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
-
-	Views.push(<%= $article->id; %>);
-
-	//]]></script>
+	<% next unless $article->position =~ m/$article_position/g; %>
+    
+	<% if ($article_position == 1) { %>
 	    
-	<% for ( split /\s+/, $article->photos ) { %>
+	    <% for ( split /\s+/, $article->photos ) { %>
+    
+	    <a title="<%= $article->title %>" href="/<%= $article->id %>">
+		<img class="para_image_left" src="<%= $_ %>" />
+	    </a>
+    
+	    <% last; #JUST SHOW ONE %>
+    
+	    <% } %>
+    
+	    <div class="h1_spacer"><h1>Articles</h1></div>
+    
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
 
-	<a title="<%= $article->title %>" href="/play/articles?id=<%= $article->id %>">
-	    <img class="para_image_left" src="<%= $_ %>" />
-	</a>
+	    Views.push(<%= $article->id; %>);
 
-        <% last; #JUST SHOW ONE %>
+	    //]]></script>
+	
+	    <h2><a href="/<%= $article->id %>"><%= $article->title %></a></h2>
+    
+	    <div id="content_body" class="right">
+		
+		<%== substr( HTML::FormatText->format_string($article->body), 0, 350 ); %>
+		
+	    </div>
+    
+	    <div class="read_more_right">
+		
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/<%= $article->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $article->id %>">Read More</a>
+		
+		<% } %>
+		
+	    </div>
+	
+	<% } elsif ($article_position >= 2) { %>
 
-        <% } %>
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
 
-	<div class="h1_spacer"><a href="/play/articles?id=<%= $article->id %>"><h1>Articles</h1></a></div>
+	    Views.push(<%= $article->id; %>);
 
-	<h2><a href="/play/articles?id=<%= $article->id %>"><%= $article->title %></a></h2>
+	    //]]></script>
+	
+	    <hr />        
+	
+	    <% for ( split /\s+/, $article->photos ) { %>
+    
+	    <a title="<%= $article->title %>" href="/<%= $article->id %>">
+		<img class="position_image_left" src="<%= $_ %>" />
+	    </a>
+    
+	    <% last; #JUST SHOW ONE %>
+    
+	    <% } %>
 
-	<div id="content_body_truncated" class="right"><%== substr( HTML::FormatText->format_string($article->body), 0, 300 ) %></div>
+	    <h2><a href="/<%= $article->id %>"><%= $article->title %></a></h2>
+	
+	    <div id="content_body_truncated">
+		
+		<%== substr( HTML::FormatText->format_string($article->body), 0, 300 ); %>
+		
+	    </div>
+	
+	    <div class="read_more_right">
 
-        <div class="read_more_right">
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/<%= $article->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $article->id %>">Read More</a>
+		
+		<% } %>
 
-            <% if ( $self->session('admin') ) { %>
+	    </div>
+	
+	<% } %>
+	
+	<% $article_position++; %>
+	
+    <% } %>
 
-            <a href="/play/articles?id=<%= $article->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
+    <h3><a href="/search?tags=article">More Articles &rarr;</a></h3>
+
+    <div class="h1_spacer"><h1>Events</h1></div>
+    
+    <% my $event_position = 1; %>
+
+    <% for my $event (@{$self->{EVENTS}}) { %>
+        	
+	<% next unless $event->position =~ m/$event_position/g; %>
+    
+	<% if ($event_position == 1) { %>
         
-            <% } else { %>
-        
-            <a href="/play/articles?id=<%= $article->id %>">Read More</a>
-            
-            <% } %>
-
-        </div>
-
-	<% last; %>
+	<% } %>
+	
+	<% $event_position++; %>
 
     <% } %>
-    
-    <h3><a href="/search?types=article&tags=article">More Articles &rarr;</a></h3>
+
+    <h3><a href="/search?type=event">More Events &rarr;</a></h3>
 
 </div>
 
 <div class="content_right">
 
-    <a href="/play/events"><h1>Events Calendar</h1></a>
+    <a href="/play/photos"><h1>Photos</h1></a>
 
     <div class="content_right_padding">
         
-	%= include 'modules/block_events_calendar'
+        <% my $galleries_counter; %>
+        
+        <% for my $galleries (@{$self->{GALLERIES}}) { %>
+        
+            <% $galleries_counter++; %>
+        
+            <% next if $galleries->types =~ m/ad/i; %>
+    
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+    
+	    Views.push(<%= $galleries->id; %>);
+    
+	    //]]></script>
+    
+            <% for ( split /\s+/, $galleries->photos ) { %>
+            
+            <a title="<%= $galleries->title %>" href="/play/photos?id=<%= $galleries->id %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; #JUST SHOW ONE %>
+            
+            <% } %>
+            
+	    <% if ($galleries->title ne '') { %>
+	    
+	    <div class="block_title"><a href="/play/photos?id=<%= $galleries->id %>"><%= $galleries->title %></a></div>
+	    
+	    <% } %>
+	    
+	    <div class="block_text">
+		
+	    <% if ($galleries->body ne '') { %>
+	    
+            <%== substr( HTML::FormatText->format_string($galleries->body), 0, 75 )  %>
+            
+	    <% } %>
+	    
+	    </div>
+	    
+            <div class="read_more_left">
 
-	<div class="block_see_more" style="margin-top: -12px;"><a href="/play/events">See More &rarr;</a></div>
+                <% if ( $self->session('admin') ) { %>
+    
+                <a href="/play/photos?id=<%= $galleries->id %>">View Gallery |</a>
+                <a href="/editor?mode=update&id=<%= $galleries->id %>">Edit</a>        
+            
+                <% } else { %>
+            
+                <a href="/play/photos?id=<%= $galleries->id %>">Read More</a>
+                
+                <% } %>
+
+            </div>
+            
+	    <% last if $galleries_counter == 3; %>
+	    
+            <hr />
+        
+        <% } %>
+
+	<div class="content_spacer"></div>
 	
-        %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+	%= include 'modules/block_more_galleries', more_galleries => $self->{GALLERIES}
 	
     </div>
 

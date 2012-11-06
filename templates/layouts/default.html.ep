@@ -51,10 +51,11 @@
 	    <div id="navigation_container">
     
 		<ul>
+		    <li><a href="/play">Play</a></li>
+		    <li><a href="/play/events">Events</a></li>
+		    <li><a href="/play/photos">Photos</a></li>
 		    <li><a href="/live">Live</a></li>
 		    <li><a href="/work">Work</a></li>
-		    <li><a href="/play">Play</a></li>
-		    <li><a href="/photos">Photos</a></li>
 		    <li><a href="/about">About</a></li>
     
 		    <% if ( $self->session('admin') ) { %>
@@ -111,8 +112,17 @@
 	    %= include 'modules/social_media', mode => 'block', content => 'none'
 
 	    <div id="footer_container">
-    
+
 		<div style="margin-left: 25px;">
+		    <ul>
+			<li><a href="/play" style="font-weight: bold; font-size: large;">Play</a></li>
+			<li><a href="/play/articles">Articles</a></li>
+			<li><a href="/play/events">Events</a></li>
+			<li><a href="/play/photos">Photos</a></li>
+		    </ul>
+		</div>
+    
+		<div>
 		    <ul>
 			<li><a href="/live" style="font-weight: bold; font-size: large;">Live</a></li>
 			<li><a href="/live/birmingham">Birmingham</a></li>
@@ -132,23 +142,7 @@
 
 		    </ul>
 		</div>
-    
-		<div>
-		    <ul>
-			<li><a href="/play" style="font-weight: bold; font-size: large;">Play</a></li>
-			<li><a href="/play/people">People</a></li>
-			<li><a href="/play/places">Places</a></li>
-			<li><a href="/play/articles">Articles</a></li>
-			<li><a href="/play/events">Events</a></li>
-		    </ul>
-		</div>
-    
-		<div>
-		    <ul>
-			<li><a href="/photos" style="font-weight: bold; font-size: large;">Photos</a></li>
-		    </ul>
-		</div>
-    
+        
 		<div>
 		    <ul>
 			<li><a href="/about" style="font-weight: bold; font-size: large;">About</a></li>

@@ -11,151 +11,6 @@
 
 <div class="content_left">
 
-    <a href="/home"><h1>Home</h1></a>
-
-    <% for my $home ( @{$self->{HOME}} ) { %>
-
-        <% next if $home->types =~ m/ad_header|ad_block|gallery/i; %>
-        
-        <h2><a href="/<%= $home->id; %>"><%= $home->title; %></a></h2>
-
-        %= include 'modules/dashboard_analytics', content => $home, mode => 'content'
-
-        <% for ( split /\s+/, $home->photos ) { %>
-        
-        <a title="<%= $home->title %>" href="/<%= $home->id %>">
-            <img class="para_image_left_cpanel" src="<%= $_ %>" />
-        </a>
-        
-        <% last; %>
-        
-        <% } %>
-        
-        <% if ($home->body ne '') { %>
-        
-        <div id="content_body" class="dashboard">
-            
-            <%= substr( HTML::FormatText->format_string($home->body), 0, 200 ) %>
-        
-        </div>
-    
-        <% } %>
-        
-        <div class="read_more_right">
-            
-            <% if ( $self->session('admin') ) { %>
-    
-            <a href="/<%= $home->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $home->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/<%= $home->id %>">Read More</a>
-            
-            <% } %>
-        
-        </div>
-        
-        <div class="content_spacer"></div>
-            
-    <% } %>
-
-    <h3><a href="/search?pages=home">More Home</a></h3>
-    
-    <a href="/live"><h1>Live</h1></a>
-
-    <% for my $live ( @{$self->{LIVE}} ) { %>
-
-        <% next if $live->types =~ m/ad_header|ad_block|gallery/i; %>
-
-        <h2><a href="/<%= $live->id%>"><%= $live->title %></a></h2>
-
-        %= include 'modules/dashboard_analytics', content => $live, mode => 'content'
-
-        <% for ( split /\s+/, $live->photos ) { %>
-        
-        <a title="<%= $live->title %>" href="/<%= $live->id %>">
-            <img class="para_image_left_cpanel" src="<%= $_ %>" />
-        </a>
-        
-        <% last; %>
-        
-        <% } %>
-        
-        <% if ($live->body ne '') { %>
-        
-        <p><%= substr( HTML::FormatText->format_string($live->body), 0, 200 ) . '' %></p>
-    
-        <% } %>
-        
-        <div class="read_more_right">
-            
-            <% if ( $self->session('admin') ) { %>
-    
-            <a href="/<%= $live->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $live->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/<%= $live->id %>">Read More</a>
-            
-            <% } %>
-        
-        </div>
-        
-        <div class="content_spacer"></div>
-    
-    <% } %>
-
-    <h3><a href="/search?pages=live">More Live</a></h3>
-
-    <a href="/work"><h1>Work</h1></a>
-
-    <% for my $work ( @{$self->{WORK}} ) { %>
-        
-        <% next if $work->types =~ m/ad_header|ad_block|gallery/i; %>
-        
-        <h2><a href="/<%= $work->id%>"><%= $work->title %></a></h2>
-
-        %= include 'modules/dashboard_analytics', content => $work, mode => 'content'
-
-        <% for ( split /\s+/, $work->photos ) { %>
-        
-        <a title="<%= $work->title %>" href="/<%= $work->id %>">
-            <img class="para_image_left_cpanel" src="<%= $_ %>" />
-        </a>
-        
-        <% last; %>
-        
-        <% } %>
-        
-        <% if ($work->body ne '') { %>
-        
-        <p><%= substr( HTML::FormatText->format_string($work->body), 0, 200 ) . '' %></p>
-    
-        <% } %>
-        
-        <div class="read_more_right">
-            
-            <% if ( $self->session('admin') ) { %>
-    
-            <a href="/<%= $work->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $work->id %>">Edit</a>        
-        
-            <% } else { %>
-        
-            <a href="/<%= $work->id %>">Read More</a>
-            
-            <% } %>
-        
-        </div>
-        
-        <div class="content_spacer"></div>
-            
-    <% } %>
-
-    <h3><a href="/search?pages=work">More Work</a></h3>
-
     <a href="/play"><h1>Play</h1></a>
 
     <% for my $play ( @{$self->{PLAY}} ) { %>
@@ -249,6 +104,100 @@
     <% } %>
 
     <h3><a href="/search?pages=photos">More Photos</a></h3>
+ 
+    <a href="/live"><h1>Live</h1></a>
+
+    <% for my $live ( @{$self->{LIVE}} ) { %>
+
+        <% next if $live->types =~ m/ad_header|ad_block|gallery/i; %>
+
+        <h2><a href="/<%= $live->id%>"><%= $live->title %></a></h2>
+
+        %= include 'modules/dashboard_analytics', content => $live, mode => 'content'
+
+        <% for ( split /\s+/, $live->photos ) { %>
+        
+        <a title="<%= $live->title %>" href="/<%= $live->id %>">
+            <img class="para_image_left_cpanel" src="<%= $_ %>" />
+        </a>
+        
+        <% last; %>
+        
+        <% } %>
+        
+        <% if ($live->body ne '') { %>
+        
+        <p><%= substr( HTML::FormatText->format_string($live->body), 0, 200 ) . '' %></p>
+    
+        <% } %>
+        
+        <div class="read_more_right">
+            
+            <% if ( $self->session('admin') ) { %>
+    
+            <a href="/<%= $live->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $live->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/<%= $live->id %>">Read More</a>
+            
+            <% } %>
+        
+        </div>
+        
+        <div class="content_spacer"></div>
+    
+    <% } %>
+
+    <h3><a href="/search?pages=live">More Live</a></h3>
+
+    <a href="/work"><h1>Work</h1></a>
+
+    <% for my $work ( @{$self->{WORK}} ) { %>
+        
+        <% next if $work->types =~ m/ad_header|ad_block|gallery/i; %>
+        
+        <h2><a href="/<%= $work->id%>"><%= $work->title %></a></h2>
+
+        %= include 'modules/dashboard_analytics', content => $work, mode => 'content'
+
+        <% for ( split /\s+/, $work->photos ) { %>
+        
+        <a title="<%= $work->title %>" href="/<%= $work->id %>">
+            <img class="para_image_left_cpanel" src="<%= $_ %>" />
+        </a>
+        
+        <% last; %>
+        
+        <% } %>
+        
+        <% if ($work->body ne '') { %>
+        
+        <p><%= substr( HTML::FormatText->format_string($work->body), 0, 200 ) . '' %></p>
+    
+        <% } %>
+        
+        <div class="read_more_right">
+            
+            <% if ( $self->session('admin') ) { %>
+    
+            <a href="/<%= $work->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $work->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/<%= $work->id %>">Read More</a>
+            
+            <% } %>
+        
+        </div>
+        
+        <div class="content_spacer"></div>
+            
+    <% } %>
+
+    <h3><a href="/search?pages=work">More Work</a></h3>
 
     <a href="/about"><h1>About</h1></a>
 

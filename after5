@@ -21,7 +21,7 @@ use Encode;
 use lib 'lib';
 use After5::Model;
 
-our $MODEL  = After5::Model->connect('dbi:SQLite:after5.db');
+our $MODEL = After5::Model->connect('dbi:SQLite:after5.db');
 
 use Mojolicious::Lite;
 use Mojo::Util;
@@ -32,14 +32,14 @@ plugin 'JSONConfig';
 any '/' => sub {
 
     my $self = shift;
-    return $self->redirect_to('home');
+    return $self->redirect_to('play');
 };
 
 ### After 5 Visitor Pages
 
-## Home
+## Play
 
-get '/home' => sub {
+get '/play' => sub {
 
     my $self = shift;
 
@@ -47,43 +47,38 @@ get '/home' => sub {
     my @ads =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%home%'}, types => {like => '%ad_header%'}})->all;
+        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
 
     $self->{'ADS'} = \@ads;
 
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%home%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Play
-    my @play =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%home%'}, types => {like => '%article%'}},
-        {order_by => 'position ASC'})->all;
-
-    $self->{'PLAY'} = \@play;
-
-    # Live
-    my @live =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%home%'}, tags => {like => '%lifestyle%'}},
-        {order_by => 'id DESC'})->all;
-
-    $self->{'LIVE'} = \@live;
-
-    # Work
-    my @work = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%home%'},
-            types => {like => '%career%'}
+    # Articles
+    my @articles = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%play%'},
+            types => {like => '%article%'},
         },
         {order_by => 'id DESC'}
     )->all;
 
-    $self->{'WORK'} = \@work;
+    $self->{'ARTICLES'} = \@articles;
+
+    
+    # Events
+    my @events = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%play%'},
+            types => {like => '%event%'},
+        },
+        {order_by => 'id DESC'}
+    )->all;
+
+    $self->{'EVENTS'} = \@events;
 
     # Galleries
     my @galleries = $MODEL->resultset('Content')->search(
@@ -93,9 +88,107 @@ get '/home' => sub {
 
     $self->{'GALLERIES'} = \@galleries;
 
-    return $self->render('home');
+    return $self->render('play');
 
-} => 'home';
+} => 'play';
+
+get '/play/articles' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
+
+    # Articles / More Articles
+    my @articles = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%play%'},
+            types => {like => '%article%'},
+        },
+        {order_by => 'id DESC'}
+    )->all;
+
+    $self->{'ARTICLES'} = \@articles;
+
+    return $self->render('play_articles');
+
+} => 'play_articles';
+
+get '/play/events' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
+
+    # Upcoming Events
+    my @upcoming_events =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%event%'}},
+        {order_by => 'start_datetime ASC'})->all;
+
+    $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
+
+} => 'play_events';
+
+get '/play/photos' => sub {
+
+    my $self = shift;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%photos%'}, types => {like => '%ad_header%'}},
+        {order_by => 'id DESC'})->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
+
+    # Galleries / More Galleries
+    my @galleries =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%photos%'}, types => {like => '%gallery%'}},
+        {order_by => 'id DESC'})->all;
+
+    $self->{'GALLERIES'} = \@galleries;
+
+    return $self->render('play_photos');
+
+} => 'play_photos';
 
 ## Live
 
@@ -483,235 +576,6 @@ get '/work' => sub {
 
 } => 'work';
 
-## Play
-
-get '/play' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # People
-    my @features = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%article%'},
-            tags  => {like => '%people%'}
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'FEATURES'} = \@features;
-
-    # Articles
-    my @articles = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%article%'},
-            tags  => {like => '%article%'}
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'ARTICLES'} = \@articles;
-
-    # Places
-    my @places = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%article%'},
-            tags  => {like => '%place%'}
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'PLACES'} = \@places;
-
-    return $self->render('play');
-
-} => 'play';
-
-get '/play/people' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # People / More People
-    my @people = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%article%'},
-            tags  => {like => '%people%'}
-        },
-        {order_by => 'id DESC'},
-    )->all;
-
-    $self->{'PEOPLE'} = \@people;
-
-    return $self->render('play_people');
-
-} => 'play_people';
-
-get '/play/places' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # Featured Places
-    my @featured_places = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%article%'},
-            tags  => {like => '%place%'}
-        },
-        {page => 1, rows => 5000, order_by => 'id DESC'},
-    )->all;
-
-    $self->{'FEATURED_PLACES'} = \@featured_places;
-
-    return $self->render('play_places');
-
-} => 'play_places';
-
-get '/play/articles' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # Articles / More Articles
-    my @articles = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%article%'},
-            tags  => {like => '%article%'}
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'ARTICLES'} = \@articles;
-
-    return $self->render('play_articles');
-
-} => 'play_articles';
-
-get '/play/events' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # Upcoming Events
-    my @upcoming_events =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%event%'}},
-        {order_by => 'start_datetime ASC'})->all;
-
-    $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
-
-} => 'play_events';
-
-## Photos
-
-get '/photos' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%photos%'}, types => {like => '%ad_header%'}},
-        {order_by => 'id DESC'})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # Galleries / More Galleries
-    my @galleries =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%photos%'}, types => {like => '%gallery%'}},
-        {order_by => 'id DESC'})->all;
-
-    $self->{'GALLERIES'} = \@galleries;
-
-    return $self->render('photos');
-
-} => 'photos';
 
 ## About
 
@@ -880,10 +744,10 @@ get '/:id' => [id => qr/\d+/] => sub {
     # Play Articles
     if ($content->types =~ m/article/g) {
 
-        return $self->redirect_to('/play/people?id=' . $content->id)
+        return $self->redirect_to('/play/articles?id=' . $content->id)
           if $content->tags =~ m/people/g;
 
-        return $self->redirect_to('/play/places?id=' . $content->id)
+        return $self->redirect_to('/play/articles?id=' . $content->id)
           if $content->tags =~ m/place/g;
 
         return $self->redirect_to('/play/articles?id=' . $content->id)
@@ -939,7 +803,9 @@ get '/login' => sub {
     
     my $domain = app->config->{domain};
     
-    $self->session(admin => 'development') if app->mode eq 'development';
+    $self->session(admin => 'none')
+        if app->config->{auth_mode} eq 'none';
+    
     return $self->redirect_to('dashboard') if $self->session('admin');
 
     my $claimed = $domain;
@@ -959,7 +825,7 @@ get '/logout' => sub {
     my $self = shift;
 
     $self->session(expires => 1)
-      and return $self->redirect_to('home');
+      and return $self->redirect_to('play');
 
 } => 'logout';
 
@@ -968,24 +834,6 @@ get '/dashboard' => sub {
     my $self = shift;
 
     return $self->redirect_to('login') unless $self->session('admin');
-
-    # Home 
-    my @home =
-      $MODEL->resultset('Content')->search({pages => {like => '%home%'}},
-        {page => 1, rows => 15, order_by => 'id DESC'})->all;
-    $self->{'HOME'} = \@home;
-
-    # Live
-    my @live =
-      $MODEL->resultset('Content')->search({pages => {like => '%live%'}},
-        {page => 1, rows => 15, order_by => 'id DESC'})->all;
-    $self->{'LIVE'} = \@live;
-
-    # Work
-    my @work =
-      $MODEL->resultset('Content')->search({pages => {like => '%work%'}},
-        {page => 1, rows => 15, order_by => 'id DESC'})->all;
-    $self->{'WORK'} = \@work;
 
     # Play
     my @play =
@@ -998,6 +846,18 @@ get '/dashboard' => sub {
       $MODEL->resultset('Content')->search({pages => {like => '%photos%'}},
         {page => 1, rows => 15, order_by => 'id DESC'})->all;
     $self->{'PHOTOS'} = \@photos;
+
+    # Live
+    my @live =
+      $MODEL->resultset('Content')->search({pages => {like => '%live%'}},
+        {page => 1, rows => 15, order_by => 'id DESC'})->all;
+    $self->{'LIVE'} = \@live;
+
+    # Work
+    my @work =
+      $MODEL->resultset('Content')->search({pages => {like => '%work%'}},
+        {page => 1, rows => 15, order_by => 'id DESC'})->all;
+    $self->{'WORK'} = \@work;
 
     # About
     my @about =

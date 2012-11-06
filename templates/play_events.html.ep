@@ -1,4 +1,4 @@
-% title 'Play';
+% title 'Events';
 % layout 'default';
 %
 % my $upcoming_events_length = 10;

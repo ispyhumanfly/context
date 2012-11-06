@@ -3,7 +3,6 @@
 !.perltidyrc
 *~
 log
-logs
 blib
 Makefile*
 !Makefile.PL
@@ -12,7 +11,9 @@ MANIFEST*
 !MANIFEST.SKIP
 pm_to_blib
 *.bak
-after5.db
 hypnotoad*
+after5.db
 after5.pem
 after5.log
+after5.lock*
+after5.pid
