@@ -125,7 +125,7 @@
 
     <% } %>
 
-    <h3><a href="/search?type=event">More Events &rarr;</a></h3>
+    <h3><a href="/search?types=event">More Events &rarr;</a></h3>
 
 </div>
 

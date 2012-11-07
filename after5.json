@@ -4,7 +4,7 @@
     "temp"      : "/tmp",
     "log_file"  : "after5.log",
     "auth_mode" : "none",
-
+    
     "google"    :
     
     {

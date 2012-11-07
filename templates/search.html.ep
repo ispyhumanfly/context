@@ -5,7 +5,7 @@
 
 //]]></script>
 
-<div class="content_left">
+<div id="results" class="content_left">
 
     <% my $result_counter; %>
     
@@ -188,12 +188,18 @@
 
     <% if ($result_counter >= 1) { %>
 
-    <h3><a href="javascript:history.go(-1)">Back</a></h3>
+	<h3><a href="javascript:history.go(-1)">Back</a></h3>
 
     <% } elsif ($result_counter < 1) { %>
+	
+	<h1>Sorry! We can't find what you're looking for.</h1>
     
-    %= include 'modules/content_message', message => "Sorry! We can't find what you're looking for - please try a different search."
-    
+	<div class="about_stock_photo">
+		
+	    <img src="<%= $self->{STOCK_PHOTO} %>"></img>
+		
+	</div>
+	
     <% } %>
     
 </div>
@@ -203,10 +209,16 @@
     <h1>Search After 5</h1>
     
     %= include 'modules/block_search_places'
+    
+    <div class="content_right_padding">
+	
+	<div class="block_caption_text">&nbsp;</div>
+        
+	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
+    </div>
 
     <% if ($self->param('types') =~ m/event/g) { %>
-    
-    <div>&nbsp;</div>
     
     <h1><a href="/play/events">Events Calendar</a></h1>
 
@@ -220,16 +232,4 @@
     
     <% } %>
     
-    <div class="content_right_padding">
-	
-	<% unless ($self->param('types') =~ m/event/g) { %>
-	
-	<div class="block_caption_text">&nbsp;</div>
-        
-	<% } %>
-	
-	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
-
-    </div>
-
 </div>

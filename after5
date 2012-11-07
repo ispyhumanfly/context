@@ -722,6 +722,8 @@ get '/search' => sub {
     }
 
     $self->{'SEARCH_RESULTS'} = \@search_results;
+    
+    $self->{'STOCK_PHOTO'} = stock_photo();
 
     return $self->render('search');
 
