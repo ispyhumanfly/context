@@ -697,6 +697,20 @@ body {
    
 }
 
+#content_container .block_see_more_blank {
+   
+    clear: both;
+    position: relative;
+    font-size: small;
+    height: 10px;
+    top: -17px;
+    padding: 5px 10px 5px 5px;
+    background-color: #e6e2e3;
+    text-align: right;
+    color: white;
+   
+}
+
 #content_container .block_caption_text {
    
     font-size: smaller;
@@ -944,7 +958,7 @@ body {
     width: 30%;
     background-color: #e6e2e3;
     border-right: 25px solid white;
-    min-height: 600px;
+    min-height: 500px;
 
 }
 
