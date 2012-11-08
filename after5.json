@@ -1,27 +1,27 @@
 { 
-    "title"     : "After 5 Beta",
-    "domain"    : "beta.after5detroit.com",
+    "title"     : "After 5",
+    "domain"    : "after5detroit.com",
     "temp"      : "/tmp",
     
     "google"    :
     
     {
         "account"   : "UA-31343777-1",
-        "domain"    : "beta.after5detroit.com"
+        "domain"    : "after5detroit.com"
     },
     
     "facebook"  :
     
     {
         "appid"     : "111526485542517",
-        "domain"    : "beta.after5detroit.com",
+        "domain"    : "after5detroit.com",
         "link"      : "https://www.facebook.com/pages/After-5-Detroit/46857148306?ref=ts"
     },
     
     "twitter"   :
     
     {
-        "domain"    : "beta.after5detroit.com",
+        "domain"    : "after5detroit.com",
         "link"      : "https://twitter.com/after5detroit"
     },
     

@@ -218,7 +218,7 @@
 
     <div class="content_right_padding">
 
-        %= include 'modules/events_calendar', mode => 'block'
+        %= include 'modules/events_calendar', mode => 'block_lower'
 
         <div class="block_see_more_blank"></div>
 

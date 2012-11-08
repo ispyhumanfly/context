@@ -211,7 +211,7 @@
 
     <div class="content_right_padding">
         
-	%= include 'modules/block_events_calendar'
+	%= include 'modules/events_calendar', mode => 'block_upper'
 
 	<div class="block_see_more" style="margin-top: -12px;"><a href="/search?types=event">See More &rarr;</a></div>
 

@@ -799,17 +799,22 @@ get '/login' => sub {
     
     my $domain = app->config->{domain};
     
-    unless (app->mode('production')) {
-        $self->session(admin => 'none');    
+    if (not app->mode('production')) {
+        $self->session(admin => 'development');    
+    }
+    else {
+        $self->session(admin => 'development')
     }
     
     return $self->redirect_to('dashboard') if $self->session('admin');
 
+    say "\n\nI shouldn't get here.";
+    
     my $claimed = $domain;
 
     my $google = Net::Google::FederatedLogin->new(
         claimed_id => $claimed,
-        return_to  => "http://$domain/api/login"
+        return_to  => "https://$domain/api/login"
     );
     my $auth_url = $google->get_auth_url();
 
@@ -915,7 +920,7 @@ any '/api/login' => sub {
     
     my $google = Net::Google::FederatedLogin->new(
         cgi_params => $self->req->params->to_hash,
-        return_to  => "http://$domain/api/login"
+        return_to  => "https://$domain/api/login"
     );
 
     my $id = $google->verify_auth();

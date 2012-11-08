@@ -5,7 +5,7 @@
     
 //]]></script>
 
-<% if ($mode eq 'normal') { %>
+<% if ($mode eq 'block_upper') { %>
 
 <div style="margin-top: -6px;"></div>
 
@@ -22,7 +22,7 @@
 
 <% } %>
 
-<% if ($mode eq 'block') { %>
+<% if ($mode eq 'block_lower') { %>
 
 <div style="margin-top: -6px;"></div>
 
