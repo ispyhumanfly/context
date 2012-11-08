@@ -747,13 +747,7 @@ get '/:id' => [id => qr/\d+/] => sub {
     if ($content->types =~ m/article/g) {
 
         return $self->redirect_to('/play/articles?id=' . $content->id)
-          if $content->tags =~ m/people/g;
-
-        return $self->redirect_to('/play/articles?id=' . $content->id)
-          if $content->tags =~ m/place/g;
-
-        return $self->redirect_to('/play/articles?id=' . $content->id)
-          if $content->tags =~ m/article/g;
+          if $content->tags =~ m/people|place|article/g;
     }
 
     # Play Events
@@ -772,7 +766,7 @@ get '/:id' => [id => qr/\d+/] => sub {
     # Photo Galleries
     elsif ($content->types =~ m/gallery/g) {
 
-        return $self->redirect_to('/photos?id=' . $content->id);
+        return $self->redirect_to('/play/photos?id=' . $content->id);
     }
 
     # Ads
@@ -805,8 +799,9 @@ get '/login' => sub {
     
     my $domain = app->config->{domain};
     
-    $self->session(admin => 'none')
-        if app->config->{auth_mode} eq 'none';
+    unless (app->mode('production')) {
+        $self->session(admin => 'none');    
+    }
     
     return $self->redirect_to('dashboard') if $self->session('admin');
 
@@ -1691,6 +1686,6 @@ sub error_message {
 
 ### After 5 Mojolicious Configuration
 
-app->log->path(app->config->{log_file}) if app->mode('production');
+app->log->path(app->config->{hypnotoad}->{log_file}) if app->mode('production');
 app->secret('Something sticky in the basement.');
 app->start();

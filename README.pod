@@ -8,7 +8,13 @@ After 5
 
 =head1 SYNOPSIS
 
-    hypnotoad -f after5
+for development...
+
+    after5 daemon
+
+or for production...
+
+    hypnotoad after5
 
 =head1 DESCRIPTION
 

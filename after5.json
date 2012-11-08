@@ -2,8 +2,6 @@
     "title"     : "After 5 Beta",
     "domain"    : "beta.after5detroit.com",
     "temp"      : "/tmp",
-    "log_file"  : "after5.log",
-    "auth_mode" : "none",
     
     "google"    :
     
@@ -30,8 +28,10 @@
     "hypnotoad" :
     
     {
+        "listen"    : ["http://*:80", "https://*:443"],
         "pid_file"  : "after5.pid",
         "lock_file" : "after5.lock",
+        "log_file"  : "after5.log",
         "workers"   : "20"    
     }    
 }
