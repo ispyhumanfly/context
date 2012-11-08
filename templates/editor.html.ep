@@ -322,30 +322,16 @@
 		none
 	    </option>
 
-	    <option value="play" <%= 'selected' if $self->{CONTENT}->pages =~ m/play/i %>>
-		play
-	    </option>
-    
-	    <option value="live" <%= 'selected' if $self->{CONTENT}->pages =~ m/live/i %>>
-		live
-	    </option>
-    
-	    <option value="work" <%= 'selected' if $self->{CONTENT}->pages =~ m/work/i %>>
-		work
+	    <% for my $page (@{ $self->app->config->{editor}->{pages} }) { %>
+	    
+	    <option value="$page" <%= 'selected' if $self->{CONTENT}->pages =~ m/$page/i %>>
+		
+		<%= $page %>
+		
 	    </option>
         
-	    <option value="about" <%= 'selected' if $self->{CONTENT}->pages =~ m/about/i %>>
-		about
-	    </option>
-
-	    <option value="search" <%= 'selected' if $self->{CONTENT}->pages =~ m/search/i %>>
-		search
-	    </option>
-    
-	    <option value="permalink" <%= 'selected' if $self->{CONTENT}->pages =~ m/permalink/i %>>
-		permalink
-	    </option>
-    
+	    <% } %>
+	    
 	</select>
     
 	<% } %>

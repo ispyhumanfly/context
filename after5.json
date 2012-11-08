@@ -3,6 +3,15 @@
     "domain"    : "after5detroit.com",
     "temp"      : "/tmp",
     
+    "editor"   :
+    
+    {
+        "pages"     : ["play","live", "work", "about", "dashboard", "search", "permalink"],
+        "types"     : ["", ""],
+        "tags"      : [""],
+        "interests" : ["Dining", "Nightlife", "Activities", "Concerts"]
+    },
+    
     "google"    :
     
     {
