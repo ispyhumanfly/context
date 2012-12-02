@@ -3,12 +3,20 @@
     "domain"    : "after5detroit.com",
     "temp"      : "/tmp",
     
-    "editor"   :
+    "editor"    :
     
     {
         "pages"     : ["play","live", "work", "about", "dashboard", "search", "permalink"],
-        "types"     : ["", ""],
-        "tags"      : [""],
+        
+        "types"     : ["article", "career", "event", "gallery", "ad_header", "ad_block"],
+        
+        "tags"      : ["place", "people", "neighbor", "city_life", "lifestyle", "article",
+                       "professional_group", "networking", "social", "cultural", "board_openings",
+                       "volunteer", "job_listings", "resources", "career_tips",
+                       "local_blogs", "after5_press", "after5_staff"],
+        
+        "cities"    : ["detroit", "ferndale", "birmingham", "royal_oak"],
+
         "interests" : ["Dining", "Nightlife", "Activities", "Concerts"]
     },
     
@@ -41,6 +49,6 @@
         "pid_file"  : "after5.pid",
         "lock_file" : "after5.lock",
         "log_file"  : "after5.log",
-        "workers"   : "20"    
+        "workers"   : "25"    
     }    
 }

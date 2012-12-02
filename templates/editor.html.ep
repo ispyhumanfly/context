@@ -286,29 +286,15 @@
 		none
 	    </option>
 
-	    <option value="play">
-		play
-	    </option>
-    
-            <option value="live">
-		live
-	    </option>
-    
-	    <option value="work">
-		work
+	    <% for my $page (@{ $self->app->config->{editor}->{pages} }) { %>
+	    
+	    <option value="<%= $page %>" <%== 'selected' if $self->{CONTENT}->pages =~ m/$page/i %>>
+		
+		<%= $page %>
+		
 	    </option>
         
-	    <option value="about">
-		about
-	    </option>
-  
-  	    <option value="search">
-		search
-	    </option>
-    
-	    <option value="permalink">
-		permalink
-	    </option>
+	    <% } %>
     
 	</select>
     
@@ -324,7 +310,7 @@
 
 	    <% for my $page (@{ $self->app->config->{editor}->{pages} }) { %>
 	    
-	    <option value="$page" <%= 'selected' if $self->{CONTENT}->pages =~ m/$page/i %>>
+	    <option value="<%= $page %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$page/i %>>
 		
 		<%= $page %>
 		
@@ -346,29 +332,15 @@
 		none
 	    </option>
     
-	    <option value="article">
-		article
+	    <% for my $type (@{ $self->app->config->{editor}->{types} }) { %>
+	    
+	    <option value="<%= $type %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$type/i %>>
+		
+		<%= $type %>
+		
 	    </option>
-
-	    <option value="career">
-		career
-	    </option>
-    
-	    <option value="event">
-		event
-	    </option>
-    
-	    <option value="gallery">
-		gallery
-	    </option>
-    
-	    <option value="ad_header">
-		ad_header
-	    </option>
-    
-	    <option value="ad_block">
-		ad_block
-	    </option>
+        
+	    <% } %>
     
 	</select>
     
@@ -382,29 +354,15 @@
 		none
 	    </option>
 
-	    <option value="career" <%= 'selected' if $self->{CONTENT}->types =~ m/career/i %>>
-		career
-	    </option>
+	    <% for my $type (@{ $self->app->config->{editor}->{types} }) { %>
 	    
-	    <option value="article" <%= 'selected' if $self->{CONTENT}->types =~ m/article/i %>>
-		article
+	    <option value="<%= $type %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$type/i %>>
+		
+		<%= $type %>
+		
 	    </option>
-
-	    <option value="event" <%= 'selected' if $self->{CONTENT}->types =~ m/event/i %>>
-		event
-	    </option>
-    
-	    <option value="gallery" <%= 'selected' if $self->{CONTENT}->types =~ m/gallery/i %>>
-		gallery
-	    </option>
-    
-	    <option value="ad_header" <%= 'selected' if $self->{CONTENT}->types =~ m/ad_header/i %>>
-		ad_header
-	    </option>
-    
-	    <option value="ad_block" <%= 'selected' if $self->{CONTENT}->types =~ m/ad_block/i %>>
-		ad_block
-	    </option>
+        
+	    <% } %>
     
 	</select>
     
@@ -420,73 +378,15 @@
 		none
 	    </option>
     
-	    <option value="place">
-		place
-	    </option>
-    
-	    <option value="people">
-		people
-	    </option>
-    
-	    <option value="neighbor">
-		neighbor
-	    </option>
-    
-	    <option value="city_life">
-		city_life
-	    </option>
-    
-	    <option value="lifestyle">
-		lifestyle
-	    </option>
-    
-	    <option value="article">
-		article
-	    </option>
-    
-	    <option value="professional_group">
-		professional_group
-	    </option>
-    
-	    <option value="networking">
-		networking
-	    </option>
-    
-	    <option value="social">
-		social
-	    </option>
-    
-	    <option value="cultural">
-		cultural
-	    </option>
-    
-	    <option value="board_openings">
-		board_openings
-	    </option>
-    
-	    <option value="volunteer">
-		volunteer
-	    </option>
-    
-	    <option value="resources">
-		resources
-	    </option>
-
-	    <option value="job_listings">
-		job_listings
-	    </option>
+	    <% for my $tag (@{ $self->app->config->{editor}->{tags} }) { %>
 	    
-	    <option value="career_tips">
-		career_tips
+	    <option value="<%= $tag %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$tag/i %>>
+		
+		<%= $tag %>
+		
 	    </option>
-	    
-	    <option value="after5_press">
-		after5_press
-	    </option>
-	    
-	    <option value="after5_staff">
-		after5_staff
-	    </option>
+        
+	    <% } %>
     
 	</select>
     
@@ -500,73 +400,15 @@
 		none
 	    </option>
     
-	    <option value="people" <%= 'selected' if $self->{CONTENT}->tags =~ m/people/i %>>
-		people
-	    </option>
-    
-	    <option value="neighbor" <%= 'selected' if $self->{CONTENT}->tags =~ m/neighbor/i %>>
-		neighbor
-	    </option>
-    
-	    <option value="place" <%= 'selected' if $self->{CONTENT}->tags =~ m/place/i %>>
-		place
-	    </option>
-    
-	    <option value="city_life" <%= 'selected' if $self->{CONTENT}->tags =~ m/city_life/i %>>
-		city_life
-	    </option>
-    
-	    <option value="lifestyle" <%= 'selected' if $self->{CONTENT}->tags =~ m/lifestyle/i %>>
-		lifestyle
-	    </option>
+	    <% for my $tag (@{ $self->app->config->{editor}->{tags} }) { %>
 	    
-	    <option value="article" <%= 'selected' if $self->{CONTENT}->tags =~ m/article/i %>>
-		article
+	    <option value="<%= $tag %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$tag/i %>>
+		
+		<%= $tag %>
+		
 	    </option>
-    
-	    <option value="professional_group" <%= 'selected' if $self->{CONTENT}->tags =~ m/professional_group/i %>>
-		professional_group
-	    </option>
-    
-	    <option value="networking" <%= 'selected' if $self->{CONTENT}->tags =~ m/networking/i %>>
-		networking
-	    </option>
-    
-	    <option value="social" <%= 'selected' if $self->{CONTENT}->tags =~ m/social/i %>>
-		social
-	    </option>
-    
-	    <option value="cultural" <%= 'selected' if $self->{CONTENT}->tags =~ m/cultural/i %>>
-		cultural
-	    </option>
-    
-	    <option value="board_openings" <%= 'selected' if $self->{CONTENT}->tags =~ m/board_openings/i %>>
-		board_openings
-	    </option>
-    
-	    <option value="volunteer" <%= 'selected' if $self->{CONTENT}->tags =~ m/volunteer/i %>>
-		volunteer
-	    </option>
-    
-	    <option value="resources" <%= 'selected' if $self->{CONTENT}->tags =~ m/resources/i %>>
-		resources
-	    </option>
-
-	    <option value="local_blogs" <%= 'selected' if $self->{CONTENT}->tags =~ m/local_blogs/i %>>
-		local_blogs
-	    </option>
-	    
-	    <option value="job_listings" <%= 'selected' if $self->{CONTENT}->tags =~ m/job_listings/i %>>
-		job_listings
-	    </option>
-
-	    <option value="after5_press" <%= 'selected' if $self->{CONTENT}->tags =~ m/after5_press/i %>>
-		after5_press
-	    </option>
-
-	    <option value="after5_staff" <%= 'selected' if $self->{CONTENT}->tags =~ m/after5_staff/i %>>
-		after5_staff
-	    </option>
+        
+	    <% } %>
     
 	</select>
     

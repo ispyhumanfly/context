@@ -499,7 +499,7 @@ get '/work' => sub {
     my $self = shift;
 
     return $self->redirect_to(
-        '/work?tags=professional_group')
+        '/work?tags=job_listings')
       unless $self->param('tags');
 
     my (@ads, @ads_block);
@@ -808,8 +808,6 @@ get '/login' => sub {
     
     return $self->redirect_to('dashboard') if $self->session('admin');
 
-    say "\n\nI shouldn't get here.";
-    
     my $claimed = $domain;
 
     my $google = Net::Google::FederatedLogin->new(
@@ -1652,7 +1650,7 @@ sub stock_photo {
 
     my $self = shift;
 
-    my $photos = IO::Dir->new("public/stock/");
+    my $photos = IO::Dir->new('public/stock/');
 
     my @random_stock;
 
@@ -1668,7 +1666,7 @@ sub stock_photo {
     }
 
     my $stock_photo =
-      "/stock/" . $random_stock[int(rand(scalar @random_stock))];
+      '/stock/' . $random_stock[int(rand(scalar @random_stock))];
 
     return $stock_photo;
 }
@@ -1691,6 +1689,8 @@ sub error_message {
 
 ### After 5 Mojolicious Configuration
 
-app->log->path(app->config->{hypnotoad}->{log_file}) if app->mode('production');
+app->log->path(app->config->{hypnotoad}->{log_file})
+    if app->mode('production');
+    
 app->secret('Something sticky in the basement.');
 app->start();
