@@ -59,46 +59,52 @@
 	
 	<% } elsif ($article_position >= 2) { %>
 
-	    <!-- Analytics -->
-	    <script type="text/javascript">//<![CDATA[
-
-	    Views.push(<%= $article->id; %>);
-
-	    //]]></script>
-	
-	    <hr />        
-	
-	    <% for ( split /\s+/, $article->photos ) { %>
-    
-	    <a title="<%= $article->title %>" href="/<%= $article->id %>">
-		<img class="position_image_left" src="<%= $_ %>" />
-	    </a>
-    
-	    <% last; #JUST SHOW ONE %>
-    
-	    <% } %>
-
-	    <h2><a href="/<%= $article->id %>"><%= $article->title %></a></h2>
-	
-	    <div id="content_body_truncated">
-		
-		<%== substr( HTML::FormatText->format_string($article->body), 0, 300 ); %>
-		
-	    </div>
-	
-	    <div class="read_more_right">
-
-		<% if ( $self->session('admin') ) { %>
-    
-		<a href="/<%= $article->id %>">Read More |</a>
-		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
+	    <% my $column_number; %>
 	    
-		<% } else { %>
+	    <div id="content_column_<%= $column_number %>">
+
+		<!-- Analytics -->
+		<script type="text/javascript">//<![CDATA[
+    
+		Views.push(<%= $article->id; %>);
+    
+		//]]></script>
 	    
-		<a href="/<%= $article->id %>">Read More</a>
-		
+		<hr />        
+	    
+		<% for ( split /\s+/, $article->photos ) { %>
+	
+		<a title="<%= $article->title %>" href="/<%= $article->id %>">
+		    <img class="content_column_image" src="<%= $_ %>" />
+		</a>
+	
+		<% last; #JUST SHOW ONE %>
+	
 		<% } %>
-
+    
+		<h2><a href="/<%= $article->id %>"><%= $article->title %></a></h2>
+	    
+		<div id="content_column_text">
+		    
+		    <%== substr( HTML::FormatText->format_string($article->body), 0, 300 ); %>
+		    
+		</div>
+	    
+		<div class="read_more_right">
+    
+		    <% if ( $self->session('admin') ) { %>
+	
+		    <a href="/<%= $article->id %>">Read More |</a>
+		    <a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
+		
+		    <% } else { %>
+		
+		    <a href="/<%= $article->id %>">Read More</a>
+		    
+		    <% } %>
+		    
+		</div>
+		
 	    </div>
 	
 	<% } %>

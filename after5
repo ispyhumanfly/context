@@ -1487,17 +1487,26 @@ get '/api/rest/get/:amount/:sort/:results' =>
         $types = '%event%'   if $results =~ m/events.json/i;
         $types = '%gallery%' if $results =~ m/galleries.json/i;
 
-        $types = '%article%' and $tags = '%people%'
-          if $results =~ m/people.json/i;
+        if ($results =~ m/people.json/i) {
+            
+            $types = '%article%';
+            $tags  = '%people%';
+        }
+        elsif ($results =~ m/places.json/i) {
 
-        $types = '%article%' and $tags = '%place%'
-          if $results =~ m/places.json/i;
-
-        $types = '%article%' and $tags = '%neighbor%'
-          if $results =~ m/neighbors.json/i;
-
-        $types = '%article%' and $tags = '%article%'
-          if $results =~ m/articles.json/i;
+            $types = '%article%';
+            $tags  = '%place%';
+        }
+        elsif ($results =~ m/neighbors.json/i) {
+            
+            $types = '%article%';
+            $tags  = '%neighbor%';    
+        }
+        elsif ($results =~ m/articles.json/i) {
+            
+            $types = '%article%';
+            $tags  = '%article%';    
+        }
     }
 
     if ($self->param('sort')) {

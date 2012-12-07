@@ -979,6 +979,57 @@ body {
 
 }
 
+/* multi-column layout */
+
+#content_column_one {
+
+    position:absolute;
+background:#FFF;
+margin-right:20px;
+margin-left:225px;
+margin-bottom:20px;
+border:1px solid black;	
+    
+}
+
+#content_column_two {
+
+    border: 1px solid black;
+    margin-left: 250px;
+    width: 225px;
+    
+}
+
+#content_column_three {
+
+    border: 1px solid black;
+    margin-left: 450px;
+    width: 225px;
+    
+}
+
+.content_column_image {
+    
+    float: left;
+    width: 200px;
+    height: auto;
+    margin: 0px 10px 10px 0;
+    border: 1px solid #1a3721; 
+    
+}
+
+
+.content_column_text {
+
+    color: black;
+    font-family: Verdana;
+    font-size: 13px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+/**/
+
 #content_container .social_sharing {
     
     clear: both;
