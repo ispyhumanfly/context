@@ -149,7 +149,7 @@
 		
 	<div style="float: right; width: 160px;">
 	    
-	%= include 'modules/content_details', content => $result, size => 'small'
+	%= include 'modules/content_details', content => $result, size => 'small', show => 'all'
 	    
 	</div>
 	
@@ -219,8 +219,6 @@
     <div class="content_right_padding">
 
         %= include 'modules/events_calendar', mode => 'block_lower'
-
-        <div class="block_see_more_blank"></div>
 
     </div>
     

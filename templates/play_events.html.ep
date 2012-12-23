@@ -117,7 +117,7 @@
 	    
 	    <div id="content_body"><%== $upcoming_events->body %></div>
 	
-	    %= include 'modules/content_details', content => $upcoming_events, size => 'large'
+	    %= include 'modules/content_details', content => $upcoming_events, size => 'large', show => 'all'
     
 	    %= include 'modules/social_media', mode => 'content', content => $upcoming_events
 		
@@ -168,7 +168,7 @@
 		
 	<div style="float: right; width: 160px;">
 	    
-	%= include 'modules/content_details', content => $upcoming_events, size => 'small'
+	%= include 'modules/content_details', content => $upcoming_events, size => 'small', show => 'few'
 	    
 	</div>
 	
@@ -213,7 +213,7 @@
         
 	%= include 'modules/events_calendar', mode => 'block_upper'
 
-	<div class="block_see_more" style="margin-top: -12px;"><a href="/search?types=event">See More &rarr;</a></div>
+	<div class="block_see_more"><a href="/search?types=event">See More &rarr;</a></div>
 
 	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
         

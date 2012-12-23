@@ -64,27 +64,35 @@
     
     <% } %>
     
-    <% unless (($content->address eq '') or ($content->address =~ /^\s+$/g)) { %>
+    <% if ($show eq 'all') { %>
+	
+	<% unless (($content->address eq '') or ($content->address =~ /^\s+$/g)) { %>
+	
+	<div class="title">Address</div>
+	
+	<div class="text"><%= $content->address %></div>
+	
+	<% } %>
     
-    <div class="title">Address</div>
+	<% unless (($content->lat <= 1) and ($content->lng <= 1)) { %>
+	
+	<div class="link">
+	    <a href="http://maps.google.com/maps?q=<%= $content->lat %>,<%= $content->lng %>" target="_blank">View Map</a>
+	</div>
+	
+	<% } %>
     
-    <div class="text"><%= $content->address %></div>
-    
+	<% unless (($content->link eq '') or ($content->link =~ /^\s+$/g)) { %>
+	
+	<div class="link">
+	    <a href="<%= $content->link %>" target="_blank">View Website</a>
+	</div>
+	
+	<% } %>
+	
     <% } %>
-
-    <% unless (($content->lat <= 1) and ($content->lng <= 1)) { %>
     
-    <div class="link">
-	<a href="http://maps.google.com/maps?q=<%= $content->lat %>,<%= $content->lng %>" target="_blank">View Map</a>
-    </div>
-    
-    <% } %>
-
-    <% unless (($content->link eq '') or ($content->link =~ /^\s+$/g)) { %>
-    
-    <div class="link">
-	<a href="<%= $content->link %>" target="_blank">View Website</a>
-    </div>
+    <% if ($show eq 'few') { %>
     
     <% } %>
         

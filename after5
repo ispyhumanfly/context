@@ -68,8 +68,17 @@ get '/play' => sub {
     )->all;
 
     $self->{'ARTICLES'} = \@articles;
-
     
+    # Upcoming Events
+    my @upcoming_events = $MODEL->resultset('Content')->search(
+        {   pages  => {like => '%play%'},
+            types  => {like => '%event%'}
+        },
+        {page => 1, rows => 2, order_by => 'start_datetime ASC'}
+    )->all;
+
+    $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
+
     # Events
     my @events = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
@@ -79,16 +88,6 @@ get '/play' => sub {
     )->all;
 
     $self->{'EVENTS'} = \@events;
-
-    # Upcoming Events
-    my @upcoming_events = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%play%'},
-            types  => {like => '%event%'}
-        },
-        {page => 1, rows => 3, order_by => 'start_datetime ASC'}
-    )->all;
-
-    $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
 
     # Galleries
     my @galleries = $MODEL->resultset('Content')->search(

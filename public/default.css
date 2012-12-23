@@ -658,13 +658,13 @@ body {
     border: 1px solid #1a3721; 
 }
 
-/* new play page eventgs */
+/* new play page stuff */
 
 #content_container .play_events_thumb {
 
     float: right;
-    width: 75px;
-    height: 50px;
+    width: 115px;
+    height: 85px;
     margin: 0px 5px 5px 5px;
     border: 1px solid #1a3721; 
     
@@ -674,7 +674,7 @@ body {
 
     color: #222;
     font-family: Verdana;
-    font-size: smaller;
+    font-size: small;
     font-weight: bold;
     
 }
@@ -1035,14 +1035,14 @@ body {
 #content_column_three {
 
     float: right;
-    margin-left: auto;
+    margin-left: 15px;
     width: 215px;
 }
 
 .content_column_image {
     
-    width: 200px;
-    height: 125px;
+    width: 218px;
+    height: 135px;
     margin: 0px 0px 10px 0;
     
 }
@@ -1422,6 +1422,7 @@ body {
         padding-bottom: 6px;
 	cursor: pointer;
         font-size: small;
+        color: white;
 }
 .soria .dojoxCalendar .dojoxCalendarFooter {
 	border-top: 0px none;
