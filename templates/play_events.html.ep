@@ -125,7 +125,7 @@
 	    
 		<% if ($self->session('admin')) { %>
 	
-		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>" style="margin-left: 10px;">Edit</a>
+		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>
 		
 		<% } else { %>
 	
@@ -184,6 +184,8 @@
 	
     <% } %>
 
+    <% if ($upcoming_events_counter >= 2) { %>
+    
     <h3>
 	    
 	<a href="javascript:history.go(-1)">Back</a>
@@ -203,6 +205,9 @@
 	</div>
 	
     </h3>
+    
+    <% } %>
+    
 </div>
 
 <div class="content_right">
