@@ -38,3 +38,20 @@
 </div>
 
 <% } %>
+
+<% if ($mode eq 'play') { %>
+
+<div style="margin-top: -6px;"></div>
+
+<div data-dojo-type="dojox.widget.DailyCalendar">
+
+    <script type="dojo/connect" data-dojo-event="onValueSelected" data-dojo-args="start_date">//<![CDATA[
+        
+        window.location="/search?types=event&start_date=" +
+            dojo.date.locale.format(start_date, {selector: 'date', datePattern: "MM:dd:yyyy"});
+    
+    //]]></script>
+    
+</div>
+
+<% } %>

@@ -636,6 +636,13 @@ body {
     width: 100%;
 }
 
+#content_container .content_gap {
+    
+    clear: both;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 #content_container .content_spacer_left {
 
     border: 1px solid #1a3721;
@@ -649,6 +656,35 @@ body {
     width: 100px;
     height: 100px;
     border: 1px solid #1a3721; 
+}
+
+/* new play page eventgs */
+
+#content_container .play_events_thumb {
+
+    float: right;
+    width: 75px;
+    height: 50px;
+    margin: 0px 5px 5px 5px;
+    border: 1px solid #1a3721; 
+    
+}
+
+#content_container .play_events_title {
+
+    color: #222;
+    font-family: Verdana;
+    font-size: smaller;
+    font-weight: bold;
+    
+}
+
+#content_container .play_events_text {
+
+    font-size: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+   
 }
 
 /* block content */
@@ -983,38 +1019,31 @@ body {
 
 #content_column_one {
 
-    position:absolute;
-background:#FFF;
-margin-right:20px;
-margin-left:225px;
-margin-bottom:20px;
-border:1px solid black;	
-    
+    float: left;
+    margin-left: 0;	
+    width: 215px;
 }
 
 #content_column_two {
 
-    border: 1px solid black;
-    margin-left: 250px;
-    width: 225px;
+    float: left;
+    margin-left: 18px;
+    width: 215px;
     
 }
 
 #content_column_three {
 
-    border: 1px solid black;
-    margin-left: 450px;
-    width: 225px;
-    
+    float: right;
+    margin-left: auto;
+    width: 215px;
 }
 
 .content_column_image {
     
-    float: left;
     width: 200px;
-    height: auto;
-    margin: 0px 10px 10px 0;
-    border: 1px solid #1a3721; 
+    height: 125px;
+    margin: 0px 0px 10px 0;
     
 }
 
@@ -1250,7 +1279,7 @@ border:1px solid black;
 	overflow: hidden;
         background-color: white; /**/
 
-            border-color: white;
+        border-color: white;
 
     border-radius: 5px 5px 5px 5px;
     -moz-border-radius: 5px 5px 5px 5px;
@@ -1383,10 +1412,16 @@ border:1px solid black;
 	cursor:default !important;
 }
 .dojoxCalendar .dojoxCalendarFooter {
-	border-top: 1px solid #e6e2e3;
-	height: 15px;
+	
+        /*border-top: 1px solid #e6e2e3;*/
+        
+        background-color: white;
+	
+        height: 15px;
 	padding-top: 4px;
+        padding-bottom: 6px;
 	cursor: pointer;
+        font-size: small;
 }
 .soria .dojoxCalendar .dojoxCalendarFooter {
 	border-top: 0px none;

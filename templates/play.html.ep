@@ -8,6 +8,8 @@
 <div class="content_left">
 
     <% my $article_position = 1; %>
+    <% my $column_position = 1; %>
+    <% my @column_numbers = qw/zero one two three/; %>
 
     <% for my $article (@{$self->{ARTICLES}}) { %>
         
@@ -42,7 +44,7 @@
 		
 	    </div>
     
-	    <div class="read_more_right">
+<!--	    <div class="read_more_right">
 		
 		<% if ( $self->session('admin') ) { %>
     
@@ -56,12 +58,12 @@
 		<% } %>
 		
 	    </div>
+-->	    
+	    <div id="content_container" class="content_gap"></div>
 	
 	<% } elsif ($article_position >= 2) { %>
 
-	    <% my $column_number; %>
-	    
-	    <div id="content_column_<%= $column_number %>">
+	    <div id="content_column_<%= $column_numbers[$column_position] %>">
 
 		<!-- Analytics -->
 		<script type="text/javascript">//<![CDATA[
@@ -69,9 +71,7 @@
 		Views.push(<%= $article->id; %>);
     
 		//]]></script>
-	    
-		<hr />        
-	    
+	    	    
 		<% for ( split /\s+/, $article->photos ) { %>
 	
 		<a title="<%= $article->title %>" href="/<%= $article->id %>">
@@ -84,13 +84,13 @@
     
 		<h2><a href="/<%= $article->id %>"><%= $article->title %></a></h2>
 	    
-		<div id="content_column_text">
+		<div class="content_column_text">
 		    
-		    <%== substr( HTML::FormatText->format_string($article->body), 0, 300 ); %>
+		    <%== substr( HTML::FormatText->format_string($article->body), 0, 100 ); %>
 		    
 		</div>
 	    
-		<div class="read_more_right">
+<!--		<div class="read_more_right">
     
 		    <% if ( $self->session('admin') ) { %>
 	
@@ -104,32 +104,72 @@
 		    <% } %>
 		    
 		</div>
-		
+-->		
 	    </div>
+
+	    <% $column_position++; %>
 	
 	<% } %>
 	
+	<% last if $article_position == 4; %>
 	<% $article_position++; %>
 	
     <% } %>
 
     <h3><a href="/search?tags=article">More Articles &rarr;</a></h3>
 
-    <div class="h1_spacer"><h1>Events</h1></div>
+    <h1>Events</h1>
     
-    <% my $event_position = 1; %>
-
-    <% for my $event (@{$self->{EVENTS}}) { %>
-        	
-	<% next unless $event->position =~ m/$event_position/g; %>
-    
-	<% if ($event_position == 1) { %>
-        
-	<% } %>
+    <div style="background-color: #E6E2E3; padding: 15px 0px 15px 10px; width: 99.5%;">
 	
-	<% $event_position++; %>
-
-    <% } %>
+	<div style="">
+	    
+	    %= include 'modules/events_calendar', mode => 'play'
+	    
+	</div>
+	
+	<div style="float: right; margin-left: 325px; margin-top: -184px;">
+	
+	    <% my $play_events_counter; %>
+	    
+	    <% for my $play_events (@{$self->{UPCOMING_EVENTS}}) { %>
+	
+		<% $play_events_counter++; %>
+    
+		<% if ($play_events_counter > 1) { %>
+	    
+		<hr />
+	    
+		<% } %>
+    
+		<!-- Analytics -->
+		<script type="text/javascript">//<![CDATA[
+    
+		Views.push(<%= $play_events->id; %>);
+    
+		//]]></script>
+		
+		<% for ( split /\s+/, $play_events->photos ) { %>
+		
+		<a title="<%= $play_events->title %>" href="/live/neighbors?id=<%= $play_events->id %>">
+		    <img class="play_events_thumb" src="<%= $_ %>"/>
+		</a>
+		
+		<% last; %>
+		
+		<% } %>
+		
+		<div class="play_events_title"><a href="/live/neighbors?id=<%= $play_events->id %>"><%= $play_events->title %></a></div>
+		
+		<div class="play_events_text"><%== substr( HTML::FormatText->format_string($play_events->body), 0, 75 ) . '' %></div>
+		
+	    <% } %>
+	
+	
+	</div>
+	<div style="clear: both;"></div>
+    	
+    </div>
 
     <h3><a href="/search?types=event">More Events &rarr;</a></h3>
 
