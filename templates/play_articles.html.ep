@@ -1,191 +1,203 @@
 % title 'Play';
 % layout 'default';
 %
-% my $more_articles_length = 3;
- 
+% my $article_length = 5;
+
 <script type="text/javascript">//<![CDATA[
 
+    
 //]]></script>
 
 <div class="content_left">
-    
+
     <h1>Articles</h1>
-    
-    <% for my $articles (@{$self->{ARTICLES}}) { %>
-    
+
+    <% my $article_counter; %>
+    <% my $column_position = 1; %>
+    <% my @column_numbers = qw/zero one two three/; %>
+
+    <% for my $article (@{$self->{ARTICLES}}) { %>
+
 	<% if ($self->param('id')) { %>
 	
-	<% next unless $articles->id == int($self->param('id')); %>
+	<% next unless $article->id <= int($self->param('id')); %>
 	    
 	<% } %>
 	
-	<!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
-
-	Clicks.push(<%= $articles->id; %>);
-
-	//]]></script>
-	    
-	<% for ( split /\s+/, $articles->photos ) { %>
-
-	<img class="para_image_right" src="<%= $_ %>" title="<%= $articles->title %>" />
-
-	<% last; %>
-
-	<% } %>
-
-	<% unless (scalar (split /\s+/, $articles->photos) <= 1 ) { %>
-	
-	<div class="content_thumbnails_right">
-	    
-	<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $articles->id %>"></div>
-
-	</div>
-
-	<% } %>
-
-	<h2><%= $articles->title %></h2>
-
-	<% unless (($articles->author eq '') or ($articles->author =~ /^\s+$/g)) { %>
-    
-	<h4>By <%= $articles->author %></h4>
-    
-	<% } %>
-	
-	<div id="content_body"><%== $articles->body %></div>
-
-	%= include 'modules/content_details', content => $articles, size => 'large'
-	
-	%= include 'modules/social_media', mode => 'content', content => $articles
-
-	<h3>
-	    
-	    <% if ($self->session('admin')) { %>
-    
-	    <a href="javascript:history.go(-1)">Back | </a>
-	    <a href="/editor?mode=update&id=<%= $articles->id %>" style="margin-left: 10px;">Edit</a>
-    	    
-	    <% } else { %>
-    
-	    <a href="javascript:history.go(-1)">Back</a>
-	    
-	    <% } %>
-
-	    <div style="text-align: right; margin-top: -20px;">
-
-		<% my $next_articles_counter; %>
-		
-		<% my $next_article; %>
-		
-	    	<% for (@{$self->{ARTICLES}}) { %>
-
-		    <% $next_articles_counter++; %>
-		    
-		    <% if ($self->param('id')) { %>
-		    
-		    <% next unless $_->id < int($self->param('id')); %>
-		    
-		    <% $next_article = $_; %>
-		    
-		    <% } elsif (not $self->param('id')) { %>
-		
-		    <% $next_article = @{$self->{ARTICLES}}->[+1]; %>
-		    
-		    <% } %>
-		    
-		    <a href="/play/articles?id=<%= $next_article->id %>">Next</a>
-		    
-		    <% last; %>
-		    
-		<% } %>
-		
-	    </div>
-	
-	</h3>
-	
-	<% last unless $self->param('id'); %>
-    	
-    <% } %>
-
-</div>
-
-<div class="content_right">
-
-    <h1>More Articles</h1>
-
-    <div class="content_right_padding">
-    
-    <% my $more_articles_counter; %>
-    
-    <% for my $more_articles (@{$self->{ARTICLES}}) { %>
-	
-	<% if ($self->param('id')) { %>
-	
-	<% next unless $more_articles->id < int($self->param('id')); %>
-	    
-	<% } else { %>
-	
-	<% next if $more_articles->id == @{$self->{ARTICLES}}->[0]->id; %>
-	
-	<% } %>
-	
-	<% $more_articles_counter++; %>
-
-	<% if ($more_articles_counter > 1) { %>
+        <% $article_counter++; %>
+        
+        <% if ($article_counter == 2) { %>
+        
+        <h1>More Articles</h1>
+        
+        <% } elsif ($article_counter > 2) { %>
 	
 	<hr />
 	
 	<% } %>
-	
-	<!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
+                
+	<% for ( split /\s+/, $article->photos ) { %>
 
-	Views.push(<%= $more_articles->id; %>);
+	    <% if ($article_counter == 1) { %>
+    
+		<!-- Analytics -->
+		<script type="text/javascript">//<![CDATA[
 
-	//]]></script>
+		Clicks.push(<%= $article->id; %>);
+
+		//]]></script>
 	    
-	<% for ( split /\s+/, $more_articles->photos ) { %>
+		<img class="para_image_right" src="<%= $_ %>" title="<%= $article->title %>" />
+		
+	    	<% unless (scalar (split /\s+/, $article->photos ) <= 1 ) { %>
 	
-	<a title="<%= $more_articles->title %>" href="/play/articles?id=<%= $more_articles->id %>">
-	    <img class="block_thumbnails_right" src="<%= $_ %>"/>
-	</a>
+		<div class="content_thumbnails_right">
+		    
+		<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
+		<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $article->id %>"></div>
 	
-	<% last; #JUST SHOW ONE %>
+		</div>
+	
+		<% } %>
+
+	    <% } else { %>
+
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    Views.push(<%= $article->id; %>);
+
+	    //]]></script>
+	    
+	    <a title="<%= $article->title %>" href="/play/articles?id=<%= $article->id %>">
+		<img class="position_image_left" src="<%= $_ %>" />
+	    </a>
+	    
+	    <% } %>
+	    
+	    <% last; #JUST SHOW ONE %>
+
+        <% } %>
+
+	<% if ($article_counter == 1) { %>
+	
+        <h2><%= $article->title %></h2>
+    
+	<% } else { %>
+
+        <a href="/play/articles?id=<%= $article->id %>"><h2><%= $article->title %></h2></a>
+	
+	<% } %>
+	    
+	<% if ($article_counter == 1) { %>
+	
+	<% unless (($article->author eq '') or ($article->author =~ /^\s+$/g)) { %>
+	
+	<h4>By <%= $article->author %></h4>
+	
+	<% } %>
+
+        <div id="content_body"><%== $article->body %></div>
+    
+	%= include 'modules/content_details', size => 'large', content => $article, show => 'all'
+
+        %= include 'modules/social_media', mode => 'content', content => $article
+
+	<h3>
+        
+            <% if ($self->session('admin')) { %>
+    
+            <a href="/editor?mode=update&id=<%= $article->id %>" style="margin-left: 10px;">Edit</a>
+    	    
+	    <% } else { %>
+    
+	    &nbsp;
+	    
+	    <% } %>
+            
+        </h3>
+        
+	<% } else { %>
+
+	    <div id="content_body_truncated" class="right_search">
+		
+		<%== substr( HTML::FormatText->format_string($article->body), 0, 250 ) %>
+		
+	    </div>
+	
+	    <div class="read_more_right">
+    
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/play/articles?id=<%= $article->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/play/articles?id=<%= $article->id %>">Read More</a>
+		
+		<% } %>
+    
+	    </div>
 	
 	<% } %>
 	
-	<div class="block_title"><a href="/play/articles?id=<%= $more_articles->id %>"><%= $more_articles->title %></a></div>
-	
-	<div class="block_text"><%== substr( HTML::FormatText->format_string($more_articles->body), 0, 75 ) . '' %></div>
-	
-        <div class="read_more_left">
-
-            <% if ( $self->session('admin') ) { %>
-
-            <a href="/play/articles?id=<%= $more_articles->id %>">Read More |</a>
-            <a href="/editor?mode=update&id=<%= $more_articles->id %>">Edit</a>        
+        <% last if $article_counter == $article_length; %>
         
-            <% } else { %>
-        
-            <a href="/play/articles?id=<%= $more_articles->id %>">Read More</a>
-            
-            <% } %>
-
-        </div>
-	
-	<% last if $more_articles_counter == $more_articles_length; %>
-    
     <% } %>
 
-    	<div class="block_see_more"><a href="/search?types=article&tags=article">See More &rarr;</a></div>
+    <h3>
+	    
+	<a href="javascript:history.go(-1)">Back</a>
+	
+	<div style="text-align: right; margin-top: -20px;">
 
-        %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+	    <% my $next_article_counter; %>
+	    
+	    <% for (@{$self->{ARTICLES}}) { %>
+
+		<% my $index = $next_article_counter + $article_length; %>
+		
+		<% if (@{$self->{ARTICLES}}->[$index]) { %>
+		
+		    <% my $next_place = @{$self->{ARTICLES}}->[$index]; %>
+		    
+		    <% $next_article_counter++; %>
+		    
+		    <% if ($self->param('id')) { %>
+		    
+		    <% next unless $_->id < int($self->param('id')); %>
+			
+		    <% } %>
+		
+		    <a href="/play/articles?id=<%= $next_place->id %>">Next</a>
+		    
+		    <% last; %>
+
+		<% } %>
+		
+	    <% } %>
+	    
+	</div>
+	
+    </h3>
+     
+</div>
+
+<div class="content_right">
+
+    <h1>Popular Articles</h1>
+
+    <div class="content_right_padding">
+	
+	<div class="block_caption_text">&nbsp;</div>
+        
+	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
 
     </div>
 
     <h1>Search After 5</h1>
-
-    %= include 'modules/block_search_places', mode => 'search_bar_mini'
     
+    %= include 'modules/block_search_places'
+
 </div>

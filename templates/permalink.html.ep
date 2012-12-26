@@ -55,7 +55,7 @@
 
     <% } %>
 
-    %= include 'modules/content_details', content => $content, size => 'large'
+    %= include 'modules/content_details', content => $content, size => 'large', show => 'all'
 
     %= include 'modules/social_media', mode => 'content', content => $content
 
