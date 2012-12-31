@@ -70,6 +70,9 @@ get '/play' => sub {
     $self->{'ARTICLES'} = \@articles;
     
     # Upcoming Events
+    
+    # TODO: We should only consider events that are today and the next few days.
+    
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {   pages  => {like => '%play%'},
             types  => {like => '%event%'}
@@ -80,6 +83,9 @@ get '/play' => sub {
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
 
     # Events
+    
+    # TODO: We should only be looking at events that have yet to expire.
+    
     my @events = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%event%'},
