@@ -972,6 +972,17 @@ body {
     padding-bottom: 10px;
 }
 
+#content_container .content_none {
+    
+    background-color: #e6e2e3;
+    border-color: #222;
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    padding: 10px;
+    text-align: center;
+}
+
 #content_container .content_left {
 
     float: left;

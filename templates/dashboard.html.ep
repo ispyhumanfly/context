@@ -19,7 +19,7 @@
         
         <h2><a href="/<%= $play->id%>"><%= $play->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $play
+        %= include 'modules/content_analytics', content => $play
 
         <% for ( split /\s+/, $play->photos ) { %>
         
@@ -66,7 +66,7 @@
 
         <h2><a href="/<%= $photos->id%>"><%= $photos->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $photos, mode => 'content'
+        %= include 'modules/content_analytics', content => $photos, mode => 'content'
 
         <% for ( split /\s+/, $photos->photos ) { %>
         
@@ -113,7 +113,7 @@
 
         <h2><a href="/<%= $live->id%>"><%= $live->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $live, mode => 'content'
+        %= include 'modules/content_analytics', content => $live, mode => 'content'
 
         <% for ( split /\s+/, $live->photos ) { %>
         
@@ -160,7 +160,7 @@
         
         <h2><a href="/<%= $work->id%>"><%= $work->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $work, mode => 'content'
+        %= include 'modules/content_analytics', content => $work, mode => 'content'
 
         <% for ( split /\s+/, $work->photos ) { %>
         
@@ -207,7 +207,7 @@
         
         <h2><a href="/<%= $about->id%>"><%= $about->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $about, mode => 'content'
+        %= include 'modules/content_analytics', content => $about, mode => 'content'
 
         <% for ( split /\s+/, $about->photos ) { %>
         
@@ -254,7 +254,7 @@
         
         <h2><a href="/<%= $none->id%>"><%= $none->title %></a></h2>
 
-        %= include 'modules/dashboard_analytics', content => $none, mode => 'content'
+        %= include 'modules/content_analytics', content => $none, mode => 'content'
 
         <% for ( split /\s+/, $none->photos ) { %>
         

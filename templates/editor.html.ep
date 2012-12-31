@@ -118,6 +118,10 @@
 	
 	<% } %>
 
+	<h3>&nbsp;</h3>
+
+	<h1>Photos</h1>
+	
 	<% if ( $self->param('mode') eq 'create' ) { %>
     
 	<h4>Add Photos</h4>
@@ -300,7 +304,7 @@
     
 		<% for my $page (@{ $self->app->config->{editor}->{pages} }) { %>
 		
-		<option value="<%= $page %>" <%== 'selected' if $self->{CONTENT}->pages =~ m/$page/i %>>
+		<option value="<%= $page %>">
 		    
 		    <%= $page %>
 		    
@@ -350,7 +354,7 @@
 	
 		<% for my $type (@{ $self->app->config->{editor}->{types} }) { %>
 		
-		<option value="<%= $type %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$type/i %>>
+		<option value="<%= $type %>">
 		    
 		    <%= $type %>
 		    
@@ -372,7 +376,7 @@
     
 		<% for my $type (@{ $self->app->config->{editor}->{types} }) { %>
 		
-		<option value="<%= $type %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$type/i %>>
+		<option value="<%= $type %>" <%= 'selected' if $self->{CONTENT}->types =~ m/$type/i %>>
 		    
 		    <%= $type %>
 		    
@@ -400,7 +404,7 @@
 	
 		<% for my $tag (@{ $self->app->config->{editor}->{tags} }) { %>
 		
-		<option value="<%= $tag %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$tag/i %>>
+		<option value="<%= $tag %>">
 		    
 		    <%= $tag %>
 		    
@@ -422,7 +426,7 @@
 	
 		<% for my $tag (@{ $self->app->config->{editor}->{tags} }) { %>
 		
-		<option value="<%= $tag %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$tag/i %>>
+		<option value="<%= $tag %>" <%= 'selected' if $self->{CONTENT}->tags =~ m/$tag/i %>>
 		    
 		    <%= $tag %>
 		    
@@ -442,27 +446,21 @@
 	
 	    <h4>Cities</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="cities" size="8">
+	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="cities" size="10">
 	
 		<option value="none" selected>
 		    none
 		</option>
+	
+		<% for my $city (@{ $self->app->config->{editor}->{cities} }) { %>
 		
-		<option value="birmingham">
-		    birmingham
+		<option value="<%= $city %>">
+		    
+		    <%= $city %>
+		    
 		</option>
-	
-		<option value="detroit">
-		    detroit
-		</option>
-	
-		<option value="ferndale">
-		    ferndale
-		</option>
-	
-		<option value="royal_oak">
-		    royal_oak
-		</option>
+	    
+		<% } %>
 	
 	    </select>
 	
@@ -475,22 +473,16 @@
 		<option value="none" <%= 'selected' if $self->{CONTENT}->cities =~ m/none/i %>>
 		    none
 		</option>
+	
+		<% for my $city (@{ $self->app->config->{editor}->{cities} }) { %>
 		
-		<option value="birmingham" <%= 'selected' if $self->{CONTENT}->cities =~ m/birmingham/i %>>
-		    birmingham
+		<option value="<%= $city %>" <%= 'selected' if $self->{CONTENT}->cities =~ m/$city/i %>>
+		    
+		    <%= $city %>
+		    
 		</option>
-	
-		<option value="detroit" <%= 'selected' if $self->{CONTENT}->cities =~ m/detroit/i %>>
-		    detroit
-		</option>
-	
-		<option value="ferndale" <%= 'selected' if $self->{CONTENT}->cities =~ m/ferndale/i %>>
-		    ferndale
-		</option>
-	
-		<option value="royal_oak" <%= 'selected' if $self->{CONTENT}->cities =~ m/royal_oak/i %>>
-		    royal_oak
-		</option>
+	    
+		<% } %>
 	
 	    </select>
 	
@@ -500,63 +492,51 @@
 	
 	<div style="float: left;">
 
-	<% if ( $self->param('mode') eq 'create' ) { %>
-    
-	<h4>Interests</h4>
+	    <% if ( $self->param('mode') eq 'create' ) { %>
 	
-	<select dojoType="dijit.form.MultiSelect" multiple="true" name="interests" size="10">
-    
-	    <option value="none" selected>
-		none
-	    </option>
-    
-	    <option value="dining">
-		dining
-	    </option>
-    
-	    <option value="nightlife">
-		nightlife
-	    </option>
-    
-	    <option value="activities">
-		activities
-	    </option>
-    
-	    <option value="living">
-		living
-	    </option>
-    
-	</select>
+	    <h4>Interests</h4>
 	
-	<% } elsif ( $self->param('mode') eq 'update' ) { %>
-    
-	<h4>Interests</h4>
-    
-	<select dojoType="dijit.form.MultiSelect" multiple="true" name="interests" size="10">
-    
-	    <option value="none" <%= 'selected' if $self->{CONTENT}->interests =~ m/none/i %>>
-		none
-	    </option>
+	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="interests" size="10">
+	
+		<option value="none" selected>
+		    none
+		</option>
+	
+		<% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
+		
+		<option value="<%= $interest %>">
+		    
+		    <%= $interest %>
+		    
+		</option>
 	    
-	    <option value="dining" <%= 'selected' if $self->{CONTENT}->interests =~ m/dining/i %>>
-		dining
-	    </option>
-    
-	    <option value="nightlife" <%= 'selected' if $self->{CONTENT}->interests =~ m/nightlife/i %>>
-		nightlife
-	    </option>
-    
-	    <option value="activities" <%= 'selected' if $self->{CONTENT}->interests =~ m/activities/i %>>
-		activities
-	    </option>
-    
-	    <option value="living" <%= 'selected' if $self->{CONTENT}->interests =~ m/living/i %>>
-		living
-	    </option>
-    
-	</select>
-    
-	<% } %>
+		<% } %>
+	
+	    </select>	
+	
+	    <% } elsif ( $self->param('mode') eq 'update' ) { %>
+	
+	    <h4>Interests</h4>
+	
+	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="interests" size="10">
+	
+		<option value="none" <%= 'selected' if $self->{CONTENT}->interests =~ m/none/i %>>
+		    none
+		</option>
+	
+		<% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
+		
+		<option value="<%= $interest %>" <%= 'selected' if $self->{CONTENT}->interests =~ m/$interest/i %>>
+		    
+		    <%= $interest %>
+		    
+		</option>
+	    
+		<% } %>
+	
+	    </select>
+	
+	    <% } %>
 
 	</div>
 	

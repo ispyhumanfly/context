@@ -17,7 +17,7 @@
         
         "cities"    : ["detroit", "ferndale", "birmingham", "royal_oak"],
 
-        "interests" : ["Dining", "Nightlife", "Activities", "Concerts"]
+        "interests" : ["dining", "nightlife", "activities", "concerts"]
     },
     
     "google"    :

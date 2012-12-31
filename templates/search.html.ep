@@ -192,7 +192,9 @@
 
     <% } elsif ($result_counter < 1) { %>
 	
-	<h1>Sorry! We can't find what you're looking for.</h1>
+	<h1>Search Results</h1>
+	<div class="content_none">Sorry! We can&apos;t find what you&apos;re looking for.</div>
+	<h3><a href="javascript:history.go(-1)">Back</a></h3>
     
     <% } %>
     

@@ -10,7 +10,7 @@ After 5
 
 for development...
 
-    after5 daemon
+    morbo after5
 
 or for production...
 
@@ -24,7 +24,7 @@ The code behind after5detroit.com
 
 Modern::Perl Mojolicious::Lite DBIx::Class::Candy SQL::Translator 
 DateTime::Format::SQLite DateTime::Format::ISO8601 HTML::FormatText
-REST::Google::Search Net::Google::FederatedLogin
+REST::Google::Search Net::Google::FederatedLogin Mail::Sendmail
 
 =head2 TinyMCE
 
