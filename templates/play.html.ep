@@ -256,7 +256,7 @@
 	
 	<% } %>
 	
-	<% last if $article_position == 3; %>
+	<% last if $article_position == 4; %>
 	<% $article_position++; %>
 	
     <% } %>
