@@ -1302,8 +1302,8 @@ post '/api/contact/message' => sub {
 
             my %mail = (
 
-                To      => "contact@$domain",
-                From    => "no-reply@$domain",
+                To      => "contact\@$domain",
+                From    => "no-reply\@$domain",
                 Subject => "$domain :: " . $self->param('subject'),
                 Message => $message
             );
@@ -1357,8 +1357,8 @@ post '/api/newsletter/message' => sub {
 
             my %mail = (
 
-                To      => "contact@$domain",
-                From    => "no-reply@$domain",
+                To      => "contact\@$domain",
+                From    => "no-reply\@$domain",
                 Subject => "$domain :: Newsletter Sign-Up!",
                 Message => $message
             );
