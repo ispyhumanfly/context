@@ -8,18 +8,16 @@
     
     <select name="cities" style="width: 200px; margin-right: 5px; padding: 0px;">
         
-        <option value="birmingham">
-            Birmingham
-        </option>
-        <option value="detroit" selected>
-            Detroit
-        </option>
-        <option value="ferndale">
-            Ferndale
-        </option>
-        <option value="royal_oak">
-            Royal Oak
-        </option>
+        <% for my $city (@{ $self->app->config->{editor}->{cities} }) { %>
+		
+	    <option value="<%= $city %>">
+		    
+		    <%= ucfirst($city) %>
+		    
+	    </option>
+	    
+	<% } %>
+                
     </select>    
     
     <div class="content_spacer"></div>
@@ -28,18 +26,15 @@
     
     <select name="interests" style="width: 200px; margin-right: 5px; padding: 0px;">
         
-        <option value="dining">
-            Dining
-        </option>
-        <option value="nightlife">
-            Nightlife
-        </option>
-        <option value="activities">
-            Activities
-        </option>
-        <option value="living">
-            Living
-        </option>
+        <% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
+		
+	    <option value="<%= $interest %>">
+		    
+		    <%= ucfirst($interest) %>
+		    
+	    </option>
+	    
+	<% } %>
         
     </select>    
     

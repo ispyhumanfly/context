@@ -46,11 +46,19 @@
 	    <div id="live_bullet_navigation">
 		    
 		<ul>
-		    <li class="title">Discover Birmingham</li>
-		    <li><a href="/search?interests=dining&cities=birmingham">Dining</a></li>
-		    <li><a href="/search?interests=nightlife&cities=birmingham">Nightlife</a></li>
-		    <li><a href="/search?interests=activities&cities=birmingham">Activities</a></li>
-		    <li><a href="/search?interests=living&cities=birmingham">Living</a></li>
+
+    		    <li class="title">Discover Birmingham</li>
+		    
+		    <% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
+		
+		    <li>
+			<a href="/search?interests=<%= $interest %>&cities=birmingham">
+			    <%= ucfirst($interest) %>
+			</a>
+		    </li>
+
+		<% } %>
+
 		</ul>
 		
 	    </div>

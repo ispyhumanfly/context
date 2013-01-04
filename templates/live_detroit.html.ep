@@ -44,15 +44,23 @@
 	    <div id="content_body"><%== substr( HTML::FormatText->format_string($city_life->body), 0, 500 ) %></div>
 
 	    <div id="live_bullet_navigation">
-		    
+
 		<ul>
-		    <li class="title">Discover Detroit</li>
-		    <li><a href="/search?interests=dining&cities=detroit">Dining</a></li>
-		    <li><a href="/search?interests=nightlife&cities=detroit">Nightlife</a></li>
-		    <li><a href="/search?interests=activities&cities=detroit">Activities</a></li>
-		    <li><a href="/search?interests=living&cities=detroit">Living</a></li>
-		</ul>
+
+    		    <li class="title">Discover Detroit</li>
+		    
+		    <% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
 		
+		    <li>
+			<a href="/search?interests=<%= $interest %>&cities=detroit">
+			    <%= ucfirst($interest) %>
+			</a>
+		    </li>
+
+		<% } %>
+
+		</ul>
+
 	    </div>
     	    
 	    <div class="content_spacer">&nbsp;</div>
