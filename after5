@@ -71,15 +71,15 @@ get '/play' => sub {
     $self->{'ARTICLES'} = \@articles;
 
     # Upcoming Events
-    my $parser = $MODEL->storage->datetime_parser;
+    my $dtf = $MODEL->storage->datetime_parser;
 
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {   pages          => {like => '%play%'},
             types          => {like => '%event%'},
             start_datetime => {
                 -between => [
-                    $parser->format_datetime(DateTime->now),
-                    $parser->format_datetime(DateTime->now->add(days => 30))
+                    $dtf->format_datetime(DateTime->now),
+                    $dtf->format_datetime(DateTime->now->add(days => 30))
                 ]
             }
         },
@@ -132,19 +132,29 @@ get '/play/articles' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Articles
-    my $parser = $MODEL->storage->datetime_parser;
+    my $dtf = $MODEL->storage->datetime_parser;
+    my $dt_local;
+
+    if ($self->param('create_datetime')) {
+
+        $dt_local =
+          DateTime->from_epoch(epoch => int($self->param('create_datetime')));
+    }
+    else {
+        $dt_local = DateTime->now;
+    }
 
     my @articles = $MODEL->resultset('Content')->search(
         {   pages           => {like => '%play%'},
             types           => {like => '%article%'},
             create_datetime => {
                 -between => [
-                    $parser->format_datetime(DateTime->now->subtract(days => 90)),
-                    $parser->format_datetime(DateTime->now)
+                    $dtf->format_datetime($dt_local->subtract(days => 90)),
+                    $dtf->format_datetime(DateTime->now)
                 ]
             }
         },
-        {order_by => 'id DESC'}
+        {order_by => 'create_datetime DESC'}
     )->all;
 
     $self->{'ARTICLES'} = \@articles;
@@ -184,7 +194,7 @@ get '/play/events' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Upcoming Events
-    my $parser = $MODEL->storage->datetime_parser;
+    my $dtf = $MODEL->storage->datetime_parser;
     my $dt_local;
 
     if ($self->param('start_datetime')) {
@@ -201,8 +211,8 @@ get '/play/events' => sub {
             types          => {like => '%event%'},
             start_datetime => {
                 -between => [
-                    $parser->format_datetime($dt_local),
-                    $parser->format_datetime($dt_local->add(days => 90))
+                    $dtf->format_datetime($dt_local),
+                    $dtf->format_datetime($dt_local->add(days => 90))
                 ]
             }
         },

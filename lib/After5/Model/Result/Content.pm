@@ -11,7 +11,7 @@ column id => {
 
 column create_datetime => {
 
-    data_type => 'varchar',
+    data_type => 'datetime',
     size => 50,
 };
 

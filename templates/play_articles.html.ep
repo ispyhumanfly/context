@@ -1,7 +1,8 @@
 % title 'Play';
 % layout 'default';
 %
-% my $article_length = 5;
+% my $article_length = 10;
+% my $last_create_datetime;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -10,36 +11,39 @@
 
 <div class="content_left">
 
-    <h1>Articles</h1>
+    <h1>Upcoming Events</h1>
 
     <% my $article_counter; %>
-    <% my $column_position = 1; %>
-    <% my @column_numbers = qw/zero one two three/; %>
-
+    
     <% for my $article (@{$self->{ARTICLES}}) { %>
+	    
+        <% $article_counter++; %>
 
-	<% if ($self->param('id')) { %>
-	
-	<% next unless $article->id <= int($self->param('id')); %>
+	<% if (($article_counter == 1) and ($self->param('create_datetime')) and ($self->param('id'))) { %>
+		    
+	    <% unless ($self->param('id') eq $article->id ) { %>
+		
+		<% $article_counter--; %>
+		<% next; %>
+		
+	    <% } %>
 	    
 	<% } %>
-	
-        <% $article_counter++; %>
         
         <% if ($article_counter == 2) { %>
         
-        <h1>More Articles</h1>
+        <h1>More Events</h1>
         
         <% } elsif ($article_counter > 2) { %>
 	
 	<hr />
 	
 	<% } %>
-                
+            
 	<% for ( split /\s+/, $article->photos ) { %>
 
 	    <% if ($article_counter == 1) { %>
-    
+	    
 		<!-- Analytics -->
 		<script type="text/javascript">//<![CDATA[
 
@@ -47,14 +51,14 @@
 
 		//]]></script>
 	    
-		<img class="para_image_right" src="<%= $_ %>" title="<%= $article->title %>" />
+		<img class="para_image_right" title="<%= $article->title %>" src="<%= $_ %>" />
 		
-	    	<% unless (scalar (split /\s+/, $article->photos ) <= 1 ) { %>
+	    	<% unless (scalar (split /\s+/, $article->photos) <= 1 ) { %>
 	
 		<div class="content_thumbnails_right">
 		    
-		<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-		<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $article->id %>"></div>
+		    <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
+		    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $article->id %>"></div>
 	
 		</div>
 	
@@ -69,7 +73,7 @@
 
 	    //]]></script>
 	    
-	    <a title="<%= $article->title %>" href="/play/articles?id=<%= $article->id %>">
+	    <a title="<%= $article->title %>" href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -85,43 +89,49 @@
     
 	<% } else { %>
 
-        <a href="/play/articles?id=<%= $article->id %>"><h2><%= $article->title %></h2></a>
+        <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><h2><%= $article->title %></h2></a>
 	
 	<% } %>
-	    
+	
 	<% if ($article_counter == 1) { %>
-	
-	<% unless (($article->author eq '') or ($article->author =~ /^\s+$/g)) { %>
-	
-	<h4>By <%= $article->author %></h4>
-	
-	<% } %>
-
-        <div id="content_body"><%== $article->body %></div>
-    
-	%= include 'modules/content_details', size => 'large', content => $article, show => 'all'
-
-        %= include 'modules/social_media', mode => 'content', content => $article
-
-	<h3>
-        
-            <% if ($self->session('admin')) { %>
-    
-            <a href="/editor?mode=update&id=<%= $article->id %>" style="margin-left: 10px;">Edit</a>
-    	    
-	    <% } else { %>
-    
-	    &nbsp;
+		    
+	    <% unless (($article->author eq '') or ($article->author =~ /^\s+$/g)) { %>
 	    
+	    <h4>By <%= $article->author %></h4>
+    
 	    <% } %>
-            
-        </h3>
-        
+	    
+	    <div id="content_body"><%== $article->body %></div>
+	
+	    %= include 'modules/content_details', content => $article, size => 'large', show => 'all'
+    
+	    %= include 'modules/social_media', mode => 'content', content => $article
+		
+	    <h3>
+		
+		<% if ($self->session('admin')) { %>
+
+		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>
+		
+		<% } else { %>
+	    
+		&nbsp;
+		
+		<% } %>
+		
+	    </h3>
+	
 	<% } else { %>
 
-	    <div id="content_body_truncated" class="right_search">
+	<div style="float: left; width: 248px; margin-top: -5px;">
+
+	    <div id="content_body_truncated" class="right">
 		
-		<%== substr( HTML::FormatText->format_string($article->body), 0, 250 ) %>
+		<% eval { %>
+		
+		<%== substr( HTML::FormatText->format_string($article->body), 0, 300 ) %>
+		
+		<% }; %>
 		
 	    </div>
 	
@@ -129,75 +139,80 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/play/articles?id=<%= $article->id %>">Read More |</a>
+		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/play/articles?id=<%= $article->id %>">Read More</a>
+		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 		
 		<% } %>
     
 	    </div>
+    
+	</div>
+		
+	<div style="float: right; width: 160px;">
+	    
+	%= include 'modules/content_details', content => $article, size => 'small', show => 'few'
+	    
+	</div>
 	
 	<% } %>
 	
-        <% last if $article_counter == $article_length; %>
-        
+	<% if ($article_counter == $article_length) { %>
+	
+	    <% $last_create_datetime = $article->create_datetime->epoch; %>
+	    <% last; %>
+	
+	<% } %>
+	
     <% } %>
 
+    
     <h3>
 	    
 	<a href="javascript:history.go(-1)">Back</a>
 	
+	<% if ($article_counter == $article_length) { %>
+	    
 	<div style="text-align: right; margin-top: -20px;">
-
-	    <% my $next_article_counter; %>
 	    
 	    <% for (@{$self->{ARTICLES}}) { %>
-
-		<% my $index = $next_article_counter + $article_length; %>
+	    
+		<% next if $_->create_datetime->epoch <= $last_create_datetime; %>
 		
-		<% if (@{$self->{ARTICLES}}->[$index]) { %>
+		<a href="/play/articles?create_datetime=<%= $_->create_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
 		
-		    <% my $next_place = @{$self->{ARTICLES}}->[$index]; %>
-		    
-		    <% $next_article_counter++; %>
-		    
-		    <% if ($self->param('id')) { %>
-		    
-		    <% next unless $_->id < int($self->param('id')); %>
-			
-		    <% } %>
-		
-		    <a href="/play/articles?id=<%= $next_place->id %>">Next</a>
-		    
-		    <% last; %>
-
-		<% } %>
+		<% last; %>
 		
 	    <% } %>
 	    
 	</div>
 	
+	<% } %>
+	
     </h3>
-     
+    
 </div>
 
 <div class="content_right">
 
-    <h1>Popular Articles</h1>
+    <h1><a href="/play/events">Events Calendar</a></h1>
 
     <div class="content_right_padding">
-	
-	<div class="block_caption_text">&nbsp;</div>
         
+	%= include 'modules/events_calendar', mode => 'block_upper'
+
+	<div class="block_see_more"><a href="/search?types=event">See More &rarr;</a></div>
+
 	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+        
+	<h1>Search After 5</h1>
+	
+	%= include 'modules/block_search_places'
 
     </div>
 
-    <h1>Search After 5</h1>
-    
-    %= include 'modules/block_search_places'
-
 </div>
+

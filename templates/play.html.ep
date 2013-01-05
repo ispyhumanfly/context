@@ -22,7 +22,7 @@
 	    
 	    <% for ( split /\s+/, $article->photos ) { %>
     
-	    <a title="<%= $article->title %>" href="/<%= $article->id %>">
+	    <a title="<%= $article->title %>" href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
 		<img class="para_image_left" src="<%= $_ %>" />
 	    </a>
     
@@ -39,7 +39,7 @@
 
 	    //]]></script>
 	
-	    <h2><a href="/<%= $article->id %>"><%= $article->title %></a></h2>
+	    <h2><a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><%= $article->title %></a></h2>
     
 	    <div id="content_body" class="right">
 		
@@ -51,12 +51,12 @@
 		
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/<%= $article->id %>">Read More |</a>
+		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %><%= $article->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/<%= $article->id %>">Read More</a>
+		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %><%= $article->id %>">Read More</a>
 		
 		<% } %>
 		
