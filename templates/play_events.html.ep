@@ -17,20 +17,6 @@
     
     <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
 	    
-	<% if ($self->param('start_datetime')) { %>
-	
-	    <% my $requested_datetime = DateTime->from_epoch( epoch => int($self->param('start_datetime'))); %>
-	    
-	    <% next unless $upcoming_events->start_datetime->epoch >= $requested_datetime->epoch; %>
-	    
-	<% } else { %>
-	
-	    <% my $local_datetime = DateTime->now; %>
-	    
-	    <% next if $upcoming_events->stop_datetime->day_of_year < $local_datetime->day_of_year; %>
-    
-	<% } %>
-	
         <% $upcoming_events_counter++; %>
 
 	<% if (($upcoming_events_counter == 1) and ($self->param('start_datetime')) and ($self->param('id'))) { %>
@@ -177,7 +163,6 @@
 	<% if ($upcoming_events_counter == $upcoming_events_length) { %>
 	
 	    <% $last_start_datetime = $upcoming_events->start_datetime->epoch; %>
-	    
 	    <% last; %>
 	
 	<% } %>
@@ -189,8 +174,8 @@
 	    
 	<a href="javascript:history.go(-1)">Back</a>
 	
-	<% if ($upcoming_events_counter == 10) { %>
-	
+	<% if ($upcoming_events_counter == $upcoming_events_length) { %>
+	    
 	<div style="text-align: right; margin-top: -20px;">
 	    
 	    <% for (@{$self->{UPCOMING_EVENTS}}) { %>

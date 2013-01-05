@@ -63,34 +63,35 @@ get '/play' => sub {
     my @articles = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%article%'},
+            position => { -between => [1, 5]}
         },
-        {order_by => 'id DESC'}
+        {order_by => 'create_datetime DESC'}
     )->all;
 
     $self->{'ARTICLES'} = \@articles;
     
     # Upcoming Events
-    
-    # TODO: We should only consider events that are today and the next few days.
-    
+    my $dt_parser = $MODEL->storage->datetime_parser;
+    my $dt_local  = DateTime->now;
+
     my @upcoming_events = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%play%'},
-            types  => {like => '%event%'}
+        {
+            pages => {like => '%play%'},
+            types => {like => '%event%'},
+            start_datetime => { -between => [ $dt_parser->format_datetime($dt_local), $dt_parser->format_datetime($dt_local->add(days => 30))] }
         },
-        {page => 1, rows => 2, order_by => 'start_datetime ASC'}
+        {order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
 
     # Events
-    
-    # TODO: We should only be looking at events that have yet to expire.
-    
     my @events = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%event%'},
+            position => { -between => [1, 5]}
         },
-        {order_by => 'id DESC'}
+        {order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'EVENTS'} = \@events;
@@ -127,15 +128,29 @@ get '/play/articles' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Articles / More Articles
+    # Articles
+    my $dt_parser = $MODEL->storage->datetime_parser;
+    my $dt_local  = DateTime->now->subtract( days => 120);
+
     my @articles = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%play%'},
+            types => {like => '%article%'},
+            create_datetime => { -between => [ $dt_parser->format_datetime($dt_local), $dt_parser->format_datetime($dt_local->add(days => 120))] }
+        },
+        {order_by => 'create_datetime DESC'}
+    )->all;
+
+    $self->{'ARTICLES'} = \@articles;
+
+    # Popular Articles
+    my @popular_articles = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%article%'},
         },
         {order_by => 'id DESC'}
     )->all;
 
-    $self->{'ARTICLES'} = \@articles;
+    $self->{'POPULAR_ARTICLES'} = \@popular_articles;
 
     return $self->render('play_articles');
 
@@ -162,13 +177,29 @@ get '/play/events' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Upcoming Events
-    my @upcoming_events =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%event%'}},
-        {order_by => 'start_datetime ASC'})->all;
+    my $dt_parser = $MODEL->storage->datetime_parser;
+    my $dt_local;
+    
+    if ($self->param('start_datetime')) {
+        
+        $dt_local = DateTime->from_epoch( epoch => int($self->param('start_datetime')));
+    }
+    else {
+        $dt_local  = DateTime->now;
+    }
+
+    my @upcoming_events = $MODEL->resultset('Content')->search(
+        {
+            pages => {like => '%play%'},
+            types => {like => '%event%'},
+            start_datetime => { -between => [$dt_parser->format_datetime($dt_local), $dt_parser->format_datetime($dt_local->add(days => 90))] }
+        },
+        {order_by => 'start_datetime ASC'}
+    )->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
 
+    
 } => 'play_events';
 
 get '/play/photos' => sub {
@@ -738,8 +769,6 @@ get '/search' => sub {
 
     $self->{'SEARCH_RESULTS'} = \@search_results;
     
-    $self->{'STOCK_PHOTO'} = stock_photo();
-
     return $self->render('search');
 
 } => 'search';
@@ -814,6 +843,8 @@ get '/login' => sub {
     
     my $domain = app->config->{domain};
     
+    ## TODO: This doesn't actually work :(
+        
     if (not app->mode('production')) {
         $self->session(admin => 'development');    
     }
@@ -1709,6 +1740,29 @@ sub error_message {
     }
 
     return;
+}
+
+sub specify_content_range {
+    
+    my ($self, %args) = @_;
+    
+    my $first = $MODEL->resultset('Content')->search(undef, {order_by => 'id DESC'})->first;
+    
+    my $dtf = $MODEL->storage->datetime_parser;
+    
+    my $local = $first->create_datetime;
+    my $range = $first->create_datetime->add(days => 90);
+    
+    my @upcoming_events = $MODEL->resultset('Content')->search(
+        {   pages  => {like => '%play%'},
+            types  => {like => '%event%'},
+            start_datetime => { -between => [ $dtf->format_datetime($local), $dtf->format_datetime($range)] }
+        },
+        {page => 1, rows => 1000, order_by => 'start_datetime ASC'}
+    )->all;
+
+    $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
+    
 }
 
 ### After 5 Mojolicious Configuration

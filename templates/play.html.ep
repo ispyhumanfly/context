@@ -116,7 +116,7 @@
 	
     <% } %>
 
-    <h3><a href="/search?tags=article">More Articles &rarr;</a></h3>
+    <h3><a href="/play/articles">More Articles &rarr;</a></h3>
 
     <h1>Events</h1>
     
