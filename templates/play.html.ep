@@ -1,5 +1,8 @@
 % title 'Play';
 % layout 'default';
+%
+% my $play_events_length = 2;
+% my $galleries_length = 3;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -177,6 +180,8 @@
 		    <% } %>
 
 		</div>
+		
+		<% last if $play_events_counter == $play_events_length; %>
 
 	    <% } %>
 	
@@ -263,7 +268,7 @@
     
     <div class="content_gap"></div>
 
-    <h3><a href="/search?types=event">More Events &rarr;</a></h3>
+    <h3><a href="/play/events">More Events &rarr;</a></h3>
 
 </div>
 
@@ -329,7 +334,7 @@
 
             </div>
             
-	    <% last if $galleries_counter == 3; %>
+	    <% last if $galleries_counter == $galleries_length; %>
 	    
             <hr />
         

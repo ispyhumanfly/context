@@ -3,7 +3,7 @@
 BEGIN {
 
     system 'sqlite3 after5.db < after5.sql'
-        unless -e 'after5.db';
+      unless -e 'after5.db';
 }
 
 use Modern::Perl;
@@ -63,22 +63,25 @@ get '/play' => sub {
     my @articles = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%article%'},
-            position => { -between => [1, 5]}
+            position => {-between => [1, 5]}
         },
         {order_by => 'create_datetime DESC'}
     )->all;
 
     $self->{'ARTICLES'} = \@articles;
-    
+
     # Upcoming Events
-    my $dt_parser = $MODEL->storage->datetime_parser;
-    my $dt_local  = DateTime->now;
+    my $parser = $MODEL->storage->datetime_parser;
 
     my @upcoming_events = $MODEL->resultset('Content')->search(
-        {
-            pages => {like => '%play%'},
-            types => {like => '%event%'},
-            start_datetime => { -between => [ $dt_parser->format_datetime($dt_local), $dt_parser->format_datetime($dt_local->add(days => 30))] }
+        {   pages          => {like => '%play%'},
+            types          => {like => '%event%'},
+            start_datetime => {
+                -between => [
+                    $parser->format_datetime(DateTime->now),
+                    $parser->format_datetime(DateTime->now->add(days => 30))
+                ]
+            }
         },
         {order_by => 'start_datetime ASC'}
     )->all;
@@ -89,7 +92,7 @@ get '/play' => sub {
     my @events = $MODEL->resultset('Content')->search(
         {   pages => {like => '%play%'},
             types => {like => '%event%'},
-            position => { -between => [1, 5]}
+            position => {-between => [1, 5]}
         },
         {order_by => 'start_datetime ASC'}
     )->all;
@@ -97,10 +100,10 @@ get '/play' => sub {
     $self->{'EVENTS'} = \@events;
 
     # Galleries
-    my @galleries = $MODEL->resultset('Content')->search(
-        {pages => {like => '%home%'}, types => {like => '%gallery%'}},
-        {page => 1, rows => 18, order_by => 'id DESC'}
-    )->all;
+    my @galleries =
+      $MODEL->resultset('Content')
+      ->search({pages => {like => '%home%'}, types => {like => '%gallery%'}},
+        {page => 1, rows => 18, order_by => 'id DESC'})->all;
 
     $self->{'GALLERIES'} = \@galleries;
 
@@ -129,15 +132,19 @@ get '/play/articles' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Articles
-    my $dt_parser = $MODEL->storage->datetime_parser;
-    my $dt_local  = DateTime->now->subtract( days => 120);
+    my $parser = $MODEL->storage->datetime_parser;
 
     my @articles = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%article%'},
-            create_datetime => { -between => [ $dt_parser->format_datetime($dt_local), $dt_parser->format_datetime($dt_local->add(days => 120))] }
+        {   pages           => {like => '%play%'},
+            types           => {like => '%article%'},
+            create_datetime => {
+                -between => [
+                    $parser->format_datetime(DateTime->now->subtract(days => 90)),
+                    $parser->format_datetime(DateTime->now)
+                ]
+            }
         },
-        {order_by => 'create_datetime DESC'}
+        {order_by => 'id DESC'}
     )->all;
 
     $self->{'ARTICLES'} = \@articles;
@@ -177,29 +184,34 @@ get '/play/events' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Upcoming Events
-    my $dt_parser = $MODEL->storage->datetime_parser;
+    my $parser = $MODEL->storage->datetime_parser;
     my $dt_local;
-    
+
     if ($self->param('start_datetime')) {
-        
-        $dt_local = DateTime->from_epoch( epoch => int($self->param('start_datetime')));
+
+        $dt_local =
+          DateTime->from_epoch(epoch => int($self->param('start_datetime')));
     }
     else {
-        $dt_local  = DateTime->now;
+        $dt_local = DateTime->now;
     }
 
     my @upcoming_events = $MODEL->resultset('Content')->search(
-        {
-            pages => {like => '%play%'},
-            types => {like => '%event%'},
-            start_datetime => { -between => [$dt_parser->format_datetime($dt_local), $dt_parser->format_datetime($dt_local->add(days => 90))] }
+        {   pages          => {like => '%play%'},
+            types          => {like => '%event%'},
+            start_datetime => {
+                -between => [
+                    $parser->format_datetime($dt_local),
+                    $parser->format_datetime($dt_local->add(days => 90))
+                ]
+            }
         },
         {order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
 
-    
+
 } => 'play_events';
 
 get '/play/photos' => sub {
@@ -544,8 +556,7 @@ get '/work' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to(
-        '/work?tags=job_listings')
+    return $self->redirect_to('/work?tags=job_listings')
       unless $self->param('tags');
 
     my (@ads, @ads_block);
@@ -763,12 +774,12 @@ get '/search' => sub {
     else {
 
         @search_results =
-          $MODEL->resultset('Content')->search(undef, {order_by => 'id DESC'})
-          ->all;
+          $MODEL->resultset('Content')
+          ->search(undef, {order_by => 'id DESC'})->all;
     }
 
     $self->{'SEARCH_RESULTS'} = \@search_results;
-    
+
     return $self->render('search');
 
 } => 'search';
@@ -840,18 +851,18 @@ get '/:id' => [id => qr/\d+/] => sub {
 get '/login' => sub {
 
     my $self = shift;
-    
+
     my $domain = app->config->{domain};
-    
+
     ## TODO: This doesn't actually work :(
-        
+
     if (not app->mode('production')) {
-        $self->session(admin => 'development');    
+        $self->session(admin => 'development');
     }
     else {
-        $self->session(admin => 'development')
+        $self->session(admin => 'development');
     }
-    
+
     return $self->redirect_to('dashboard') if $self->session('admin');
 
     my $claimed = $domain;
@@ -961,7 +972,7 @@ any '/api/login' => sub {
     my $self = shift;
 
     my $domain = app->config->{domain};
-    
+
     my $google = Net::Google::FederatedLogin->new(
         cgi_params => $self->req->params->to_hash,
         return_to  => "https://$domain/api/login"
@@ -1313,7 +1324,7 @@ post '/api/contact/message' => sub {
     {
 
         my $domain = app->config->{domain};
-        
+
         my @results = google_local($self->param('city_state_zip'));
 
         for (@results) {
@@ -1454,20 +1465,12 @@ post '/api/analytics/:type' => [type => qr/\w+/] => sub {
 
             when ('views') {
 
-                $content->update(
-                    {
-                        views => $content->views + 1
-                    }
-                );
+                $content->update({views => $content->views + 1});
             }
 
             when ('clicks') {
 
-                $content->update(
-                    {
-                        clicks => $content->clicks + 1
-                    }
-                );
+                $content->update({clicks => $content->clicks + 1});
             }
 
             default {
@@ -1534,7 +1537,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
         $types = '%gallery%' if $results =~ m/galleries.json/i;
 
         if ($results =~ m/people.json/i) {
-            
+
             $types = '%article%';
             $tags  = '%people%';
         }
@@ -1544,14 +1547,14 @@ get '/api/rest/get/:amount/:sort/:results' =>
             $tags  = '%place%';
         }
         elsif ($results =~ m/neighbors.json/i) {
-            
+
             $types = '%article%';
-            $tags  = '%neighbor%';    
+            $tags  = '%neighbor%';
         }
         elsif ($results =~ m/articles.json/i) {
-            
+
             $types = '%article%';
-            $tags  = '%article%';    
+            $tags  = '%article%';
         }
     }
 
@@ -1590,7 +1593,8 @@ get '/api/rest/get/:amount/:sort/:results' =>
         for (split /\s+/, $_->photos) {
 
             ### This may be broken with new variable...
-            push @prepared_photos, 'http://' . app->config->{domain} . '' . $_;
+            push @prepared_photos,
+              'http://' . app->config->{domain} . '' . $_;
         }
 
         my %items = (
@@ -1638,7 +1642,7 @@ sub process_photo {
     if ($upload->filename =~ m/zip$/i) {
 
         my $temp = app->config->{temp};
-        
+
         my $zip_file = $upload->filename;
         $upload->move_to("$temp/$zip_file");
 
@@ -1743,32 +1747,39 @@ sub error_message {
 }
 
 sub specify_content_range {
-    
+
     my ($self, %args) = @_;
-    
-    my $first = $MODEL->resultset('Content')->search(undef, {order_by => 'id DESC'})->first;
-    
+
+    my $first =
+      $MODEL->resultset('Content')->search(undef, {order_by => 'id DESC'})
+      ->first;
+
     my $dtf = $MODEL->storage->datetime_parser;
-    
+
     my $local = $first->create_datetime;
     my $range = $first->create_datetime->add(days => 90);
-    
+
     my @upcoming_events = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%play%'},
-            types  => {like => '%event%'},
-            start_datetime => { -between => [ $dtf->format_datetime($local), $dtf->format_datetime($range)] }
+        {   pages          => {like => '%play%'},
+            types          => {like => '%event%'},
+            start_datetime => {
+                -between => [
+                    $dtf->format_datetime($local),
+                    $dtf->format_datetime($range)
+                ]
+            }
         },
         {page => 1, rows => 1000, order_by => 'start_datetime ASC'}
     )->all;
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
-    
+
 }
 
 ### After 5 Mojolicious Configuration
 
 app->log->path(app->config->{hypnotoad}->{log_file})
-    if app->mode('production');
-    
+  if app->mode('production');
+
 app->secret('Something sticky in the basement.');
 app->start();
