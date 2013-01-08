@@ -77,14 +77,14 @@
         });
     }
 
-    function _initAnalytics() {
+    function _initTrending() {
 
         if (Views.length > 0) {
 
             for (var index = 0; index < Views.length ; index++) {
                 
                 var id = Views[index];
-                dojo.xhrPost({ url: '/api/analytics/views', postData: 'id=' + id + '' });    
+                dojo.xhrPost({ url: '/trending/views', postData: 'id=' + id + '' });    
             }
         }
 
@@ -93,7 +93,7 @@
             for (var index = 0; index < Clicks.length ; index++) {
                 
                 var id = Clicks[index];
-                dojo.xhrPost({ url: '/api/analytics/clicks', postData: 'id=' + id + '' });    
+                dojo.xhrPost({ url: '/trending/clicks', postData: 'id=' + id + '' });    
             }
         }		
     }
@@ -128,7 +128,7 @@
         dojo.addOnLoad(_initThumbNails);    
     }
 
-    setTimeout("dojo.addOnLoad(_initAnalytics)", 5000);
+    setTimeout("dojo.addOnLoad(_initTrending)", 5000);
     
     function ad_click(id) {
     

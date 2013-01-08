@@ -5,7 +5,7 @@
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/> 
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
-	<meta name="google-site-verification" content="Csn_aTdWY2uKRtR93wT3GpRbT1AMQ0PtUNl_0XNFEfM" />
+	<meta name="google-site-verification" content="<%= app->config->{google}->{site_verification} %>" />
 
 	<title><%= app->config->{title} %> :: <%= title %></title>
 
@@ -90,7 +90,7 @@
 	
 			    header_ads.push("<a href='<%= $ad->link %>' onclick='ad_click(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
 			    
-			    <% last; # ONLY SHOW ONE %>
+			    <% last; %>
 			    
 			    <% } %>
 	

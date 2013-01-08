@@ -1,0 +1,63 @@
+% my $trending_length = $length;
+
+<div class="content_right_padding">
+
+    <% my $trending_counter; %>
+    
+    <% for my $trending (@{$content}) { %>
+        
+        <% $trending_counter++; %>
+
+        <% if ($trending_counter > 1) { %>
+    
+        <hr />
+    
+        <% } %>
+
+        <!-- Analytics -->
+        <script type="text/javascript">//<![CDATA[
+
+        Views.push(<%= $trending->id; %>);
+
+        //]]></script>
+        
+        <% for ( split /\s+/, $trending->photos ) { %>
+        
+        <a title="<%= $trending->title %>" href="/<%= $trending->id %>">
+            <img class="block_thumbnails_right" src="<%= $_ %>"/>
+        </a>
+        
+        <% last; #JUST SHOW ONE %>
+        
+        <% } %>
+        
+        <div class="block_title"><a href="/<%= $trending->id %>"><%= $trending->title %></a></div>
+        
+        <div class="block_text"><%== substr( HTML::FormatText->format_string($trending->body), 0, 75 ) . '' %></div>
+        
+        <div class="read_more_left">
+
+            <% if ( $self->session('admin') ) { %>
+
+            <a href="/<%= $trending->id %>">Read More |</a>
+            <a href="/editor?mode=update&id=<%= $trending->id %>">Edit</a>        
+        
+            <% } else { %>
+        
+            <a href="/<%= $trending->id %>">Read More</a>
+            
+            <% } %>
+
+        </div>
+        
+        <% last if $trending_counter == $trending_length; %>
+        
+    <% } %>
+
+    <% if ($mode =~ m/article|event/i) { %>
+    
+        <div class="block_see_more"><a href="/search?type=<%= $mode %>&trending=true">See More &rarr;</a></div>
+    
+    <% } %>
+    
+</div>

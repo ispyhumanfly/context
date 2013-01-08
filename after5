@@ -15,6 +15,7 @@ use HTML::FormatText;
 use Archive::Extract;
 use Mail::Sendmail;
 use File::Copy;
+use Try::Tiny;
 use IO::Dir;
 use Encode;
 
@@ -42,7 +43,9 @@ any '/' => sub {
 get '/play' => sub {
 
     my $self = shift;
-
+    
+    my $dtf = $MODEL->storage->datetime_parser;
+    
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -71,8 +74,6 @@ get '/play' => sub {
     $self->{'ARTICLES'} = \@articles;
 
     # Upcoming Events
-    my $dtf = $MODEL->storage->datetime_parser;
-
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {   pages          => {like => '%play%'},
             types          => {like => '%event%'},
@@ -107,6 +108,15 @@ get '/play' => sub {
 
     $self->{'GALLERIES'} = \@galleries;
 
+    # Trending
+    my @trending;
+
+    push @trending, @articles;    
+    push @trending, @events;
+    push @trending, @upcoming_events;
+    
+    $self->{'TRENDING'} = order_by_trending($self, @trending);
+
     return $self->render('play');
 
 } => 'play';
@@ -114,6 +124,9 @@ get '/play' => sub {
 get '/play/articles' => sub {
 
     my $self = shift;
+
+    my $dtf = $MODEL->storage->datetime_parser;
+    my $dt_local;
 
     # Ads
     my @ads =
@@ -132,9 +145,6 @@ get '/play/articles' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Articles
-    my $dtf = $MODEL->storage->datetime_parser;
-    my $dt_local;
-
     if ($self->param('create_datetime')) {
 
         $dt_local =
@@ -159,15 +169,21 @@ get '/play/articles' => sub {
 
     $self->{'ARTICLES'} = \@articles;
 
-    # Popular Articles
-    my @popular_articles = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%article%'},
+    # Trending
+    my @trending = $MODEL->resultset('Content')->search(
+        {   pages          => {like => '%play%'},
+            types          => {like => '%article%'},
+            create_datetime => {
+                -between => [
+                    $dtf->format_datetime($dt_local),
+                    $dtf->format_datetime(DateTime->now)
+                ]
+            }
         },
-        {order_by => 'id DESC'}
+        {order_by => 'create_datetime DESC'}
     )->all;
 
-    $self->{'POPULAR_ARTICLES'} = \@popular_articles;
+    $self->{'TRENDING'} = order_by_trending($self, @trending);
 
     return $self->render('play_articles');
 
@@ -176,6 +192,8 @@ get '/play/articles' => sub {
 get '/play/events' => sub {
 
     my $self = shift;
+
+    my $dtf = $MODEL->storage->datetime_parser;
 
     # Ads
     my @ads =
@@ -194,7 +212,6 @@ get '/play/events' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Upcoming Events
-    my $dtf = $MODEL->storage->datetime_parser;
     my $dt_local;
 
     if ($self->param('start_datetime')) {
@@ -221,7 +238,24 @@ get '/play/events' => sub {
 
     $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
 
+    # Trending
+    my @trending = $MODEL->resultset('Content')->search(
+        {   pages          => {like => '%play%'},
+            types          => {like => '%event%'},
+            start_datetime => {
+                -between => [
+                    $dtf->format_datetime(DateTime->now),
+                    $dtf->format_datetime(DateTime->now->add(days => 30))
+                ]
+            }
+        },
+        {order_by => 'start_datetime ASC'}
+    )->all;
 
+    $self->{'TRENDING'} = order_by_trending($self, @trending);
+
+    return $self->render('play_events');
+        
 } => 'play_events';
 
 get '/play/photos' => sub {
@@ -790,6 +824,16 @@ get '/search' => sub {
 
     $self->{'SEARCH_RESULTS'} = \@search_results;
 
+    # Trending
+    if ($self->param('trending') eq 'true') {
+        
+        $self->{'SEARCH_RESULTS'} = order_by_trending($self, @search_results);
+        
+    }
+    else {
+        $self->{'SEARCH_RESULTS'} = \@search_results;
+    }
+
     return $self->render('search');
 
 } => 'search';
@@ -800,7 +844,7 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    ## TODO: Need to use try/tiny here to make sure that the id requested does
+    ## TODO: I need to use try/tiny here to make sure that the id requested does
     ## not exceed the maximum number of articles. Currently this causes After 5
     ## to render the exception page. This should be handled more gracefully...
 
@@ -811,7 +855,9 @@ get '/:id' => [id => qr/\d+/] => sub {
     # Play Articles
     if ($content->types =~ m/article/g) {
 
-        return $self->redirect_to('/play/articles?id=' . $content->id)
+        return $self->redirect_to('/play/articles?create_datetime='
+              . $content->create_datetime->epoch . '&id='
+              . $content->id)
           if $content->tags =~ m/people|place|article/g;
     }
 
@@ -1461,7 +1507,9 @@ post '/api/photo/remove' => sub {
 
 };
 
-post '/api/analytics/:type' => [type => qr/\w+/] => sub {
+## After 5 Content Trending
+
+post '/trending/:type' => [type => qr/\w+/] => sub {
 
     my $self = shift;
 
@@ -1490,7 +1538,7 @@ post '/api/analytics/:type' => [type => qr/\w+/] => sub {
         }
     }
 
-    #return;
+    return;
 };
 
 ## After 5 Dojo JSON Data Stores
@@ -1756,34 +1804,27 @@ sub error_message {
     return;
 }
 
-sub specify_content_range {
+sub order_by_trending {
 
-    my ($self, %args) = @_;
+    my ($self, @query) = @_;
+    my (%working, @results);
 
-    my $first =
-      $MODEL->resultset('Content')->search(undef, {order_by => 'id DESC'})
-      ->first;
+    say $_->title for @query;
+    
+    for (@query) {
 
-    my $dtf = $MODEL->storage->datetime_parser;
+        if (defined $_->views and defined $_->clicks) {
 
-    my $local = $first->create_datetime;
-    my $range = $first->create_datetime->add(days => 90);
+            my $score = $_->clicks / $_->views;
+            $working{$score} = $_;
+        }
+    }
 
-    my @upcoming_events = $MODEL->resultset('Content')->search(
-        {   pages          => {like => '%play%'},
-            types          => {like => '%event%'},
-            start_datetime => {
-                -between => [
-                    $dtf->format_datetime($local),
-                    $dtf->format_datetime($range)
-                ]
-            }
-        },
-        {page => 1, rows => 1000, order_by => 'start_datetime ASC'}
-    )->all;
-
-    $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
-
+    for (sort {$b <=> $a} keys %working) {
+        push @results, $working{$_};
+    }
+        
+    return \@results;
 }
 
 ### After 5 Mojolicious Configuration

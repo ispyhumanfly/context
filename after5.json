@@ -24,8 +24,9 @@
     "google"    :
     
     {
-        "account"   : "UA-31343777-1",
-        "domain"    : "after5detroit.com"
+        "account"           : "UA-31343777-1",
+        "site_verification" : "Csn_aTdWY2uKRtR93wT3GpRbT1AMQ0PtUNl_0XNFEfM",
+        "domain"            : "after5detroit.com"
     },
     
     "facebook"  :

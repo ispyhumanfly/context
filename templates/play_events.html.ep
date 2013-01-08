@@ -11,7 +11,7 @@
 
 <div class="content_left">
 
-    <h1>Upcoming Events</h1>
+    <h1>Events</h1>
 
     <% my $upcoming_events_counter; %>
     
@@ -44,11 +44,11 @@
 
 	    <% if ($upcoming_events_counter == 1) { %>
 	    
-		<!-- Analytics -->
+		<!-- Trending -->
 		<script type="text/javascript">//<![CDATA[
 
-		Clicks.push(<%= $upcoming_events->id; %>);
-
+		%= $upcoming_events->update({clicks => $upcoming_events->clicks + 1});
+		
 		//]]></script>
 	    
 		<img class="para_image_right" title="<%= $upcoming_events->title %>" src="<%= $_ %>" />
@@ -66,10 +66,10 @@
 
 	    <% } else { %>
 
-	    <!-- Analytics -->
+	    <!-- Trending -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    Views.push(<%= $upcoming_events->id; %>);
+	    % $upcoming_events->update({views => $upcoming_events->views + 1});
 
 	    //]]></script>
 	    
@@ -168,8 +168,7 @@
 	<% } %>
 	
     <% } %>
-
-    
+ 
     <h3>
 	    
 	<a href="javascript:history.go(-1)">Back</a>
@@ -198,16 +197,24 @@
 
 <div class="content_right">
 
+    <h1>Trending</h1>
+    
+    %= include 'modules/trending', content => $self->{TRENDING}, mode => 'event', length => 3
+
+    <div class="content_right_padding">
+
+	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
+    </div>
+    
     <h1><a href="/play/events">Events Calendar</a></h1>
 
     <div class="content_right_padding">
         
 	%= include 'modules/events_calendar', mode => 'block_upper'
 
-	<div class="block_see_more"><a href="/search?types=event">See More &rarr;</a></div>
-
-	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
-        
+	<div class="content_gap"></div>
+	
 	<h1>Search After 5</h1>
 	
 	%= include 'modules/block_search_places'

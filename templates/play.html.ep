@@ -10,10 +10,10 @@
 
 <div class="content_left">
 
-    <% my $article_position = 1; %>
-    <% my $column_position = 1; %>
-    <% my @column_numbers = qw/zero one two three/; %>
-
+    % my $article_position = 1;
+    % my $column_position = 1;
+    % my @column_numbers = qw/zero one two three/;
+    
     <% for my $article (@{$self->{ARTICLES}}) { %>
         
 	<% next unless $article->position =~ m/$article_position/g; %>
@@ -26,16 +26,16 @@
 		<img class="para_image_left" src="<%= $_ %>" />
 	    </a>
     
-	    <% last; #JUST SHOW ONE %>
+	    <% last; %>
     
 	    <% } %>
     
-	    <div class="h1_spacer"><h1>Articles</h1></div>
+	    <div class="h1_spacer"><a href="/play/articles"><h1>Articles</h1></a></div>
     
-	    <!-- Analytics -->
+	    <!-- Trending -->
 	    <script type="text/javascript">//<![CDATA[
 
-	    Views.push(<%= $article->id; %>);
+	    % $article->update({views => $article->views + 1});
 
 	    //]]></script>
 	
@@ -68,24 +68,24 @@
 
 	    <div id="content_column_<%= $column_numbers[$column_position] %>">
 
-		<!-- Analytics -->
+		<!-- Trending -->
 		<script type="text/javascript">//<![CDATA[
     
-		Views.push(<%= $article->id; %>);
+		% $article->update({views => $article->views + 1});
     
 		//]]></script>
 	    	    
 		<% for ( split /\s+/, $article->photos ) { %>
 	
-		<a title="<%= $article->title %>" href="/<%= $article->id %>">
+		<a title="<%= $article->title %>" href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
 		    <img class="content_column_image" src="<%= $_ %>" />
 		</a>
 	
-		<% last; #JUST SHOW ONE %>
+		<% last; %>
 	
 		<% } %>
     
-		<h2><a href="/<%= $article->id %>"><%= $article->title %></a></h2>
+		<h2><a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><%= $article->title %></a></h2>
 	    
 		<div class="content_column_text">
 		    
@@ -97,12 +97,12 @@
     
 		    <% if ( $self->session('admin') ) { %>
 	
-		    <a href="/<%= $article->id %>">Read More |</a>
+		    <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More |</a>
 		    <a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 		
 		    <% } else { %>
 		
-		    <a href="/<%= $article->id %>">Read More</a>
+		    <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 		    
 		    <% } %>
 		    
@@ -121,15 +121,11 @@
 
     <h3><a href="/play/articles">More Articles &rarr;</a></h3>
 
-    <h1>Events</h1>
+    <a href="/play/events"><h1>Events</h1></a>
     
     <div style="background-color: #E6E2E3; padding: 15px 0px 5px 5px; width: 99.9%;">
-	
-	<div style="">
 	    
-	    %= include 'modules/events_calendar', mode => 'play'
-	    
-	</div>
+	%= include 'modules/events_calendar', mode => 'play'    
 	
 	<div style="float: right; margin-left: 320px; margin-top: -189px;">
 	
@@ -145,10 +141,10 @@
 	    
 		<% } %>
     
-		<!-- Analytics -->
+		<!-- Trending -->
 		<script type="text/javascript">//<![CDATA[
     
-		Views.push(<%= $play_events->id; %>);
+		% $play_events->update({views => $play_events->views + 1});
     
 		//]]></script>
 		
@@ -206,10 +202,10 @@
 
 	    <div id="content_column_<%= $column_numbers[$column_position] %>">
 
-		<!-- Analytics -->
+		<!-- Trending -->
 		<script type="text/javascript">//<![CDATA[
     
-		Views.push(<%= $article->id; %>);
+		% $article->update({views => $article->views + 1});
     
 		//]]></script>
 	    	    
@@ -219,7 +215,7 @@
 		    <img class="content_column_image" src="<%= $_ %>" />
 		</a>
 	
-		<% last; #JUST SHOW ONE %>
+		<% last; %>
 	
 		<% } %>
     
@@ -286,10 +282,10 @@
         
             <% next if $galleries->types =~ m/ad/i; %>
     
-	    <!-- Analytics -->
+	    <!-- Trending -->
 	    <script type="text/javascript">//<![CDATA[
     
-	    Views.push(<%= $galleries->id; %>);
+	    % $galleries->update({views => $galleries->views + 1});
     
 	    //]]></script>
     
@@ -299,7 +295,7 @@
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
-            <% last; #JUST SHOW ONE %>
+            <% last; %>
             
             <% } %>
             
@@ -347,7 +343,11 @@
     </div>
 
     %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
+    <h1>Trending</h1>
     
+    %= include 'modules/trending', content => $self->{TRENDING}, mode => 'mixed', length => 5
+
     <h1>Search After 5</h1>
 
     %= include 'modules/block_search_places'

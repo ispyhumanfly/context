@@ -11,10 +11,10 @@
 
     <h1>Feature</h1>
     
-    <!-- Analytics -->
+    <!-- Trending -->
     <script type="text/javascript">//<![CDATA[
 
-    Clicks.push(<%= $content->id %>);
+    % $content->update({clicks => $content->clicks + 1});
 
     //]]></script>
 	    

@@ -4,64 +4,80 @@
 
 <div id="content_details_<%= "$size" if $size %>">
 
-    <% unless (($content->start_datetime eq '') or ($content->start_datetime =~ /^\s+$/)) { %>
-
     <% if ($self->session('admin')) { %>
     
-    <div class="title">Analytics</div>
+    <div class="title">Trending</div>
 
     <div class="text">
-    
-	<% if ($content->views ne '') { %>
-
-	<%= $content->views; %> Views
-
+	
+	<% my $views = 0; %>
+	
+	<% if (defined $content->views) { %>
+	
+	<% $views = int($content->views); %>
+	
 	<% } %>
 
-	<% if ($content->clicks ne '') { %>
-
-	& <%= $content->clicks; %> Clicks
-
+	<% my $clicks = 0; %>
+	
+	<% if (defined $content->clicks) { %>
+	
+	<% $clicks = int($content->clicks); %>
+	
 	<% } %>
-    
+	
+	% my $score = 0;
+	
+	<%= $views; %> Views
+
+	& <%= $clicks; %> Clicks
+	
+	<div style="padding-top: 3px; font-size: smaller;">
+	
+	Score <%= sprintf '%.3f', $clicks / $views; %>
+	
+	</div>
+	    
     </div>
     
     <% } %>
 
-    <div class="title">Date</div>
-    
-    <% my $start_date = $content->start_datetime; %>
-    
-    <div class="text">
-        <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
-    </div>
-    
-    <div class="title">Time</div>
-    
-    <div class="text">
-	
-        <%= $start_date->hour_12 %>:<%= sprintf '%02d', $start_date->minute %> <%= $start_date->am_or_pm %>
-    
-	-
-	
-	<% unless (($content->stop_datetime eq '') or ($content->stop_datetime =~ /^\s+$/)) { %>
-	
-	<% my $stop_date = $content->stop_datetime; %>
+    <% unless (($content->start_datetime eq '') or ($content->start_datetime =~ /^\s+$/)) { %>
 
-	<%= $stop_date->hour_12 %>:<%= sprintf '%02d', $stop_date->minute %> <%= $stop_date->am_or_pm %>
-
-	<% } %>
+	<div class="title">Date</div>
 	
-    </div>
+	<% my $start_date = $content->start_datetime; %>
+	
+	<div class="text">
+	    <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
+	</div>
+	
+	<div class="title">Time</div>
+	
+	<div class="text">
+	    
+	    <%= $start_date->hour_12 %>:<%= sprintf '%02d', $start_date->minute %> <%= $start_date->am_or_pm %>
+	
+	    -
+	    
+	    <% unless (($content->stop_datetime eq '') or ($content->stop_datetime =~ /^\s+$/)) { %>
+	    
+	    <% my $stop_date = $content->stop_datetime; %>
+    
+	    <%= $stop_date->hour_12 %>:<%= sprintf '%02d', $stop_date->minute %> <%= $stop_date->am_or_pm %>
+    
+	    <% } %>
+	    
+	</div>
     
     <% } %>
 
     <% unless (($content->venue eq '') or ($content->venue =~ /^\s+$/)) { %>
-    
+
     <div class="title">Venue</div>
     
     <div class="text"><%= $content->venue %></div>
-    
+
     <% } %>
     
     <% if ($show eq 'all') { %>
