@@ -14,10 +14,10 @@
     
         <% } %>
 
-        <!-- Analytics -->
+        <!-- Trending -->
         <script type="text/javascript">//<![CDATA[
 
-        Views.push(<%= $trending->id; %>);
+        %= $trending->update({views => $trending->views + 1});
 
         //]]></script>
         
@@ -27,7 +27,7 @@
             <img class="block_thumbnails_right" src="<%= $_ %>"/>
         </a>
         
-        <% last; #JUST SHOW ONE %>
+        <% last; %>
         
         <% } %>
         
