@@ -179,12 +179,12 @@
         
         <% } %>
 
-        <div class="content_spacer"></div>
+	<div class="content_spacer"></div>
 
 	%= include 'modules/block_more_galleries', more_galleries => $self->{GALLERIES}
 
-        %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
-
     </div>
+        
+    %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
 
 </div>

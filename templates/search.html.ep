@@ -206,23 +206,15 @@
     
     %= include 'modules/block_search_places'
     
-    <div class="content_right_padding">
-	
-	<div class="block_caption_text">&nbsp;</div>
+    <div class="block_caption_text">&nbsp;</div>
         
-	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
-
-    </div>
+    %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
 
     <% if ($self->param('types') =~ m/event/g) { %>
     
     <h1><a href="/play/events">Events Calendar</a></h1>
 
-    <div class="content_right_padding">
-
-        %= include 'modules/events_calendar', mode => 'block_lower'
-
-    </div>
+    %= include 'modules/events_calendar', mode => 'block_lower'
     
     <% } %>
     

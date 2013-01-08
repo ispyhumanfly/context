@@ -199,27 +199,19 @@
 
     <h1>Trending</h1>
     
-    %= include 'modules/trending', content => $self->{TRENDING}, mode => 'event', length => 3
+    %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'event', length => 5
 
-    <div class="content_right_padding">
-
-	%= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
-
-    </div>
+    %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
     
-    <h1><a href="/play/events">Events Calendar</a></h1>
-
-    <div class="content_right_padding">
+    <h1>
+	<a href="/play/events">Events Calendar</a>
+    </h1>
         
-	%= include 'modules/events_calendar', mode => 'block_upper'
+    %= include 'modules/events_calendar', mode => 'block'
 
-	<div class="content_gap"></div>
+    <h1>Search After 5</h1>
 	
-	<h1>Search After 5</h1>
-	
-	%= include 'modules/block_search_places'
-
-    </div>
+    %= include 'modules/block_search_places'
 
 </div>
 

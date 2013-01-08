@@ -175,8 +175,8 @@
 
 	<div class="block_see_more"><a href="/search?tags=neighbor&cities=<%= $city %>">See More &rarr;</a></div>
 
-        %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
-
     </div>
     
+    %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
 </div>

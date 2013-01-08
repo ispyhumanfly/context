@@ -2,46 +2,46 @@
 
 //]]></script>
 
-<div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
+<div class="content_right_padding">
     
-    <label>City</label>
-    
-    <select name="cities" style="width: 200px; margin-right: 5px; padding: 0px;">
+    <div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
         
-        <% for my $city (@{ $self->app->config->{editor}->{cities} }) { %>
-		
-	    <option value="<%= $city %>">
-		    
-		    <%= ucfirst($city) %>
-		    
-	    </option>
-	    
-	<% } %>
+        <label>City</label>
+        
+        <select name="cities" style="width: 200px; margin-right: 5px; padding: 0px;">
+            
+            <% for my $city (@{ $self->app->config->{editor}->{cities} }) { %>
+             
+            <option value="<%= $city %>">    
+                <%= ucfirst($city) %>
+            </option>
                 
-    </select>    
-    
-    <div class="content_spacer"></div>
-    
-    <label>Interest</label>
-    
-    <select name="interests" style="width: 200px; margin-right: 5px; padding: 0px;">
+            <% } %>
+             
+        </select>    
         
-        <% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
-		
-	    <option value="<%= $interest %>">
-		    
-		    <%= ucfirst($interest) %>
-		    
-	    </option>
-	    
-	<% } %>
+        <div class="content_spacer"></div>
         
-    </select>    
-    
-    <div class="content_spacer"></div>
-    
-    <button type="submit" style="margin-right: 5px;">Search</button>
-    
-    <div class="content_spacer"></div>
-    
+        <label>Interest</label>
+        
+        <select name="interests" style="width: 200px; margin-right: 5px; padding: 0px;">
+            
+            <% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
+            
+            <option value="<%= $interest %>">    
+                <%= ucfirst($interest) %>    
+            </option>
+            
+            <% } %>
+            
+        </select>    
+        
+        <div class="content_spacer"></div>
+        
+        <button type="submit" style="margin-right: 5px;">Search</button>
+        
+        <div class="content_spacer"></div>
+        
+    </div>
+
 </div>

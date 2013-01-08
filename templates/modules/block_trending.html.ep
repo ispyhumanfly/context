@@ -2,25 +2,20 @@
 
 <div class="content_right_padding">
 
-    <% my $trending_counter; %>
+    % my $trending_counter;
     
     <% for my $trending (@{$content}) { %>
         
-        <% $trending_counter++; %>
+        % $trending_counter++;
 
+        % $trending->update({views => $trending->views + 1});
+        
         <% if ($trending_counter > 1) { %>
     
         <hr />
     
         <% } %>
 
-        <!-- Trending -->
-        <script type="text/javascript">//<![CDATA[
-
-        %= $trending->update({views => $trending->views + 1});
-
-        //]]></script>
-        
         <% for ( split /\s+/, $trending->photos ) { %>
         
         <a title="<%= $trending->title %>" href="/<%= $trending->id %>">
@@ -31,11 +26,15 @@
         
         <% } %>
         
-        <div class="block_title"><a href="/<%= $trending->id %>"><%= $trending->title %></a></div>
+        <div class="block_title">
+            <a href="/<%= $trending->id %>"><%= $trending->title %></a>
+        </div>
         
-        <div class="block_text"><%== substr( HTML::FormatText->format_string($trending->body), 0, 75 ) . '' %></div>
+        <div class="block_text">
+            <%== substr( HTML::FormatText->format_string($trending->body), 0, 75 ) %>
+        </div>
         
-        <div class="read_more_left">
+        <div class="block_read_more">
 
             <% if ( $self->session('admin') ) { %>
 
@@ -50,14 +49,20 @@
 
         </div>
         
-        <% last if $trending_counter == $trending_length; %>
+        % last if $trending_counter == $trending_length;
         
     <% } %>
 
     <% if ($mode =~ m/article|event/i) { %>
+
+    <div class="block_see_more">
+        <a href="/search?type=<%= $mode %>&trending=true">See More &rarr;</a>
+    </div>
     
-        <div class="block_see_more"><a href="/search?type=<%= $mode %>&trending=true">See More &rarr;</a></div>
-    
+    <% } else { %>
+
+    <div class="content_gap"></div>
+
     <% } %>
     
 </div>

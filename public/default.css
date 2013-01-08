@@ -706,14 +706,6 @@ body {
     font-weight: bold;
 }
 
-#content_container .block_analytics {
-
-    /*color: #222;*/
-    font-family: Verdana;
-    font-size: 10px;
-    font-weight: normal;
-}
-
 #content_container .block_text {
     
     font-size: 10px;
@@ -731,6 +723,18 @@ body {
     text-align: right;
     color: white;
    
+}
+
+#content_container .block_read_more {
+
+    padding-top: 0px;
+    padding-bottom: 10px;
+    color: #1a3721;
+    text-align: left;
+    margin-left: 0px;
+    font-size: 10px;
+    font-weight: bolder;
+    font-family: Verdana;
 }
 
 #content_container .block_see_more_blank {
