@@ -67,12 +67,8 @@
 	    <% } else { %>
 
 	    <!-- Trending -->
-	    <script type="text/javascript">//<![CDATA[
-
 	    % $article->update({views => $article->views + 1});
 
-	    //]]></script>
-	    
 	    <a title="<%= $article->title %>" href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>

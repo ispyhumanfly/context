@@ -102,9 +102,17 @@ get '/play' => sub {
 
     # Galleries
     my @galleries =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%home%'}, types => {like => '%gallery%'}},
-        {page => 1, rows => 18, order_by => 'id DESC'})->all;
+      $MODEL->resultset('Content')->search(
+        {pages => {like => '%home%'},
+         types => {like => '%gallery%'},
+         create_datetime => {
+                -between => [
+                    $dtf->format_datetime(DateTime->now->subtract(days => 90)),
+                    $dtf->format_datetime(DateTime->now)
+                ]
+            }
+         },
+        {order_by => 'create_datetime DESC'})->all;
 
     $self->{'GALLERIES'} = \@galleries;
 
@@ -114,6 +122,7 @@ get '/play' => sub {
     push @trending, @articles;    
     push @trending, @events;
     push @trending, @upcoming_events;
+    push @trending, @galleries;
     
     $self->{'TRENDING'} = order_by_trending($self, @trending);
 
@@ -211,7 +220,7 @@ get '/play/events' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Upcoming Events
+    # Events
     my $dt_local;
 
     if ($self->param('start_datetime')) {
@@ -223,6 +232,8 @@ get '/play/events' => sub {
         $dt_local = DateTime->now;
     }
 
+    ## TODO: Change this over to @events and get rid of the @upcoming naming.
+    
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {   pages          => {like => '%play%'},
             types          => {like => '%event%'},

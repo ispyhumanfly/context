@@ -47,7 +47,7 @@
 		<!-- Trending -->
 		<script type="text/javascript">//<![CDATA[
 
-		%= $upcoming_events->update({clicks => $upcoming_events->clicks + 1});
+		% $upcoming_events->update({clicks => $upcoming_events->clicks + 1});
 		
 		//]]></script>
 	    
