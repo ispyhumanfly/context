@@ -33,14 +33,14 @@ plugin 'JSONConfig';
 any '/' => sub {
 
     my $self = shift;
-    return $self->redirect_to('play');
+    return $self->redirect_to('home');
 };
 
 ### After 5 Visitor Pages
 
-## Play
+## Home
 
-get '/play' => sub {
+get '/home' => sub {
 
     my $self = shift;
     
@@ -50,14 +50,14 @@ get '/play' => sub {
     my @ads =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
+        {pages => {like => '%home%'}, types => {like => '%ad_header%'}})->all;
 
     $self->{'ADS'} = \@ads;
 
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%home%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
@@ -126,9 +126,9 @@ get '/play' => sub {
     
     $self->{'TRENDING'} = order_by_trending($self, @trending);
 
-    return $self->render('play');
+    return $self->render('home');
 
-} => 'play';
+} => 'home';
 
 get '/play/articles' => sub {
 

@@ -10,7 +10,7 @@
 
     <div class="text">
 	
-	<% my $views = 0; %>
+	% my $views = 0;
 	
 	<% if (defined $content->views) { %>
 	
@@ -18,7 +18,7 @@
 	
 	<% } %>
 
-	<% my $clicks = 0; %>
+	% my $clicks = 0;
 	
 	<% if (defined $content->clicks) { %>
 	
@@ -44,31 +44,31 @@
 
     <% unless (($content->start_datetime eq '') or ($content->start_datetime =~ /^\s+$/)) { %>
 
-	<div class="title">Date</div>
-	
-	<% my $start_date = $content->start_datetime; %>
-	
-	<div class="text">
-	    <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
-	</div>
-	
-	<div class="title">Time</div>
-	
-	<div class="text">
-	    
-	    <%= $start_date->hour_12 %>:<%= sprintf '%02d', $start_date->minute %> <%= $start_date->am_or_pm %>
-	
-	    -
-	    
-	    <% unless (($content->stop_datetime eq '') or ($content->stop_datetime =~ /^\s+$/)) { %>
-	    
-	    <% my $stop_date = $content->stop_datetime; %>
+    <div class="title">Date</div>
     
-	    <%= $stop_date->hour_12 %>:<%= sprintf '%02d', $stop_date->minute %> <%= $stop_date->am_or_pm %>
+    <% my $start_date = $content->start_datetime; %>
     
-	    <% } %>
-	    
-	</div>
+    <div class="text">
+	<%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
+    </div>
+    
+    <div class="title">Time</div>
+    
+    <div class="text">
+	
+	<%= $start_date->hour_12 %>:<%= sprintf '%02d', $start_date->minute %> <%= $start_date->am_or_pm %>
+    
+	-
+	
+	<% unless (($content->stop_datetime eq '') or ($content->stop_datetime =~ /^\s+$/)) { %>
+	
+	<% my $stop_date = $content->stop_datetime; %>
+
+	<%= $stop_date->hour_12 %>:<%= sprintf '%02d', $stop_date->minute %> <%= $stop_date->am_or_pm %>
+
+	<% } %>
+	
+    </div>
     
     <% } %>
 
@@ -106,10 +106,6 @@
 	
 	<% } %>
 	
-    <% } %>
-    
-    <% if ($show eq 'few') { %>
-    
     <% } %>
         
 </div>

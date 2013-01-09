@@ -51,11 +51,11 @@
 	    <div id="navigation_container">
     
 		<ul>
-		    <li><a href="/play">Play</a></li>
 		    <li><a href="/play/events">Events</a></li>
 		    <li><a href="/play/photos">Photos</a></li>
-		    <li><a href="/live">Live</a></li>
-		    <li><a href="/work">Work</a></li>
+		    <li><a href="/play/articles">Articles</a></li>
+		    <li><a href="/search?tags=style">Style</a></li>
+		    <li><a href="/work">Jobs</a></li>
 		    <li><a href="/about">About</a></li>
     
 		    <% if ( $self->session('admin') ) { %>
@@ -115,15 +115,6 @@
 
 		<div style="margin-left: 25px;">
 		    <ul>
-			<li><a href="/play" style="font-weight: bold; font-size: large;">Play</a></li>
-			<li><a href="/play/articles">Articles</a></li>
-			<li><a href="/play/events">Events</a></li>
-			<li><a href="/play/photos">Photos</a></li>
-		    </ul>
-		</div>
-    
-		<div>
-		    <ul>
 			<li><a href="/live" style="font-weight: bold; font-size: large;">Live</a></li>
 			<li><a href="/live/birmingham">Birmingham</a></li>
 			<li><a href="/live/detroit">Detroit</a></li>
@@ -132,22 +123,35 @@
     
 		    </ul>
 		</div>
-    
+
 		<div>
 		    <ul>
 			<li><a href="/work" style="font-weight: bold; font-size: large;">Work</a></li>
 			<li style="white-space: nowrap;"><a href="/work?tags=job_listings">Job Listings</a></li>
 			<li style="white-space: nowrap;"><a href="/work?tags=career_tips">Career Tips</a></li>
+			<li style="white-space: nowrap;"><a href="/search?tags=networking">Networking</a></li>
+			<li style="white-space: nowrap;"><a href="/work?tags=professional_group">Professional Group</a></li>
 		    </ul>
 		</div>
-        
+
+		<div>
+		    <ul>
+			<li><a href="/play" style="font-weight: bold; font-size: large;">Play</a></li>
+			<li><a href="/play/events">Events</a></li>
+			<li><a href="/play/photos">Photos</a></li>
+			<li><a href="/play/articles">Articles</a></li>
+			<li><a href="/play/search?tags=style">Style</a></li>
+		    </ul>
+		</div>
+            
 		<div>
 		    <ul>
 			<li><a href="/about" style="font-weight: bold; font-size: large;">About</a></li>
 			<li><a href="/about/contact">Contact</a></li>
 			<li><a href="/about/newsletter">Newsletter</a></li>
+			<li><a href="<%= app->config->{facebook}->{link} %>" target="_blank">Facebook</a></li>
+			<li><a href="<%= app->config->{twitter}->{link} %>" target="_blank">Twitter</a></li>
 		    </ul>
-    
 		</div>
 		
 		<% if ( $self->session('admin') ) { %>
