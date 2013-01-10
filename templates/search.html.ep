@@ -37,7 +37,7 @@
         
             <% my $tags = $self->param('tags'); %>
             
-            <% next unless ($result->tags =~ m/$tags/i); %>
+            <% next unless ($result->tags =~ m/^$tags$/i); %>
             
         <% } %>
 
