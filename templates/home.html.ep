@@ -45,7 +45,7 @@
 	    </h2>
     
 	    <div id="content_body" class="right">
-		%== substr( HTML::FormatText->format_string($article->body), 0, 350 );
+		%== substr( HTML::FormatText->format_string($article->body), 0, 300 );
 	    </div>
 	    
 	    <div class="read_more_right_padded">
@@ -85,22 +85,20 @@
 		</h2>
 	    
 		<div class="content_column_text">
-		    
-		    <%== substr( HTML::FormatText->format_string($article->body), 0, 100 ); %>
-		    
+		    %== substr( HTML::FormatText->format_string($article->body), 0, 100 );
 		</div>
 	    
 		<div class="read_more_left">
     
 		    <% if ( $self->session('admin') ) { %>
 	
-		    <a href="/<%= $article->id %>">Read More</a>
+		    <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 		    |
 		    <a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 		
 		    <% } else { %>
 		
-		    <a href="/<%= $article->id %>">Read More</a>
+		    <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 		    
 		    <% } %>
     

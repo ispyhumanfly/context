@@ -64,9 +64,14 @@ get '/home' => sub {
 
     # Articles
     my @articles = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%article%'},
-            position => {-between => [1, 5]}
+        {   pages           => {like => '%play%'},
+            types           => {like => '%article%'},
+            create_datetime => {
+                -between => [
+                    $dtf->format_datetime(DateTime->now->subtract(days => 90)),
+                    $dtf->format_datetime(DateTime->now)
+                ]
+            }
         },
         {order_by => 'create_datetime DESC'}
     )->all;
