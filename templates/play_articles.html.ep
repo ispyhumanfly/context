@@ -75,7 +75,7 @@
 	    
 	    <% } %>
 	    
-	    <% last; #JUST SHOW ONE %>
+	    <% last; %>
 
         <% } %>
 
@@ -125,7 +125,7 @@
 
 	    </div>
 
-	    <div class="read_more_right">
+	    <div class="read_more_left">
     
 		<% if ( $self->session('admin') ) { %>
     

@@ -134,8 +134,14 @@
 		<% }; %>
 		
 	    </div>
-	
-	    <div class="read_more_right">
+    
+	</div>
+		
+	<div style="float: right; width: 160px;">
+	    
+	    %= include 'modules/content_details', content => $upcoming_events, size => 'small', show => 'few'
+
+	    <div class="read_more_left">
     
 		<% if ( $self->session('admin') ) { %>
     
@@ -149,12 +155,6 @@
 		<% } %>
     
 	    </div>
-    
-	</div>
-		
-	<div style="float: right; width: 160px;">
-	    
-	%= include 'modules/content_details', content => $upcoming_events, size => 'small', show => 'few'
 	    
 	</div>
 	

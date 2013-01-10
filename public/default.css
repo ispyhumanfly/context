@@ -601,9 +601,22 @@ body {
     padding-bottom: 10px;
     color: #1a3721;
     text-align: right;
-    font-size: small;
+    font-size: 0.7em;
     font-weight: bolder;
-    margin-right: 75px;
+    margin-right: 85px;
+}
+
+#content_container .read_more_right_padded {
+
+
+    font-family: Verdana;
+    padding-top: 0px;
+    padding-bottom: 10px;
+    color: #1a3721;
+    text-align: right;
+    font-size: 0.7em;
+    font-weight: bolder;
+    margin-right: 85px;
 }
 
 #content_container .read_more_left {
@@ -613,7 +626,7 @@ body {
     color: #1a3721;
     text-align: left;
     margin-left: 0px;
-    font-size: 10px;
+    font-size: 0.7em;
     font-weight: bolder;
     font-family: Verdana;
 }
@@ -624,7 +637,7 @@ body {
     padding-bottom: 10px;
     color: #1a3721;
     text-align: left;
-    font-size: small;
+    font-size: 0.7em;
     margin-left: 125px;
     font-weight: bold;
     font-family: Verdana;
@@ -658,9 +671,9 @@ body {
     border: 1px solid #1a3721; 
 }
 
-/* new play page stuff */
+/* new home page stuff */
 
-#content_container .play_events_thumb {
+#content_container .upcoming_events_thumb {
 
     float: right;
     width: 115px;
@@ -670,7 +683,7 @@ body {
     
 }
 
-#content_container .play_events_title {
+#content_container .upcoming_events_title {
 
     color: #222;
     font-family: Verdana;
@@ -679,11 +692,21 @@ body {
     
 }
 
-#content_container .play_events_text {
+#content_container .upcoming_events_text {
 
     font-size: 10px;
     padding-top: 6px;
     padding-bottom: 6px;
+   
+}
+
+#content_container .upcoming_events_date {
+
+    color: #222;
+    font-family: Verdana;
+    font-size: 0.5em;
+    font-weight: bold;
+    padding-bottom: 5px;
    
 }
 

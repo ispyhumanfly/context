@@ -10,16 +10,18 @@
 
 <div class="content_left">
 
-    % my $article_position = 1;
     % my $article_column_position = 1;
     % my @column_numbers = qw/zero one two three/;
     
+    % my $article_counter;
+    
     <% for my $article (@{$self->{ARTICLES}}) { %>
         
-	% next unless $article->position =~ m/$article_position/g;
+	% $article_counter++;
+	
 	% $article->update({views => $article->views + 1});
 	
-	<% if ($article_position == 1) { %>
+	<% if ($article_counter == 1) { %>
 	    
 	    <% for ( split /\s+/, $article->photos ) { %>
     
@@ -43,14 +45,15 @@
 	    </h2>
     
 	    <div id="content_body" class="right">
-		<%== substr( HTML::FormatText->format_string($article->body), 0, 350 ); %>
+		%== substr( HTML::FormatText->format_string($article->body), 0, 350 );
 	    </div>
-    
-	    <div class="read_more_right">
+	    
+	    <div class="read_more_right_padded">
 		
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %><%= $article->id %>">Read More |</a>
+		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %><%= $article->id %>">Read More</a>
+		|
 		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 	    
 		<% } else { %>
@@ -63,7 +66,7 @@
 
 	    <div id="content_container" class="content_gap"></div>
 	
-	<% } elsif ($article_position >= 2) { %>
+	<% } elsif ($article_counter >= 2) { %>
 
 	    <div id="content_column_<%= $column_numbers[$article_column_position] %>">
 	    	    
@@ -87,29 +90,29 @@
 		    
 		</div>
 	    
-		<div class="read_more_right">
+		<div class="read_more_left">
     
 		    <% if ( $self->session('admin') ) { %>
 	
-		    <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More |</a>
+		    <a href="/<%= $article->id %>">Read More</a>
+		    |
 		    <a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 		
 		    <% } else { %>
 		
-		    <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		    <a href="/<%= $article->id %>">Read More</a>
 		    
 		    <% } %>
-		    
+    
 		</div>
 		
 	    </div>
 
-	    <% $article_column_position++; %>
+	    % $article_column_position++;
 	
 	<% } %>
 	
-	<% last if $article_position == 4; %>
-	<% $article_position++; %>
+	% last if $article_counter == 4;
 	
     <% } %>
 
@@ -123,13 +126,13 @@
     
     <div style="background-color: #E6E2E3; padding: 15px 0px 5px 5px; width: 99.9%;">
 	    
-	%= include 'modules/events_calendar', mode => 'play'    
+	%= include 'modules/events_calendar', mode => 'home'    
 	
 	<div style="float: right; margin-left: 320px; margin-top: -189px;">
 	
 	    % my $upcoming_events_counter;
 	    
-	    <% for my $upcoming_event (@{$self->{UPCOMING_EVENTS}}) { %>
+	    <% for my $upcoming_event (@{$self->{EVENTS}}) { %>
 	
 		% next if $upcoming_event->tags =~ m/networking/i;
 		
@@ -146,22 +149,33 @@
 		<% for ( split /\s+/, $upcoming_event->photos ) { %>
 		
 		<a title="<%= $upcoming_event->title %>" href="/<%= $upcoming_event->id %>">
-		    <img class="play_events_thumb" src="<%= $_ %>"/>
+		    <img class="upcoming_events_thumb" src="<%= $_ %>"/>
 		</a>
 		
 		<% last; %>
 		
 		<% } %>
 		
-		<div class="play_events_title"><a href="/<%= $upcoming_event->id %>"><%= $upcoming_event->title %></a></div>
+		<div class="upcoming_events_title">
+		    <a href="/<%= $upcoming_event->id %>"><%= $upcoming_event->title %></a>
+		</div>
 		
-		<div class="play_events_text"><%== substr( HTML::FormatText->format_string($upcoming_event->body), 0, 75 ) %></div>
+		<div class="upcoming_events_text">
+		    %== substr( HTML::FormatText->format_string($upcoming_event->body), 0, 75 );
+		</div>
+		
+		% my $start_date = $upcoming_event->start_datetime;
+		
+		<div class="upcoming_events_date">
+		    <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
+		</div>
 		
 		<div class="read_more_left">
 
 		    <% if ( $self->session('admin') ) { %>
 	
-		    <a href="/<%= $upcoming_event->id %>">Read More |</a>
+		    <a href="/<%= $upcoming_event->id %>">Read More</a>
+		    |
 		    <a href="/editor?mode=update&id=<%= $upcoming_event->id %>">Edit</a>        
 		
 		    <% } else { %>
@@ -185,69 +199,67 @@
 
     <div class="content_gap"></div>
     
-    % my $event_position = 1;
     % my $event_column_position = 1;
     % my @event_column_numbers = qw/zero one two three/;
 
+    % my $event_counter;
+
     <% for my $event (@{$self->{EVENTS}}) { %>
     
-	% next unless $event->position =~ m/$event_position/g;
+	% $event_counter++;
+    	
+	% next unless $event_counter > $upcoming_events_length + 1;
+	
 	% $event->update({views => $event->views + 1});
+    
+	<div id="content_column_<%= $event_column_numbers[$event_column_position] %>">
+		
+	    <% for ( split /\s+/, $event->photos ) { %>
+    
+	    <a title="<%= $event->title %>" href="/<%= $event->id %>">
+		<img class="content_column_image" src="<%= $_ %>" />
+	    </a>
+    
+	    <% last; %>
+    
+	    <% } %>
 
-	<% if ($event_position >= 1) { %>
-    
-	    <div id="content_column_<%= $event_column_numbers[$event_column_position] %>">
-		    
-		<% for ( split /\s+/, $event->photos ) { %>
+	    <h2><a href="/<%= $event->id %>"><%= $event->title %></a></h2>
 	
-		<a title="<%= $event->title %>" href="/<%= $event->id %>">
-		    <img class="content_column_image" src="<%= $_ %>" />
-		</a>
-	
-		<% last; %>
-	
-		<% } %>
-    
-		<h2><a href="/<%= $event->id %>"><%= $event->title %></a></h2>
-	    
-		<div class="content_column_text">
-		    
-		    <%== substr( HTML::FormatText->format_string($event->body), 0, 100 ); %>
-		    
-		</div>
-    
-		<div style="float: left; width: 160px;">
-	    
-		%= include 'modules/content_details', content => $event, size => 'small', show => 'few'
-	    
-		</div>
+	    <div class="content_column_text">
 		
-		<br />
-		
-		<div class="read_more_right" style="float: left;">
-    
-		    <% if ( $self->session('admin') ) { %>
-	
-		    <a href="/<%= $event->id %>">Read More |</a>
-		    <a href="/editor?mode=update&id=<%= $event->id %>">Edit</a>        
-		
-		    <% } else { %>
-		
-		    <a href="/<%= $event->id %>">Read More</a>
-		    
-		    <% } %>
-    
-		</div>
-    
+		<%== substr( HTML::FormatText->format_string($event->body), 0, 100 ); %>
 		
 	    </div>
-    
-	    <% $event_column_position++; %>
+
+	    <div style="float: left; width: 160px;">
 	
-	<% } %>
+	    %= include 'modules/content_details', content => $event, size => 'small', show => 'few'
+	
+	    </div>
+	    
+	    <br />
+	    
+	    <div class="read_more_right" style="float: left;">
+
+		<% if ( $self->session('admin') ) { %>
     
-    % last if $event_position == 4;
-    % $event_position++;
+		<a href="/<%= $event->id %>">Read More</a>
+		|
+		<a href="/editor?mode=update&id=<%= $event->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $event->id %>">Read More</a>
+		
+		<% } %>
+
+	    </div>
+	    
+	</div>
+
+	% $event_column_position++;
+	% last if $event_counter == 6;
 	
     <% } %>
     
@@ -286,7 +298,9 @@
             
 	    <% if ($galleries->title ne '') { %>
 	    
-	    <div class="block_title"><a href="/play/photos?id=<%= $galleries->id %>"><%= $galleries->title %></a></div>
+	    <div class="block_title">
+		<a href="/play/photos?id=<%= $galleries->id %>"><%= $galleries->title %></a>
+	    </div>
 	    
 	    <% } %>
 	    
@@ -294,7 +308,7 @@
 		
 	    <% if ($galleries->body ne '') { %>
 	    
-            <%== substr( HTML::FormatText->format_string($galleries->body), 0, 75 )  %>
+            %== substr( HTML::FormatText->format_string($galleries->body), 0, 75 );
             
 	    <% } %>
 	    
@@ -304,7 +318,8 @@
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/play/photos?id=<%= $galleries->id %>">Read More |</a>
+                <a href="/play/photos?id=<%= $galleries->id %>">Read More</a>
+		|
                 <a href="/editor?mode=update&id=<%= $galleries->id %>">Edit</a>        
             
                 <% } else { %>
@@ -315,7 +330,7 @@
 
             </div>
             
-	    <% last if $galleries_counter == $galleries_length; %>
+	    % last if $galleries_counter == $galleries_length;
 	    
             <hr />
         

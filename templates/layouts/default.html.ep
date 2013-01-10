@@ -140,7 +140,7 @@
 			<li><a href="/play/events">Events</a></li>
 			<li><a href="/play/photos">Photos</a></li>
 			<li><a href="/play/articles">Articles</a></li>
-			<li><a href="/play/search?tags=style">Style</a></li>
+			<li><a href="/search?tags=style">Style</a></li>
 		    </ul>
 		</div>
             

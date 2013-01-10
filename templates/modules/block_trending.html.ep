@@ -31,14 +31,15 @@
         </div>
         
         <div class="block_text">
-            <%== substr( HTML::FormatText->format_string($trending->body), 0, 75 ) %>
+            %== substr( HTML::FormatText->format_string($trending->body), 0, 70 );
         </div>
         
-        <div class="block_read_more">
+        <div class="read_more_left">
 
             <% if ( $self->session('admin') ) { %>
 
-            <a href="/<%= $trending->id %>">Read More |</a>
+            <a href="/<%= $trending->id %>">Read More</a>
+            |
             <a href="/editor?mode=update&id=<%= $trending->id %>">Edit</a>        
         
             <% } else { %>

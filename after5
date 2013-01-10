@@ -73,8 +73,8 @@ get '/home' => sub {
 
     $self->{'ARTICLES'} = \@articles;
 
-    # Upcoming Events
-    my @upcoming_events = $MODEL->resultset('Content')->search(
+    # Events
+    my @events = $MODEL->resultset('Content')->search(
         {   pages          => {like => '%play%'},
             types          => {like => '%event%'},
             start_datetime => {
@@ -83,17 +83,6 @@ get '/home' => sub {
                     $dtf->format_datetime(DateTime->now->add(days => 30))
                 ]
             }
-        },
-        {order_by => 'start_datetime ASC'}
-    )->all;
-
-    $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
-
-    # Events
-    my @events = $MODEL->resultset('Content')->search(
-        {   pages => {like => '%play%'},
-            types => {like => '%event%'},
-            position => {-between => [1, 5]}
         },
         {order_by => 'start_datetime ASC'}
     )->all;
@@ -119,9 +108,8 @@ get '/home' => sub {
     # Trending
     my @trending;
 
-    push @trending, @articles;    
+    push @trending, @articles;
     push @trending, @events;
-    push @trending, @upcoming_events;
     push @trending, @galleries;
     
     $self->{'TRENDING'} = order_by_trending($self, @trending);
@@ -129,6 +117,14 @@ get '/home' => sub {
     return $self->render('home');
 
 } => 'home';
+
+## Play
+
+get '/play' => sub {
+
+    my $self = shift;
+    return $self->redirect_to('play_events');
+};
 
 get '/play/articles' => sub {
 
@@ -1820,8 +1816,6 @@ sub order_by_trending {
     my ($self, @query) = @_;
     my (%working, @results);
 
-    say $_->title for @query;
-    
     for (@query) {
 
         if (defined $_->views and defined $_->clicks) {
