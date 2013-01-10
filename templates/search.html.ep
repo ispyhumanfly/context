@@ -7,13 +7,13 @@
     
     <% for my $result (@{$self->{SEARCH_RESULTS}}) { %>
     
-	% next if $result->pages =~ m/none/i;
+	% next if $result->pages =~ m/\bnone\b/i;
         
         <% if ($self->param('pages')) { %>
         
             <% my $pages = $self->param('pages'); %>
             
-            <% next unless ($result->pages =~ m/$pages/i); %>
+            <% next unless ($result->pages =~ m/\b$pages\b/i); %>
         
         <% } %>
         
@@ -21,7 +21,7 @@
         
             <% my $cities = $self->param('cities'); %>
             
-            <% next unless ($result->cities =~ m/$cities/i); %>
+            <% next unless ($result->cities =~ m/\b$cities\b/i); %>
         
         <% } %>
 
@@ -29,7 +29,7 @@
         
             <% my $interests = $self->param('interests'); %>
             
-            <% next unless ($result->interests =~ m/$interests/i); %>
+            <% next unless ($result->interests =~ m/\b$interests\b/i); %>
             
         <% } %>
 
@@ -37,7 +37,7 @@
         
             <% my $tags = $self->param('tags'); %>
             
-            <% next unless ($result->tags =~ m/^$tags$/i); %>
+            <% next unless ($result->tags =~ m/\b$tags\b/i); %>
             
         <% } %>
 
@@ -45,9 +45,9 @@
         
             <% my $types = $self->param('types'); %>
             
-            <% next unless ($result->types =~ m/$types/i); %>
+            <% next unless ($result->types =~ m/\b$types\b/i); %>
         
-            <% if (($types =~ m/event/i) and ($self->param('start_date'))) { %>
+            <% if (($types =~ m/\bevent\b/i) and ($self->param('start_date'))) { %>
 
                 <% if (defined $result->stop_datetime) { %>
                 
@@ -57,7 +57,7 @@
                 
                 <% } %>
                 
-            <% } elsif ($types =~ m/event/i) { %>
+            <% } elsif ($types =~ m/\bevent\b/i) { %>
 
                 <% if (defined $result->stop_datetime) { %>
                 
@@ -79,8 +79,10 @@
 
         <% } %>
 
-        <% $result_counter++; %>
+        % $result_counter++;
         
+	% $result->update({views => $result->views + 1});
+	
         <% if ($result_counter == 1) { %>
         
         <h1>Search Results</h1>
@@ -90,13 +92,6 @@
 	<hr />
 	
 	<% } %>
-
-        <!-- Analytics -->
-        <script type="text/javascript">//<![CDATA[
-
-        Views.push(<%= $result->id; %>);
-
-        //]]></script>
 
         <% for ( split /\s+/, $result->photos ) { %>
 
