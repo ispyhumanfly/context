@@ -2,8 +2,8 @@
 
 BEGIN {
 
-    system 'sqlite3 after5beta.db < after5.sql'
-      unless -e 'after5beta.db';
+    system 'sqlite3 after5.db < after5.sql'
+      unless -e 'after5.db';
 }
 
 use Modern::Perl;
@@ -22,7 +22,7 @@ use Encode;
 use lib 'lib';
 use After5::Model;
 
-our $MODEL = After5::Model->connect('dbi:SQLite:after5beta.db');
+our $MODEL = After5::Model->connect('dbi:SQLite:after5.db');
 
 use Mojolicious::Lite;
 use Mojo::Util;
