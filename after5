@@ -2,8 +2,8 @@
 
 BEGIN {
 
-    system 'sqlite3 after5.db < after5.sql'
-      unless -e 'after5.db';
+    system 'sqlite3 after5beta.db < after5.sql'
+      unless -e 'after5beta.db';
 }
 
 use Modern::Perl;
@@ -22,7 +22,7 @@ use Encode;
 use lib 'lib';
 use After5::Model;
 
-our $MODEL = After5::Model->connect('dbi:SQLite:after5.db');
+our $MODEL = After5::Model->connect('dbi:SQLite:after5beta.db');
 
 use Mojolicious::Lite;
 use Mojo::Util;
@@ -1203,7 +1203,7 @@ post '/api/content/create' => sub {
 
     my $text =
 
-      'After 5 content successfully created.'
+      "app->config->{title} content successfully created."
       . "<a href='/$id'>Click here to view the Permalink page.</a>";
 
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
@@ -1216,9 +1216,11 @@ post '/api/content/update' => sub {
     return $self->redirect_to('home') unless $self->session('admin');
 
     my (@tags, @cities, @types, @interests, @pages, @photos);
+    
+    my $id = $self->param('id');
 
     my $content =
-      $MODEL->resultset('Content')->search({id => $self->param('id')})
+      $MODEL->resultset('Content')->search({id => $id})
       ->single;
 
     if (($self->param('start_date')) and ($self->param('start_time'))) {
@@ -1280,7 +1282,7 @@ post '/api/content/update' => sub {
 
         push @cities, $_ for $self->param('cities');
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
+        $MODEL->resultset('Content')->search({id => $id})
           ->update({cities => "@cities"});
     }
 
@@ -1288,13 +1290,13 @@ post '/api/content/update' => sub {
 
         my $position = int($self->param('position'));
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
+        $MODEL->resultset('Content')->search({id => $id})
           ->update({position => $position});
     }
 
     if ($self->param('link')) {
 
-        $MODEL->resultset('Content')->search({id => $self->param('id')})
+        $MODEL->resultset('Content')->search({id => $id})
           ->update({link => $self->param('link')});
     }
 
@@ -1304,7 +1306,7 @@ post '/api/content/update' => sub {
 
         for (@results) {
 
-            $MODEL->resultset('Content')->search({id => $self->param('id')})
+            $MODEL->resultset('Content')->search({id => $id})
               ->update(
                 {   address => $_->streetAddress . ', ' . $_->city,
                     lat     => $_->lat,
@@ -1338,22 +1340,16 @@ post '/api/content/update' => sub {
     if ($self->req->upload('photos')) {
 
         push @photos,
-          process_photo($self->req->upload('photos'), $self->param('id'));
+          process_photo($self->req->upload('photos'), $id);
 
         $content->update({photos => "@photos"})
           if scalar @photos >= 1;
     }
 
-    $MODEL->resultset('Content')->search({id => $self->param('id')})
-      ->update({modified_datetime => DateTime->now});
-
-    my $id = $self->param('id');
-
-    my $text =
-
-      'Content updated. '
-      . "<a href='/$id'>You can click here to view the Permalink page.</a>";
-
+    $content->update({modified_datetime => DateTime->now});
+    
+    my $text = 'Content updated!';
+    
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 
 };
@@ -1374,7 +1370,7 @@ any '/api/content/remove' => sub {
 
     $content->delete;
 
-    my $text = 'After 5 content successfully removed.';
+    my $text = "Content removed!";
     return $self->redirect_to("/dashboard?message=$text");
 
 };
@@ -1392,13 +1388,14 @@ post '/api/contact/message' => sub {
     {
 
         my $domain = app->config->{domain};
+        my $title = app->config->{title};
 
         my @results = google_local($self->param('city_state_zip'));
 
         for (@results) {
 
             my $message =
-                "\n\nContact Message from After 5...\n\n\tName: "
+                "\n\nContact Message from $title...\n\n\tName: "
               . $self->param('name')
               . "\n\n\tEmail: "
               . $self->param('email')
@@ -1419,8 +1416,6 @@ post '/api/contact/message' => sub {
             );
 
             sendmail(%mail) or die $Mail::Sendmail::error;
-
-            print "OK. Log says:\n", $Mail::Sendmail::log;
 
             my $text = 'Message successfully sent!';
             return $self->redirect_to("/about/contact?message=$text");
@@ -1447,13 +1442,14 @@ post '/api/newsletter/message' => sub {
     {
 
         my $domain = app->config->{domain};
+        my $title = app->config->{title};
 
         my @results = google_local($self->param('city_state_zip'));
 
         for (@results) {
 
             my $message =
-                "\n\nNewsletter Sign-Up from After 5...\n\n\tName: "
+                "\n\nNewsletter Sign-Up from $title...\n\n\tName: "
               . $self->param('name')
               . "\n\n\tAge: "
               . $self->param('age')
@@ -1474,8 +1470,6 @@ post '/api/newsletter/message' => sub {
             );
 
             sendmail(%mail) or die $Mail::Sendmail::error;
-
-            print "OK. Log says:\n", $Mail::Sendmail::log;
 
             my $text = 'Message successfully sent!';
             return $self->redirect_to("/about/newsletter?message=$text");

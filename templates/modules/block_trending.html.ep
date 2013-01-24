@@ -31,7 +31,7 @@
         </div>
         
         <div class="block_text">
-            %== substr( HTML::FormatText->format_string($trending->body), 0, 70 );
+            %== substr( HTML::FormatText->format_string($trending->body), 0, 72 );
         </div>
         
         <div class="read_more_left">
