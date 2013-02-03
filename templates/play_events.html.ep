@@ -44,35 +44,18 @@
 
 	    <% if ($upcoming_events_counter == 1) { %>
 	    
-		<!-- Trending -->
-		<script type="text/javascript">//<![CDATA[
-
 		% $upcoming_events->update({clicks => $upcoming_events->clicks + 1});
+
+		<img class="para_image_right" title="<%= $upcoming_events->title %>" src="<%= $_ %>" onClick="contentPhotos.show();"/>
 		
-		//]]></script>
-	    
-		<img class="para_image_right" title="<%= $upcoming_events->title %>" src="<%= $_ %>" />
-		
-	    	<% unless (scalar (split /\s+/, $upcoming_events->photos) <= 1 ) { %>
-	
-		<div class="content_thumbnails_right">
-		    
-		    <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-		    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $upcoming_events->id %>"></div>
-	
-		</div>
-	
-		<% } %>
+		%= include 'modules/content_photos', content => $upcoming_events
+
+		%= include 'modules/social_media', mode => 'share_this', content => $upcoming_events
 
 	    <% } else { %>
 
-	    <!-- Trending -->
-	    <script type="text/javascript">//<![CDATA[
-
 	    % $upcoming_events->update({views => $upcoming_events->views + 1});
 
-	    //]]></script>
-	    
 	    <a title="<%= $upcoming_events->title %>" href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
@@ -104,9 +87,7 @@
 	    <div id="content_body"><%== $upcoming_events->body %></div>
 	
 	    %= include 'modules/content_details', content => $upcoming_events, size => 'large', show => 'all'
-    
-	    %= include 'modules/social_media', mode => 'content', content => $upcoming_events
-		
+    		
 	    <h3>
 		
 		<% if ($self->session('admin')) { %>

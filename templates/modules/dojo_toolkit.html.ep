@@ -17,6 +17,10 @@
     dojo.require("dojox.form.DropDownSelect");
 
     dojo.require("dijit.Menu");
+    dojo.require("dijit.Dialog");
+    
+    dojo.require("dijit.layout.StackContainer");
+    dojo.require("dijit.layout.ContentPane");
 
     dojo.require('dojox.image.Gallery');
     dojo.require("dojox.image.SlideShow");    

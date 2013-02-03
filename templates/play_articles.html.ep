@@ -10,7 +10,7 @@
 //]]></script>
 
 <div class="content_left">
-
+    
     <h1>Articles</h1>
 
     <% my $article_counter; %>
@@ -44,29 +44,16 @@
 
 	    <% if ($article_counter == 1) { %>
 	    
-		<!-- Trending -->
-		<script type="text/javascript">//<![CDATA[
-
 		% $article->update({clicks => $article->clicks + 1});
 
-		//]]></script>
-	    
-		<img class="para_image_right" title="<%= $article->title %>" src="<%= $_ %>" />
+		<img class="para_image_right" title="<%= $article->title %>" src="<%= $_ %>" onClick="contentPhotos.show();"/>
 		
-	    	<% unless (scalar (split /\s+/, $article->photos) <= 1 ) { %>
-	
-		<div class="content_thumbnails_right">
-		    
-		    <div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-		    <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $article->id %>"></div>
-	
-		</div>
-	
-		<% } %>
+		%= include 'modules/content_photos', content => $article
+
+		%= include 'modules/social_media', mode => 'share_this', content => $article
 
 	    <% } else { %>
 
-	    <!-- Trending -->
 	    % $article->update({views => $article->views + 1});
 
 	    <a title="<%= $article->title %>" href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
@@ -100,9 +87,7 @@
 	    <div id="content_body"><%== $article->body %></div>
 	
 	    %= include 'modules/content_details', content => $article, size => 'large', show => 'all'
-    
-	    %= include 'modules/social_media', mode => 'content', content => $article
-		
+	    
 	    <h3>
 		
 		<% if ($self->session('admin')) { %>

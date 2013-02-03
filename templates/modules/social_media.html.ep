@@ -3,6 +3,8 @@
 
 <div id="fb-root"></div>
 
+<!-- Facebook API -->
+
 <script type="text/javascript">//<![CDATA[
 
     window.fbAsyncInit = function() {
@@ -27,6 +29,12 @@
      }(document));
   
 //]]></script>
+
+<!-- Share This! -->
+
+<script type="text/javascript">var switchTo5x=true;</script>
+<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+<script type="text/javascript">stLight.options({publisher: "094f9b3e-6c2e-4a55-9656-27e04d5b7cc7", doNotHash: true, doNotCopy: false, hashAddressBar: true});</script>
 
 <% } %>
 
@@ -65,7 +73,6 @@
         <meta property="og:url" content="http://<%= app->config->{facebook}->{domain} %>/<%= $content->id; %>" />
         <meta property="og:image" content="http://<%= app->config->{facebook}->{domain} %><%= $image; %>" />
         <meta property="og:site_name" content="<%= app->config->{title} %>" />
-        <meta property="fb:admins" content="1085211548" />
         
     <% } %>
 
@@ -89,4 +96,15 @@
         
     </div>
     
+<% } %>
+
+<% if ($mode eq 'share_this') { %>
+
+    <span class='st_facebook_large' displayText='Facebook'></span>
+    <span class='st_twitter_large' displayText='Tweet'></span>
+    <span class='st_googleplus_large' displayText='Google +'></span>
+    <span class='st_linkedin_large' displayText='LinkedIn'></span>
+    <span class='st_evernote_large' displayText='Evernote'></span>
+    <span class='st_email_large' displayText='Email'></span>
+
 <% } %>

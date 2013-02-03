@@ -1,7 +1,7 @@
 % title 'Play';
 % layout 'default';
 %
-% my $more_galleries_length = 3;
+% my $more_galleries_length = 5;
 
 <script type="text/javascript">//<![CDATA[   
 
@@ -9,7 +9,7 @@
 //]]></script>
 
 <div class="content_left">
-
+	
     <% for my $galleries (@{$self->{GALLERIES}}) { %>
 
 	<% if ($self->param('id')) { %>
@@ -18,42 +18,38 @@
 
 	<% } %>
 
-        <!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
-
-	Clicks.push(<%= $galleries->id; %>);
-
-	//]]></script>
+	% $galleries->update({clicks => $galleries->clicks + 1});
             
         <h1><%== $galleries->title %></h1>
+	
+	<div class="content_none">
 
-        <div id="gallery_container">
-   
-            <div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $galleries->id %>"></div>
-            <div id="gallery" data-dojo-type="dojox.image.Gallery" data-dojo-props="imageWidth:650, imageHeight:500, pageSize:7, autoLoad:true"></div>
-            
-        </div>
-
-        <span class="social_sharing_center">
-
-            <a href="http://www.facebook.com/sharer.php?u=http://after5detroit.com/<%= $galleries->id %>&t=<%= $galleries->title %>" target="_blank">
-                <img src="/share/Facebook.png" alt="Facebook"/>
-            </a>
+	    <% for (split /\s+/, $galleries->photos) { %>
+    
+	    % my $tag = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+	    
+	    <img style="cursor: pointer; width: 195px; height: auto; border: 1px solid #1a3721;" src="<%= $_ %>" onClick="contentPhotos_<%= $tag %>.show();"/>
+	    
+	    <div dojoType="dijit.Dialog" data-dojo-id="contentPhotos_<%= $tag %>" title="<%= $galleries->title %>">
+    
+		<div style="width: 700px; height: 400px;">
+		    
+		    <img style="width: auto; height: 350px; border: 1px solid #1a3721;" src="<%= $_ %>" />
+			    
+		    <div style="margin-top: 10px;">
+		    
+		    %= include 'modules/social_media', mode => 'share_this', content => $galleries
+    
+		    </div>
+		</div>
+	    </div>
+	    
+	    <% } %>
+	    <div class="content_gap"></div>
+	    %= include 'modules/social_media', mode => 'share_this', content => $galleries
         
-            <a href="http://www.twitter.com/home?status=<%= $galleries->title %>,+http://after5detroit.com/<%= $galleries->id %>" target="_blank">
-                <img src="/share/Twitter.png" alt="Twitter"/>
-            </a>
-        
-            <a href="http://www.digg.com/submit?phase=2&url=http://after5detroit.com/<%= $galleries->id %>" target="_blank">
-                <img src="/share/Digg.png" alt="Digg"/>
-            </a>
-        
-            <a href="http://www.stumbleupon.com/submit/?url=http://after5detroit.com/<%= $galleries->id %>" target="_blank">
-                <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
-            </a>
-            
-        </span>
-        
+	</div>
+	
         <h3>
             
             <% if ($self->session('admin')) { %>
@@ -102,12 +98,83 @@
 	<% last unless $self->param('id'); %>
 
     <% } %>
-        
+
+    <h1>Trending</h1>
+
+    % my $event_column_position = 1;
+    % my @event_column_numbers = qw/zero one two three/;
+    % my $max_trending = 3;
+
+    % my $event_counter;
+
+    <% for my $event (@{$self->{TRENDING}}) { %>
+    
+	% $event_counter++;
+    	
+	% next unless $event_counter > $max_trending;
+	
+	% $event->update({views => $event->views + 1});
+    
+	<div id="content_column_<%= $event_column_numbers[$event_column_position] %>">
+		
+	    <% for ( split /\s+/, $event->photos ) { %>
+    
+	    <a title="<%= $event->title %>" href="/<%= $event->id %>">
+		<img class="content_column_image" src="<%= $_ %>" />
+	    </a>
+    
+	    <% last; %>
+    
+	    <% } %>
+
+	    <h2><a href="/<%= $event->id %>"><%= $event->title %></a></h2>
+	
+	    <div class="content_column_text">
+		
+		<%== substr( HTML::FormatText->format_string($event->body), 0, 100 ); %>
+		
+	    </div>
+
+	    <div style="float: left; width: 160px;">
+	
+	    %= include 'modules/content_details', content => $event, size => 'small', show => 'few'
+	
+	    </div>
+	    
+	    <br />
+	    
+	    <div class="read_more_right" style="float: left;">
+
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/<%= $event->id %>">Read More</a>
+		|
+		<a href="/editor?mode=update&id=<%= $event->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $event->id %>">Read More</a>
+		
+		<% } %>
+
+	    </div>
+	    
+	</div>
+
+	% $event_column_position++;
+	% last if $event_counter == 6;
+	
+    <% } %>
+    
+    <h3>
+	<a href="/search?types=gallery&trending=true">More Trending &rarr;</a>
+    </h3>
+
 </div>
 
 <div class="content_right">
 
-    <h1>More Galleries</h1>
+    <h1>More Photos</h1>
 
     <div class="content_right_padding">
     
@@ -131,13 +198,8 @@
             
             <% } %>
     
-            <!-- Analytics -->
-	    <script type="text/javascript">//<![CDATA[
+            % $more_galleries->update({views => $more_galleries->views + 1});
 
-	    Views.push(<%= $more_galleries->id; %>);
-
-	    //]]></script>
-            
             <% for ( split /\s+/, $more_galleries->photos ) { %>
             
             <a title="<%= $more_galleries->title %>" href="/play/photos?id=<%= $more_galleries->id %>">
