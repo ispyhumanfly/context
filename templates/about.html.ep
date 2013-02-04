@@ -149,5 +149,9 @@
         %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
     
     </div>
+
+    <h1>Connect</h1>
     
+    %= include 'modules/social_media', mode => 'block', content => 'none'
+ 
 </div>

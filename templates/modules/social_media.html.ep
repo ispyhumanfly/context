@@ -39,19 +39,24 @@
 <% } %>
 
 <% if ($mode eq 'block') { %>
+  
+        <div style="padding: 0 10px 10px 10px;">
     
-    <div style="clear: right; float: right; margin-top: 20px; width: 30%; text-align: center; border-right: 25px solid white;">
+            <a href="<%= app->config->{twitter}->{link} %>" class="twitter-follow-button" data-align="left" data-width="250px" data-show-count="true" data-lang="en"></a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+            
+            <fb:like
+                
+                href="<%= app->config->{facebook}->{link} %>"
+                send="false"
+                width="250"
+                show_faces="true"
+                font="verdana">
+                
+            </fb:like>
+            
+        </div>
         
-        <a style="position: relative; top: 15px;" href="<%= app->config->{twitter}->{link} %>" class="twitter-follow-button" data-align="right" data-width="235px" data-show-count="true" data-lang="en"></a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-
-        <br />
-        <br />
-        
-        <fb:like href="<%= app->config->{facebook}->{link} %>" send="true" width="200" show_faces="false" font="verdana"></fb:like>
-        
-    </div>
-
 <% } %>
 
 <% if ($mode eq 'metatags') { %>
@@ -99,6 +104,17 @@
 <% } %>
 
 <% if ($mode eq 'share_this') { %>
+
+    <span class='st_facebook_large' displayText='Facebook'></span>
+    <span class='st_twitter_large' displayText='Tweet'></span>
+    <span class='st_googleplus_large' displayText='Google +'></span>
+    <span class='st_linkedin_large' displayText='LinkedIn'></span>
+    <span class='st_evernote_large' displayText='Evernote'></span>
+    <span class='st_email_large' displayText='Email'></span>
+
+<% } %>
+
+<% if ($mode eq 'share_this_static') { %>
 
     <span class='st_facebook_large' displayText='Facebook'></span>
     <span class='st_twitter_large' displayText='Tweet'></span>

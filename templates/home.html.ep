@@ -45,10 +45,10 @@
 	    </h2>
     
 	    <div id="content_body" class="right">
-		%== substr( HTML::FormatText->format_string($article->body), 0, 300 );
+		%== substr( HTML::FormatText->format_string($article->body), 0, 250 );
 	    </div>
 	    
-	    <div class="read_more_right_padded">
+	    <div class="read_more_left" style="margin-left: 387px;">
 		
 		<% if ( $self->session('admin') ) { %>
     
@@ -132,7 +132,7 @@
 	    
 	    <% for my $upcoming_event (@{$self->{EVENTS}}) { %>
 	
-		% next if $upcoming_event->tags =~ m/networking/i;
+		% next if $upcoming_event->tags =~ m/\bnetworking/i;
 		
 		% $upcoming_events_counter++;
 		
@@ -349,5 +349,9 @@
     <h1>Search After 5</h1>
 
     %= include 'modules/block_search_places'
+
+    <h1>Connect</h1>
+    
+    %= include 'modules/social_media', mode => 'block', content => 'none'
 
 </div>

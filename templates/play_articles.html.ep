@@ -50,8 +50,6 @@
 		
 		%= include 'modules/content_photos', content => $article
 
-		%= include 'modules/social_media', mode => 'share_this', content => $article
-
 	    <% } else { %>
 
 	    % $article->update({views => $article->views + 1});
@@ -88,6 +86,8 @@
 	
 	    %= include 'modules/content_details', content => $article, size => 'large', show => 'all'
 	    
+	    %= include 'modules/social_media', mode => 'share_this', content => $article
+
 	    <h3>
 		
 		<% if ($self->session('admin')) { %>
@@ -173,6 +173,11 @@
     <h1>Search After 5</h1>
 	
     %= include 'modules/block_search_places'
+
+    <h1>Connect</h1>
+    
+    %= include 'modules/social_media', mode => 'block', content => 'none'
+
 
 </div>
 

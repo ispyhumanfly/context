@@ -31,7 +31,13 @@
 
 <div class="content_work_center">
     
-    <h1>Get Involved</h1>
+    %== '<h1>Professional Groups</h1>' if $tags eq 'professional_group';
+    %== '<h1>Social</h1>' if $tags eq 'social';
+    %== '<h1>Board Openings</h1>' if $tags eq 'board_openings';
+    %== '<h1>Volunteer</h1>' if $tags eq 'volunteer';
+    %== '<h1>Resources</h1>' if $tags eq 'resources';
+    %== '<h1>Job Listings</h1>' if $tags eq 'job_listings';
+    %== '<h1>Career Tips</h1>' if $tags eq 'career_tips';
 
     <% my $professional_development_counter; %>
     
@@ -54,15 +60,8 @@
         
         <% } %>
         
-        <!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
-
-	Views.push(<%= $professional_development->id; %>);
-
-	//]]></script>
-        
-        <div onclick="update_clicks(<%= $professional_development->id; %>);">
-               
+        % $professional_development->update({views => $professional_development->views + 1});
+                       
             <% for ( split /\s+/, $professional_development->photos ) { %>
 
             <% if ($self->param('tags') eq 'career_tips') { %>
@@ -143,8 +142,6 @@
                 <% } %>
     
             </div>
-        
-        </div>
         
         <% last if $professional_development_counter == $professional_development_length; %>
         
@@ -264,5 +261,9 @@
     </div>
     
     %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
+    <h1>Connect</h1>
+    
+    %= include 'modules/social_media', mode => 'block', content => 'none'
 
 </div>

@@ -85,7 +85,7 @@ get '/home' => sub {
             start_datetime => {
                 -between => [
                     $dtf->format_datetime(DateTime->now),
-                    $dtf->format_datetime(DateTime->now->add(days => 30))
+                    $dtf->format_datetime(DateTime->now->add(days => 90))
                 ]
             }
         },
@@ -204,6 +204,7 @@ get '/play/events' => sub {
     my $self = shift;
 
     my $dtf = $MODEL->storage->datetime_parser;
+    my $dt_local;
 
     # Ads
     my @ads =
@@ -222,8 +223,6 @@ get '/play/events' => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Events
-    my $dt_local;
-
     if ($self->param('start_datetime')) {
 
         $dt_local =
@@ -627,6 +626,9 @@ get '/work' => sub {
 
     return $self->redirect_to('/work?tags=job_listings')
       unless $self->param('tags');
+      
+    my $dtf = $MODEL->storage->datetime_parser;
+    my $dt_local = DateTime->now;
 
     my (@ads, @ads_block);
 
@@ -688,10 +690,16 @@ get '/work' => sub {
         $self->{'WORK'} = \@work;
     }
 
-    # Networking
     my @networking = $MODEL->resultset('Content')->search(
-        {   types => {like => '%event%'},
-            tags  => {like => '%networking%'}
+        {   pages          => {like => '%work%'},
+            types          => {like => '%event%'},
+            tags           => {like => '%networking%'},
+            start_datetime => {
+                -between => [
+                    $dtf->format_datetime($dt_local),
+                    $dtf->format_datetime($dt_local->add(days => 90))
+                ]
+            }
         },
         {order_by => 'start_datetime ASC'}
     )->all;

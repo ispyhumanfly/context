@@ -108,24 +108,15 @@
                 </div>
         </form>
         
-        <span class="social_sharing_right">
+        <span class="social_sharing_center">
         
-            <a href="http://www.facebook.com/sharer.php?u=http://beta.after5detroit.com/about/contact&t=<%= 'Contact After5' %>" target="_blank">
-                <img src="/share/Facebook.png" alt="Facebook"/>
-            </a>
-        
-            <a href="http://www.twitter.com/home?status=<%= 'Contact After5' %>,+http://beta.after5detroit.com/about/contact" target="_blank">
-                <img src="/share/Twitter.png" alt="Twitter"/>
-            </a>
-        
-            <a href="http://www.digg.com/submit?phase=2&url=http://beta.after5detroit.com/about/contact" target="_blank">
-                <img src="/share/Digg.png" alt="Digg"/>
-            </a>
-        
-            <a href="http://www.stumbleupon.com/submit/?url=http://beta.after5detroit.com/about/contact" target="_blank">
-                <img src="/share/StumbleUpon.png" alt="Stumble Upon"/>
-            </a>
-            
+            <span class='st_facebook_large' displayText='Facebook'></span>
+            <span class='st_twitter_large' displayText='Tweet'></span>
+            <span class='st_googleplus_large' displayText='Google +'></span>
+            <span class='st_linkedin_large' displayText='LinkedIn'></span>
+            <span class='st_evernote_large' displayText='Evernote'></span>
+            <span class='st_email_large' displayText='Email'></span>
+    
         </span>
 
     </div>
@@ -164,5 +155,9 @@
         %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
     
     </div>
+
+    <h1>Connect</h1>
     
+    %= include 'modules/social_media', mode => 'block', content => 'none'
+
 </div>

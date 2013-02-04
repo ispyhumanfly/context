@@ -16,7 +16,9 @@
     <% my $upcoming_events_counter; %>
     
     <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
-	    
+	
+	% next if $upcoming_events->tags =~ m/networking/;
+	
         <% $upcoming_events_counter++; %>
 
 	<% if (($upcoming_events_counter == 1) and ($self->param('start_datetime')) and ($self->param('id'))) { %>
@@ -49,8 +51,6 @@
 		<img class="para_image_right" title="<%= $upcoming_events->title %>" src="<%= $_ %>" onClick="contentPhotos.show();"/>
 		
 		%= include 'modules/content_photos', content => $upcoming_events
-
-		%= include 'modules/social_media', mode => 'share_this', content => $upcoming_events
 
 	    <% } else { %>
 
@@ -87,7 +87,9 @@
 	    <div id="content_body"><%== $upcoming_events->body %></div>
 	
 	    %= include 'modules/content_details', content => $upcoming_events, size => 'large', show => 'all'
-    		
+    	    
+	    %= include 'modules/social_media', mode => 'share_this', content => $upcoming_events
+
 	    <h3>
 		
 		<% if ($self->session('admin')) { %>
@@ -178,21 +180,27 @@
 
 <div class="content_right">
 
-    <h1>Trending</h1>
-    
-    %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'event', length => 5
-
-    %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
-    
     <h1>
 	<a href="/play/events">Events Calendar</a>
     </h1>
         
     %= include 'modules/events_calendar', mode => 'block'
 
+    <div class="block_see_more">&nbsp;</div>
+
+    %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
+    <h1>Trending</h1>
+    
+    %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'block', length => 5
+    
     <h1>Search After 5</h1>
 	
     %= include 'modules/block_search_places'
+
+    <h1>Connect</h1>
+    
+    %= include 'modules/social_media', mode => 'block', content => 'none'
 
 </div>
 
