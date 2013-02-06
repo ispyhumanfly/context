@@ -15,9 +15,11 @@
     
     <% for ( split /\s+/, $content->photos ) { %>
 
-    <img class="para_image_right" src="<%= $_ %>" title="<%= $content->id; %>" onClick="contentPhoto.show();"/>
-
-    %= include 'modules/content_photos', content => $content
+    % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+	    
+    <img class="para_image_right" src="<%= $_ %>" onClick="contentPhotos_<%= $md5 %>.show();"/>
+	    
+    %= include 'modules/content_photos', content => $content, identifier => $md5
 
     <% last; %>
 

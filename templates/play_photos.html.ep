@@ -1,7 +1,7 @@
 % title 'Play';
 % layout 'default';
 %
-% my $more_galleries_length = 5;
+% my $more_photos_length = 5;
 
 <script type="text/javascript">//<![CDATA[   
 
@@ -10,43 +10,32 @@
 
 <div class="content_left">
 	
-    <% for my $galleries (@{$self->{GALLERIES}}) { %>
+    <% for my $photo (@{$self->{GALLERIES}}) { %>
 
 	<% if ($self->param('id')) { %>
 
-	<% next unless $galleries->id == int($self->param('id')); %>
+	<% next unless $photo->id == int($self->param('id')); %>
 
 	<% } %>
 
-	% $galleries->update({clicks => $galleries->clicks + 1});
+	% $photo->update({clicks => $photo->clicks + 1});
             
-        <h1><%== $galleries->title %></h1>
+        <h1><%== $photo->title %></h1>
 	
 	<div class="content_none">
 
-	    <% for (split /\s+/, $galleries->photos) { %>
+	    <% for (split /\s+/, $photo->photos) { %>
     
 	    % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
 	    
 	    <img style="cursor: pointer; width: 195px; height: auto; border: 1px solid #1a3721;" src="<%= $_ %>" onClick="contentPhotos_<%= $md5 %>.show();"/>
 	    
-	    <div dojoType="dijit.Dialog" data-dojo-id="contentPhotos_<%= $md5 %>" title="<%= $galleries->title %>">
-    
-		<div style="width: 700px; height: 400px;">
-		    
-		    <img style="width: auto; height: 350px; border: 1px solid #1a3721;" src="<%= $_ %>" />
-			    
-		    <div style="margin-top: 10px;">
-		    
-		    %= include 'modules/social_media', mode => 'share_this', content => $galleries
-    
-		    </div>
-		</div>
-	    </div>
+	    %= include 'modules/content_photos', content => $photo, identifier => $md5
 	    
 	    <% } %>
+	    
 	    <div class="content_gap"></div>
-	    %= include 'modules/social_media', mode => 'share_this', content => $galleries
+	    %= include 'modules/social_media', mode => 'share_this', content => $photo
         
 	</div>
 	
@@ -55,7 +44,7 @@
             <% if ($self->session('admin')) { %>
     
             <a href="javascript:history.go(-1)">Back | </a>
-            <a href="/editor?mode=update&id=<%=  $galleries->id %>" style="margin-left: 10px;">Edit</a>
+            <a href="/editor?mode=update&id=<%=  $photo->id %>" style="margin-left: 10px;">Edit</a>
             
             <% } else { %>
     
@@ -65,27 +54,27 @@
     
 	    <div style="text-align: right; margin-top: -20px;">
 
-		<% my $next_gallery_counter; %>
+		<% my $next_photo_counter; %>
 		
-		<% my $next_gallery; %>
+		<% my $next_photo; %>
 		
 	    	<% for (@{$self->{GALLERIES}}) { %>
 
-		    <% $next_gallery_counter++; %>
+		    <% $next_photo_counter++; %>
 		    
 		    <% if ($self->param('id')) { %>
 		    
 		    <% next unless $_->id < int($self->param('id')); %>
 		    
-		    <% $next_gallery = $_; %>
+		    <% $next_photo = $_; %>
 		    
 		    <% } elsif (not $self->param('id')) { %>
 		
-		    <% $next_gallery = @{$self->{GALLERIES}}->[+1]; %>
+		    <% $next_photo = @{$self->{GALLERIES}}->[+1]; %>
 		    
 		    <% } %>
 		    
-		    <a href="/play/photos?id=<%= $next_gallery->id %>">Next</a>
+		    <a href="/play/photos?id=<%= $next_photo->id %>">Next</a>
 		    
 		    <% last; %>
 		    
@@ -178,31 +167,31 @@
 
     <div class="content_right_padding">
     
-        <% my $more_galleries_counter; %>
+        <% my $more_photos_counter; %>
         
-        <% for my $more_galleries (@{$self->{GALLERIES}}) { %>
+        <% for my $more_photos (@{$self->{GALLERIES}}) { %>
     
-            <% next if $more_galleries->types =~ m/ad/g; %>
+            <% next if $more_photos->types =~ m/ad/g; %>
             
             <% if ($self->param('id')) { %>
             
-            <% next unless $more_galleries->id < int($self->param('id')); %>
+            <% next unless $more_photos->id < int($self->param('id')); %>
                 
             <% } %>
         
-            <% $more_galleries_counter++; %>
+            <% $more_photos_counter++; %>
 
-            <% if ($more_galleries_counter > 1) { %>
+            <% if ($more_photos_counter > 1) { %>
             
             <hr />
             
             <% } %>
     
-            % $more_galleries->update({views => $more_galleries->views + 1});
+            % $more_photos->update({views => $more_photos->views + 1});
 
-            <% for ( split /\s+/, $more_galleries->photos ) { %>
+            <% for ( split /\s+/, $more_photos->photos ) { %>
             
-            <a title="<%= $more_galleries->title %>" href="/play/photos?id=<%= $more_galleries->id %>">
+            <a title="<%= $more_photos->title %>" href="/play/photos?id=<%= $more_photos->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -210,13 +199,13 @@
             
             <% } %>
             
-            <div class="block_title"><a href="/play/photos?id=<%= $more_galleries->id %>"><%= $more_galleries->title %></a></div>
+            <div class="block_title"><a href="/play/photos?id=<%= $more_photos->id %>"><%= $more_photos->title %></a></div>
             
             <div class="block_text">
                 
-            <% if ($more_galleries->body ne '') { %>
+            <% if ($more_photos->body ne '') { %>
             
-            <%== substr( HTML::FormatText->format_string($more_galleries->body), 0, 75 ) %>
+            <%== substr( HTML::FormatText->format_string($more_photos->body), 0, 75 ) %>
             
             <% } %>
             
@@ -226,24 +215,24 @@
     
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/play/photos?id=<%= $more_galleries->id %>">Read More |</a>
-                <a href="/editor?mode=update&id=<%= $more_galleries->id %>">Edit</a>        
+                <a href="/play/photos?id=<%= $more_photos->id %>">Read More |</a>
+                <a href="/editor?mode=update&id=<%= $more_photos->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/play/photos?id=<%= $more_galleries->id %>">Read More</a>
+                <a href="/play/photos?id=<%= $more_photos->id %>">Read More</a>
                 
                 <% } %>
     
             </div>
             
-            <% last if $more_galleries_counter == $more_galleries_length; %>
+            <% last if $more_photos_counter == $more_photos_length; %>
         
         <% } %>
 
 	<div class="content_spacer"></div>
 
-	%= include 'modules/block_more_galleries', more_galleries => $self->{GALLERIES}
+	%= include 'modules/block_more_photos', more_photos => $self->{GALLERIES}
 
     </div>
         

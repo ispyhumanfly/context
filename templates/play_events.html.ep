@@ -48,9 +48,11 @@
 	    
 		% $upcoming_events->update({clicks => $upcoming_events->clicks + 1});
 
-		<img class="para_image_right" title="<%= $upcoming_events->title %>" src="<%= $_ %>" onClick="contentPhotos.show();"/>
-		
-		%= include 'modules/content_photos', content => $upcoming_events
+		% my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+	    
+		<img class="para_image_right" src="<%= $_ %>" onClick="contentPhotos_<%= $md5 %>.show();"/>
+	    
+		%= include 'modules/content_photos', content => $upcoming_events, identifier => $md5
 
 	    <% } else { %>
 
