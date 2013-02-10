@@ -1,4 +1,4 @@
-% title 'Play';
+% title 'Events';
 % layout 'default';
 %
 % my $upcoming_events_length = 10;
@@ -17,7 +17,7 @@
     
     <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
 	
-	% next if $upcoming_events->tags =~ m/networking/;
+	% next if $upcoming_events->tags =~ m/\bnetworking/;
 	
         <% $upcoming_events_counter++; %>
 
@@ -58,7 +58,7 @@
 
 	    % $upcoming_events->update({views => $upcoming_events->views + 1});
 
-	    <a title="<%= $upcoming_events->title %>" href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">
+	    <a title="<%= $upcoming_events->title %>" href="/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -74,7 +74,7 @@
     
 	<% } else { %>
 
-        <a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>"><h2><%= $upcoming_events->title %></h2></a>
+        <a href="/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>"><h2><%= $upcoming_events->title %></h2></a>
 	
 	<% } %>
 	
@@ -130,12 +130,12 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More |</a>
+		<a href="/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/play/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More</a>
+		<a href="/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More</a>
 		
 		<% } %>
     
@@ -166,7 +166,7 @@
 	    
 		<% next if $_->start_datetime->epoch <= $last_start_datetime; %>
 		
-		<a href="/play/events?start_datetime=<%= $_->start_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
+		<a href="/events?start_datetime=<%= $_->start_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
 		
 		<% last; %>
 		
@@ -183,7 +183,7 @@
 <div class="content_right">
 
     <h1>
-	<a href="/play/events">Events Calendar</a>
+	<a href="/events">Events Calendar</a>
     </h1>
         
     %= include 'modules/events_calendar', mode => 'block'

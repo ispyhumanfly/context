@@ -1,4 +1,4 @@
-% title 'Play';
+% title 'Photos';
 % layout 'default';
 %
 % my $more_photos_length = 5;
@@ -35,6 +35,7 @@
 	    <% } %>
 	    
 	    <div class="content_gap"></div>
+	    
 	    %= include 'modules/social_media', mode => 'share_this', content => $photo
         
 	</div>
@@ -74,7 +75,7 @@
 		    
 		    <% } %>
 		    
-		    <a href="/play/photos?id=<%= $next_photo->id %>">Next</a>
+		    <a href="/photos?id=<%= $next_photo->id %>">Next</a>
 		    
 		    <% last; %>
 		    
@@ -191,7 +192,7 @@
 
             <% for ( split /\s+/, $more_photos->photos ) { %>
             
-            <a title="<%= $more_photos->title %>" href="/play/photos?id=<%= $more_photos->id %>">
+            <a title="<%= $more_photos->title %>" href="/photos?id=<%= $more_photos->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -199,7 +200,7 @@
             
             <% } %>
             
-            <div class="block_title"><a href="/play/photos?id=<%= $more_photos->id %>"><%= $more_photos->title %></a></div>
+            <div class="block_title"><a href="/photos?id=<%= $more_photos->id %>"><%= $more_photos->title %></a></div>
             
             <div class="block_text">
                 
@@ -215,12 +216,12 @@
     
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/play/photos?id=<%= $more_photos->id %>">Read More |</a>
+                <a href="/photos?id=<%= $more_photos->id %>">Read More |</a>
                 <a href="/editor?mode=update&id=<%= $more_photos->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/play/photos?id=<%= $more_photos->id %>">Read More</a>
+                <a href="/photos?id=<%= $more_photos->id %>">Read More</a>
                 
                 <% } %>
     
@@ -235,7 +236,9 @@
 	%= include 'modules/block_more_photos', more_photos => $self->{GALLERIES}
 
     </div>
-        
+    
+    <div class="block_see_more">&nbsp;</div>
+
     %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
 
     <h1>Connect</h1>

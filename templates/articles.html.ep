@@ -1,4 +1,4 @@
-% title 'Play';
+% title 'Articles';
 % layout 'default';
 %
 % my $article_length = 10;
@@ -56,7 +56,7 @@
 
 	    % $article->update({views => $article->views + 1});
 
-	    <a title="<%= $article->title %>" href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
+	    <a title="<%= $article->title %>" href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -72,7 +72,7 @@
     
 	<% } else { %>
 
-        <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><h2><%= $article->title %></h2></a>
+        <a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><h2><%= $article->title %></h2></a>
 	
 	<% } %>
 	
@@ -116,12 +116,12 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More |</a>
+		<a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 
 		<% } else { %>
 
-		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		<a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 
 		<% } %>
     
@@ -150,7 +150,7 @@
 	    
 		<% next if $_->create_datetime->epoch <= $last_create_datetime; %>
 		
-		<a href="/play/articles?create_datetime=<%= $_->create_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
+		<a href="/articles?create_datetime=<%= $_->create_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
 		
 		<% last; %>
 		

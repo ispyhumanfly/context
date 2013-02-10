@@ -25,7 +25,7 @@
 	    
 	    <% for ( split /\s+/, $article->photos ) { %>
     
-	    <a title="<%= $article->title %>" href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
+	    <a title="<%= $article->title %>" href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
 		<img class="para_image_left" src="<%= $_ %>" />
 	    </a>
     
@@ -35,13 +35,13 @@
     
 	    <div class="h1_spacer">
 		
-		<a href="/play/articles">
+		<a href="/articles">
 		    <h1>Articles</h1>
 		</a>
 	    </div>
     
 	    <h2>
-		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><%= $article->title %></a>
+		<a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><%= $article->title %></a>
 	    </h2>
     
 	    <div id="content_body" class="right">
@@ -52,13 +52,13 @@
 		
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		<a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 		|
 		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		<a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 		
 		<% } %>
 		
@@ -72,7 +72,7 @@
 	    	    
 		<% for ( split /\s+/, $article->photos ) { %>
 	
-		<a title="<%= $article->title %>" href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
+		<a title="<%= $article->title %>" href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
 		    <img class="content_column_image" src="<%= $_ %>" />
 		</a>
 	
@@ -81,7 +81,7 @@
 		<% } %>
     
 		<h2>
-		    <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><%= $article->title %></a>
+		    <a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><%= $article->title %></a>
 		</h2>
 	    
 		<div class="content_column_text">
@@ -92,13 +92,13 @@
     
 		    <% if ( $self->session('admin') ) { %>
 	
-		    <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		    <a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 		    |
 		    <a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 		
 		    <% } else { %>
 		
-		    <a href="/play/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		    <a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 		    
 		    <% } %>
     
@@ -118,7 +118,7 @@
 	<a href="/search?types=article">More Articles &rarr;</a>
     </h3>
 
-    <a href="/play/events">
+    <a href="/events">
 	<h1>Events</h1>
     </a>
     
@@ -146,7 +146,7 @@
     
 		<% for ( split /\s+/, $upcoming_event->photos ) { %>
 		
-		<a title="<%= $upcoming_event->title %>" href="/<%= $upcoming_event->id %>">
+		<a title="<%= $upcoming_event->title %>" href="/events?start_datetime=<%= $upcoming_event->start_datetime->epoch %>id=<%= $upcoming_event->id %>">
 		    <img class="upcoming_events_thumb" src="<%= $_ %>"/>
 		</a>
 		
@@ -155,7 +155,7 @@
 		<% } %>
 		
 		<div class="upcoming_events_title">
-		    <a href="/<%= $upcoming_event->id %>"><%= $upcoming_event->title %></a>
+		    <a href="/events?start_datetime=<%= $upcoming_event->start_datetime->epoch %>id=<%= $upcoming_event->id %>"><%= $upcoming_event->title %></a>
 		</div>
 		
 		<div class="upcoming_events_text">
@@ -172,7 +172,7 @@
 
 		    <% if ( $self->session('admin') ) { %>
 	
-		    <a href="/<%= $upcoming_event->id %>">Read More</a>
+		    <a href="/events?start_datetime=<%= $upcoming_event->start_datetime->epoch %>id=<%= $upcoming_event->id %>">Read More</a>
 		    |
 		    <a href="/editor?mode=update&id=<%= $upcoming_event->id %>">Edit</a>        
 		
@@ -204,9 +204,11 @@
 
     <% for my $event (@{$self->{EVENTS}}) { %>
     
+    	% next if $event->tags =~ m/\bnetworking/i;
+
 	% $event_counter++;
     	
-	% next unless $event_counter > $upcoming_events_length + 1;
+	% next unless $event_counter >= $upcoming_events_length + 1;
 	
 	% $event->update({views => $event->views + 1});
     
@@ -257,7 +259,7 @@
 	</div>
 
 	% $event_column_position++;
-	% last if $event_counter == 6;
+	% last if $event_counter == 5;
 	
     <% } %>
     
@@ -269,7 +271,7 @@
 
 <div class="content_right">
 
-    <a href="/play/photos">
+    <a href="/photos">
 	<h1>Photos</h1>
     </a>
 
@@ -286,7 +288,7 @@
     
             <% for ( split /\s+/, $galleries->photos ) { %>
             
-            <a title="<%= $galleries->title %>" href="/play/photos?id=<%= $galleries->id %>">
+            <a title="<%= $galleries->title %>" href="/photos?id=<%= $galleries->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
@@ -297,7 +299,7 @@
 	    <% if ($galleries->title ne '') { %>
 	    
 	    <div class="block_title">
-		<a href="/play/photos?id=<%= $galleries->id %>"><%= $galleries->title %></a>
+		<a href="/photos?id=<%= $galleries->id %>"><%= $galleries->title %></a>
 	    </div>
 	    
 	    <% } %>
@@ -316,13 +318,13 @@
 
                 <% if ( $self->session('admin') ) { %>
     
-                <a href="/play/photos?id=<%= $galleries->id %>">Read More</a>
+                <a href="/photos?id=<%= $galleries->id %>">Read More</a>
 		|
                 <a href="/editor?mode=update&id=<%= $galleries->id %>">Edit</a>        
             
                 <% } else { %>
             
-                <a href="/play/photos?id=<%= $galleries->id %>">Read More</a>
+                <a href="/photos?id=<%= $galleries->id %>">Read More</a>
                 
                 <% } %>
 

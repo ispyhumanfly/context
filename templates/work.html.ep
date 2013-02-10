@@ -43,8 +43,8 @@
     
     <% for my $professional_development (@{$self->{WORK}}) { %>
 
-        <% next if $professional_development->types =~ m/ad/i; %>
-        <% next if $professional_development->tags =~ m/networking/i; %>
+        <% next if $professional_development->types =~ m/\bad\b/i; %>
+        <% next if $professional_development->tags =~ m/\bnetworking\b/i; %>
     
 	<% if ($self->param('id')) { %>
 	
@@ -111,7 +111,7 @@
         
             <% } %>
         
-            <div class="read_more_right">
+            <div class="read_more_left" style="margin-left: 165px;">
     
                 <% if ( $self->session('admin') ) { %>
     

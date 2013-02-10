@@ -123,7 +123,7 @@
 
             <% } %>
     
-	    <div class="read_more_right">
+	    <div class="read_more_left">
     
 		<% if ( $self->session('admin') ) { %>
     
@@ -148,29 +148,32 @@
 	
         <% } else { %>
 
-            <% unless (($result->body eq '') or ($result->body =~ /^\s+$/g)) { %>
+	    <div style="float: left; width: 60%; margin-top: -5px;">
     
-            <div id="content_body_truncated" class="right_search">
-                
-                <%== substr( HTML::FormatText->format_string($result->body), 0, 400 ) %>
-                
-            </div>
-
-            <% } %>
+		<% unless (($result->body eq '') or ($result->body =~ /^\s+$/g)) { %>
+	
+		<div id="content_body_truncated" class="right_search">
+		    
+		    <%== substr( HTML::FormatText->format_string($result->body), 0, 400 ) %>
+		    
+		</div>
     
-	    <div class="read_more_right">
-    
-		<% if ( $self->session('admin') ) { %>
-    
-		<a href="/<%= $result->id %>">Read More |</a>
-		<a href="/editor?mode=update&id=<%= $result->id %>">Edit</a>        
-	    
-		<% } else { %>
-	    
-		<a href="/<%= $result->id %>">Read More</a>
-		
 		<% } %>
-    
+	
+		<div class="read_more_left">
+	
+		    <% if ( $self->session('admin') ) { %>
+	
+		    <a href="/<%= $result->id %>">Read More |</a>
+		    <a href="/editor?mode=update&id=<%= $result->id %>">Edit</a>        
+		
+		    <% } else { %>
+		
+		    <a href="/<%= $result->id %>">Read More</a>
+		    
+		    <% } %>
+	
+		</div>
 	    </div>
         
         <% } %>
@@ -203,7 +206,7 @@
     
     %= include 'modules/block_search_places'
             
-    <% if ($self->param('types') =~ m/event/g) { %>
+    <% if ($self->param('types') =~ m/\bevent/g) { %>
     
     <h1><a href="/play/events">Events Calendar</a></h1>
 

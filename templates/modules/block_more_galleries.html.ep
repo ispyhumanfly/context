@@ -1,13 +1,11 @@
 <script type="text/javascript">//<![CDATA[
 
-    dojo.require("dijit.form.Form");
-    dojo.require("dojox.form.DropDownSelect");
 
 //]]></script>
 
 <div class="block_more_galleries">
     
-    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/play/photos" method="get">
+    <div dojoType="dijit.form.Form" encType="multipart/form-data" action="/photos" method="get">
         
         <select class="block_more_galleries_list" name="id" onchange='this.form.submit()'>
         

@@ -51,9 +51,9 @@
 	    <div id="navigation_container">
     
 		<ul>
-		    <li><a href="/play/events">Events</a></li>
-		    <li><a href="/play/photos">Photos</a></li>
-		    <li><a href="/play/articles">Articles</a></li>
+		    <li><a href="/events">Events</a></li>
+		    <li><a href="/photos">Photos</a></li>
+		    <li><a href="/articles">Articles</a></li>
 		    <li><a href="/search?tags=style">Style</a></li>
 		    <li><a href="/work">Jobs</a></li>
 		    <li><a href="/about">About</a></li>
@@ -134,10 +134,10 @@
 
 		<div>
 		    <ul>
-			<li><a href="/play" style="font-weight: bold; font-size: large;">Play</a></li>
-			<li><a href="/play/events">Events</a></li>
-			<li><a href="/play/photos">Photos</a></li>
-			<li><a href="/play/articles">Articles</a></li>
+			<li><a href="/" style="font-weight: bold; font-size: large;">Play</a></li>
+			<li><a href="/events">Events</a></li>
+			<li><a href="/photos">Photos</a></li>
+			<li><a href="/articles">Articles</a></li>
 			<li><a href="/search?tags=style">Style</a></li>
 		    </ul>
 		</div>

@@ -6,7 +6,7 @@
     "editor"    :
     
     {
-        "pages"     : ["articles", "events", "photos", "home","play","live", "work", "about", "dashboard", "search", "permalink"],
+        "pages"     : ["articles", "events", "photos", "home","live", "work", "about", "dashboard", "search", "permalink", "newsletter", "contact"],
         
         "types"     : ["article", "career", "event", "gallery", "ad_header", "ad_block"],
         

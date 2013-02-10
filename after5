@@ -64,7 +64,7 @@ get '/home' => sub {
 
     # Articles
     my @articles = $MODEL->resultset('Content')->search(
-        {   pages           => {like => '%play%'},
+        {   pages           => {like => '%home%'},
             types           => {like => '%article%'},
             create_datetime => {
                 -between => [
@@ -80,7 +80,7 @@ get '/home' => sub {
 
     # Events
     my @events = $MODEL->resultset('Content')->search(
-        {   pages          => {like => '%play%'},
+        {   pages          => {like => '%home%'},
             types          => {like => '%event%'},
             start_datetime => {
                 -between => [
@@ -123,15 +123,9 @@ get '/home' => sub {
 
 } => 'home';
 
-## Play
+## Articles
 
-get '/play' => sub {
-
-    my $self = shift;
-    return $self->redirect_to('play_events');
-};
-
-get '/play/articles' => sub {
+get '/articles' => sub {
 
     my $self = shift;
 
@@ -195,11 +189,13 @@ get '/play/articles' => sub {
 
     $self->{'TRENDING'} = order_by_trending($self, @trending);
 
-    return $self->render('play_articles');
+    return $self->render('articles');
 
-} => 'play_articles';
+} => 'articles';
 
-get '/play/events' => sub {
+## Events
+
+get '/events' => sub {
 
     my $self = shift;
 
@@ -265,11 +261,11 @@ get '/play/events' => sub {
 
     $self->{'TRENDING'} = order_by_trending($self, @trending);
 
-    return $self->render('play_events');
+    return $self->render('events');
         
-} => 'play_events';
+} => 'events';
 
-get '/play/photos' => sub {
+get '/photos' => sub {
 
     my $self = shift;
 
@@ -312,9 +308,9 @@ get '/play/photos' => sub {
     # Trending
     $self->{'TRENDING'} = order_by_trending($self, @galleries);
 
-    return $self->render('play_photos');
+    return $self->render('photos');
 
-} => 'play_photos';
+} => 'photos';
 
 ## Live
 
@@ -760,7 +756,9 @@ get '/about' => sub {
 
 } => 'about';
 
-get '/about/contact' => sub {
+## Contact
+
+get '/contact' => sub {
 
     my $self = shift;
 
@@ -783,11 +781,13 @@ get '/about/contact' => sub {
 
     $self->{'STOCK_PHOTO'} = stock_photo();
 
-    return $self->render('about_contact');
+    return $self->render('contact');
 
-} => 'about_contact';
+} => 'contact';
 
-get '/about/newsletter' => sub {
+## Newsletter
+
+get '/newsletter' => sub {
 
     my $self = shift;
 
@@ -810,9 +810,9 @@ get '/about/newsletter' => sub {
 
     $self->{'STOCK_PHOTO'} = stock_photo();
 
-    return $self->render('about_newsletter');
+    return $self->render('newsletter');
 
-} => 'about_newsletter';
+} => 'newsletter';
 
 ## Search
 
@@ -885,32 +885,32 @@ get '/:id' => [id => qr/\d+/] => sub {
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
 
-    # Play Articles
+    # Articles
     if ($content->types =~ m/article/g) {
 
-        return $self->redirect_to('/play/articles?create_datetime='
+        return $self->redirect_to('/articles?create_datetime='
               . $content->create_datetime->epoch . '&id='
               . $content->id)
-          if $content->tags =~ m/people|place|article/g;
+          if $content->tags =~ m/\bpeople|place|article/g;
     }
 
-    # Play Events
+    # Events
     elsif ($content->types =~ m/event/g) {
 
         ## TODO: Make sure this technique works for networking events too...
 
-        unless ($content->tags =~ m/networking/g) {
+        unless ($content->tags =~ m/\bnetworking/g) {
 
-            return $self->redirect_to('/play/events?start_datetime='
+            return $self->redirect_to('/events?start_datetime='
                   . $content->start_datetime->epoch . '&id='
                   . $content->id);
         }
     }
 
     # Photo Galleries
-    elsif ($content->types =~ m/gallery/g) {
+    elsif ($content->types =~ m/\bgallery/g) {
 
-        return $self->redirect_to('/play/photos?id=' . $content->id);
+        return $self->redirect_to('/photos?id=' . $content->id);
     }
 
     # Ads
@@ -981,47 +981,34 @@ get '/dashboard' => sub {
 
     return $self->redirect_to('login') unless $self->session('admin');
 
-    # Play
-    my @play =
-      $MODEL->resultset('Content')->search({pages => {like => '%play%'}},
-        {page => 1, rows => 15, order_by => 'id DESC'})->all;
-    $self->{'PLAY'} = \@play;
+    my $dtf = $MODEL->storage->datetime_parser;
+    my $dt_local = DateTime->now;
 
-    # Photos
-    my @photos =
-      $MODEL->resultset('Content')->search({pages => {like => '%photos%'}},
-        {page => 1, rows => 15, order_by => 'id DESC'})->all;
-    $self->{'PHOTOS'} = \@photos;
+    # Content
+    my @content = $MODEL->resultset('Content')->search(
+        {   create_datetime => {
+                -between => [
+                    $dtf->format_datetime(DateTime->now->subtract(days => 120)),
+                    $dtf->format_datetime(DateTime->now)
+                ]
+            }
+        },
+        {order_by => 'create_datetime DESC'}
+    )->all;
 
-    # Live
-    my @live =
-      $MODEL->resultset('Content')->search({pages => {like => '%live%'}},
-        {page => 1, rows => 15, order_by => 'id DESC'})->all;
-    $self->{'LIVE'} = \@live;
-
-    # Work
-    my @work =
-      $MODEL->resultset('Content')->search({pages => {like => '%work%'}},
-        {page => 1, rows => 15, order_by => 'id DESC'})->all;
-    $self->{'WORK'} = \@work;
-
-    # About
-    my @about =
-      $MODEL->resultset('Content')->search({pages => {like => '%about%'}},
-        {page => 1, rows => 15, order_by => 'id DESC'})->all;
-    $self->{'ABOUT'} = \@about;
-
-    # None
-    my @none =
-      $MODEL->resultset('Content')->search({pages => {like => '%none%'}},
-        {page => 1, rows => 15, order_by => 'id DESC'})->all;
-    $self->{'NONE'} = \@none;
-
+    $self->{'CONTENT'} = \@content;
+   
     # New Content
-    my @new_content =
-      $MODEL->resultset('Content')
-      ->search(undef,
-        {page => 1, rows => 25, order_by => 'create_datetime DESC'})->all;
+    my @new_content = $MODEL->resultset('Content')->search(
+        {   create_datetime => {
+                -between => [
+                    $dtf->format_datetime(DateTime->now->subtract(days => 60)),
+                    $dtf->format_datetime(DateTime->now)
+                ]
+            }
+        },
+        {order_by => 'create_datetime DESC'}
+    )->all;
 
     $self->{'NEW_CONTENT'} = \@new_content;
 
