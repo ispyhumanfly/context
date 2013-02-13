@@ -13,7 +13,7 @@
         "tags"      : ["place", "people", "neighbor", "city_life", "lifestyle", "article",
                        "professional_group", "networking", "social", "cultural", "board_openings",
                        "volunteer", "job_listings", "resources", "career_tips",
-                       "local_blogs", "after5_press", "after5_staff", "style", "newsletter"],
+                       "local_blogs", "after5_press", "after5_staff", "style", "newsletter" , "dummy1"],
         
         "cities"    : ["detroit", "ferndale", "birmingham", "royal_oak"],
 
