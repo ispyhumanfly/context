@@ -136,14 +136,14 @@ get '/articles' => sub {
     my @ads =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
+        {pages => {like => '%articles%'}, types => {like => '%ad_header%'}})->all;
 
     $self->{'ADS'} = \@ads;
 
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%articles%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
@@ -159,7 +159,7 @@ get '/articles' => sub {
     }
 
     my @articles = $MODEL->resultset('Content')->search(
-        {   pages           => {like => '%play%'},
+        {   pages           => {like => '%articles%'},
             types           => {like => '%article%'},
             create_datetime => {
                 -between => [
@@ -175,7 +175,7 @@ get '/articles' => sub {
 
     # Trending
     my @trending = $MODEL->resultset('Content')->search(
-        {   pages          => {like => '%play%'},
+        {   pages          => {like => '%articles%'},
             types          => {like => '%article%'},
             create_datetime => {
                 -between => [
@@ -206,14 +206,14 @@ get '/events' => sub {
     my @ads =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%play%'}, types => {like => '%ad_header%'}})->all;
+        {pages => {like => '%events%'}, types => {like => '%ad_header%'}})->all;
 
     $self->{'ADS'} = \@ads;
 
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%events%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
@@ -231,7 +231,7 @@ get '/events' => sub {
     ## TODO: Change this over to @events and get rid of the @upcoming naming.
     
     my @upcoming_events = $MODEL->resultset('Content')->search(
-        {   pages          => {like => '%play%'},
+        {   pages          => {like => '%events%'},
             types          => {like => '%event%'},
             start_datetime => {
                 -between => [
@@ -247,7 +247,7 @@ get '/events' => sub {
 
     # Trending
     my @trending = $MODEL->resultset('Content')->search(
-        {   pages          => {like => '%play%'},
+        {   pages          => {like => '%events%'},
             types          => {like => '%event%'},
             start_datetime => {
                 -between => [
@@ -284,7 +284,7 @@ get '/photos' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%play%'}, types => {like => '%ad_block%'}})
+      ->search({pages => {like => '%photos%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
