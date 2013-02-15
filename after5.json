@@ -18,7 +18,7 @@
         "cities"    : ["detroit", "ferndale", "birmingham", "royal_oak"],
 
         "interests" : ["dining", "nightlife", "activities", "concerts",
-                       "networking", "sports", "fundraisers", "culture"]
+                       "networking", "sports", "fundraisers", "culture", "living"]
     },
     
     "google"    :
@@ -47,10 +47,16 @@
     "hypnotoad" :
     
     {
-        "listen"    : ["http://*:3000", "https://*:443"],
+        "listen"    : ["http://*:3000", "https://*:8443"],
         "pid_file"  : "after5.pid",
         "lock_file" : "after5.lock",
         "log_file"  : "after5.log",
         "workers"   : "25"    
-    }    
+    },
+    
+    "morbo" :
+    
+    {
+        "listen"    : ["http://*:3000", "https://*:8443"]
+    }
 }

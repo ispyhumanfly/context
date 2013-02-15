@@ -24,7 +24,8 @@ The code behind after5detroit.com
 
 Modern::Perl Mojolicious::Lite DBIx::Class::Candy SQL::Translator 
 DateTime::Format::SQLite DateTime::Format::ISO8601 HTML::FormatText
-REST::Google::Search Net::Google::FederatedLogin Mail::Sendmail Try::Tiny
+REST::Google::Search Net::Google::FederatedLogin Mail::Sendmail
+Try::Tiny Archive::Zip
 
 =head2 TinyMCE
 

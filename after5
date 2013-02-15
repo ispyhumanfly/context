@@ -161,6 +161,7 @@ get '/articles' => sub {
     my @articles = $MODEL->resultset('Content')->search(
         {   pages           => {like => '%articles%'},
             types           => {like => '%article%'},
+            tags            => {like => '%article%'},
             create_datetime => {
                 -between => [
                     $dtf->format_datetime($dt_local->subtract(days => 90)),

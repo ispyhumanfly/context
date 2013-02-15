@@ -51,6 +51,8 @@
 		    
 		    <% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
 		
+		    % next unless $interest =~ m/\bdining|nightlife|activities|living\b/g;
+		    
 		    <li>
 			<a href="/search?interests=<%= $interest %>&cities=royal_oak">
 			    <%= ucfirst($interest) %>
