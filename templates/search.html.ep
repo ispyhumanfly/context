@@ -204,11 +204,11 @@
 
     <h1>Search After 5</h1>
     
-    %= include 'modules/block_search_places'
+    %= include 'modules/block_search'
             
     <% if ($self->param('types') =~ m/\bevent/g) { %>
     
-    <h1><a href="/play/events">Events Calendar</a></h1>
+    <h1><a href="/events">Events Calendar</a></h1>
 
     %= include 'modules/events_calendar', mode => 'block'
     

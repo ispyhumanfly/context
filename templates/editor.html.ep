@@ -454,9 +454,9 @@
 	
 		<% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
 		
-		<option value="<%= $city %>">
+		<option value="<%= lcfirst($city) %>">
 		    
-		    <%= $city %>
+		    <%= lcfirst($city) %>
 		    
 		</option>
 	    
@@ -476,9 +476,9 @@
 	
 		<% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
 		
-		<option value="<%= $city %>" <%= 'selected' if $self->{CONTENT}->cities =~ m/$city/i %>>
+		<option value="<%= lcfirst($city) %>" <%= 'selected' if $self->{CONTENT}->cities =~ m/$city/i %>>
 		    
-		    <%= $city %>
+		    <%= lcfirst($city) %>
 		    
 		</option>
 	    

@@ -129,7 +129,7 @@
 			    
 			    <li style="white-space: nowrap;">
 				
-				<a href="/live/<%= $city %>">
+				<a href="/live/<%= lcfirst($city) %>">
 				    
 				    % $city =~ s/_/ /g;
 				    % $city =~ s/(\w+)/\u\L$1/g;
