@@ -12,7 +12,7 @@
 
 <div class="content_left">
 
-    <% for (@{ app->config->{editor}->{pages} } ) { %>
+    <% for (@{ app->config->{persona}->{pages} } ) { %>
 
     <h1><%= ucfirst($_) %></h1>
 
@@ -23,7 +23,9 @@
 
     <% for my $content (@{$self->{CONTENT}}) { %>
     
-        % next unless $content->pages =~ m/\b$_\b/i;
+        % my $page = lcfirst($_);
+        
+        % next unless $content->pages =~ m/$page/i;
         
 	% $content_counter++;
     	
@@ -81,7 +83,7 @@
     <% } %>
     
     <h3>
-	<a href="/search?pages=<%= $_ %>">More <%= ucfirst($_) %> &rarr;</a>
+	<a href="/search?pages=<%= lcfirst($_) %>">More <%= ucfirst($_) %> &rarr;</a>
     </h3>
 
     <% } %>

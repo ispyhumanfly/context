@@ -789,24 +789,24 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     # Articles
     if ($content->types =~ m/article/g) {
+        
+        return $self->redirect_to('/style?create_datetime='
+              . $content->create_datetime->epoch . '&id='
+              . $content->id)
+          if $content->tags =~ m/\bstyle\b/g;       
 
         return $self->redirect_to('/articles?create_datetime='
               . $content->create_datetime->epoch . '&id='
               . $content->id)
-          if $content->tags =~ m/\bpeople|place|article\b/g;
+          if $content->tags =~ m/\bpeople|place|article|general\b/g;
     }
 
     # Events
     elsif ($content->types =~ m/event/g) {
 
-        ## TODO: Make sure this technique works for networking events too...
-
-        unless ($content->tags =~ m/\bnetworking\b/g) {
-
-            return $self->redirect_to('/events?start_datetime='
-                  . $content->start_datetime->epoch . '&id='
-                  . $content->id);
-        }
+        return $self->redirect_to('/events?start_datetime='
+              . $content->start_datetime->epoch . '&id='
+              . $content->id);
     }
 
     # Photo Galleries
@@ -891,7 +891,7 @@ get '/dashboard' => sub {
         {   create_datetime => {
                 -between => [
                     $dtf->format_datetime(
-                        DateTime->now->subtract(days => 120)
+                        DateTime->now->subtract(days => 90)
                     ),
                     $dtf->format_datetime(DateTime->now)
                 ]
