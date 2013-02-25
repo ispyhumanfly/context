@@ -47,8 +47,12 @@
 	
 	    <div class="content_column_text">
 		
+                <% eval { %>
+                
 		<%== substr( HTML::FormatText->format_string($content->body), 0, 100 ); %>
 		
+                <% }; %>
+                
 	    </div>
 
 	    <div style="float: left; width: 160px;">
