@@ -721,6 +721,9 @@ get '/newsletter' => sub {
 get '/search' => sub {
 
     my $self = shift;
+    
+    my $dtf = $MODEL->storage->datetime_parser;
+    my $dt_local = DateTime->now;
 
     # Ads
     my @ads =
@@ -745,10 +748,20 @@ get '/search' => sub {
     my @search_results;
 
     if ($self->param('types') eq 'event') {
-
-        @search_results =
-          $MODEL->resultset('Content')
-          ->search(undef, {order_by => 'start_datetime ASC'})->all;
+   
+        @search_results = $MODEL->resultset('Content')->search(
+            { 
+                types          => {like => '%event%'},
+                start_datetime => {
+                    -between => [
+                        $dtf->format_datetime($dt_local),
+                        $dtf->format_datetime($dt_local->add(days => 120))
+                    ]
+                }
+            },
+            {order_by => 'start_datetime ASC'}
+        )->all;
+    
     }
     else {
 

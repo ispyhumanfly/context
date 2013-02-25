@@ -136,14 +136,14 @@
             
         </div>
         
-        <div class="block_about_box" onclick="window.location='/about/contact';">
+        <div class="block_about_box" onclick="window.location='/contact';">
 
             <div class="block_about_box_title">Contact Us</div>
             <div class="block_about_box_text">Suggestions, questions or ad inquiries? Send us a message!</div>            
             
         </div>
 
-        <div class="block_about_box" onclick="window.location='/about/newsletter';">
+        <div class="block_about_box" onclick="window.location='/newsletter';">
 
             <div class="block_about_box_title">Newsletter</div>
             <div class="block_about_box_text">Get weekly updates on happenings around town!</div>            
