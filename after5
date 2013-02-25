@@ -918,6 +918,14 @@ get '/dashboard' => sub {
 
     $self->{'NEW_CONTENT'} = \@new_content;
 
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search({types => {like => '%ad_header%'}, types => {like => '%ad_block%'}})
+      ->all;
+
+    $self->{'ADS'} = \@ads;
+
     return $self->render('dashboard');
 
 } => 'dashboard';
