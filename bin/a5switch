@@ -1,0 +1,67 @@
+#!/usr/bin/env perl
+
+use Modern::Perl;
+
+use lib 'lib';
+use After5::Model;
+
+our $MODEL = After5::Model->connect('dbi:SQLite:after5.db');
+
+if (defined($ARGV[0]) and $ARGV[0] =~ m/types|tags|interests|cities|pages|position/g) {
+
+    if ($ARGV[1] and $ARGV[2]) {
+
+        my $column  = $ARGV[0];
+        my $old_value = $ARGV[1];
+        my $new_value = $ARGV[2];
+
+        my @content =
+          $MODEL->resultset('Content')
+          ->search({$column => {like => "%$old_value%"}},
+            {order_by => 'id DESC'})->all;
+
+        for (@content) {
+
+            next unless $_->title =~ m/style/i;
+            
+            my @values;
+
+            for (split /\s+/, $_->$column) {
+                
+                unless ($_ =~ m/\b$old_value\b/g) {
+                    push @values, $_;
+                }
+            }
+
+            push @values, $new_value;
+
+            $MODEL->resultset('Content')->search({id => $_->id})
+              ->update({$column => "@values"});
+        }
+
+        say 'Content updated.';
+    }
+}
+else {
+
+    my @content =
+      $MODEL->resultset('Content')->search(undef, {order_by => 'id ASC'})
+      ->all;
+
+    for (@content) {
+
+        eval {
+        
+            say '';
+            
+            say 'ID: ' . $_->id;
+            say 'Title: ' . $_->title;
+            say 'Types: ' . $_->types;
+            say 'Tags: ' . $_->tags;
+            say 'Interests: ' . $_->interests;
+            say 'Cities: ' . $_->cities;
+            say 'Pages: ' . $_->pages;
+    
+        };
+    }
+}

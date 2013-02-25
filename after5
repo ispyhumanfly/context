@@ -43,9 +43,10 @@ any '/' => sub {
 get '/home' => sub {
 
     my $self = shift;
-    
+
     my $dtf = $MODEL->storage->datetime_parser;
-    
+    my $dt_local;
+
     # Ads
     my @ads =
       $MODEL->resultset('Content')
@@ -64,11 +65,12 @@ get '/home' => sub {
 
     # Articles
     my @articles = $MODEL->resultset('Content')->search(
-        {   pages           => {like => '%home%'},
-            types           => {like => '%article%'},
+        {   types           => {like => '%article%'},
             create_datetime => {
                 -between => [
-                    $dtf->format_datetime(DateTime->now->subtract(days => 90)),
+                    $dtf->format_datetime(
+                        DateTime->now->subtract(days => 90)
+                    ),
                     $dtf->format_datetime(DateTime->now)
                 ]
             }
@@ -80,8 +82,7 @@ get '/home' => sub {
 
     # Events
     my @events = $MODEL->resultset('Content')->search(
-        {   pages          => {like => '%home%'},
-            types          => {like => '%event%'},
+        {   types          => {like => '%event%'},
             start_datetime => {
                 -between => [
                     $dtf->format_datetime(DateTime->now),
@@ -95,18 +96,19 @@ get '/home' => sub {
     $self->{'EVENTS'} = \@events;
 
     # Galleries
-    my @galleries =
-      $MODEL->resultset('Content')->search(
-        {pages => {like => '%home%'},
-         types => {like => '%gallery%'},
-         create_datetime => {
+    my @galleries = $MODEL->resultset('Content')->search(
+        {   types           => {like => '%gallery%'},
+            create_datetime => {
                 -between => [
-                    $dtf->format_datetime(DateTime->now->subtract(days => 90)),
+                    $dtf->format_datetime(
+                        DateTime->now->subtract(days => 90)
+                    ),
                     $dtf->format_datetime(DateTime->now)
                 ]
             }
-         },
-        {order_by => 'create_datetime DESC'})->all;
+        },
+        {order_by => 'create_datetime DESC'}
+    )->all;
 
     $self->{'GALLERIES'} = \@galleries;
 
@@ -116,7 +118,7 @@ get '/home' => sub {
     push @trending, @articles;
     push @trending, @events;
     push @trending, @galleries;
-    
+
     $self->{'TRENDING'} = order_by_trending($self, @trending);
 
     return $self->render('home');
@@ -136,14 +138,16 @@ get '/articles' => sub {
     my @ads =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%articles%'}, types => {like => '%ad_header%'}})->all;
+        {pages => {like => '%articles%'}, types => {like => '%ad_header%'}})
+      ->all;
 
     $self->{'ADS'} = \@ads;
 
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%articles%'}, types => {like => '%ad_block%'}})
+      ->search(
+        {pages => {like => '%articles%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
@@ -161,7 +165,7 @@ get '/articles' => sub {
     my @articles = $MODEL->resultset('Content')->search(
         {   pages           => {like => '%articles%'},
             types           => {like => '%article%'},
-            tags            => {like => '%article%'},
+            tags            => {like => '%general%'},
             create_datetime => {
                 -between => [
                     $dtf->format_datetime($dt_local->subtract(days => 90)),
@@ -176,8 +180,8 @@ get '/articles' => sub {
 
     # Trending
     my @trending = $MODEL->resultset('Content')->search(
-        {   pages          => {like => '%articles%'},
-            types          => {like => '%article%'},
+        {   pages           => {like => '%articles%'},
+            types           => {like => '%article%'},
             create_datetime => {
                 -between => [
                     $dtf->format_datetime($dt_local),
@@ -207,14 +211,16 @@ get '/events' => sub {
     my @ads =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%events%'}, types => {like => '%ad_header%'}})->all;
+        {pages => {like => '%events%'}, types => {like => '%ad_header%'}})
+      ->all;
 
     $self->{'ADS'} = \@ads;
 
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%events%'}, types => {like => '%ad_block%'}})
+      ->search(
+        {pages => {like => '%events%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
@@ -230,7 +236,7 @@ get '/events' => sub {
     }
 
     ## TODO: Change this over to @events and get rid of the @upcoming naming.
-    
+
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {   pages          => {like => '%events%'},
             types          => {like => '%event%'},
@@ -263,8 +269,82 @@ get '/events' => sub {
     $self->{'TRENDING'} = order_by_trending($self, @trending);
 
     return $self->render('events');
-        
+
 } => 'events';
+
+## Style
+
+get '/style' => sub {
+
+    my $self = shift;
+
+    my $dtf = $MODEL->storage->datetime_parser;
+    my $dt_local;
+
+    # Ads
+    my @ads =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%style%'}, types => {like => '%ad_header%'}})
+      ->all;
+
+    $self->{'ADS'} = \@ads;
+
+    # Ads Block
+    my @ads_block =
+      $MODEL->resultset('Content')
+      ->search(
+        {pages => {like => '%style%'}, types => {like => '%ad_block%'}})
+      ->all;
+
+    $self->{'ADS_BLOCK'} = \@ads_block;
+
+    # Articles
+    if ($self->param('create_datetime')) {
+
+        $dt_local =
+          DateTime->from_epoch(epoch => int($self->param('create_datetime')));
+    }
+    else {
+        $dt_local = DateTime->now;
+    }
+
+    my @articles = $MODEL->resultset('Content')->search(
+        {   pages           => {like => 'style'},
+            types           => {like => '%article%'},
+            tags            => {like => '%style%'},
+            create_datetime => {
+                -between => [
+                    $dtf->format_datetime($dt_local->subtract(days => 90)),
+                    $dtf->format_datetime(DateTime->now)
+                ]
+            }
+        },
+        {order_by => 'create_datetime DESC'}
+    )->all;
+
+    $self->{'ARTICLES'} = \@articles;
+
+    # Trending
+    my @trending = $MODEL->resultset('Content')->search(
+        {   pages           => {like => '%style%'},
+            types           => {like => '%article%'},
+            tags            => {like => '%style%'},
+            create_datetime => {
+                -between => [
+                    $dtf->format_datetime($dt_local),
+                    $dtf->format_datetime(DateTime->now)
+                ]
+            }
+        },
+        {order_by => 'create_datetime DESC'}
+    )->all;
+
+    $self->{'TRENDING'} = order_by_trending($self, @trending);
+
+    return $self->render('style');
+
+} => 'style';
 
 get '/photos' => sub {
 
@@ -285,24 +365,27 @@ get '/photos' => sub {
     # Ads Block
     my @ads_block =
       $MODEL->resultset('Content')
-      ->search({pages => {like => '%photos%'}, types => {like => '%ad_block%'}})
+      ->search(
+        {pages => {like => '%photos%'}, types => {like => '%ad_block%'}})
       ->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     # Galleries
-    my @galleries =
-      $MODEL->resultset('Content')->search(
-        {pages => {like => '%photos%'},
-         types => {like => '%gallery%'},
-         create_datetime => {
+    my @galleries = $MODEL->resultset('Content')->search(
+        {   pages           => {like => '%photos%'},
+            types           => {like => '%gallery%'},
+            create_datetime => {
                 -between => [
-                    $dtf->format_datetime(DateTime->now->subtract(days => 90)),
+                    $dtf->format_datetime(
+                        DateTime->now->subtract(days => 90)
+                    ),
                     $dtf->format_datetime(DateTime->now)
                 ]
             }
-         },
-        {order_by => 'create_datetime DESC'})->all;
+        },
+        {order_by => 'create_datetime DESC'}
+    )->all;
 
     $self->{'GALLERIES'} = \@galleries;
 
@@ -315,256 +398,74 @@ get '/photos' => sub {
 
 ## Live
 
-get '/live' => sub {
+get '/live/:city' => [city => qr/\w+/] => sub {
 
     my $self = shift;
-    return $self->redirect_to('live_detroit');
+
+    my $city = $self->param('city');
+
+    for (@{$self->app->config->{persona}->{cities}}) {
+
+        if ($city eq $_) {
+
+            # Ads
+            my @ads = $MODEL->resultset('Content')->search(
+                {   pages => {like => '%live%'},
+                    types => {like => '%ad_header%'}
+                }
+            )->all;
+
+            $self->{'ADS'} = \@ads;
+
+            # Ads Block
+            my @ads_block = $MODEL->resultset('Content')->search(
+                {   pages => {like => '%live%'},
+                    types => {like => '%ad_block%'}
+                }
+            )->all;
+
+            $self->{'ADS_BLOCK'} = \@ads_block;
+
+            # City Life
+            my @city_life = $MODEL->resultset('Content')->search(
+                {   pages  => {like => '%live%'},
+                    tags   => {like => '%city_life%'},
+                    cities => {like => "%$city%"}
+                },
+                {order_by => 'id DESC'}
+            )->all;
+
+            $self->{'CITY_LIFE'} = \@city_life;
+
+            # Featured Lifestyle
+            my @featured_lifestyle = $MODEL->resultset('Content')->search(
+                {   pages     => {like => '%live%'},
+                    types     => {like => '%place%'},
+                    tags      => {like => '%lifestyle%'},
+                    cities    => {like => "%$city%"},
+                    interests => {like => '%living%'},
+                    position  => 1
+                },
+                {order_by => 'id DESC'}
+            )->all;
+
+            $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
+
+            # Neighbors
+            my @neighbors = $MODEL->resultset('Content')->search(
+                {   pages  => {like => '%live%'},
+                    types  => {like => '%article%'},
+                    tags   => {like => '%neighbor%'},
+                    cities => {like => "%$city%"}
+                },
+                {page => 1, rows => 3, order_by => 'id DESC'}
+            )->all;
+
+            $self->{'NEIGHBORS'} = \@neighbors;
+        }
+    }
 
 } => 'live';
-
-get '/live/birmingham' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%live%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # City Life
-    my @city_life = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            tags   => {like => '%city_life%'},
-            cities => {like => '%birmingham%'}
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'CITY_LIFE'} = \@city_life;
-
-    # Featured Lifestyle
-    my @featured_lifestyle = $MODEL->resultset('Content')->search(
-        {   pages     => {like => '%live%'},
-            types     => {like => '%place%'},
-            tags      => {like => '%lifestyle%'},
-            cities    => {like => '%birmingham%'},
-            interests => {like => '%living%'},
-            position  => 1
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
-
-    # Neighbors
-    my @neighbors = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            types  => {like => '%article%'},
-            tags   => {like => '%neighbor%'},
-            cities => {like => '%birmingham%'}
-        },
-        {page => 1, rows => 3, order_by => 'id DESC'}
-    )->all;
-
-    $self->{'NEIGHBORS'} = \@neighbors;
-
-    return $self->render('live_birmingham');
-
-} => 'live_birmingham';
-
-get '/live/detroit' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%live%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # City Life
-    my @city_life = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            tags   => {like => '%city_life%'},
-            cities => {like => '%detroit%'}
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'CITY_LIFE'} = \@city_life;
-
-    # Featured Lifestyle
-    my @featured_lifestyle = $MODEL->resultset('Content')->search(
-        {   pages     => {like => '%live%'},
-            types     => {like => '%place%'},
-            tags      => {like => '%lifestyle%'},
-            cities    => {like => '%detroit%'},
-            interests => {like => '%living%'},
-            position  => 1
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
-
-    # Neighbors
-    my @neighbors = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            types  => {like => '%article%'},
-            tags   => {like => '%neighbor%'},
-            cities => {like => '%detroit%'}
-        },
-        {page => 1, rows => 3, order_by => 'id DESC'}
-    )->all;
-
-    $self->{'NEIGHBORS'} = \@neighbors;
-
-    return $self->render('live_detroit');
-
-} => 'live_detroit';
-
-get '/live/ferndale' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%live%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # City Life
-    my @city_life = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            tags   => {like => '%city_life%'},
-            cities => {like => '%ferndale%'}
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'CITY_LIFE'} = \@city_life;
-
-    # Featured Lifestyle
-    my @featured_lifestyle = $MODEL->resultset('Content')->search(
-        {   pages     => {like => '%live%'},
-            types     => {like => '%place%'},
-            tags      => {like => '%lifestyle%'},
-            cities    => {like => '%ferndale%'},
-            interests => {like => '%living%'},
-            position  => 1
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
-
-    # Neighbors
-    my @neighbors = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            types  => {like => '%article%'},
-            tags   => {like => '%neighbor%'},
-            cities => {like => '%ferndale%'}
-        },
-        {page => 1, rows => 3, order_by => 'id DESC'}
-    )->all;
-
-    $self->{'NEIGHBORS'} = \@neighbors;
-
-    return $self->render('live_ferndale');
-
-} => 'live_ferndale';
-
-get '/live/royal_oak' => sub {
-
-    my $self = shift;
-
-    # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%live%'}, types => {like => '%ad_header%'}})->all;
-
-    $self->{'ADS'} = \@ads;
-
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search({pages => {like => '%live%'}, types => {like => '%ad_block%'}})
-      ->all;
-
-    $self->{'ADS_BLOCK'} = \@ads_block;
-
-    # City Life
-    my @city_life = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            tags   => {like => '%city_life%'},
-            cities => {like => '%royal_oak%'}
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'CITY_LIFE'} = \@city_life;
-
-    # Featured Lifestyle
-    my @featured_lifestyle = $MODEL->resultset('Content')->search(
-        {   pages     => {like => '%live%'},
-            types     => {like => '%place%'},
-            tags      => {like => '%lifestyle%'},
-            cities    => {like => '%royal_oak%'},
-            interests => {like => '%living%'},
-            position  => 1
-        },
-        {order_by => 'id DESC'}
-    )->all;
-
-    $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
-
-    # Neighbors
-    my @neighbors = $MODEL->resultset('Content')->search(
-        {   pages  => {like => '%live%'},
-            types  => {like => '%article%'},
-            tags   => {like => '%neighbor%'},
-            cities => {like => '%royal_oak%'}
-        },
-        {page => 1, rows => 3, order_by => 'id DESC'}
-    )->all;
-
-    $self->{'NEIGHBORS'} = \@neighbors;
-
-    return $self->render('live_royal_oak');
-
-} => 'live_royal_oak';
 
 get '/live/:city/neighbors' => [city => qr/\w+/] => sub {
 
@@ -623,8 +524,8 @@ get '/work' => sub {
 
     return $self->redirect_to('/work?tags=job_listings')
       unless $self->param('tags');
-      
-    my $dtf = $MODEL->storage->datetime_parser;
+
+    my $dtf      = $MODEL->storage->datetime_parser;
     my $dt_local = DateTime->now;
 
     my (@ads, @ads_block);
@@ -860,9 +761,9 @@ get '/search' => sub {
 
     # Trending
     if ($self->param('trending') eq 'true') {
-        
+
         $self->{'SEARCH_RESULTS'} = order_by_trending($self, @search_results);
-        
+
     }
     else {
         $self->{'SEARCH_RESULTS'} = \@search_results;
@@ -982,14 +883,16 @@ get '/dashboard' => sub {
 
     return $self->redirect_to('login') unless $self->session('admin');
 
-    my $dtf = $MODEL->storage->datetime_parser;
+    my $dtf      = $MODEL->storage->datetime_parser;
     my $dt_local = DateTime->now;
 
     # Content
     my @content = $MODEL->resultset('Content')->search(
         {   create_datetime => {
                 -between => [
-                    $dtf->format_datetime(DateTime->now->subtract(days => 120)),
+                    $dtf->format_datetime(
+                        DateTime->now->subtract(days => 120)
+                    ),
                     $dtf->format_datetime(DateTime->now)
                 ]
             }
@@ -998,12 +901,14 @@ get '/dashboard' => sub {
     )->all;
 
     $self->{'CONTENT'} = \@content;
-   
+
     # New Content
     my @new_content = $MODEL->resultset('Content')->search(
         {   create_datetime => {
                 -between => [
-                    $dtf->format_datetime(DateTime->now->subtract(days => 60)),
+                    $dtf->format_datetime(
+                        DateTime->now->subtract(days => 60)
+                    ),
                     $dtf->format_datetime(DateTime->now)
                 ]
             }
@@ -1225,12 +1130,10 @@ post '/api/content/update' => sub {
     return $self->redirect_to('home') unless $self->session('admin');
 
     my (@tags, @cities, @types, @interests, @pages, @photos);
-    
+
     my $id = $self->param('id');
 
-    my $content =
-      $MODEL->resultset('Content')->search({id => $id})
-      ->single;
+    my $content = $MODEL->resultset('Content')->search({id => $id})->single;
 
     if (($self->param('start_date')) and ($self->param('start_time'))) {
 
@@ -1315,13 +1218,12 @@ post '/api/content/update' => sub {
 
         for (@results) {
 
-            $MODEL->resultset('Content')->search({id => $id})
-              ->update(
+            $MODEL->resultset('Content')->search({id => $id})->update(
                 {   address => $_->streetAddress . ', ' . $_->city,
                     lat     => $_->lat,
                     lng     => $_->lng
                 }
-              );
+            );
         }
     }
 
@@ -1348,17 +1250,16 @@ post '/api/content/update' => sub {
 
     if ($self->req->upload('photos')) {
 
-        push @photos,
-          process_photo($self->req->upload('photos'), $id);
+        push @photos, process_photo($self->req->upload('photos'), $id);
 
         $content->update({photos => "@photos"})
           if scalar @photos >= 1;
     }
 
     $content->update({modified_datetime => DateTime->now});
-    
+
     my $text = 'Content updated!';
-    
+
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 
 };
@@ -1397,7 +1298,7 @@ post '/api/contact/message' => sub {
     {
 
         my $domain = app->config->{domain};
-        my $title = app->config->{title};
+        my $title  = app->config->{title};
 
         my @results = google_local($self->param('city_state_zip'));
 
@@ -1451,7 +1352,7 @@ post '/api/newsletter/message' => sub {
     {
 
         my $domain = app->config->{domain};
-        my $title = app->config->{title};
+        my $title  = app->config->{title};
 
         my @results = google_local($self->param('city_state_zip'));
 
@@ -1833,10 +1734,10 @@ sub order_by_trending {
         }
     }
 
-    for (sort {$b <=> $a} keys %working) {
+    for (sort { $b <=> $a } keys %working) {
         push @results, $working{$_};
     }
-        
+
     return \@results;
 }
 

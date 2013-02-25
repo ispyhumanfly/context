@@ -302,7 +302,7 @@
 		    none
 		</option>
     
-		<% for my $page (@{ $self->app->config->{editor}->{pages} }) { %>
+		<% for my $page (@{ $self->app->config->{persona}->{pages} }) { %>
 		
 		<option value="<%= $page %>">
 		    
@@ -324,7 +324,7 @@
 		    none
 		</option>
     
-		<% for my $page (@{ $self->app->config->{editor}->{pages} }) { %>
+		<% for my $page (@{ $self->app->config->{persona}->{pages} }) { %>
 		
 		<option value="<%= $page %>" <%= 'selected' if $self->{CONTENT}->pages =~ m/$page/i %>>
 		    
@@ -352,7 +352,7 @@
 		    none
 		</option>
 	
-		<% for my $type (@{ $self->app->config->{editor}->{types} }) { %>
+		<% for my $type (@{ $self->app->config->{persona}->{types} }) { %>
 		
 		<option value="<%= $type %>">
 		    
@@ -374,7 +374,7 @@
 		    none
 		</option>
     
-		<% for my $type (@{ $self->app->config->{editor}->{types} }) { %>
+		<% for my $type (@{ $self->app->config->{persona}->{types} }) { %>
 		
 		<option value="<%= $type %>" <%= 'selected' if $self->{CONTENT}->types =~ m/$type/i %>>
 		    
@@ -402,7 +402,7 @@
 		    none
 		</option>
 	
-		<% for my $tag (@{ $self->app->config->{editor}->{tags} }) { %>
+		<% for my $tag (@{ $self->app->config->{persona}->{tags} }) { %>
 		
 		<option value="<%= $tag %>">
 		    
@@ -424,7 +424,7 @@
 		    none
 		</option>
 	
-		<% for my $tag (@{ $self->app->config->{editor}->{tags} }) { %>
+		<% for my $tag (@{ $self->app->config->{persona}->{tags} }) { %>
 		
 		<option value="<%= $tag %>" <%= 'selected' if $self->{CONTENT}->tags =~ m/$tag/i %>>
 		    
@@ -452,7 +452,7 @@
 		    none
 		</option>
 	
-		<% for my $city (@{ $self->app->config->{editor}->{cities} }) { %>
+		<% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
 		
 		<option value="<%= $city %>">
 		    
@@ -474,7 +474,7 @@
 		    none
 		</option>
 	
-		<% for my $city (@{ $self->app->config->{editor}->{cities} }) { %>
+		<% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
 		
 		<option value="<%= $city %>" <%= 'selected' if $self->{CONTENT}->cities =~ m/$city/i %>>
 		    
@@ -502,7 +502,7 @@
 		    none
 		</option>
 	
-		<% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
+		<% for my $interest (@{ $self->app->config->{persona}->{interests} }) { %>
 		
 		<option value="<%= $interest %>">
 		    
@@ -524,7 +524,7 @@
 		    none
 		</option>
 	
-		<% for my $interest (@{ $self->app->config->{editor}->{interests} }) { %>
+		<% for my $interest (@{ $self->app->config->{persona}->{interests} }) { %>
 		
 		<option value="<%= $interest %>" <%= 'selected' if $self->{CONTENT}->interests =~ m/$interest/i %>>
 		    

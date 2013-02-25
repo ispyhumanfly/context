@@ -1,0 +1,182 @@
+% title 'Play';
+% layout 'default';
+%
+% my $more_neighbors_length = 3;
+% my $city = $self->param('city');
+ 
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div class="content_left">
+    
+    <h1>Neighbors</h1>
+    
+    <% for my $neighbors (@{$self->{NEIGHBORS}}) { %>
+    
+	<% if ($self->param('id')) { %>
+	
+	<% next unless $neighbors->id == int($self->param('id')); %>
+	    
+	<% } else { %>
+	
+	<% my $first = @{$self->{NEIGHBORS}}; %>
+	<% next unless $neighbors->id == $first->[0]->id; %>
+	
+	<% } %>
+	
+	<!-- Analytics -->
+	<script type="text/javascript">//<![CDATA[
+
+	Clicks.push(<%= $neighbors->id; %>);
+
+	//]]></script>
+	    
+	<% for ( split /\s+/, $neighbors->photos ) { %>
+
+	<img class="para_image_right" src="<%= $_ %>" title="<%= $neighbors->title %>" />
+
+	<% last; %>
+
+	<% } %>
+
+	<% unless (scalar (split /\s+/, $neighbors->photos) <= 1 ) { %>
+	
+	<div class="content_thumbnails_right">
+	    
+	<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
+	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $neighbors->id %>"></div>
+
+	</div>
+
+	<% } %>
+
+	<h2><%= $neighbors->title %></h2>
+
+	<% unless (($neighbors->author eq '') or ($neighbors->author =~ /^\s+$/g)) { %>
+    
+	<h4>By <%= $neighbors->author %></h4>
+    
+	<% } %>
+	
+	<div id="content_body"><%== $neighbors->body %></div>
+
+	%= include 'modules/social_media', mode => 'content', content => $neighbors
+
+	<h3>
+	    
+	    <% if ($self->session('admin')) { %>
+    
+	    <a href="javascript:history.go(-1)">Back | </a>
+	    <a href="/editor?mode=update&id=<%= $neighbors->id %>" style="margin-left; 10px;">Edit</a>
+    	    
+	    <% } else { %>
+    
+	    <a href="javascript:history.go(-1)">Back</a>
+	    
+	    <% } %>
+
+	    <div style="text-align: right; margin-top: -20px;">
+
+		<% my $next_neighbors_counter; %>
+		
+	    	<% for (@{$self->{NEIGHBORS}}) { %>
+
+		    <% $next_neighbors_counter++; %>
+		    
+		    <% if ($self->param('id')) { %>
+		    
+		    <% next unless $_->id < int($self->param('id')); %>
+			
+		    <% } %>
+		
+		    <a href="/live/<%== $city %>/neighbors?id=<%= $_->id %>">Next</a>
+		    
+		    <% last; %>
+		    
+		<% } %>
+		
+	    </div>
+	
+	</h3>
+    	
+    <% } %>
+
+</div>
+
+<div class="content_right">
+
+    <h1><a href="/search?tags=neighbor&cities=<%= $city %>">More Neighbors</a></h1>
+
+    <div class="content_right_padding">
+    
+	<% my $more_neighbors_counter; %>
+	
+	<% for my $more_neighbors (@{$self->{NEIGHBORS}}) { %>
+    
+	    <% if ($self->param('id')) { %>
+	    
+	    <% next unless $more_neighbors->id < int($self->param('id')); %>
+		
+	    <% } else { %>
+	    
+	    <% my $first = @{$self->{NEIGHBORS}}; %>
+	    <% next unless $more_neighbors->id == $first->[0]->id; %>
+    
+	    <% } %>
+	    
+	    <% $more_neighbors_counter++; %>
+
+	    <% if ($more_neighbors_counter > 1) { %>
+	
+	    <hr />
+	
+	    <% } %>
+
+	    <!-- Analytics -->
+	    <script type="text/javascript">//<![CDATA[
+
+	    Views.push(<%= $more_neighbors->id; %>);
+
+	    //]]></script>
+	    
+	    <% for ( split /\s+/, $more_neighbors->photos ) { %>
+	    
+	    <a title="<%= $more_neighbors->title %>" href="/live/<%== $city %>/neighbors?id=<%= $more_neighbors->id %>">
+		<img class="block_thumbnails_right" src="<%= $_ %>"/>
+	    </a>
+	    
+	    <% last; #JUST SHOW ONE %>
+	    
+	    <% } %>
+	    
+	    <div class="block_title"><a href="/live/<%== $city %>/neighbors?id=<%= $more_neighbors->id %>"><%= $more_neighbors->title %></a></div>
+	    
+	    <div class="block_text"><%== substr( HTML::FormatText->format_string($more_neighbors->body), 0, 75 ) . '' %></div>
+	    
+	    <div class="read_more_left">
+    
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/live/<%== $city %>/neighbors?id=<%= $more_neighbors->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $more_neighbors->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/live/<%== $city %>/neighbors?id=<%= $more_neighbors->id %>">Read More</a>
+		
+		<% } %>
+    
+	    </div>
+	    
+	    <% last if $more_neighbors_counter == $more_neighbors_length; %>
+	    
+	<% } %>
+
+	<div class="block_see_more"><a href="/search?tags=neighbor&cities=<%= $city %>">See More &rarr;</a></div>
+
+    </div>
+    
+    %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
+</div>

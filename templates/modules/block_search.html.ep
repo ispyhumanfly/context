@@ -1,0 +1,47 @@
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div class="content_right_padding">
+    
+    <div dojoType="dijit.form.Form" class="block_form" encType="multipart/form-data" action="/search" method="get">
+        
+        <label>City</label>
+        
+        <select name="cities" style="width: 200px; margin-right: 5px; padding: 0px;">
+            
+            <% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
+             
+            <option value="<%= $city %>">    
+                <%= ucfirst($city) %>
+            </option>
+                
+            <% } %>
+             
+        </select>    
+        
+        <div class="content_spacer"></div>
+        
+        <label>Interest</label>
+        
+        <select name="interests" style="width: 200px; margin-right: 5px; padding: 0px;">
+            
+            <% for my $interest (@{ $self->app->config->{persona}->{interests} }) { %>
+            
+            <option value="<%= $interest %>">    
+                <%= ucfirst($interest) %>    
+            </option>
+            
+            <% } %>
+            
+        </select>    
+        
+        <div class="content_spacer"></div>
+        
+        <button type="submit" style="margin-right: 5px;">Search</button>
+        
+        <div class="content_spacer"></div>
+        
+    </div>
+
+</div>

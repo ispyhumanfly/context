@@ -54,7 +54,7 @@
 		    <li><a href="/events">Events</a></li>
 		    <li><a href="/photos">Photos</a></li>
 		    <li><a href="/articles">Articles</a></li>
-		    <li><a href="/search?tags=style">Style</a></li>
+		    <li><a href="/style">Style</a></li>
 		    <li><a href="/work">Jobs</a></li>
 		    <li><a href="/about">About</a></li>
     
@@ -112,14 +112,36 @@
 	    <div id="footer_container">
 
 		<div style="margin-left: 25px;">
+		    
 		    <ul>
-			<li><a href="/live" style="font-weight: bold; font-size: large;">Live</a></li>
-			<li><a href="/live/birmingham">Birmingham</a></li>
-			<li><a href="/live/detroit">Detroit</a></li>
-			<li><a href="/live/ferndale">Ferndale</a></li>
-			<li style="white-space: nowrap;"><a href="/live/royal_oak">Royal Oak</a></li>
+			
+			% my $city_counter = 0;
+			
+			<% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
+
+			    % $city_counter++;
+			
+			    <% if ($city_counter == 1) { %>
+			    
+			    <li><a href="/live/<%= $city %>" style="font-weight: bold; font-size: large;">Live</a></li>
+			    
+			    <% } %>
+			    
+			    <li style="white-space: nowrap;">
+				
+				<a href="/live/<%= $city %>">
+				    
+				    % $city =~ s/_/ /g;
+				    % $city =~ s/(\w+)/\u\L$1/g;
+				    %= $city;
+				    
+				</a>
+			    </li>
+			
+			<% } %>
     
 		    </ul>
+		    
 		</div>
 
 		<div>
@@ -138,15 +160,15 @@
 			<li><a href="/events">Events</a></li>
 			<li><a href="/photos">Photos</a></li>
 			<li><a href="/articles">Articles</a></li>
-			<li><a href="/search?tags=style">Style</a></li>
+			<li><a href="/style">Style</a></li>
 		    </ul>
 		</div>
             
 		<div>
 		    <ul>
 			<li><a href="/about" style="font-weight: bold; font-size: large;">About</a></li>
-			<li><a href="/about/contact">Contact</a></li>
-			<li><a href="/about/newsletter">Newsletter</a></li>
+			<li><a href="/contact">Contact</a></li>
+			<li><a href="/newsletter">Newsletter</a></li>
 			<li><a href="<%= app->config->{facebook}->{link} %>" target="_blank">Facebook</a></li>
 			<li><a href="<%= app->config->{twitter}->{link} %>" target="_blank">Twitter</a></li>
 		    </ul>

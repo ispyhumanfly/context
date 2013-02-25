@@ -17,14 +17,14 @@
     
     <% for my $article (@{$self->{ARTICLES}}) { %>
 	    
-        <% $article_counter++; %>
+        % $article_counter++;
 
 	<% if (($article_counter == 1) and ($self->param('create_datetime')) and ($self->param('id'))) { %>
 		    
 	    <% unless ($self->param('id') eq $article->id ) { %>
 		
-		<% $article_counter--; %>
-		<% next; %>
+		% $article_counter--;
+		% next;
 		
 	    <% } %>
 	    
@@ -174,7 +174,7 @@
     
     <h1>Search After 5</h1>
 	
-    %= include 'modules/block_search_places'
+    %= include 'modules/block_search'
 
     <h1>Connect</h1>
     

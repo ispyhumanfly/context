@@ -1,0 +1,45 @@
+#!/usr/bin/env perl
+
+use Modern::Perl;
+
+use lib 'lib';
+use After5::Model;
+
+our $MODEL = After5::Model->connect('dbi:SQLite:after5.db');
+
+if ($ARGV[0] and $ARGV[1]) {
+
+    my $existing_tag = $ARGV[0];
+    my $new_tag      = $ARGV[1];
+
+    my @content =
+      $MODEL->resultset('Content')
+      ->search({tags => {like => "%$existing_tag%"}}, {order_by => 'id DESC'})
+      ->all;
+
+    for (@content) {
+
+        my @tags;
+
+        for (split /\s+/, $_->tags) {
+
+            unless ($_ =~ m/\b$existing_tag\b/g) {
+                push @tags, $_;
+            }
+        }
+
+        push @tags, $new_tag;
+        
+        $MODEL->resultset('Content')->search({id => $_->id})
+          ->update({tags => "@tags"});
+    }
+}
+
+unless ($ARGV[0] and $ARGV[1]) {
+
+    my @content =
+      $MODEL->resultset('Content')->search(undef, {order_by => 'id DESC'})
+      ->all;
+
+    say $_->tags for @content;
+}

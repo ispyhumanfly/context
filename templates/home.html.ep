@@ -204,8 +204,6 @@
 
     <% for my $event (@{$self->{EVENTS}}) { %>
     
-    	% next if $event->tags =~ m/\bnetworking/i;
-
 	% $event_counter++;
     	
 	% next unless $event_counter >= $upcoming_events_length + 1;
@@ -338,7 +336,7 @@
 
 	<div class="content_spacer"></div>
 	
-	%= include 'modules/block_more_galleries', more_galleries => $self->{GALLERIES}
+	%= include 'modules/block_photos', more_galleries => $self->{GALLERIES}
 	
     </div>
 
@@ -350,7 +348,7 @@
 
     <h1>Search After 5</h1>
 
-    %= include 'modules/block_search_places'
+    %= include 'modules/block_search'
 
     <h1>Connect</h1>
     
