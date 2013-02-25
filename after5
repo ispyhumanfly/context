@@ -1342,10 +1342,10 @@ post '/api/contact/message' => sub {
     else {
 
         my $text = 'Error sending message. Please try again!';
-        return $self->redirect_to("/about/contact?message=$text");
+        return $self->redirect_to("/contact?message=$text");
     }
 
-    return $self->redirect_to('about_contact');
+    return $self->redirect_to('contact');
 };
 
 post '/api/newsletter/message' => sub {
@@ -1396,10 +1396,10 @@ post '/api/newsletter/message' => sub {
     else {
 
         my $text = 'Error sending message. Please try again!';
-        return $self->redirect_to("/about/newsletter?message=$text");
+        return $self->redirect_to("/newsletter?message=$text");
     }
 
-    return $self->redirect_to('about_newsletter');
+    return $self->redirect_to('newsletter');
 };
 
 post '/api/photo/remove' => sub {
