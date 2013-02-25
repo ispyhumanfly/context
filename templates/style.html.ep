@@ -56,7 +56,7 @@
 
 	    % $style->update({views => $style->views + 1});
 
-	    <a title="<%= $style->title %>" href="/articles?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>">
+	    <a title="<%= $style->title %>" href="/style?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -72,7 +72,7 @@
     
 	<% } else { %>
 
-        <a href="/articles?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>"><h2><%= $style->title %></h2></a>
+        <a href="/style?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>"><h2><%= $style->title %></h2></a>
 	
 	<% } %>
 	
@@ -116,12 +116,12 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/articles?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>">Read More |</a>
+		<a href="/style?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $style->id %>">Edit</a>        
 
 		<% } else { %>
 
-		<a href="/articles?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>">Read More</a>
+		<a href="/style?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>">Read More</a>
 
 		<% } %>
     
@@ -150,7 +150,7 @@
 	    
 		<% next if $_->create_datetime->epoch <= $last_create_datetime; %>
 		
-		<a href="/articles?create_datetime=<%= $_->create_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
+		<a href="/style?create_datetime=<%= $_->create_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
 		
 		<% last; %>
 		
