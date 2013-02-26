@@ -308,12 +308,14 @@ get '/style' => sub {
         $dt_local = DateTime->now;
     }
 
+    # Style
     my @style = $MODEL->resultset('Content')->search(
         {   pages           => {like => '%style%'},
             types           => {like => '%article%'},
+            tags            => {like => '%style%'},
             create_datetime => {
                 -between => [
-                    $dtf->format_datetime($dt_local->subtract(days => 365)),
+                    $dtf->format_datetime($dt_local->subtract(days => 120)),
                     $dtf->format_datetime(DateTime->now)
                 ]
             }
