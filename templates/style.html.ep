@@ -16,9 +16,7 @@
     <% my $style_counter; %>
     
     <% for my $style (@{$self->{STYLE}}) { %>
-	
-	% next unless $style->tags =~ m/\bstyle\b/g;
-	
+		
         % $style_counter++;
 
 	<% if (($style_counter == 1) and ($self->param('create_datetime')) and ($self->param('id'))) { %>
