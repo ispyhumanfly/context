@@ -1,8 +1,8 @@
 % title 'Live';
 % layout 'default';
-% my $city_url = $self->param('city');
-% my $city_name  =~ s/_/ /g;
-% $city_name =~ s/(\w+)/\u\L$1/g;
+% my $city = $self->param('city');
+% my $city_url = lc($city); $city_url =~ s/ /_/g; $city_url = '/live/' . $city_url;
+% my $city_name = ucfirst($city); $city_name =~ s/_/ /g; $city_name =~ s/(\w+)/\u\L$1/g;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -16,27 +16,28 @@
 
     <% for my $city_life (@{$self->{CITY_LIFE}}) { %>
         
+        % next unless $city_life->tags =~ m/\bcity_life\b/g;
+        
 	<% next unless $city_life->position == $position; %>
     
 	<% if ($position == 1) { %>
 	    
 	    % $city_life->update({clicks => $city_life->clicks + 1});
 	    
-	    <% for ( split /\s+/, $city_life->photos ) { %>
-    
-	    <img class="para_image_right" src="<%= $_ %>" title="<%= $city_life->title %>" />
-		
-	    <% last; #JUST SHOW ONE %>
-    
-	    <% } %>
-    
-	    <div class="content_thumbnails_right">
-		
-		<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-		<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $city_life->id %>"></div>
-	
-	    </div>
-	    
+            <% for ( split /\s+/, $city_life->photos ) { %>
+
+                % $city_life->update({clicks => $city_life->clicks + 1});
+
+                % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+            
+                <img class="para_image_right" src="<%= $_ %>" onClick="contentPhotos_<%= $md5 %>.show();"/>
+            
+                %= include 'modules/content_photos', content => $city_life, identifier => $md5
+            
+                <% last; %>
+
+            <% } %>
+            
 	    <h2><%= $city_life->title %></h2>
 	    
 	    <div id="content_body"><%== substr( HTML::FormatText->format_string($city_life->body), 0, 500 ) %></div>
@@ -98,6 +99,8 @@
     
     <% for my $featured_lifestyle (@{$self->{FEATURED_LIFESTYLE}}) { %>
 
+        % next unless $featured_lifestyle->tags =~ m/\lifestyle\b/g;
+
     	<% next unless $featured_lifestyle->position == $position_lifestyle; %>
 
 	<% if ($position_lifestyle == 1) { %>
@@ -145,7 +148,7 @@
 
 <div class="content_right">
 
-    <h1><a href="/live/<%= $city_url %>/neighbors">Neighbors</a></h1>
+    <h1><a href="<%= $city_url %>/neighbors">Neighbors</a></h1>
 
     <div class="content_right_padding">
         
@@ -153,6 +156,8 @@
 	
 	<% for my $neighbors (@{$self->{NEIGHBORS}}) { %>
 	    
+            % next unless $neighbors->tags =~ m/\bneighbor\b/g;
+
 	    <% $neighbors_counter++; %>
 	    
 	    <% next if $neighbors->types =~ m/ad/i; %>
@@ -161,7 +166,7 @@
 	    
 	    <% for ( split /\s+/, $neighbors->photos ) { %>
 	    
-	    <a title="<%= $neighbors->title %>" href="/live/<%= $city_url %>/neighbors?id=<%= $neighbors->id %>">
+	    <a title="<%= $neighbors->title %>" href="<%= $city_url %>/neighbors?id=<%= $neighbors->id %>">
 		<img class="block_thumbnails_right" src="<%= $_ %>"/>
 	    </a>
 	    
@@ -169,7 +174,7 @@
 	    
 	    <% } %>
 	    
-	    <div class="block_title"><a href="/live/<%= $city_url %>/neighbors?id=<%= $neighbors->id %>"><%= $neighbors->title %></a></div>
+	    <div class="block_title"><a href="<%= $city_url %>/neighbors?id=<%= $neighbors->id %>"><%= $neighbors->title %></a></div>
 	    
 	    <div class="block_text"><%== substr( HTML::FormatText->format_string($neighbors->body), 0, 75 ) %></div>
 	    
@@ -177,7 +182,7 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/live/<%= $city_url %>/neighbors?id=<%= $neighbors->id %>">Read More |</a>
+		<a href="<%= $city_url %>/neighbors?id=<%= $neighbors->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $neighbors->id %>">Edit</a>        
 	    
 		<% } else { %>

@@ -165,7 +165,6 @@ get '/articles' => sub {
     my @articles = $MODEL->resultset('Content')->search(
         {   pages           => {like => '%articles%'},
             types           => {like => '%article%'},
-            tags            => {like => '%general%'},
             create_datetime => {
                 -between => [
                     $dtf->format_datetime($dt_local->subtract(days => 90)),
@@ -312,10 +311,9 @@ get '/style' => sub {
     my @style = $MODEL->resultset('Content')->search(
         {   pages           => {like => '%style%'},
             types           => {like => '%article%'},
-            tags            => {like => '%style%'},
             create_datetime => {
                 -between => [
-                    $dtf->format_datetime($dt_local->subtract(days => 490)),
+                    $dtf->format_datetime($dt_local->subtract(days => 365)),
                     $dtf->format_datetime(DateTime->now)
                 ]
             }
@@ -402,8 +400,8 @@ get '/live/:city' => [city => qr/\w+/] => sub {
 
     my $self = shift;
 
-    my $city = $self->param('city');
-
+    my $city = lc($self->param('city'));
+    
     for (@{$self->app->config->{persona}->{cities}}) {
 
         if ($city eq $_) {
@@ -429,7 +427,6 @@ get '/live/:city' => [city => qr/\w+/] => sub {
             # City Life
             my @city_life = $MODEL->resultset('Content')->search(
                 {   pages  => {like => '%live%'},
-                    tags   => {like => '%city_life%'},
                     cities => {like => "%$city%"}
                 },
                 {order_by => 'id DESC'}
@@ -441,9 +438,7 @@ get '/live/:city' => [city => qr/\w+/] => sub {
             my @featured_lifestyle = $MODEL->resultset('Content')->search(
                 {   pages     => {like => '%live%'},
                     types     => {like => '%place%'},
-                    tags      => {like => '%lifestyle%'},
                     cities    => {like => "%$city%"},
-                    interests => {like => '%living%'},
                     position  => 1
                 },
                 {order_by => 'id DESC'}
@@ -462,6 +457,8 @@ get '/live/:city' => [city => qr/\w+/] => sub {
             )->all;
 
             $self->{'NEIGHBORS'} = \@neighbors;
+            
+            last;
         }
     }
 

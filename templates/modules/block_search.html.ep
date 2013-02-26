@@ -10,10 +10,10 @@
         
         <select name="cities" style="width: 200px; margin-right: 5px; padding: 0px;">
             
-            <% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
+            <% for my $search_city (@{ $self->app->config->{persona}->{cities} }) { %>
              
-            <option value="<%= $city %>">    
-                <%= ucfirst($city) %>
+            <option value="<%= $search_city %>">    
+                <%= ucfirst($search_city) %>
             </option>
                 
             <% } %>
@@ -26,10 +26,10 @@
         
         <select name="interests" style="width: 200px; margin-right: 5px; padding: 0px;">
             
-            <% for my $interest (@{ $self->app->config->{persona}->{interests} }) { %>
+            <% for my $search_interest (@{ $self->app->config->{persona}->{interests} }) { %>
             
-            <option value="<%= $interest %>">    
-                <%= ucfirst($interest) %>    
+            <option value="<%= $search_interest %>">    
+                <%= ucfirst($search_interest) %>    
             </option>
             
             <% } %>

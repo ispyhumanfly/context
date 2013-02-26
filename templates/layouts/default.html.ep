@@ -119,21 +119,22 @@
 			
 			<% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
 
+			    % my $city_url = lc($city); $city_url =~ s/ /_/g; $city_url = '/live/' . $city_url;
+			    % my $city_title = ucfirst($city); $city_title =~ s/_/ /g; $city_title =~ s/(\w+)/\u\L$1/g;
+			    
 			    % $city_counter++;
 			
 			    <% if ($city_counter == 1) { %>
 			    
-			    <li><a href="/live/<%= $city %>" style="font-weight: bold; font-size: large;">Live</a></li>
+			    <li><a href="<%= $city_url %>" style="font-weight: bold; font-size: large;">Live</a></li>
 			    
 			    <% } %>
 			    
 			    <li style="white-space: nowrap;">
 				
-				<a href="/live/<%= lcfirst($city) %>">
+				<a href="<%= $city_url %>">
 				    
-				    % $city =~ s/_/ /g;
-				    % $city =~ s/(\w+)/\u\L$1/g;
-				    %= $city;
+				    %= $city_title;
 				    
 				</a>
 			    </li>

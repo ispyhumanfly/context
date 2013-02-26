@@ -6,6 +6,12 @@
     
     <% for my $trending (@{$content}) { %>
         
+        <% if ($mode eq 'style') { %>
+        
+        % next unless $trending->tags =~ m/\bstyle\b/g;
+
+        <% } %>
+        
         % $trending_counter++;
 
         % $trending->update({views => $trending->views + 1});
@@ -54,7 +60,7 @@
         
     <% } %>
 
-    <% if ($mode =~ m/article|event/i) { %>
+    <% if ($mode =~ m/article|event|style/i) { %>
 
     <div class="block_see_more">
         <a href="/search?type=<%= $mode %>&trending=true">See More &rarr;</a>

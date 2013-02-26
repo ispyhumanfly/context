@@ -16,7 +16,9 @@
     <% my $style_counter; %>
     
     <% for my $style (@{$self->{STYLE}}) { %>
-	    
+	
+	% next unless $style->tags =~ m/\bstyle\b/g;
+	
         % $style_counter++;
 
 	<% if (($style_counter == 1) and ($self->param('create_datetime')) and ($self->param('id'))) { %>
@@ -168,7 +170,7 @@
 
     <h1>Trending</h1>
     
-    %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'article', length => 5
+    %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'style', length => 5
         
     %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
     
