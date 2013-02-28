@@ -7,9 +7,7 @@
         <button id="previous" onClick="dijit.byId('stackContainer_<%= $identifier %>').back()" dojoType="dijit.form.Button">
         Last
         </button>
-        
-        <span dojoType="dijit.layout.StackController" containerId="stackContainer_<%= $identifier %>"></span>
-        
+                
         <button id="next" onClick="dijit.byId('stackContainer_<%= $identifier %>').forward()" dojoType="dijit.form.Button">
         Next
         </button>
@@ -22,7 +20,7 @@
 
             % $content_counter++;
             
-            <div dojoType="dijit.layout.ContentPane" title="<%= $content_counter %>">
+            <div dojoType="dijit.layout.ContentPane">
                 
                 <img style="margin-top: 10px; width: auto; height: 300px; border: 1px solid #1a3721;" src="<%= $_ %>" />
                 
@@ -40,6 +38,7 @@
             </div>
             
             <% } %>
+            
         </div>			
     </div>
 </div>

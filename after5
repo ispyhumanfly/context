@@ -1275,8 +1275,11 @@ post '/api/content/update' => sub {
 
     $content->update({modified_datetime => DateTime->now});
 
-    my $text = 'Content updated!';
+    my $text =
 
+      'Content updated. '
+      . "<a href='/$id'>You can click here to view the Permalink page.</a>";
+      
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 
 };
