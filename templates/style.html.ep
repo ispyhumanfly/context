@@ -1,7 +1,7 @@
 % title 'Style';
 % layout 'default';
 %
-% my $style_length = 10;
+% my $article_length = 10;
 % my $last_create_datetime;
 
 <script type="text/javascript">//<![CDATA[
@@ -13,50 +13,50 @@
     
     <h1>Style</h1>
 
-    <% my $style_counter; %>
+    <% my $article_counter; %>
     
-    <% for my $style (@{$self->{STYLE}}) { %>
-		
-        % $style_counter++;
+    <% for my $article (@{$self->{ARTICLES}}) { %>
+	
+        % $article_counter++;
 
-	<% if (($style_counter == 1) and ($self->param('create_datetime')) and ($self->param('id'))) { %>
+	<% if (($article_counter == 1) and ($self->param('create_datetime')) and ($self->param('id'))) { %>
 		    
-	    <% unless ($self->param('id') eq $style->id ) { %>
+	    <% unless ($self->param('id') eq $article->id ) { %>
 		
-		% $style_counter--;
+		% $article_counter--;
 		% next;
 		
 	    <% } %>
 	    
 	<% } %>
         
-        <% if ($style_counter == 2) { %>
+        <% if ($article_counter == 2) { %>
         
-        <h1>More Articles</h1>
+        <h1>More Style</h1>
         
-        <% } elsif ($style_counter > 2) { %>
+        <% } elsif ($article_counter > 2) { %>
 	
 	<hr />
 	
 	<% } %>
             
-	<% for ( split /\s+/, $style->photos ) { %>
+	<% for ( split /\s+/, $article->photos ) { %>
 
-	    <% if ($style_counter == 1) { %>
+	    <% if ($article_counter == 1) { %>
 	    
-		% $style->update({clicks => $style->clicks + 1});
+		% $article->update({clicks => $article->clicks + 1});
 
 		% my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
 	    
 		<img class="para_image_right" src="<%= $_ %>" onClick="contentPhotos_<%= $md5 %>.show();"/>
 	    
-		%= include 'modules/content_photos', content => $style, identifier => $md5
+		%= include 'modules/content_photos', content => $article, identifier => $md5
 
 	    <% } else { %>
 
-	    % $style->update({views => $style->views + 1});
+	    % $article->update({views => $article->views + 1});
 
-	    <a title="<%= $style->title %>" href="/style?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>">
+	    <a title="<%= $article->title %>" href="/style?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -66,35 +66,35 @@
 
         <% } %>
 
-	<% if ($style_counter == 1) { %>
+	<% if ($article_counter == 1) { %>
 	
-        <h2><%= $style->title %></h2>
+        <h2><%= $article->title %></h2>
     
 	<% } else { %>
 
-        <a href="/style?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>"><h2><%= $style->title %></h2></a>
+        <a href="/style?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><h2><%= $article->title %></h2></a>
 	
 	<% } %>
 	
-	<% if ($style_counter == 1) { %>
+	<% if ($article_counter == 1) { %>
 		    
-	    <% unless (($style->author eq '') or ($style->author =~ /^\s+$/g)) { %>
+	    <% unless (($article->author eq '') or ($article->author =~ /^\s+$/g)) { %>
 	    
-	    <h4>By <%= $style->author %></h4>
+	    <h4>By <%= $article->author %></h4>
     
 	    <% } %>
 	    
-	    <div id="content_body"><%== $style->body %></div>
+	    <div id="content_body"><%== $article->body %></div>
 	
-	    %= include 'modules/content_details', content => $style, size => 'large', show => 'all'
+	    %= include 'modules/content_details', content => $article, size => 'large', show => 'all'
 	    
-	    %= include 'modules/social_media', mode => 'share_this', content => $style
+	    %= include 'modules/social_media', mode => 'share_this', content => $article
 
 	    <h3>
 		
 		<% if ($self->session('admin')) { %>
 
-		<a href="/editor?mode=update&id=<%= $style->id %>">Edit</a>
+		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>
 		
 		<% } else { %>
 	    
@@ -108,7 +108,7 @@
 
 	    <div id="content_body_truncated" class="right_search">
 
-		<%== substr( HTML::FormatText->format_string($style->body), 0, 300 ) %>
+		<%== substr( HTML::FormatText->format_string($article->body), 0, 300 ) %>
 
 	    </div>
 
@@ -116,12 +116,12 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/style?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>">Read More |</a>
-		<a href="/editor?mode=update&id=<%= $style->id %>">Edit</a>        
+		<a href="/style?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 
 		<% } else { %>
 
-		<a href="/style?create_datetime=<%= $style->create_datetime->epoch %>&id=<%= $style->id %>">Read More</a>
+		<a href="/style?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
 
 		<% } %>
     
@@ -129,10 +129,10 @@
 	
 	<% } %>
 	
-	<% if ($style_counter == $style_length) { %>
+	<% if ($article_counter == $article_length) { %>
 	
-	    <% $last_create_datetime = $style->create_datetime->epoch; %>
-	    <% last; %>
+	    % $last_create_datetime = $article->create_datetime->epoch;
+	    % last;
 	
 	<% } %>
 	
@@ -142,17 +142,17 @@
 	    
 	<a href="javascript:history.go(-1)">Back</a>
 	
-	<% if ($style_counter == $style_length) { %>
+	<% if ($article_counter == $article_length) { %>
 	    
 	<div style="text-align: right; margin-top: -20px;">
 	    
 	    <% for (@{$self->{ARTICLES}}) { %>
 	    
-		<% next if $_->create_datetime->epoch <= $last_create_datetime; %>
+		% next if $_->create_datetime->epoch >= $last_create_datetime;
 		
 		<a href="/style?create_datetime=<%= $_->create_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
 		
-		<% last; %>
+		% last;
 		
 	    <% } %>
 	    
@@ -168,7 +168,7 @@
 
     <h1>Trending</h1>
     
-    %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'style', length => 5
+    %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'article', length => 5
         
     %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
     

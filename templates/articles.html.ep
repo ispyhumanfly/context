@@ -133,8 +133,8 @@
 	
 	<% if ($article_counter == $article_length) { %>
 	
-	    <% $last_create_datetime = $article->create_datetime->epoch; %>
-	    <% last; %>
+	    % $last_create_datetime = $article->create_datetime->epoch;
+	    % last;
 	
 	<% } %>
 	
@@ -150,11 +150,11 @@
 	    
 	    <% for (@{$self->{ARTICLES}}) { %>
 	    
-		<% next if $_->create_datetime->epoch <= $last_create_datetime; %>
+		% next if $_->create_datetime->epoch >= $last_create_datetime;
 		
 		<a href="/articles?create_datetime=<%= $_->create_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
 		
-		<% last; %>
+		% last;
 		
 	    <% } %>
 	    

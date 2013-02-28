@@ -298,7 +298,7 @@ get '/style' => sub {
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
-    # Style
+    # Articles
     if ($self->param('create_datetime')) {
 
         $dt_local =
@@ -308,14 +308,12 @@ get '/style' => sub {
         $dt_local = DateTime->now;
     }
 
-    # Style
-    my @style = $MODEL->resultset('Content')->search(
+    my @articles = $MODEL->resultset('Content')->search(
         {   pages           => {like => '%style%'},
             types           => {like => '%article%'},
-            tags            => {like => '%style%'},
             create_datetime => {
                 -between => [
-                    $dtf->format_datetime($dt_local->subtract(days => 120)),
+                    $dtf->format_datetime($dt_local->subtract(days => 90)),
                     $dtf->format_datetime(DateTime->now)
                 ]
             }
@@ -323,13 +321,12 @@ get '/style' => sub {
         {order_by => 'create_datetime DESC'}
     )->all;
 
-    $self->{'STYLE'} = \@style;
+    $self->{'ARTICLES'} = \@articles;
 
     # Trending
     my @trending = $MODEL->resultset('Content')->search(
         {   pages           => {like => '%style%'},
             types           => {like => '%article%'},
-            tags            => {like => '%style%'},
             create_datetime => {
                 -between => [
                     $dtf->format_datetime($dt_local),
