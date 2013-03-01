@@ -25,7 +25,7 @@ The code behind after5detroit.com
 Modern::Perl Mojolicious::Lite DBIx::Class::Candy SQL::Translator 
 DateTime::Format::SQLite DateTime::Format::ISO8601 HTML::FormatText
 REST::Google::Search Net::Google::FederatedLogin Mail::Sendmail
-Try::Tiny Archive::Zip
+Try::Tiny Archive::Extract Archive::Zip
 
 =head2 TinyMCE
 
@@ -42,6 +42,6 @@ http://github.com/thoughtpivot/after5/wiki
 
 =head1 COPYRIGHT
 
-After 5 v2.1 (c) 2011-2012 After 5 Detroit, Inc. 777 Woodward Ave. Detroit, MI. 48226
+After 5 v2.1 (c) 2011-2013 After 5 Detroit, Inc. 777 Woodward Ave. Detroit, MI. 48226
 
 =cut

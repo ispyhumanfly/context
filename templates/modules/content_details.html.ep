@@ -34,7 +34,11 @@
 	
 	<div style="padding-top: 3px; font-size: smaller;">
 	
+	% eval {
+	
 	Score <%= sprintf '%.3f', $clicks / $views; %>
+	
+	% };
 	
 	</div>
 	    
