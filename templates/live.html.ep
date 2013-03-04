@@ -15,9 +15,7 @@
     <% my $position = 1; %>
 
     <% for my $city_life (@{$self->{CITY_LIFE}}) { %>
-        
-        % next unless $city_life->tags =~ m/\bcity_life\b/g;
-        
+                
 	<% next unless $city_life->position == $position; %>
     
 	<% if ($position == 1) { %>
@@ -43,8 +41,14 @@
 	    <div id="content_body"><%== substr( HTML::FormatText->format_string($city_life->body), 0, 500 ) %></div>
 
 	    <div id="live_bullet_navigation">
-		    
-		<ul>
+		
+                <script type="text/javascript">//<![CDATA[
+                
+                alert('<%= $city_name %>');
+                
+                //]]></script>
+		
+                <ul>
 
     		    <li class="title">Discover <%= $city_name %></li>
 		    
@@ -78,16 +82,23 @@
 
     <h3>
         
+        % my $city_max = scalar @{ $self->app->config->{persona}->{cities} };
+        % my $city_index;
+        
         <% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
-    
-        <a href="/live/<%= $city_url %>">
+        
+        % $city_index++;
+        
+        <a href="<%= $city_url %>">
             
             % $city =~ s/_/ /g;
             % $city =~ s/(\w+)/\u\L$1/g;
     
             %= ucfirst($city);
             
-        </a> |
+        </a>
+        
+        %= '|' unless $city_index == $city_max;
         
         <% } %>
         
@@ -113,7 +124,7 @@
 		<img class="para_image_right" src="<%= $_ %>" />
 	    </a>
     
-	    <% last; #JUST SHOW ONE %>
+	    % last;
     
 	    <% } %>
     

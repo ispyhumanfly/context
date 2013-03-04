@@ -400,6 +400,11 @@ get '/live/:city' => [city => qr/\w+/] => sub {
     my $self = shift;
 
     my $city = lc($self->param('city'));
+    $city = lc($city); $city =~ s/ /_/g; $city = '/live/' . $city;
+
+    say '';
+    say $city;
+    say '';
     
     for (@{$self->app->config->{persona}->{cities}}) {
 
@@ -426,7 +431,8 @@ get '/live/:city' => [city => qr/\w+/] => sub {
             # City Life
             my @city_life = $MODEL->resultset('Content')->search(
                 {   pages  => {like => '%live%'},
-                    cities => {like => "%$city%"}
+                    cities => {like => $city},
+                    tags => {like => "%city_life%"}
                 },
                 {order_by => 'id DESC'}
             )->all;
@@ -437,7 +443,7 @@ get '/live/:city' => [city => qr/\w+/] => sub {
             my @featured_lifestyle = $MODEL->resultset('Content')->search(
                 {   pages     => {like => '%live%'},
                     types     => {like => '%place%'},
-                    cities    => {like => "%$city%"},
+                    cities    => {like => $city},
                     position  => 1
                 },
                 {order_by => 'id DESC'}
@@ -450,7 +456,7 @@ get '/live/:city' => [city => qr/\w+/] => sub {
                 {   pages  => {like => '%live%'},
                     types  => {like => '%article%'},
                     tags   => {like => '%neighbor%'},
-                    cities => {like => "%$city%"}
+                    cities => {like => $city}
                 },
                 {page => 1, rows => 3, order_by => 'id DESC'}
             )->all;
@@ -928,13 +934,16 @@ get '/dashboard' => sub {
     $self->{'NEW_CONTENT'} = \@new_content;
 
     # Ads
-    my @ads =
-      $MODEL->resultset('Content')
-      ->search({types => {like => '%ad_header%'}, types => {like => '%ad_block%'}})
-      ->all;
+    
+    my (@ads, @ads_header, @ads_block); 
+    
+    @ads_header = $MODEL->resultset('Content')->search({types => {like => '%ad_header%'}})->all;
+    @ads_block = $MODEL->resultset('Content')->search({types => {like => '%ad_block%'}})->all;
 
-    $self->{'ADS'} = \@ads;
-
+    push @ads, (@ads_header, @ads_block);
+    
+    $self->{'ADS_AREA'} = \@ads;
+    
     return $self->render('dashboard');
 
 } => 'dashboard';

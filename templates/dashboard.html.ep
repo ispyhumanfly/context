@@ -161,7 +161,7 @@
         
         <% my $new_content_counter; %>
         
-        <% for my $new_content (@{$self->{ADS}}) { %>
+        <% for my $new_content (@{$self->{ADS_AREA}}) { %>
         
             <% $new_content_counter++; %>
             
