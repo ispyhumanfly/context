@@ -252,7 +252,7 @@
             
         <% } %>
 
-	<div class="block_see_more"><a href="/search?types=event&tags=networking">See More &rarr;</a></div>
+	<div class="block_see_more"><a href="/networking">See More &rarr;</a></div>
 
     </div>
     
