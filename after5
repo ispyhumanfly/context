@@ -399,8 +399,10 @@ get '/live/:city' => [city => qr/\w+/] => sub {
 
     my $self = shift;
 
+    say $self->param('city');
+    
     my $city = lc($self->param('city'));
-    $city = lc($city); $city =~ s/ /_/g; $city = '/live/' . $city;
+    $city = lc($city); $city =~ s/ /_/g;
 
     say '';
     say $city;
@@ -942,7 +944,16 @@ get '/dashboard' => sub {
 
     push @ads, (@ads_header, @ads_block);
     
-    $self->{'ADS_AREA'} = \@ads;
+    $self->{'ADS_DASHBOARD'} = order_by_trending($self, @ads);
+
+    # Newsletter
+    my @newsletter = $MODEL->resultset('Content')->search(
+        {types => {like => '%newsletter%'}
+        },
+        {order_by => 'create_datetime DESC'}
+    )->all;
+
+    $self->{'NEWSLETTER'} = \@newsletter;
     
     return $self->render('dashboard');
 
@@ -953,7 +964,8 @@ get '/editor' => sub {
     my $self = shift;
 
     return $self->redirect_to('login') unless $self->session('admin');
-
+    return $self->redirect_to('/editor?mode=create') unless $self->param('mode');
+    
     # Content
     my $content =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
@@ -1143,7 +1155,7 @@ post '/api/content/create' => sub {
 
     my $text =
 
-      "app->config->{title} content successfully created."
+      'Content successfully created.'
       . "<a href='/$id'>Click here to view the Permalink page.</a>";
 
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
@@ -1442,7 +1454,6 @@ post '/api/photo/remove' => sub {
         if ($photos[$i] =~ m/^$path/x) {
 
             undef $photos[$i] and unlink "public/$path";
-
         }
     }
 
@@ -1731,22 +1742,6 @@ sub stock_photo {
       '/stock/' . $random_stock[int(rand(scalar @random_stock))];
 
     return $stock_photo;
-}
-
-sub error_message {
-
-    my ($self, $mode, $id, $text) = @_;
-
-    given ($mode) {
-
-        when ('update') {
-
-            return $self->redirect_to(
-                "/editor?mode=update&id=$id&message=$text");
-        }
-    }
-
-    return;
 }
 
 sub order_by_trending {

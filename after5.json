@@ -8,11 +8,11 @@
     {
         "pages"     : ["articles", "events", "photos", "home","live", "work", "about", "dashboard", "search", "permalink", "newsletter", "contact", "style"],
         
-        "types"     : ["article", "career", "event", "gallery", "ad_header", "ad_block"],
+        "types"     : ["article", "career", "event", "gallery", "newsletter", "ad_header", "ad_block"],
         
         "tags"      : ["place", "people", "neighbor", "city_life", "lifestyle", "general", "style", "event", "place",
                        "professional_group", "networking", "social", "cultural", "board_openings", "volunteer",
-                       "job_listings", "resources", "career_tips", "blog", "after5_press", "after5_staff", "newsletter"],
+                       "job_listings", "resources", "career_tips", "blog", "after5_press", "after5_staff"],
         
         "cities"    : ["detroit", "ferndale", "birmingham", "royal_oak"],
 

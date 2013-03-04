@@ -6,6 +6,10 @@
 
 <script type="text/javascript">//<![CDATA[
 
+%= 'City is: ' . $city;
+%= 'City URL is: ' . $city_url;
+%= 'City Name is: ' . $city_name;
+
 //]]></script>
 
 <div class="content_left">
@@ -85,16 +89,16 @@
         % my $city_max = scalar @{ $self->app->config->{persona}->{cities} };
         % my $city_index;
         
-        <% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
+        <% for (@{ $self->app->config->{persona}->{cities} }) { %>
         
         % $city_index++;
         
-        <a href="<%= $city_url %>">
+        <a href="/live/<%= $_ %>">
             
-            % $city =~ s/_/ /g;
-            % $city =~ s/(\w+)/\u\L$1/g;
+            % $_ =~ s/_/ /g;
+            % $_ =~ s/(\w+)/\u\L$1/g;
     
-            %= ucfirst($city);
+            %= ucfirst($_);
             
         </a>
         
