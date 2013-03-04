@@ -328,7 +328,7 @@ get '/networking' => sub {
 
     # Trending
     my @trending = $MODEL->resultset('Content')->search(
-        {   pages          => {like => '%events%'},
+        {   pages          => {like => '%networking%'},
             types          => {like => '%event%'},
             tags          => {like => '%networking%'},
             start_datetime => {
