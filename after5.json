@@ -6,7 +6,7 @@
     "persona"    :
     
     {
-        "pages"     : ["articles", "events", "photos", "home","live", "work", "about", "dashboard", "search", "permalink", "newsletter", "contact", "style"],
+        "pages"     : ["articles", "events", "networking", "photos", "home","live", "work", "about", "dashboard", "search", "permalink", "newsletter", "contact", "style"],
         
         "types"     : ["article", "career", "event", "gallery", "newsletter", "ad_header", "ad_block"],
         

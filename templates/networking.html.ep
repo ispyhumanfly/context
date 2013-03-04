@@ -1,0 +1,206 @@
+% title 'Networking';
+% layout 'default';
+%
+% my $upcoming_events_length = 10;
+% my $last_start_datetime;
+
+<script type="text/javascript">//<![CDATA[
+
+    
+//]]></script>
+
+<div class="content_left">
+
+    <h1>Networking</h1>
+
+    <% my $upcoming_events_counter; %>
+    
+    <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
+		
+        <% $upcoming_events_counter++; %>
+
+	<% if (($upcoming_events_counter == 1) and ($self->param('start_datetime')) and ($self->param('id'))) { %>
+		    
+	    <% unless ($self->param('id') eq $upcoming_events->id ) { %>
+		
+		<% $upcoming_events_counter--; %>
+		<% next; %>
+		
+	    <% } %>
+	    
+	<% } %>
+        
+        <% if ($upcoming_events_counter == 2) { %>
+        
+        <h1>More Events</h1>
+        
+        <% } elsif ($upcoming_events_counter > 2) { %>
+	
+	<hr />
+	
+	<% } %>
+            
+	<% for ( split /\s+/, $upcoming_events->photos ) { %>
+
+	    <% if ($upcoming_events_counter == 1) { %>
+	    
+		% $upcoming_events->update({clicks => $upcoming_events->clicks + 1});
+
+		% my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+	    
+		<img class="para_image_right" src="<%= $_ %>" onClick="contentPhotos_<%= $md5 %>.show();"/>
+	    
+		%= include 'modules/content_photos', content => $upcoming_events, identifier => $md5
+
+	    <% } else { %>
+
+	    % $upcoming_events->update({views => $upcoming_events->views + 1});
+
+	    <a title="<%= $upcoming_events->title %>" href="/networking?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">
+		<img class="position_image_left" src="<%= $_ %>" />
+	    </a>
+	    
+	    <% } %>
+	    
+	    <% last; #JUST SHOW ONE %>
+
+        <% } %>
+
+	<% if ($upcoming_events_counter == 1) { %>
+	
+        <h2><%= $upcoming_events->title %></h2>
+    
+	<% } else { %>
+
+        <a href="/networking?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>"><h2><%= $upcoming_events->title %></h2></a>
+	
+	<% } %>
+	
+	<% if ($upcoming_events_counter == 1) { %>
+		    
+	    <% unless (($upcoming_events->author eq '') or ($upcoming_events->author =~ /^\s+$/g)) { %>
+	    
+	    <h4>By <%= $upcoming_events->author %></h4>
+    
+	    <% } %>
+	    
+	    <div id="content_body"><%== $upcoming_events->body %></div>
+	
+	    %= include 'modules/content_details', content => $upcoming_events, size => 'large', show => 'all'
+    	    
+	    %= include 'modules/social_media', mode => 'share_this', content => $upcoming_events
+
+	    <h3>
+		
+		<% if ($self->session('admin')) { %>
+
+		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>
+		
+		<% } else { %>
+	    
+		&nbsp;
+		
+		<% } %>
+		
+	    </h3>
+	
+	<% } else { %>
+
+	<div style="float: left; width: 248px; margin-top: -5px;">
+
+	    <div id="content_body_truncated" class="right">
+		
+		<% eval { %>
+		
+		<%== substr( HTML::FormatText->format_string($upcoming_events->body), 0, 300 ) %>
+		
+		<% }; %>
+		
+	    </div>
+    
+	</div>
+		
+	<div style="float: right; width: 160px;">
+	    
+	    %= include 'modules/content_details', content => $upcoming_events, size => 'small', show => 'few'
+
+	    <div class="read_more_left">
+    
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/networking?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/networking?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More</a>
+		
+		<% } %>
+    
+	    </div>
+	    
+	</div>
+	
+	<% } %>
+	
+	<% if ($upcoming_events_counter == $upcoming_events_length) { %>
+	
+	    <% $last_start_datetime = $upcoming_events->start_datetime->epoch; %>
+	    <% last; %>
+	
+	<% } %>
+	
+    <% } %>
+ 
+    <h3>
+	    
+	<a href="javascript:history.go(-1)">Back</a>
+	
+	<% if ($upcoming_events_counter == $upcoming_events_length) { %>
+	    
+	<div style="text-align: right; margin-top: -20px;">
+	    
+	    <% for (@{$self->{UPCOMING_EVENTS}}) { %>
+	    
+		<% next if $_->start_datetime->epoch <= $last_start_datetime; %>
+		
+		<a href="/networking?start_datetime=<%= $_->start_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
+		
+		<% last; %>
+		
+	    <% } %>
+	    
+	</div>
+	
+	<% } %>
+	
+    </h3>
+    
+</div>
+
+<div class="content_right">
+
+    <h1>
+	<a href="/networking">Events Calendar</a>
+    </h1>
+        
+    %= include 'modules/networking_calendar', mode => 'block'
+
+    <div class="block_see_more">&nbsp;</div>
+
+    %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
+    <h1>Trending</h1>
+    
+    %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'block', length => 5
+    
+    <h1>Search After 5</h1>
+	
+    %= include 'modules/block_search'
+
+    <h1>Connect</h1>
+    
+    %= include 'modules/social_media', mode => 'block', content => 'none'
+
+</div>
+
