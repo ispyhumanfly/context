@@ -49,12 +49,12 @@
 		    <% for (@{ $self->app->config->{persona}->{interests} }) { %>
 		
                     %### Interest Exclusions
-		    % next unless $_ =~ m/\bdining|nightlife|activities|living\b/g;
+		    % next unless $_ =~ m/dining|nightlife|activities|living/x;
 		    
                     % my $local_interest_name = $_;
                     
 		    <li>
-			<a href="/search?interests=<%= $local_interest_name %>&cities=<%= $city_url %>">
+			<a href="/search?interests=<%= $local_interest_name %>&cities=<%= $city %>">
 
                             % my $local_name = $_;
                             % $local_name =~ s/_/ /g;
