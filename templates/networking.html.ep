@@ -112,7 +112,7 @@
 		
 		<% eval { %>
 		
-		<%== substr( HTML::FormatText->format_string($upcoming_events->body), 0, 300 ) %>
+		%== substr( HTML::FormatText->format_string($upcoming_events->body), 0, 300 );
 		
 		<% }; %>
 		

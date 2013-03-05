@@ -6,10 +6,6 @@
 
 <script type="text/javascript">//<![CDATA[
 
-%= 'City is: ' . $city;
-%= 'City URL is: ' . $city_url;
-%= 'City Name is: ' . $city_name;
-
 //]]></script>
 
 <div class="content_left">
@@ -46,26 +42,25 @@
 
 	    <div id="live_bullet_navigation">
 		
-                <script type="text/javascript">//<![CDATA[
-                
-                alert('<%= $city_name %>');
-                
-                //]]></script>
-		
                 <ul>
 
     		    <li class="title">Discover <%= $city_name %></li>
 		    
-		    <% for my $interest (@{ $self->app->config->{persona}->{interests} }) { %>
+		    <% for (@{ $self->app->config->{persona}->{interests} }) { %>
 		
-		    % next unless $interest =~ m/\bdining|nightlife|activities|living\b/g;
+                    %### Interest Exclusions
+		    % next unless $_ =~ m/\bdining|nightlife|activities|living\b/g;
 		    
+                    % my $local_interest_name = $_;
+                    
 		    <li>
-			<a href="/search?interests=<%= $interest %>&cities=<%= $city_url %>">
+			<a href="/search?interests=<%= $local_interest_name %>&cities=<%= $city_url %>">
 
-                            % $interest =~ s/_/ /g;
-			    % $interest =~ s/(\w+)/\u\L$1/g;
-			    %= $interest
+                            % my $local_name = $_;
+                            % $local_name =~ s/_/ /g;
+			    % $local_name =~ s/(\w+)/\u\L$1/g;
+			    
+                            <%= $local_name %>
                             
 			</a>
 		    </li>
@@ -92,13 +87,15 @@
         <% for (@{ $self->app->config->{persona}->{cities} }) { %>
         
         % $city_index++;
+        % my $local_city_name = $_;
         
-        <a href="/live/<%= $_ %>">
+        <a href="/live/<%= $local_city_name %>">
             
-            % $_ =~ s/_/ /g;
-            % $_ =~ s/(\w+)/\u\L$1/g;
+            % my $local_name = $_;
+            % $local_name =~ s/_/ /g;
+            % $local_name =~ s/(\w+)/\u\L$1/g;
     
-            %= ucfirst($_);
+            <%= $local_name %>
             
         </a>
         

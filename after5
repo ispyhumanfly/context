@@ -317,7 +317,7 @@ get '/networking' => sub {
             start_datetime => {
                 -between => [
                     $dtf->format_datetime($dt_local),
-                    $dtf->format_datetime($dt_local->add(days => 90))
+                    $dtf->format_datetime($dt_local->add(days => 120))
                 ]
             }
         },
@@ -334,7 +334,7 @@ get '/networking' => sub {
             start_datetime => {
                 -between => [
                     $dtf->format_datetime(DateTime->now),
-                    $dtf->format_datetime(DateTime->now->add(days => 30))
+                    $dtf->format_datetime(DateTime->now->add(days => 90))
                 ]
             }
         },
@@ -484,9 +484,9 @@ get '/live/:city' => [city => qr/\w+/] => sub {
     say $city;
     say '';
     
-    for (@{$self->app->config->{persona}->{cities}}) {
-
-        if ($city eq $_) {
+    #for (@{$self->app->config->{persona}->{cities}}) {
+    #
+    #    if ($city eq $_) {
 
             # Ads
             my @ads = $MODEL->resultset('Content')->search(
@@ -541,9 +541,9 @@ get '/live/:city' => [city => qr/\w+/] => sub {
 
             $self->{'NEIGHBORS'} = \@neighbors;
             
-            last;
-        }
-    }
+            #last;
+    #    }
+    #}
 
 } => 'live';
 
