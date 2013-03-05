@@ -16,9 +16,7 @@
     <% my $article_counter; %>
     
     <% for my $article (@{$self->{ARTICLES}}) { %>
-	
-	% next if $article->tags =~ m/\bstyle\b/g;
-	
+		
         % $article_counter++;
 
 	<% if (($article_counter == 1) and ($self->param('create_datetime')) and ($self->param('id'))) { %>
