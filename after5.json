@@ -1,6 +1,6 @@
 { 
     "title"     : "After 5",
-    "domain"    : "after5detroit.com:3000",
+    "domain"    : "after5detroit.com",
     "temp"      : "/tmp",
     
     "persona"    :
@@ -56,6 +56,6 @@
     "morbo" :
     
     {
-        "listen"    : ["http://*:3000", "https://*:8443"]
+        "listen"    : ["http://*:3000"]
     }
 }
