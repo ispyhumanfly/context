@@ -475,75 +475,62 @@ get '/live/:city' => [city => qr/\w+/] => sub {
 
     my $self = shift;
 
-    say $self->param('city');
-    
     my $city = lc($self->param('city'));
     $city = lc($city); $city =~ s/ /_/g;
-
-    say '';
-    say $city;
-    say '';
     
-    #for (@{$self->app->config->{persona}->{cities}}) {
-    #
-    #    if ($city eq $_) {
+    # Ads
+    my @ads = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%live%'},
+            types => {like => '%ad_header%'}
+        }
+    )->all;
 
-            # Ads
-            my @ads = $MODEL->resultset('Content')->search(
-                {   pages => {like => '%live%'},
-                    types => {like => '%ad_header%'}
-                }
-            )->all;
+    $self->{'ADS'} = \@ads;
 
-            $self->{'ADS'} = \@ads;
+    # Ads Block
+    my @ads_block = $MODEL->resultset('Content')->search(
+        {   pages => {like => '%live%'},
+            types => {like => '%ad_block%'}
+        }
+    )->all;
 
-            # Ads Block
-            my @ads_block = $MODEL->resultset('Content')->search(
-                {   pages => {like => '%live%'},
-                    types => {like => '%ad_block%'}
-                }
-            )->all;
+    $self->{'ADS_BLOCK'} = \@ads_block;
 
-            $self->{'ADS_BLOCK'} = \@ads_block;
+    # City Life
+    my @city_life = $MODEL->resultset('Content')->search(
+        {   pages  => {like => '%live%'},
+            cities => {like => $city},
+            tags => {like => "%city_life%"}
+        },
+        {order_by => 'id DESC'}
+    )->all;
 
-            # City Life
-            my @city_life = $MODEL->resultset('Content')->search(
-                {   pages  => {like => '%live%'},
-                    cities => {like => $city},
-                    tags => {like => "%city_life%"}
-                },
-                {order_by => 'id DESC'}
-            )->all;
+    $self->{'CITY_LIFE'} = \@city_life;
 
-            $self->{'CITY_LIFE'} = \@city_life;
+    # Featured Lifestyle
+    my @featured_lifestyle = $MODEL->resultset('Content')->search(
+        {   pages     => {like => '%live%'},
+            types     => {like => '%place%'},
+            cities    => {like => $city},
+            position  => 1
+        },
+        {order_by => 'id DESC'}
+    )->all;
 
-            # Featured Lifestyle
-            my @featured_lifestyle = $MODEL->resultset('Content')->search(
-                {   pages     => {like => '%live%'},
-                    types     => {like => '%place%'},
-                    cities    => {like => $city},
-                    position  => 1
-                },
-                {order_by => 'id DESC'}
-            )->all;
+    $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
 
-            $self->{'FEATURED_LIFESTYLE'} = \@featured_lifestyle;
+    # Neighbors
+    my @neighbors = $MODEL->resultset('Content')->search(
+        {   pages  => {like => '%live%'},
+            types  => {like => '%article%'},
+            tags   => {like => '%neighbor%'},
+            cities => {like => $city}
+        },
+        {page => 1, rows => 3, order_by => 'id DESC'}
+    )->all;
 
-            # Neighbors
-            my @neighbors = $MODEL->resultset('Content')->search(
-                {   pages  => {like => '%live%'},
-                    types  => {like => '%article%'},
-                    tags   => {like => '%neighbor%'},
-                    cities => {like => $city}
-                },
-                {page => 1, rows => 3, order_by => 'id DESC'}
-            )->all;
-
-            $self->{'NEIGHBORS'} = \@neighbors;
-            
-            #last;
-    #    }
-    #}
+    $self->{'NEIGHBORS'} = \@neighbors;
+    
 
 } => 'live';
 

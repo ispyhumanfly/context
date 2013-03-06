@@ -25,7 +25,7 @@
 	    
 	    <% for ( split /\s+/, $article->photos ) { %>
     
-	    <a title="<%= $article->title %>" href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
+	    <a title="<%= $article->title %>" href="/<%= $article->id %>">
 		<img class="para_image_left" src="<%= $_ %>" />
 	    </a>
     
@@ -41,7 +41,7 @@
 	    </div>
     
 	    <h2>
-		<a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><%= $article->title %></a>
+		<a href="/<%= $article->id %>"><%= $article->title %></a>
 	    </h2>
     
 	    <div id="content_body" class="right">
@@ -52,7 +52,7 @@
 		
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		<a href="/<%= $article->id %>">Read More</a>
 		|
 		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 	    
@@ -72,7 +72,7 @@
 	    	    
 		<% for ( split /\s+/, $article->photos ) { %>
 	
-		<a title="<%= $article->title %>" href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
+		<a title="<%= $article->title %>" href="/<%= $article->id %>">
 		    <img class="content_column_image" src="<%= $_ %>" />
 		</a>
 	
@@ -81,7 +81,7 @@
 		<% } %>
     
 		<h2>
-		    <a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>"><%= $article->title %></a>
+		    <a href="/<%= $article->id %>"><%= $article->title %></a>
 		</h2>
 	    
 		<div class="content_column_text">
@@ -92,13 +92,13 @@
     
 		    <% if ( $self->session('admin') ) { %>
 	
-		    <a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		    <a href="/<%= $article->id %>">Read More</a>
 		    |
 		    <a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
 		
 		    <% } else { %>
 		
-		    <a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		    <a href="/<%= $article->id %>">Read More</a>
 		    
 		    <% } %>
     
