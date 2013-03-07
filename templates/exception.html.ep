@@ -1,4 +1,4 @@
-% title 'Exception';
+% title 'Error';
 % layout 'default';
 
 <script type="text/javascript">//<![CDATA[
@@ -9,10 +9,12 @@
 <div class="content_wide">
     
     <div class="content_none">
+
+        <p style="font-size: larger; font-weight: bold;">We have a problem!</p>
         
         <% if ($self->session('admin')) { %>
         
-        <p style="font-size: larger;"><%= $exception %></p>
+        <p style="font-size: large;"><%= $exception %></p>
         
         <% } else { %>
         
