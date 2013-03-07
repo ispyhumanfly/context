@@ -2,7 +2,7 @@
 % layout 'default';
 %
 % my $upcoming_events_length = 10;
-% my $last_start_datetime;
+% my $last_create_datetime;
 
 <script type="text/javascript">//<![CDATA[
 
@@ -19,7 +19,7 @@
 		
         <% $upcoming_events_counter++; %>
 
-	<% if (($upcoming_events_counter == 1) and ($self->param('start_datetime')) and ($self->param('id'))) { %>
+	<% if (($upcoming_events_counter == 1) and ($self->param('create_datetime')) and ($self->param('id'))) { %>
 		    
 	    <% unless ($self->param('id') eq $upcoming_events->id ) { %>
 		
@@ -56,7 +56,7 @@
 
 	    % $upcoming_events->update({views => $upcoming_events->views + 1});
 
-	    <a title="<%= $upcoming_events->title %>" href="/networking?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">
+	    <a title="<%= $upcoming_events->title %>" href="/networking?create_datetime=<%= $upcoming_events->create_datetime->epoch %>&id=<%= $upcoming_events->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
 	    </a>
 	    
@@ -72,7 +72,7 @@
     
 	<% } else { %>
 
-        <a href="/networking?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>"><h2><%= $upcoming_events->title %></h2></a>
+        <a href="/networking?create_datetime=<%= $upcoming_events->create_datetime->epoch %>&id=<%= $upcoming_events->id %>"><h2><%= $upcoming_events->title %></h2></a>
 	
 	<% } %>
 	
@@ -128,12 +128,12 @@
     
 		<% if ( $self->session('admin') ) { %>
     
-		<a href="/networking?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More |</a>
+		<a href="/networking?create_datetime=<%= $upcoming_events->create_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More |</a>
 		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
 	    
 		<% } else { %>
 	    
-		<a href="/networking?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More</a>
+		<a href="/networking?create_datetime=<%= $upcoming_events->create_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More</a>
 		
 		<% } %>
     
@@ -145,7 +145,7 @@
 	
 	<% if ($upcoming_events_counter == $upcoming_events_length) { %>
 	
-	    <% $last_start_datetime = $upcoming_events->start_datetime->epoch; %>
+	    <% $last_create_datetime = $upcoming_events->create_datetime->epoch; %>
 	    <% last; %>
 	
 	<% } %>
@@ -162,9 +162,9 @@
 	    
 	    <% for (@{$self->{UPCOMING_EVENTS}}) { %>
 	    
-		<% next if $_->start_datetime->epoch <= $last_start_datetime; %>
+		<% next if $_->create_datetime->epoch <= $last_create_datetime; %>
 		
-		<a href="/networking?start_datetime=<%= $_->start_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
+		<a href="/networking?create_datetime=<%= $_->create_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
 		
 		<% last; %>
 		
