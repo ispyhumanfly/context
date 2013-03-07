@@ -14,6 +14,6 @@
 
 <script type="text/javascript">//<![CDATA[
 
-    setTimeout("window.location = '/'", 5000);
+    setTimeout("history.go(-1)", 5000);
     
 //]]></script>
