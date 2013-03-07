@@ -182,7 +182,7 @@
 		<img class="block_thumbnails_right" src="<%= $_ %>"/>
 	    </a>
 	    
-	    <% last; #JUST SHOW ONE %>
+	    % last;
 	    
 	    <% } %>
 	    

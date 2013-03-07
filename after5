@@ -884,6 +884,11 @@ get '/:id' => [id => qr/\d+/] => sub {
     # Events
     elsif ($content->types =~ m/event/g) {
 
+        return $self->redirect_to('/networking?create_datetime='
+              . $content->create_datetime->epoch . '&id='
+              . $content->id)
+          if $content->tags =~ m/\bnetworking\b/g;       
+
         return $self->redirect_to('/events?start_datetime='
               . $content->start_datetime->epoch . '&id='
               . $content->id);

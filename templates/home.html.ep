@@ -58,7 +58,7 @@
 	    
 		<% } else { %>
 	    
-		<a href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">Read More</a>
+		<a href="/<%= $article->id %>">Read More</a>
 		
 		<% } %>
 		
@@ -131,9 +131,7 @@
 	    % my $upcoming_events_counter;
 	    
 	    <% for my $upcoming_event (@{$self->{EVENTS}}) { %>
-	
-		% next if $upcoming_event->tags =~ m/\bnetworking/i;
-		
+
 		% $upcoming_events_counter++;
 		
 		% $upcoming_event->update({views => $upcoming_event->views + 1});
@@ -146,7 +144,7 @@
     
 		<% for ( split /\s+/, $upcoming_event->photos ) { %>
 		
-		<a title="<%= $upcoming_event->title %>" href="/events?start_datetime=<%= $upcoming_event->start_datetime->epoch %>id=<%= $upcoming_event->id %>">
+		<a title="<%= $upcoming_event->title %>" href="/<%= $upcoming_event->id %>">
 		    <img class="upcoming_events_thumb" src="<%= $_ %>"/>
 		</a>
 		
@@ -155,7 +153,7 @@
 		<% } %>
 		
 		<div class="upcoming_events_title">
-		    <a href="/events?start_datetime=<%= $upcoming_event->start_datetime->epoch %>id=<%= $upcoming_event->id %>"><%= $upcoming_event->title %></a>
+		    <a href="/<%= $upcoming_event->id %>"><%= $upcoming_event->title %></a>
 		</div>
 		
 		<div class="upcoming_events_text">
@@ -172,7 +170,7 @@
 
 		    <% if ( $self->session('admin') ) { %>
 	
-		    <a href="/events?start_datetime=<%= $upcoming_event->start_datetime->epoch %>id=<%= $upcoming_event->id %>">Read More</a>
+		    <a href="/<%= $upcoming_event->id %>">Read More</a>
 		    |
 		    <a href="/editor?mode=update&id=<%= $upcoming_event->id %>">Edit</a>        
 		
