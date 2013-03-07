@@ -953,7 +953,7 @@ get '/logout' => sub {
     my $self = shift;
 
     $self->session(expires => 1)
-      and return $self->redirect_to('play');
+      and return $self->redirect_to('home');
 
 } => 'logout';
 

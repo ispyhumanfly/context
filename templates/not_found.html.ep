@@ -8,6 +8,10 @@
 
 <div class="content_wide">
     
-    <div class="content_none">We can&apos;t find the page you&apos;re looking for!</div>
+    <div class="content_none">
+        
+        <p>We can&apos;t find the page you&apos;re looking for! Please go back to the previous page while we see what&apos;s going on.<p>
+    
+    </div>
 
 </div>

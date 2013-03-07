@@ -8,6 +8,18 @@
 
 <div class="content_wide">
     
-    <div class="content_none"><%= $exception %></div>
+    <div class="content_none">
+        
+        <% if ($self->session('admin')) { %>
+        
+        <p><%= $exception %></p>
+        
+        <% } else { %>
+        
+        <p>Some strange error has occurred! Please go back to the previous page while we investigate the issue.</p>
+        
+        <% } %>
+        
+    </div>
 
 </div>
