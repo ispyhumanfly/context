@@ -1,11 +1,6 @@
 % title 'Error';
 % layout 'default';
 
-<script type="text/javascript">//<![CDATA[
-
-    
-//]]></script>
-
 <div class="content_wide">
     
     <div class="content_none">
@@ -18,7 +13,7 @@
         
         <% } else { %>
         
-        <p style="font-size: larger;">Some strange error has occurred! Please go back to the previous page while we investigate the issue.</p>
+        <p style="font-size: large;">Some strange error has occurred! Please go back to the previous page while we investigate the issue.</p>
         
         <script type="text/javascript">//<![CDATA[
 
