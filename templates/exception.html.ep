@@ -12,11 +12,17 @@
         
         <% if ($self->session('admin')) { %>
         
-        <p><%= $exception %></p>
+        <p style="font-size: larger;"><%= $exception %></p>
         
         <% } else { %>
         
-        <p>Some strange error has occurred! Please go back to the previous page while we investigate the issue.</p>
+        <p style="font-size: larger;">Some strange error has occurred! Please go back to the previous page while we investigate the issue.</p>
+        
+        <script type="text/javascript">//<![CDATA[
+
+            setTimeout("window.location = '/'", 5000);
+    
+        //]]></script>
         
         <% } %>
         
