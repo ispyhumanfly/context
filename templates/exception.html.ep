@@ -1,0 +1,13 @@
+% title 'Exception';
+% layout 'default';
+
+<script type="text/javascript">//<![CDATA[
+
+    
+//]]></script>
+
+<div class="content_wide">
+    
+    <div class="content_none"><%= $exception %></div>
+
+</div>

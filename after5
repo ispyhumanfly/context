@@ -313,7 +313,7 @@ get '/networking' => sub {
     my @upcoming_events = $MODEL->resultset('Content')->search(
         {   pages          => {like => '%networking%'},
             types          => {like => '%event%'},
-            tags          => {like => '%networking%'},
+            tags           => {like => '%networking%'},
             start_datetime => {
                 -between => [
                     $dtf->format_datetime($dt_local),
@@ -330,7 +330,7 @@ get '/networking' => sub {
     my @trending = $MODEL->resultset('Content')->search(
         {   pages          => {like => '%networking%'},
             types          => {like => '%event%'},
-            tags          => {like => '%networking%'},
+            tags           => {like => '%networking%'},
             start_datetime => {
                 -between => [
                     $dtf->format_datetime(DateTime->now),
@@ -369,8 +369,7 @@ get '/style' => sub {
     my @ads_block =
       $MODEL->resultset('Content')
       ->search(
-        {pages => {like => '%style%'}, types => {like => '%ad_block%'}})
-      ->all;
+        {pages => {like => '%style%'}, types => {like => '%ad_block%'}})->all;
 
     $self->{'ADS_BLOCK'} = \@ads_block;
 
@@ -476,8 +475,9 @@ get '/live/:city' => [city => qr/\w+/] => sub {
     my $self = shift;
 
     my $city = lc($self->param('city'));
-    $city = lc($city); $city =~ s/ /_/g;
-    
+    $city = lc($city);
+    $city =~ s/ /_/g;
+
     # Ads
     my @ads = $MODEL->resultset('Content')->search(
         {   pages => {like => '%live%'},
@@ -500,7 +500,7 @@ get '/live/:city' => [city => qr/\w+/] => sub {
     my @city_life = $MODEL->resultset('Content')->search(
         {   pages  => {like => '%live%'},
             cities => {like => $city},
-            tags => {like => "%city_life%"}
+            tags   => {like => "%city_life%"}
         },
         {order_by => 'id DESC'}
     )->all;
@@ -509,10 +509,10 @@ get '/live/:city' => [city => qr/\w+/] => sub {
 
     # Featured Lifestyle
     my @featured_lifestyle = $MODEL->resultset('Content')->search(
-        {   pages     => {like => '%live%'},
-            types     => {like => '%place%'},
-            cities    => {like => $city},
-            position  => 1
+        {   pages    => {like => '%live%'},
+            types    => {like => '%place%'},
+            cities   => {like => $city},
+            position => 1
         },
         {order_by => 'id DESC'}
     )->all;
@@ -530,7 +530,7 @@ get '/live/:city' => [city => qr/\w+/] => sub {
     )->all;
 
     $self->{'NEIGHBORS'} = \@neighbors;
-    
+
 
 } => 'live';
 
@@ -788,8 +788,8 @@ get '/newsletter' => sub {
 get '/search' => sub {
 
     my $self = shift;
-    
-    my $dtf = $MODEL->storage->datetime_parser;
+
+    my $dtf      = $MODEL->storage->datetime_parser;
     my $dt_local = DateTime->now;
 
     # Ads
@@ -815,10 +815,9 @@ get '/search' => sub {
     my @search_results;
 
     if ($self->param('types') eq 'event') {
-   
+
         @search_results = $MODEL->resultset('Content')->search(
-            { 
-                types          => {like => '%event%'},
+            {   types          => {like => '%event%'},
                 start_datetime => {
                     -between => [
                         $dtf->format_datetime($dt_local),
@@ -828,7 +827,7 @@ get '/search' => sub {
             },
             {order_by => 'start_datetime ASC'}
         )->all;
-    
+
     }
     else {
 
@@ -859,21 +858,17 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    ## TODO: I need to use try/tiny here to make sure that the id requested does
-    ## not exceed the maximum number of articles. Currently this causes After 5
-    ## to render the exception page. This should be handled more gracefully...
-
     my $content =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
 
     # Articles
     if ($content->types =~ m/article/g) {
-        
+
         return $self->redirect_to('/style?create_datetime='
               . $content->create_datetime->epoch . '&id='
               . $content->id)
-          if $content->tags =~ m/\bstyle\b/g;       
+          if $content->tags =~ m/\bstyle\b/g;
 
         return $self->redirect_to('/articles?create_datetime='
               . $content->create_datetime->epoch . '&id='
@@ -887,10 +882,10 @@ get '/:id' => [id => qr/\d+/] => sub {
         return $self->redirect_to('/networking?create_datetime='
               . $content->create_datetime->epoch . '&id='
               . $content->id)
-          if $content->tags =~ m/\bnetworking\b/g;       
+          if $content->tags =~ m/\bnetworking\b/g;
 
         return $self->redirect_to('/events?create_datetime='
-              . $content->start_datetime->epoch . '&id='
+              . $content->create_datetime->epoch . '&id='
               . $content->id);
     }
 
@@ -1004,25 +999,27 @@ get '/dashboard' => sub {
     $self->{'NEW_CONTENT'} = \@new_content;
 
     # Ads
-    
-    my (@ads, @ads_header, @ads_block); 
-    
-    @ads_header = $MODEL->resultset('Content')->search({types => {like => '%ad_header%'}})->all;
-    @ads_block = $MODEL->resultset('Content')->search({types => {like => '%ad_block%'}})->all;
+
+    my (@ads, @ads_header, @ads_block);
+
+    @ads_header = $MODEL->resultset('Content')
+      ->search({types => {like => '%ad_header%'}})->all;
+    @ads_block =
+      $MODEL->resultset('Content')->search({types => {like => '%ad_block%'}})
+      ->all;
 
     push @ads, (@ads_header, @ads_block);
-    
+
     $self->{'ADS_DASHBOARD'} = order_by_trending($self, @ads);
 
     # Newsletter
     my @newsletter = $MODEL->resultset('Content')->search(
-        {types => {like => '%newsletter%'}
-        },
+        {types    => {like => '%newsletter%'}},
         {order_by => 'create_datetime DESC'}
     )->all;
 
     $self->{'NEWSLETTER'} = \@newsletter;
-    
+
     return $self->render('dashboard');
 
 } => 'dashboard';
@@ -1032,8 +1029,9 @@ get '/editor' => sub {
     my $self = shift;
 
     return $self->redirect_to('login') unless $self->session('admin');
-    return $self->redirect_to('/editor?mode=create') unless $self->param('mode');
-    
+    return $self->redirect_to('/editor?mode=create')
+      unless $self->param('mode');
+
     # Content
     my $content =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
@@ -1368,7 +1366,7 @@ post '/api/content/update' => sub {
 
       'Content updated. '
       . "<a href='/$id'>You can click here to view the Permalink page.</a>";
-      
+
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 
 };
