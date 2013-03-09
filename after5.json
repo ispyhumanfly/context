@@ -50,7 +50,8 @@
         "pid_file"  : "after5.pid",
         "lock_file" : "after5.lock",
         "log_file"  : "after5.log",
-        "workers"   : "25"    
+        "workers"   : "25",
+        "proxy"     : 1
     },
     
     "morbo" :
