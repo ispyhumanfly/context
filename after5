@@ -606,7 +606,6 @@ get '/work' => sub {
         # Ads
         my @ads = $MODEL->resultset('Content')->search(
             {   title => {like => '%walsh%'},
-                pages => {like => '%work%'},
                 types => {like => '%ad_header%'}
             }
         )->all;
@@ -616,7 +615,6 @@ get '/work' => sub {
         # Ads Block
         my @ads_block = $MODEL->resultset('Content')->search(
             {   title => {like => '%walsh%'},
-                pages => {like => '%live%'},
                 types => {like => '%ad_block%'}
             }
         )->all;
