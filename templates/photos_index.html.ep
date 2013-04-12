@@ -1,0 +1,65 @@
+% title '';
+% layout 'default';
+%
+% my $content = $self->{CONTENT};
+
+<div class="content_wide">
+
+    <h1><%= $content->title %></h1>
+
+    % my $photo_index;
+    
+    % for (@{$self->{PHOTOS}}) {
+    
+        % $photo_index++;
+        
+        % next unless $photo_index == $self->param('index');
+        
+        <div class="content_none">
+            
+            <img class="photo_gallery_full" src="<%= $_ %>"/>
+        
+        </div>
+        
+        <div class="content_gap"></div>
+        
+        <div style="text-align: center;">
+    
+        %= include 'modules/social_media', mode => 'share_this', content => $_
+            
+        </div>
+            
+        <h3>
+                
+            % if ($self->session('admin')) {
+    
+            <a href="javascript:history.go(-1)">Back | </a>
+            <a href="/editor?mode=update&id=<%= $content->id %>" style="margin-left: 10px;">Edit</a>
+            
+            % } else {
+    
+            <a href="javascript:history.go(-1)">Back</a>
+            
+            % }
+    
+            <div style="text-align: right; margin-top: -20px;">
+        
+                % if ($photo_index < @{$self->{PHOTOS}}) {
+                
+                <a href="/<%= $content->id %>/<%= $photo_index + 1 %>">Next</a>
+                
+                % } else {
+                
+                <a href="/<%= $content->id %>">Return to Origin</a>
+                
+                % }
+                
+            </div>
+            
+        </h3>
+        
+        % last if $photo_index == $self->param('index');
+    
+    % }
+
+</div>

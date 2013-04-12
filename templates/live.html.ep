@@ -28,10 +28,8 @@
 
                 % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
             
-                <img class="para_image_right" src="<%= $_ %>" onClick="contentPhotos_<%= $md5 %>.show();"/>
-            
-                %= include 'modules/content_photos', content => $city_life, identifier => $md5
-            
+                <img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
+                
                 <% last; %>
 
             <% } %>
@@ -121,10 +119,10 @@
 	    
 	    <% for ( split /\s+/, $featured_lifestyle->photos ) { %>
     
-	    <a dojoType="dojox.image.Lightbox" title="<%= $featured_lifestyle->title %>" href="<%= $_ %>">
-		<img class="para_image_right" src="<%= $_ %>" />
-	    </a>
-    
+            % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+
+	    <img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
+        
 	    % last;
     
 	    <% } %>

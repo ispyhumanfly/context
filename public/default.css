@@ -56,6 +56,7 @@ body {
     
 }
 
+
 #header_container {
 
     background-image: url('/HeaderBground.png');
@@ -267,7 +268,10 @@ body {
     width: 250px;
     height: auto;
     margin: 0px 10px 10px 0;
-    border: 1px solid #1a3721; 
+    border: 1px solid #1a3721;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
     
 }
 
@@ -279,7 +283,10 @@ body {
     margin-right: 10px;
     margin-bottom: 10px;
     border: 1px solid #1a3721; 
-    width: 150px; height: 100px; 
+    width: 150px; height: 100px;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
     
 }
 
@@ -348,6 +355,9 @@ body {
     margin-bottom: 10px;
     border: 1px solid #1a3721; 
     width: 375px; height: auto;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
 }
 
 #content_container .para_image_left_small {
@@ -357,6 +367,9 @@ body {
     margin-bottom: 10px;
     border: 1px solid #1a3721; 
     width: 275px; height: auto;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
 }
 
 #content_container .para_image_left_large {
@@ -366,6 +379,9 @@ body {
     margin-bottom: 10px;
     border: 1px solid #1a3721; 
     width: 425px; height: auto;
+    -webkit-box-shadow: #222 0 0 1em;  
+    -moz-box-shadow: #222 0 0 1em;  
+    box-shadow: #222 0 0 1em;    
 }
 
 #content_container .para_image_right {
@@ -377,6 +393,9 @@ body {
     width: 400px;
     height: auto;
     border: 1px solid #1a3721;
+    -webkit-box-shadow: #222 0 0 1em;  
+    -moz-box-shadow: #222 0 0 1em;  
+    box-shadow: #222 0 0 1em;    
     cursor: pointer;
 
 }
@@ -388,7 +407,10 @@ body {
     margin-bottom: 10px;
     width: 150px;
     height: auto;
-    border: 1px solid #1a3721; 
+    border: 1px solid #1a3721;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
 
 }
 
@@ -399,7 +421,10 @@ body {
     margin-bottom: 10px;
     width: 100px;
     height: auto;
-    border: 1px solid #1a3721; 
+    border: 1px solid #1a3721;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
 
 }
 
@@ -493,6 +518,9 @@ body {
     margin-bottom: 10px;
     border: 1px solid #1a3721; 
     width: 275px; height: auto;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
 }
 
 #content_container .about_image_right {
@@ -503,7 +531,10 @@ body {
     margin-bottom: 10px;
     width: 175px;
     height: auto;
-    border: 1px solid #1a3721; 
+    border: 1px solid #1a3721;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
 
 }
 
@@ -669,7 +700,10 @@ body {
 
     width: 100px;
     height: 100px;
-    border: 1px solid #1a3721; 
+    border: 1px solid #1a3721;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
 }
 
 /* new home page stuff */
@@ -680,7 +714,10 @@ body {
     width: 115px;
     height: 85px;
     margin: 0px 5px 5px 5px;
-    border: 1px solid #1a3721; 
+    border: 1px solid #1a3721;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
     
 }
 
@@ -719,7 +756,10 @@ body {
     width: 100px;
     height: 75px;
     margin: 0px 0px 5px 5px;
-    border: 1px solid #1a3721; 
+    border: 1px solid #1a3721;
+    -webkit-box-shadow: #222 0 0 0.3em;  
+    -moz-box-shadow: #222 0 0 0.3em;  
+    box-shadow: #222 0 0 0.3em;    
 }
 
 #content_container .block_title {
@@ -1093,7 +1133,10 @@ body {
     width: 218px;
     height: 135px;
     margin: 0px 0px 10px 0;
-    border: 1px solid #1a3721; 
+    border: 1px solid #1a3721;
+    -webkit-box-shadow: #222 0 0 0.3em;
+    -moz-box-shadow: #222 0 0 0.3em;
+    box-shadow: #222 0 0 0.3em;  
 
     
 }
@@ -1106,6 +1149,30 @@ body {
     font-size: 13px;
     margin-top: 5px;
     margin-bottom: 10px;
+}
+
+/**/
+
+/* Gallery stuff */
+
+#content_container .photo_gallery_mini {
+    cursor: pointer; width: 195px; height: auto; border: 1px solid #1a3721;
+     -webkit-box-shadow: #222 0 0 0.3em;
+    -moz-box-shadow: #222 0 0 0.3em;
+    box-shadow: #222 0 0 0.3em;  
+    
+}
+
+#content_container .photo_gallery_full {
+
+    width: 900px;
+    height: auto;
+    border: 1px solid #1a3721;
+    margin: 25px;
+    -webkit-box-shadow: #222 0 0 3.0em;
+    -moz-box-shadow: #222 0 0 3.0em;
+    box-shadow: #222 0 0 3.0em;  
+    
 }
 
 /**/

@@ -25,31 +25,16 @@
 	
 	<% } %>
 	
-	<!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
+	% $neighbors->update({clicks => $neighbors->clicks + 1});
+    
+	% for ( split '/\s+/', $neighbors->photos ) {
 
-	Clicks.push(<%= $neighbors->id; %>);
+	    % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+		
+	    <img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
 
-	//]]></script>
-	    
-	<% for ( split /\s+/, $neighbors->photos ) { %>
-
-	<img class="para_image_right" src="<%= $_ %>" title="<%= $neighbors->title %>" />
-
-	<% last; %>
-
-	<% } %>
-
-	<% unless (scalar (split /\s+/, $neighbors->photos) <= 1 ) { %>
-	
-	<div class="content_thumbnails_right">
-	    
-	<div id="thumbPicker2" dojoType="dojox.image.ThumbnailPicker" size="400" isClickable="false"></div>
-	<div jsId="imageItemStore" dojoType="dojo.data.ItemFileReadStore" url="/dojox/image/data.json?id=<%= $neighbors->id %>"></div>
-
-	</div>
-
-	<% } %>
+	    % last;
+	% }
 
 	<h2><%= $neighbors->title %></h2>
 

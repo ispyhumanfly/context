@@ -1,11 +1,18 @@
+%### After 5 Events Page - '/events' ###
+%
+% ## The title of the page.
 % title 'Events';
+%
+% ## The layout of the page.
 % layout 'default';
 %
-% my $upcoming_events_length = 10;
-% my $last_start_datetime;
+% ## Total number of events to display.
+% my $events_length = 10;
 
 <script type="text/javascript">//<![CDATA[
 
+    /* Unless otherwise required, all JavaScript
+     * specific to this page should go here. */
     
 //]]></script>
 
@@ -13,108 +20,102 @@
 
     <h1>Events</h1>
 
-    <% my $upcoming_events_counter; %>
-    
-    <% for my $upcoming_events (@{$self->{UPCOMING_EVENTS}}) { %>
-		
-        <% $upcoming_events_counter++; %>
+    % my $events_last_start_datetime;    
+    % my $events_counter = 0;
 
-	<% if (($upcoming_events_counter == 1) and ($self->param('start_datetime')) and ($self->param('id'))) { %>
-		    
-	    <% unless ($self->param('id') eq $upcoming_events->id ) { %>
-		
-		<% $upcoming_events_counter--; %>
-		<% next; %>
-		
-	    <% } %>
+    % for my $events (@{$self->{EVENTS}}) {
+	
+        % $events_counter++;
+
+	% if (($events_counter == 1) and ($self->param('start_datetime')) and ($self->param('id'))) {
 	    
-	<% } %>
+	    % unless ($self->param('id') eq $events->id) {
+		
+		% $events_counter--;
+		% next;
+	    % }    
+	% }
         
-        <% if ($upcoming_events_counter == 2) { %>
+        % if ($events_counter == 2) {
         
         <h1>More Events</h1>
         
-        <% } elsif ($upcoming_events_counter > 2) { %>
+        % } elsif ($events_counter > 2) {
 	
 	<hr />
 	
-	<% } %>
+	% }
             
-	<% for ( split /\s+/, $upcoming_events->photos ) { %>
+	% for (split '/\s+/', $events->photos) {
 
-	    <% if ($upcoming_events_counter == 1) { %>
+	    % if ($events_counter == 1) {
 	    
-		% $upcoming_events->update({clicks => $upcoming_events->clicks + 1});
+		% $events->update({clicks => $events->clicks + 1});
 
 		% my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
 	    
-		<img class="para_image_right" src="<%= $_ %>" onClick="contentPhotos_<%= $md5 %>.show();"/>
+		<img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
 	    
-		%= include 'modules/content_photos', content => $upcoming_events, identifier => $md5
+	    % } else {
 
-	    <% } else { %>
-
-	    % $upcoming_events->update({views => $upcoming_events->views + 1});
-
-	    <a title="<%= $upcoming_events->title %>" href="/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">
-		<img class="position_image_left" src="<%= $_ %>" />
-	    </a>
-	    
-	    <% } %>
-	    
-	    <% last; #JUST SHOW ONE %>
-
-        <% } %>
-
-	<% if ($upcoming_events_counter == 1) { %>
-	
-        <h2><%= $upcoming_events->title %></h2>
+		% $events->update({views => $events->views + 1});
     
-	<% } else { %>
+		<a title="<%= $events->title %>" href="/events?start_datetime=<%= $events->start_datetime->epoch %>&id=<%= $events->id %>">
+		    <img class="position_image_left" src="<%= $_ %>" />
+		</a>
+	    
+	    % }
+	    
+	    % last;
+        % }
 
-        <a href="/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>"><h2><%= $upcoming_events->title %></h2></a>
+	% if ($events_counter == 1) {
 	
-	<% } %>
-	
-	<% if ($upcoming_events_counter == 1) { %>
-		    
-	    <% unless (($upcoming_events->author eq '') or ($upcoming_events->author =~ /^\s+$/g)) { %>
-	    
-	    <h4>By <%= $upcoming_events->author %></h4>
+        <h2><%= $events->title %></h2>
     
-	    <% } %>
-	    
-	    <div id="content_body"><%== $upcoming_events->body %></div>
+	% } else {
+
+        <a href="/events?start_datetime=<%= $events->start_datetime->epoch %>&id=<%= $events->id %>"><h2><%= $events->title %></h2></a>
 	
-	    %= include 'modules/content_details', content => $upcoming_events, size => 'large', show => 'all'
+	% }
+	
+	% if ($events_counter == 1) {
+	    
+	    % unless (($events->author eq '') or ($events->author =~ /^\s+$/g)) {
+	    
+	    <h4>By <%= $events->author %></h4>
+    
+	    % }
+	    
+	    <div id="content_body"><%== $events->body %></div>
+	
+	    %= include 'modules/content_details', content => $events, size => 'large', show => 'all'
     	    
-	    %= include 'modules/social_media', mode => 'share_this', content => $upcoming_events
+	    %= include 'modules/social_media', mode => 'share_this', content => $events
 
 	    <h3>
 		
-		<% if ($self->session('admin')) { %>
+		% if ($self->session('admin')) {
 
-		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>
+		<a href="/editor?mode=update&id=<%= $events->id %>">Edit</a>
 		
-		<% } else { %>
+		% } else {
 	    
 		&nbsp;
 		
-		<% } %>
+		% }
 		
 	    </h3>
 	
-	<% } else { %>
+	% } else {
 
 	<div style="float: left; width: 248px; margin-top: -5px;">
 
 	    <div id="content_body_truncated" class="right">
 		
-		<% eval { %>
-		
-		<%== substr( HTML::FormatText->format_string($upcoming_events->body), 0, 300 ) %>
-		
-		<% }; %>
+		% eval {
+		%== substr( HTML::FormatText->format_string($events->body), 0, 300 );
+		% };
 		
 	    </div>
     
@@ -122,57 +123,55 @@
 		
 	<div style="float: right; width: 160px;">
 	    
-	    %= include 'modules/content_details', content => $upcoming_events, size => 'small', show => 'few'
+	    %= include 'modules/content_details', content => $events, size => 'small', show => 'few'
 
 	    <div class="read_more_left">
     
-		<% if ( $self->session('admin') ) { %>
+		% if ( $self->session('admin') ) {
     
-		<a href="/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More |</a>
-		<a href="/editor?mode=update&id=<%= $upcoming_events->id %>">Edit</a>        
+		<a href="/events?start_datetime=<%= $events->start_datetime->epoch %>&id=<%= $events->id %>">Read More |</a>
+		<a href="/editor?mode=update&id=<%= $events->id %>">Edit</a>        
 	    
-		<% } else { %>
+		% } else {
 	    
-		<a href="/events?start_datetime=<%= $upcoming_events->start_datetime->epoch %>&id=<%= $upcoming_events->id %>">Read More</a>
+		<a href="/events?start_datetime=<%= $events->start_datetime->epoch %>&id=<%= $events->id %>">Read More</a>
 		
-		<% } %>
+		% }
     
 	    </div>
 	    
 	</div>
 	
-	<% } %>
+	% }
 	
-	<% if ($upcoming_events_counter == $upcoming_events_length) { %>
+	% if ($events_counter == $events_length) {
 	
-	    <% $last_start_datetime = $upcoming_events->start_datetime->epoch; %>
-	    <% last; %>
+	    % $events_last_start_datetime = $events->start_datetime->epoch;
+	    % last;
 	
-	<% } %>
-	
-    <% } %>
+	% }
+    % }
  
     <h3>
 	    
 	<a href="javascript:history.go(-1)">Back</a>
 	
-	<% if ($upcoming_events_counter == $upcoming_events_length) { %>
+	% if ($events_counter == $events_length) {
 	    
 	<div style="text-align: right; margin-top: -20px;">
 	    
-	    <% for (@{$self->{UPCOMING_EVENTS}}) { %>
+	    % for (@{$self->{EVENTS}}) {
 	    
-		<% next if $_->start_datetime->epoch <= $last_start_datetime; %>
+		% next if $_->start_datetime->epoch <= $events_last_start_datetime;
 		
 		<a href="/events?start_datetime=<%= $_->start_datetime->epoch; %>&id=<%= $_->id %>">Next</a>
 		
-		<% last; %>
-		
-	    <% } %>
+		% last;
+	    % }
 	    
 	</div>
 	
-	<% } %>
+	% }
 	
     </h3>
     

@@ -1,7 +1,7 @@
-% title 'Feature';
-% layout 'default';
+% my $content = $self->{CONTENT};
 %
-% my $content = $self->{CONTENT}; 
+% title $content->title;
+% layout 'default'; 
 
 <script type="text/javascript">//<![CDATA[
 
@@ -9,7 +9,7 @@
 
 <div class="content_left">
 
-    <h1>Feature</h1>
+    <h1><%= $content->title %></h1>
     
     % $content->update({clicks => $content->clicks + 1});
     
@@ -17,10 +17,8 @@
 
     % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
 	    
-    <img class="para_image_right" src="<%= $_ %>" onClick="contentPhotos_<%= $md5 %>.show();"/>
-	    
-    %= include 'modules/content_photos', content => $content, identifier => $md5
-
+    <img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
+    
     <% last; %>
 
     <% } %>

@@ -33,31 +33,8 @@
 	    % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
 	    % my $gallery_identifier = $md5 . '_' . $galleries_counter;
 
-	    <img style="cursor: pointer; width: 195px; height: auto; border: 1px solid #1a3721;" src="<%= $_ %>" onClick="contentPhotos_<%= $gallery_identifier %>.show();"/>
+	    <img class="photo_gallery_mini" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
 	     
-	    <div dojoType="dijit.Dialog" data-dojo-id="contentPhotos_<%= $gallery_identifier %>" title="<%= $photo->title %>">
-	    
-		<div style="width: 700px; height: 400px;">
-	    	    
-		    <div dojoType="dijit.layout.ContentPane">
-			
-			<img style="margin-top: 10px; max-width: 650px; max-height: 350px; border: 1px solid #1a3721;" src="<%= $_ %>" />
-			
-			<div style="margin-top: 5px;">
-				
-			    <span class='st_facebook_large' displayText='Facebook' st_image="http://<%= app->config->{domain} %><%= $_ %>" st_title='<%= $photo->title %>' st_url='http://<%= app->config->{domain} %>/<%= $photo->id %>'></span>
-			    <span class='st_twitter_large' displayText='Tweet' st_image="http://<%= app->config->{domain} %><%= $_ %>" st_title='<%= $photo->title %>' st_url='http://<%= app->config->{domain} %>/<%= $photo->id %>'></span>
-			    <span class='st_googleplus_large' displayText='Google +' st_image="http://<%= app->config->{domain} %><%= $_ %>" st_title='<%= $photo->title %>' st_url='http://<%= app->config->{domain} %>/<%= $photo->id %>'></span>
-			    <span class='st_linkedin_large' displayText='LinkedIn' st_image="http://<%= app->config->{domain} %><%= $_ %>" st_title='<%= $photo->title %>' st_url='http://<%= app->config->{domain} %>/<%= $photo->id %>'></span>
-			    <span class='st_evernote_large' displayText='Evernote' st_image="http://<%= app->config->{domain} %><%= $_ %>" st_title='<%= $photo->title %>' st_url='http://<%= app->config->{domain} %>/<%= $photo->id %>'></span>
-			    <span class='st_email_large' displayText='Email' st_image="http://<%= app->config->{domain} %><%= $_ %>" st_title='<%= $photo->title %>' st_url='http://<%= app->config->{domain} %>/<%= $photo->id %>'></span>
-	
-			</div>
-	
-		    </div>
-		</div>
-	    </div>
-
 	    <% } %>
 	    
 	    <div class="content_gap"></div>

@@ -43,8 +43,11 @@
 	<div id="main_container">
 		
 	    <div id="header_container" onClick="javascript:window.location='/';">
-    
+		
+		%### This is only temporary. 
+		% unless ($self->{CONTENT}) {
 		<h2><%= title %></h2>
+		% }
     
 	    </div>
     

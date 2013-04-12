@@ -36,6 +36,12 @@ any '/' => sub {
     return $self->redirect_to('home');
 };
 
+any '/a5' => sub {
+
+    my $self = shift;
+    return $self->redirect_to('home');
+};
+
 ### After 5 Visitor Pages
 
 ## Home
@@ -234,9 +240,7 @@ get '/events' => sub {
         $dt_local = DateTime->now;
     }
 
-    ## TODO: Change this over to @events and get rid of the @upcoming naming.
-
-    my @upcoming_events = $MODEL->resultset('Content')->search(
+    my @events = $MODEL->resultset('Content')->search(
         {   pages          => {like => '%events%'},
             types          => {like => '%event%'},
             start_datetime => {
@@ -249,7 +253,7 @@ get '/events' => sub {
         {order_by => 'start_datetime ASC'}
     )->all;
 
-    $self->{'UPCOMING_EVENTS'} = \@upcoming_events;
+    $self->{'EVENTS'} = \@events;
 
     # Trending
     my @trending = $MODEL->resultset('Content')->search(
@@ -579,9 +583,9 @@ get '/live/:city/neighbors' => [city => qr/\w+/] => sub {
 
     $self->{'NEIGHBORS'} = \@neighbors;
 
-    return $self->render('live_neighbors');
+    return $self->render('neighbors');
 
-} => 'live_neighbors';
+} => 'neighbors';
 
 ## Work
 
@@ -862,6 +866,11 @@ get '/:id' => [id => qr/\d+/] => sub {
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
 
+    # Neighbors
+    if ($content->tags =~ m/\bneighbor/g) {
+        $self->render('permalink_content');    
+    }
+    
     # Articles
     if ($content->types =~ m/article/g) {
 
@@ -913,9 +922,58 @@ get '/:id' => [id => qr/\d+/] => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     $self->{'CONTENT'} = $content;
-    return $self->render('permalink');
+    return $self->render('permalink_content');
 
-} => 'permalink';
+} => 'permalink_content';
+
+get '/:img' => [img => qr/\w+.img/] => sub {
+
+    my $self = shift;
+
+    my $img = $self->param('img');
+
+    my $content =
+      $MODEL->resultset('Content')->search({photos => {like => "%$img%"}})
+      ->first;
+
+    my $photo_index;
+
+    for (split /\s+/, $content->photos) {
+
+        $photo_index++;
+
+        if ($_ =~ m/\b$img/) {
+
+            return $self->redirect_to(
+                '/' . $content->id . '/' . $photo_index);
+        }
+    }
+
+    return $self->render('/asfasfasraseasas');
+};
+
+get '/:id/:index' => [id => qr/\d+/, index => qr/\d+/] => sub {
+
+    my $self = shift;
+
+    my $content =
+      $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->single;
+
+    $self->{CONTENT} = $content;
+
+    push @{$self->{'PHOTOS'}}, $_ for split /\s+/, $content->photos;
+
+    # Ads
+    my @ads = $MODEL->resultset('Content')->search(
+        {   
+            types => {like => '%ad_header%'}
+        }
+    )->all;
+
+    $self->{'ADS'} = \@ads;
+
+} => 'permalink_photos';
 
 ### After 5 Admin Pages
 
