@@ -21,25 +21,19 @@
         
         <% } %>
         
-        <!-- Analytics -->
-	
-        <script type="text/javascript">//<![CDATA[
-
-	Clicks.push(<%= $staff->id; %>);
-
-	//]]></script>
+        % $staff->update({clicks => $staff->clicks + 1});
         
         <h2 style="margin-top: -8px;"><%= $staff->author %></h2>
 
         <h4><%= $staff->title %></h4>
 
-        <% for ( split /\s+/, $staff->photos ) { %>
+        % for (split '/\s+/', $staff->photos) {
 
         <img class="<%= $position == 1 ? 'about_image_left' : 'about_image_right'; %>" src="<%= $_ %>" />
 
-        <% last; #JUST SHOW ONE %>
+        % last;
 
-        <% } %>
+        % }
 
         <p><%== $staff->body %></p>
 
@@ -75,13 +69,8 @@
         
         <% } %>
         
-        <!-- Analytics -->
-	<script type="text/javascript">//<![CDATA[
-
-	Clicks.push(<%= $press->id; %>);
-
-	//]]></script>
-            
+	% $press->update({clicks => $press->clicks + 1});
+    
         <h2><a href="<%= $press->link %>" target="_blank"><%= $press->title %></a></h2>
         
         <% for ( split /\s+/, $press->photos ) { %>

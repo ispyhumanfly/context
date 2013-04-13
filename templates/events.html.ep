@@ -54,8 +54,10 @@
 
 		% my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
 	    
-		<img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
-	    
+		<a href="/<%= $md5 %>.img" title="<%= $events->title %>">
+		    <img class="para_image_right" src="<%= $_ %>"/>
+		</a>
+		
 	    % } else {
 
 		% $events->update({views => $events->views + 1});

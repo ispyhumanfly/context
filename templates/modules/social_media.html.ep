@@ -136,3 +136,34 @@
     <span class='st_email_large' displayText='Email'></span>
 
 <% } %>
+
+% if ($mode eq 'share_this_center') {
+
+<span class="social_sharing_center">
+
+    <span class='st_facebook_large' displayText='Facebook'></span>
+    <span class='st_twitter_large' displayText='Tweet'></span>
+    <span class='st_googleplus_large' displayText='Google +'></span>
+    <span class='st_linkedin_large' displayText='LinkedIn'></span>
+    <span class='st_evernote_large' displayText='Evernote'></span>
+    <span class='st_email_large' displayText='Email'></span>
+
+</span>
+
+% }
+
+
+% if ($mode eq 'share_this_right') {
+
+<span class="social_sharing_right">
+
+    <span class='st_facebook_large' displayText='Facebook'></span>
+    <span class='st_twitter_large' displayText='Tweet'></span>
+    <span class='st_googleplus_large' displayText='Google +'></span>
+    <span class='st_linkedin_large' displayText='LinkedIn'></span>
+    <span class='st_evernote_large' displayText='Evernote'></span>
+    <span class='st_email_large' displayText='Email'></span>
+
+</span>
+
+% }

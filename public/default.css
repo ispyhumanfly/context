@@ -524,9 +524,9 @@ body {
     margin-bottom: 10px;
     border: 1px solid #1a3721; 
     width: 275px; height: auto;
-    -webkit-box-shadow: #222 0 0 0.3em;  
-    -moz-box-shadow: #222 0 0 0.3em;  
-    box-shadow: #222 0 0 0.3em;    
+    -webkit-box-shadow: #222 0 0 0.5em;  
+    -moz-box-shadow: #222 0 0 0.5em;  
+    box-shadow: #222 0 0 0.5em;    
 }
 
 #content_container .about_image_right {
@@ -538,9 +538,9 @@ body {
     width: 175px;
     height: auto;
     border: 1px solid #1a3721;
-    -webkit-box-shadow: #222 0 0 0.3em;  
-    -moz-box-shadow: #222 0 0 0.3em;  
-    box-shadow: #222 0 0 0.3em;    
+    -webkit-box-shadow: #222 0 0 0.5em;  
+    -moz-box-shadow: #222 0 0 0.5em;  
+    box-shadow: #222 0 0 0.5em;    
 
 }
 
@@ -551,7 +551,10 @@ body {
     height: 115px;
     margin: 0px 10px 10px 0;
     border: 1px solid #1a3721; 
-    
+       -webkit-box-shadow: #222 0 0 0.2em;  
+    -moz-box-shadow: #222 0 0 0.2em;  
+    box-shadow: #222 0 0 0.2em;    
+
 }
 
 #content_container .about_form_container {
@@ -561,6 +564,10 @@ body {
     width: 97.5%;
     height: 615px;
     padding: 10px;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+
 }
 
 #content_container .about_form_caption_box {
@@ -618,7 +625,11 @@ body {
 
     width: 625px;
     height: 350px;
-    border: 1px solid #1a3721; 
+    border: 1px solid #1a3721;
+    
+       -webkit-box-shadow: #222 0 0 0.7em;  
+    -moz-box-shadow: #222 0 0 0.7em;  
+    box-shadow: #222 0 0 0.7em;   
 }
 
 
@@ -851,10 +862,12 @@ body {
 
 #content_container .block_about_box {
     
-    background-image: url('/ArrowGraphicRight.png');
+    /*Temporarily disabled. I need to generate a higher quality graphic */
+    
+/*    background-image: url('/ArrowGraphicRight.png');
     background-repeat: no-repeat;
     background-position: 95% 50%;
-    
+*/    
     border: 1px solid  #1a3721;
     background-color: white;
     width: 99.5%;
@@ -955,12 +968,21 @@ body {
     font-size: 13px;
     margin-top: 5px;
     margin-bottom: 10px;
+
+}
+
+#content_body_truncated .box {
+    
+    float: left;
+    width: 248px;
+    margin-top: -5px;
 }
 
 #content_body_truncated .right {
     
     margin-left: 385px;
     max-width: 300px;
+    
 }
 
 #content_body_truncated .right_small {
@@ -1221,11 +1243,11 @@ body {
     
     clear: both;
     display: block;
-    text-align: right;
-    margin-right: 48px;
+    margin-right: 25px;
+    margin-top: -80px;
     padding: 10px;
-    float: right;
     border: 0px;
+    float: right;
 }
 
 #content_container .social_sharing_right img {
