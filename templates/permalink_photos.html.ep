@@ -18,6 +18,7 @@
         <div class="content_none">
             
             <img class="photo_gallery_full" src="<%= $_ %>"/>
+            <div style="display:none;"><%= $content->body %></div>
         
         </div>
         

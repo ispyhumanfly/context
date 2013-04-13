@@ -31,12 +31,15 @@
 	    <% for (split /\s+/, $photo->photos) { %>
     
 	    % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
-	    % my $gallery_identifier = $md5 . '_' . $galleries_counter;
-
-	    <img class="photo_gallery_mini" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
+	    
+	    <a href="/<%= $md5 %>.img" title="<%= $photo->title %>">
+		<img class="photo_gallery_mini" src="<%= $_ %>"/>
+	    </a>
 	     
 	    <% } %>
 	    
+	    <div style="display:none;"><%= $photo->body %></div>
+
 	    <div class="content_gap"></div>
 	    
 	    %= include 'modules/social_media', mode => 'share_this', content => $photo
