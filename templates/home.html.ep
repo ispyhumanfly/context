@@ -122,7 +122,7 @@
 	<h1>Events</h1>
     </a>
     
-    <div style="background-color: #E6E2E3; padding: 15px 0px 5px 5px; width: 99.9%;">
+    <div class="upcoming_events_box">
 	    
 	%= include 'modules/events_calendar', mode => 'home'    
 	
