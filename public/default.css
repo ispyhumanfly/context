@@ -156,6 +156,9 @@ body {
     font-size: 0.75em;
     font-weight: lighter;
     background-color: #8bc53e;
+    border-radius: 3px 0 0 3px;
+    -moz-border-radius: 3px 0 0 3px;
+    -webkit-border-radius: 3px 0 0 3px;
 
 }
 
