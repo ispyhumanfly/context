@@ -73,19 +73,19 @@
     
         <h2><a href="<%= $press->link %>" target="_blank"><%= $press->title %></a></h2>
         
-        <% for ( split /\s+/, $press->photos ) { %>
+        % for (split '/\s+/', $press->photos) {
     
         <a title="<%= $press->title %>" href="<%= $press->link %>" target="_blank">
             <img class="about_press_left" src="<%= $_ %>" />
         </a>
     
-        <% last; #JUST SHOW ONE %>
+        % last;
     
-        <% } %>
+        % }
     
         <p><%== HTML::FormatText->format_string($press->body) %><p>
         
-        <div class="read_more_right">
+        <div class="read_more_left">
     
             <% if ( $self->session('admin') ) { %>
     
