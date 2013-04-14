@@ -16,8 +16,10 @@
     <% for ( split /\s+/, $content->photos ) { %>
 
     % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
-	    
-    <img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
+    
+    <a href="/<%= $md5 %>.img" title="<%= $content->title %>">
+	<img class="para_image_right" src="<%= $_ %>" />
+    </a>
     
     <% last; %>
 
