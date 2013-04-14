@@ -47,8 +47,10 @@
 		% $article->update({clicks => $article->clicks + 1});
 
 		% my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
-	    
-		<img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
+	    	
+		<a href="/<%= $md5 %>.img" title="<%= $article->title %>">
+		    <img class="para_image_right" src="<%= $_ %>" />
+		</a>
 	    
 	    <% } else { %>
 
