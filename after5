@@ -920,9 +920,9 @@ get '/:id' => [id => qr/\d+/] => sub {
     $self->{'ADS_BLOCK'} = \@ads_block;
 
     $self->{'CONTENT'} = $content;
-    return $self->render('permalink_content');
+    return $self->render('permalink');
 
-} => 'permalink_content';
+} => 'permalink';
 
 get '/:img' => [img => qr/\w+.img/] => sub {
 
@@ -943,22 +943,20 @@ get '/:img' => [img => qr/\w+.img/] => sub {
         if ($_ =~ m/\b$img/) {
 
             return $self->redirect_to(
-                '/' . $content->id . '/' . $photo_index);
+                '/gallery/' . $content->id . '/' . $photo_index);
         }
     }
 
-    return $self->render('/asfasfasraseasas');
+    return $self->render('not_found');
 };
 
-get '/:id/:index' => [id => qr/\d+/, index => qr/\d+/] => sub {
+get '/gallery/:id/:index' => [id => qr/\d+/, index => qr/\d+/] => sub {
 
     my $self = shift;
 
     my $content =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
-
-    $self->{CONTENT} = $content;
 
     push @{$self->{'PHOTOS'}}, $_ for split /\s+/, $content->photos;
 
@@ -970,8 +968,12 @@ get '/:id/:index' => [id => qr/\d+/, index => qr/\d+/] => sub {
     )->all;
 
     $self->{'ADS'} = \@ads;
+    
+    $self->{CONTENT} = $content;
+    
+    return $self->render('gallery');
 
-} => 'permalink_photos';
+} => 'gallery';
 
 ### After 5 Admin Pages
 

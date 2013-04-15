@@ -51,6 +51,8 @@
 		<a href="/<%= $md5 %>.img" title="<%= $style->title %>">
 		    <img class="para_image_right" src="<%= $_ %>" />
 		</a>
+		
+		%= include 'modules/content_gallery', content => $style
 	    
 	    <% } else { %>
 

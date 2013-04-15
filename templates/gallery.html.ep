@@ -1,13 +1,11 @@
-% title '';
-% layout 'default';
-%
 % my $content = $self->{CONTENT};
+%
+% title $content->title;
+% layout 'default';
 
 <div class="content_wide">
 
-    <h1><%= $content->title %></h1>
-
-    % my $photo_index;
+    % my ($photo_index, $thumbnail_index);
     
     % for (@{$self->{PHOTOS}}) {
     
@@ -15,51 +13,70 @@
         
         % next unless $photo_index == $self->param('index');
         
-        <div class="content_none">
+        <div class="content_gallery">
             
-            <img class="photo_gallery_full" src="<%= $_ %>"/>
+            <div class="photo_gallery_pagination">
+            
+                % if ($self->session('admin')) {
         
-        </div>
-        
-        <div class="content_gap"></div>
-        
-        <div style="text-align: center;">
-    
-        %= include 'modules/social_media', mode => 'share_this', content => $_
-            
-        </div>
-            
-        <h3>
-                
-            % if ($self->session('admin')) {
-    
-            <a href="javascript:history.go(-1)">Back | </a>
-            <a href="/editor?mode=update&id=<%= $content->id %>" style="margin-left: 10px;">Edit</a>
-            
-            % } else {
-    
-            <a href="javascript:history.go(-1)">Back</a>
-            
-            % }
-    
-            <div style="text-align: right; margin-top: -20px;">
-        
-                % if ($photo_index < @{$self->{PHOTOS}}) {
-                
-                <a href="/<%= $content->id %>/<%= $photo_index + 1 %>">Next</a>
+                <a href="javascript:history.go(-1)">Back | </a>
+                <a href="/editor?mode=update&id=<%= $content->id %>" style="margin-left: 10px;">Edit</a>
                 
                 % } else {
-                
-                <a href="/<%= $content->id %>">Return to Origin</a>
+        
+                <a href="javascript:history.go(-1)">Back</a>
                 
                 % }
                 
-            </div>
+                <div style="text-align: right; margin-top: -20px;">
             
-        </h3>
+                    % if ($photo_index < @{$self->{PHOTOS}}) {
+                    
+                    <a href="/gallery/<%= $content->id %>/<%= $photo_index + 1 %>">Next</a>
+                    
+                    % }
+                    
+                </div>
+                
+            </div>
+
+            <div class="photo_gallery_photo_wrapper">
+        
+                % if (scalar @{$self->{PHOTOS}} > 1) {
+
+                    <img class="photo_gallery_half" src="<%= $_ %>"/>
+        
+                    <div style="margin-left: 620px; margin-top: -405px; width: 400px; height: 400px; overflow: hidden;">
+                    
+                    % for (@{$self->{PHOTOS}}) {
+                        
+                        % $thumbnail_index++;
+    
+                        %# next unless $photo_index < $self->param('index');
+                        <a href="/gallery/<%= $content->id %>/<%= $thumbnail_index %>">
+                            <img class="photo_gallery_micro" src="<%= $_ %>"/>
+                        </a>
+                    % }
+                    
+                    </div>
+    
+                % } else {
+                
+                <div id="photo_gallery_full">
+                    <img src="<%= $_ %>"/>
+                </div>
+                
+                % }
+                
+        
+            </div>
+                        
+        </div>
         
         % last if $photo_index == $self->param('index');
     
     % }
+
+            %= include 'modules/social_media', mode => 'share_this_gallery', content => $_
 
 </div>

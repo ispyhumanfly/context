@@ -46,7 +46,7 @@
 	
 	% }
             
-	% for (split '/\s+/', $events->photos) {
+	% for (split /\s+/, $events->photos) {
 
 	    % if ($events_counter == 1) {
 	    
@@ -57,6 +57,8 @@
 		<a href="/<%= $md5 %>.img" title="<%= $events->title %>">
 		    <img class="para_image_right" src="<%= $_ %>"/>
 		</a>
+		
+		%= include 'modules/content_gallery', content => $events
 		
 	    % } else {
 

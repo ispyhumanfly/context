@@ -61,11 +61,9 @@
 		    <li><a href="/work">Jobs</a></li>
 		    <li><a href="/about">About</a></li>
     
-		    <% if ( $self->session('admin') ) { %>
-    
+		    % if ($self->session('admin')) {
 		    <li><a href="/dashboard">Dashboard</a></li>
-		    
-		    <% } %>
+		    % }
     
 		</ul>
 
@@ -79,6 +77,8 @@
 	    
 	    <div id="content_container">
     		
+		% unless ($self->req->url->path->contains('/gallery')) {
+		
 		<div class="ad_space_header">
 
 		<% if (exists $self->{ADS}) { %>
@@ -87,17 +87,17 @@
 		    
 			var header_ads = new Array();
 			
-			<% for my $ad (@{$self->{ADS}}) { %>
+			//<% for my $ad (@{$self->{ADS}}) { %>
 	
-			    <% for ( split /\s+/, $ad->photos ) { %>
+			    //<% for (split /\s+/, $ad->photos) { %>
 	
 			    header_ads.push("<a href='<%= $ad->link %>' onclick='ad_click(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
 			    
-			    <% last; %>
+			    //<% last; %>
 			    
-			    <% } %>
+			    //<% } %>
 	
-			<% } %>
+			//<% } %>
 			    
 			var random = Math.floor(Math.random() * header_ads.length);
 			document.write(header_ads[random]);
@@ -107,6 +107,8 @@
 		<% } %>
 
 		</div>
+		
+		% }
 	            
 		%= content
     

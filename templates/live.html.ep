@@ -30,6 +30,8 @@
             
                 <img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
                 
+                %= include 'modules/content_gallery', content => $city_life
+
                 <% last; %>
 
             <% } %>
@@ -123,6 +125,8 @@
 
 	    <img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
         
+            %= include 'modules/content_gallery', content => $featured_lifestyle
+
 	    % last;
     
 	    <% } %>

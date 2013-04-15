@@ -427,6 +427,20 @@ img {
 
 }
 
+#content_container .para_image_right_gallery {
+
+    float: right;
+    margin-top: 300px;
+    margin-left: 100px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 75px;
+    height: auto;
+    border: 1px solid #1a3721;
+
+
+}
+
 #content_container .para_image_left_search {
 
     float: left;
@@ -1113,6 +1127,18 @@ img {
 
 }
 
+#content_container .content_gallery {
+    
+ background-color: #e6e2e3;
+    border-color: #222;
+    border-radius: 5px 5px 5px 5px;
+    -moz-border-radius: 5px 5px 5px 5px;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    height: 500px;
+}
+
 #content_container .content_left span {
 
     color: #263c27;
@@ -1207,13 +1233,51 @@ img {
     
 }
 
-#content_container .photo_gallery_full {
+#content_container .photo_gallery_photo_wrapper {
 
-    width: 900px;
-    height: auto;
+    padding: 25px;
+
+}
+
+#content_container .photo_gallery_half {
+
+    width: auto;
+    max-width: 600px;
+    height: 400px;
     border: 1px solid #1a3721;
-    margin: 25px;
     
+}
+
+#photo_gallery_full {
+
+    margin: auto;
+    text-align: center;
+    
+}
+
+#photo_gallery_full img {
+        border: 1px solid #1a3721;
+            height: 400px;
+
+
+}
+
+#content_container .photo_gallery_micro {
+    cursor: pointer; width:80px; height: auto; border: 1px solid #1a3721;
+    
+    
+}
+
+#content_container .photo_gallery_pagination {
+
+    position: relative;
+    height: 18px;
+    background-color: #e6e2e3;
+    color: #1a3721;
+    font-size: 1em;
+    font-weight: bold;
+    clear: both;
+    list-style-type: square;
 }
 
 /**/
@@ -1262,6 +1326,17 @@ img {
     padding-top: 10px;
     padding-bottom: 5px;
     border: 0px;
+}
+
+#content_container .social_sharing_gallery {
+    
+clear:both;
+border: 0px;
+position: absolute;
+margin-left: 385px;
+margin-top: -65px;
+min-width: 300px;
+    
 }
 
 #content_container .social_sharing_center img {
@@ -1812,5 +1887,13 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 }
 
 #dashboard_analytics a {
+    
+}
+
+#disqus {
+    
+    clear: both;
+    margin-left: 15px;
+    margin-right: 15px;
     
 }
