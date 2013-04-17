@@ -866,9 +866,9 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     # Neighbors
     if ($content->tags =~ m/\bneighbor/g) {
-        $self->render('permalink_content');    
+        $self->render('permalink_content');
     }
-    
+
     # Articles
     if ($content->types =~ m/article/g) {
 
@@ -961,16 +961,13 @@ get '/gallery/:id/:index' => [id => qr/\d+/, index => qr/\d+/] => sub {
     push @{$self->{'PHOTOS'}}, $_ for split /\s+/, $content->photos;
 
     # Ads
-    my @ads = $MODEL->resultset('Content')->search(
-        {   
-            types => {like => '%ad_header%'}
-        }
-    )->all;
+    my @ads = $MODEL->resultset('Content')
+      ->search({types => {like => '%ad_header%'}})->all;
 
     $self->{'ADS'} = \@ads;
-    
+
     $self->{CONTENT} = $content;
-    
+
     return $self->render('gallery');
 
 } => 'gallery';
@@ -1674,10 +1671,8 @@ get '/api/rest/get/:amount/:sort/:results' =>
         $types = '%event%'   if $results =~ m/events.json/i;
         $types = '%gallery%' if $results =~ m/galleries.json/i;
 
-        if ($results =~ m/people.json/i) {
-
+        if ($results =~ m/articles.json/i) {
             $types = '%article%';
-            $tags  = '%people%';
         }
         elsif ($results =~ m/places.json/i) {
 
@@ -1759,13 +1754,19 @@ get '/api/rest/get/:amount/:sort/:results' =>
             position          => $_->position,
             link              => $_->link,
             views             => $_->views,
-            clicks            => $_->clicks
+            clicks            => $_->clicks,
+            permalink => 'http://' . app->config->{domain} . '/' . $_->id,
+            gallery   => 'http://'
+              . app->config->{domain} . '/'
+              . $_->id . '/1',
+
         );
         push @results, \%items;
     }
 
     my $json = Mojo::JSON->new;
-    return $self->render(text => $json->encode({results => \@results}));
+    return $self->render(
+        text => $json->encode({status => 'ok', results => \@results}));
 
   };
 
