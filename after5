@@ -1659,54 +1659,80 @@ get '/api/rest/get/:amount/:sort/:results' =>
   [amount => qr/\w+/, sort => qr/\w+/, results => qr/\w+\.json/] => sub {
 
     my $self = shift;
-    my ($types, $tags, $rows, $order_by);
 
-    $rows = $self->param('amount') if $self->param('amount');
-    $tags = 'none';
+    my $dtf = $MODEL->storage->datetime_parser;
+    my $dt_local;
+
+    my ($types, $pages, $rows, @content, @results);
+
+    $rows  = $self->param('amount');
+    $pages = 'none';
 
     if ($self->param('results')) {
 
         my $results = $self->param('results');
 
-        $types = '%event%'   if $results =~ m/events.json/i;
-        $types = '%gallery%' if $results =~ m/galleries.json/i;
+        if ($results =~ m/events.json/i) {
 
-        if ($results =~ m/articles.json/i) {
-            $types = '%article%';
+            $types = '%event%';
+            $pages = '%events%';
         }
-        elsif ($results =~ m/places.json/i) {
+        elsif ($results =~ m/photos.json/i) {
 
-            $types = '%article%';
-            $tags  = '%place%';
-        }
-        elsif ($results =~ m/neighbors.json/i) {
-
-            $types = '%article%';
-            $tags  = '%neighbor%';
+            $types = 'gallery';
+            $pages = '%photos%';
         }
         elsif ($results =~ m/articles.json/i) {
 
             $types = '%article%';
-            $tags  = '%article%';
+            $pages = '%articles%';
+        }
+        elsif ($results =~ m/style.json/i) {
+
+            $types = '%article%';
+            $pages = '%style%';
+        }
+        elsif ($results =~ m/jobs.json/i) {
+
+            $types = '%career%';
+            $pages = '%work%';
         }
     }
 
-    if ($self->param('sort')) {
+    given ($self->param('sort')) {
 
-        my $sort = $self->param('sort');
+        when ('recent') {
 
-        $order_by = 'views DESC' if $sort eq 'popular';
-        $order_by = 'id DESC'    if $sort eq 'recent';
+            @content = $MODEL->resultset('Content')->search(
+                {   types           => {like => '%article%'},
+                    create_datetime => {
+                        -between => [
+                            $dtf->format_datetime(
+                                DateTime->now->subtract(days => 30)
+                            ),
+                            $dtf->format_datetime(DateTime->now)
+                        ]
+                    }
+                },
+                {   page     => 1,
+                    rows     => $rows,
+                    order_by => 'create_datetime DESC'
+                }
+            )->all;
+        }
+
+        when ('trending') {
+
+            @content = $MODEL->resultset('Content')->search(
+                {   types => {like => "$types"},
+                    pages => {like => "$pages"}
+                },
+                {page => 1, rows => $rows, order_by => 'id DESC'}
+            )->all;
+
+            order_by_trending(@content);
+        }
     }
-
-    my @content = $MODEL->resultset('Content')->search(
-        {   types => {like => "$types"},
-            tags  => {like => "$tags"}
-        },
-        {page => 1, rows => $rows, order_by => $order_by}
-    )->all;
-
-    my @results;
 
     for (@content) {
 
@@ -1725,7 +1751,6 @@ get '/api/rest/get/:amount/:sort/:results' =>
 
         for (split /\s+/, $_->photos) {
 
-            ### This may be broken with new variable...
             push @prepared_photos,
               'http://' . app->config->{domain} . '' . $_;
         }
@@ -1742,7 +1767,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
             cities            => $_->cities,
             interests         => $_->interests,
             pages             => $_->pages,
-            photos            => "@prepared_photos",
+            photos            => @prepared_photos,
             videos            => $_->videos,
             body              => $body_format,
             start_datetime    => $_->start_datetime,
@@ -1755,11 +1780,12 @@ get '/api/rest/get/:amount/:sort/:results' =>
             link              => $_->link,
             views             => $_->views,
             clicks            => $_->clicks,
+
             permalink => 'http://' . app->config->{domain} . '/' . $_->id,
-            gallery   => 'http://'
+
+            gallery => 'http://'
               . app->config->{domain} . '/'
               . $_->id . '/1',
-
         );
         push @results, \%items;
     }
