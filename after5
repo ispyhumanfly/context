@@ -1660,13 +1660,14 @@ get '/api/rest/get/:amount/:sort/:results' =>
 
     my $self = shift;
 
+    my $json = Mojo::JSON->new;
+
     my $dtf = $MODEL->storage->datetime_parser;
     my $dt_local;
 
     my ($types, $pages, $rows, @content, @results);
 
     $rows  = $self->param('amount');
-    $pages = 'none';
 
     if ($self->param('results')) {
 
@@ -1790,9 +1791,17 @@ get '/api/rest/get/:amount/:sort/:results' =>
         push @results, \%items;
     }
 
-    my $json = Mojo::JSON->new;
-    return $self->render(
-        text => $json->encode({status => 'ok', results => \@results}));
+    if ((   $self->param('status_check')
+            and ($self->param('status_check') eq 'true')
+        )
+      )
+    {
+        return $self->render(
+            text => $json->encode({status => 'ok', results => \@results}));
+    }
+    else {
+        return $self->render(text => $json->encode({results => \@results}));
+    }
 
   };
 
