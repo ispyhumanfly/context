@@ -239,7 +239,7 @@
 
 	<div class="content_spacer"></div>
 
-	%= include 'modules/block_more_photos', more_photos => $self->{GALLERIES}
+	%= include 'modules/block_photos', more_galleries => $self->{GALLERIES}
 
     </div>
     

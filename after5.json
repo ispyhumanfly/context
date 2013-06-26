@@ -2,6 +2,7 @@
     "title"     : "After 5",
     "domain"    : "after5detroit.com",
     "temp"      : "/tmp",
+    "old_content" : 120,
     
     "persona"    :
     
