@@ -1,4 +1,3 @@
-
 /* Verdana */
 @font-face {
 
@@ -1333,6 +1332,7 @@ img {
 border: 0px;
 margin-left: 385px;
 min-width: 300px;
+margin-top: -10px;
     
 }
 
