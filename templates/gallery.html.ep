@@ -39,6 +39,10 @@
                 </div>
                 
             </div>
+            
+            <h2 style="text-align: center; margin: auto;">
+                <a href="/<%= $content->id %>"><%= $content->title %></a>
+            </h2>
 
             <div class="photo_gallery_photo_wrapper">
         
@@ -52,7 +56,6 @@
                         
                         % $thumbnail_index++;
     
-                        %# next unless $photo_index < $self->param('index');
                         <a href="/gallery/<%= $content->id %>/<%= $thumbnail_index %>">
                             <img class="photo_gallery_micro" src="<%= $_ %>"/>
                         </a>
@@ -70,13 +73,14 @@
                 
         
             </div>
+            
+                %= include 'modules/social_media', mode => 'share_this_gallery', content => $_
+
                         
         </div>
         
         % last if $photo_index == $self->param('index');
     
     % }
-
-            %= include 'modules/social_media', mode => 'share_this_gallery', content => $_
 
 </div>

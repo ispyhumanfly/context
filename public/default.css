@@ -1136,7 +1136,7 @@ img {
     -webkit-border-radius: 5px 5px 5px 5px;
     padding: 10px;
     margin-bottom: 15px;
-    height: 500px;
+    height: 525px;
 }
 
 #content_container .content_left span {
@@ -1330,11 +1330,8 @@ img {
 
 #content_container .social_sharing_gallery {
     
-clear:both;
 border: 0px;
-position: absolute;
 margin-left: 385px;
-margin-top: -65px;
 min-width: 300px;
     
 }
