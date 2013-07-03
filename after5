@@ -454,7 +454,7 @@ get '/photos' => sub {
             create_datetime => {
                 -between => [
                     $dtf->format_datetime(
-                        DateTime->now->subtract(days => 90)
+                        DateTime->now->subtract(days => 120)
                     ),
                     $dtf->format_datetime(DateTime->now)
                 ]
@@ -860,48 +860,56 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
+    my $dtf      = $MODEL->storage->datetime_parser;
+    my $dt_local = DateTime->now;
+
     my $content =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
 
-    # Neighbors
-    if ($content->tags =~ m/\bneighbor/g) {
-        $self->render('permalink_content');
+    if ($content->create_datetime->epoch > $dt_local->subtract(days => app->config->{old_content})->epoch) {
+
+        # Neighbors
+        if ($content->tags =~ m/\bneighbor/g) {
+            $self->render('permalink');
+        }
+    
+        # Articles
+        elsif ($content->types =~ m/article/g) {
+    
+            return $self->redirect_to('/style?create_datetime='
+                  . $content->create_datetime->epoch . '&id='
+                  . $content->id)
+              if $content->tags =~ m/\bstyle\b/g;
+    
+            return $self->redirect_to('/articles?create_datetime='
+                  . $content->create_datetime->epoch . '&id='
+                  . $content->id)
+              if $content->tags =~ m/\bpeople|place|article|general\b/g;
+        }
+    
+        # Events
+        elsif ($content->types =~ m/event/g) {
+    
+            return $self->redirect_to('/networking?start_datetime='
+                  . $content->start_datetime->epoch . '&id='
+                  . $content->id)
+              if $content->tags =~ m/\bnetworking\b/g;
+    
+            return $self->redirect_to('/events?start_datetime='
+                  . $content->start_datetime->epoch . '&id='
+                  . $content->id);
+        }
+    
+        # Photo Galleries
+        elsif ($content->types =~ m/\bgallery/g) {
+    
+            return $self->redirect_to('/photos?id=' . $content->id);
+        }
+
+        
     }
-
-    # Articles
-    if ($content->types =~ m/article/g) {
-
-        return $self->redirect_to('/style?create_datetime='
-              . $content->create_datetime->epoch . '&id='
-              . $content->id)
-          if $content->tags =~ m/\bstyle\b/g;
-
-        return $self->redirect_to('/articles?create_datetime='
-              . $content->create_datetime->epoch . '&id='
-              . $content->id)
-          if $content->tags =~ m/\bpeople|place|article|general\b/g;
-    }
-
-    # Events
-    elsif ($content->types =~ m/event/g) {
-
-        return $self->redirect_to('/networking?start_datetime='
-              . $content->start_datetime->epoch . '&id='
-              . $content->id)
-          if $content->tags =~ m/\bnetworking\b/g;
-
-        return $self->redirect_to('/events?start_datetime='
-              . $content->start_datetime->epoch . '&id='
-              . $content->id);
-    }
-
-    # Photo Galleries
-    elsif ($content->types =~ m/\bgallery/g) {
-
-        return $self->redirect_to('/photos?id=' . $content->id);
-    }
-
+    
     # Ads
     my @ads = $MODEL->resultset('Content')->search(
         {pages => {like => '%permalink%'}, types => {like => '%ad_header%'}},
@@ -1667,7 +1675,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
 
     my ($types, $pages, $rows, @content, @results);
 
-    $rows  = $self->param('amount');
+    $rows = $self->param('amount');
 
     if ($self->param('results')) {
 
