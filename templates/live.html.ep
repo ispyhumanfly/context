@@ -28,8 +28,10 @@
 
                 % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
             
-                <img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
-                
+		<a href="/<%= $md5 %>.img">
+		    <img class="para_image_right" src="<%= $_ %>" title="<%= $city_life->title %>" alt="<%= $city_life->title %>"/>
+		</a>
+		
                 %= include 'modules/content_gallery', content => $city_life
 
                 <% last; %>
@@ -123,7 +125,9 @@
     
             % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
 
-	    <img class="para_image_right" src="<%= $_ %>" onClick="javascript:window.location='/<%= $md5 %>.img';"/>
+	    <a href="/<%= $md5 %>.img">
+		<img class="para_image_right" src="<%= $_ %>" title="<%= $featured_lifestyle->title %>" alt="<%= $featured_lifestyle->title %>"/>
+	    </a>
         
             %= include 'modules/content_gallery', content => $featured_lifestyle
 

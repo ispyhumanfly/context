@@ -17,3 +17,4 @@ after5.pem
 after5.log
 after5.lock*
 after5.pid
+.DS_Store
