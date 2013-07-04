@@ -1102,24 +1102,26 @@ get '/editor' => sub {
       ->single;
 
     $self->{'CONTENT'} = $content;
-
     
     # Prepare Metadata
-    my $content_md5 = Mojo::Util::md5_sum($content->id);
-    prepare_metadata($content_md5);
-    
-    for (split /\s+/, $content->photos) {
-    
-        my $photo_md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
-	prepare_metadata($photo_md5);
+    if ($content) {
+        
+        my $content_md5 = Mojo::Util::md5_sum($content->id);
+        prepare_metadata($content_md5);
+        
+        for (split /\s+/, $content->photos) {
+        
+            my $photo_md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+            prepare_metadata($photo_md5);   
+        }
+        
+        for (split /\s+/, $content->videos) {
+        
+            my $video_md5 = $1 if $_ =~ m/\/videos\/(.*?).img$/g;
+            prepare_metadata($video_md5);
+        }    
     }
     
-    for (split /\s+/, $content->videos) {
-    
-        my $video_md5 = $1 if $_ =~ m/\/videos\/(.*?).img$/g;
-	prepare_metadata($video_md5);
-    }
-
     # Recent Updates
     my @recent_updates =
       $MODEL->resultset('Content')
