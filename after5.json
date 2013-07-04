@@ -2,7 +2,8 @@
     "title"     : "After 5",
     "domain"    : "after5detroit.com",
     "temp"      : "/tmp",
-    "old_content" : 120,
+    "subtract_day_range" : 190,
+    "add_day_range" : 90,
     
     "persona"    :
     
