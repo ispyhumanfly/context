@@ -6,18 +6,15 @@
 <script type="text/javascript" src="/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script>
 
 <script type="text/javascript">//<![CDATA[
-
-    dojo.require("dijit.form.DateTextBox");
-    dojo.require("dijit.form.TimeTextBox");
-    dojo.require("dijit.form.Select");
-    dojo.require("dijit.form.MultiSelect");
-    dojo.require("dojox.form.DropDownSelect");
-
-    dojo.require("dijit.Menu");
     
     function submit_content () {
     	
 	document.getElementById('content_form').submit();
+    }
+
+    function metadata_update (id, photo) {
+	
+	dojo.xhrPost({ url: '/api/photo/remove', postData: 'id=' + id + '&photo=' + photo + '' })
     }
     
     function remove_photo (id, photo) {
@@ -148,16 +145,43 @@
 	
 	<% for ( split /\s+/, $self->{CONTENT}->photos ) { %>
 
-	<div id="<%= $_ %>" style="display: inline;">
+	<div id="<%= $_ %>" style="display: inline; whitespace: nowrap; margin: 5px;">
     	
-	    <img src="<%= $_ %>" class="more_thumbnails_left" />
+	    <img src="<%= $_ %>" style="width: 100px; height: auto;"/>
 	    
-	    <div style="display: inline;" onclick="remove_photo(<%= $self->{CONTENT}->id %>, '<%= $_ %>')">X</div>
+	    <div dojoType="dijit.form.DropDownButton" style="margin-left: -35px; margin-top: 10px;">
+		
+		<span>More</span>
+		
+		<div dojoType="dijit.TooltipDialog">
+		
+		    % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+		    
+		    % for my $data (@{ $self->app->config->{metadata}->{photos} }) {
+		    
+		    <span><%= ucfirst($data) %></span>
+		    
+		    <div dojoType="dijit.form.TextBox" name="<%= lcfirst($data) %>"></div>
+		    
+		    <br />
+		    
+		    % }
+		    
+		    <button dojoType="dijit.form.Button" onclick="remove_photo(<%= $self->{CONTENT}->id %>, '<%= $_ %>')" type="submit">
+			Remove Photo
+		    </button>	
+	
+		</div>
+	    </div>
 	    
-	</div>
+	
+        </div>
 	
 	<% } %>
 
+	<br />
+	<br />
+	
 	<input name="photos" type="file" />
 	
 	<% } %>
@@ -257,7 +281,6 @@
 		
 		<% } %>
 		
-    
 		<% if ( $self->{CONTENT}->stop_datetime ne '') { %>
 		
 		<h4>Stop Date</h4>

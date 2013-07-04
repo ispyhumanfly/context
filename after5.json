@@ -22,6 +22,14 @@
                        "networking", "sports", "fundraisers", "culture", "living"]
     },
     
+    "metadata"  :
+    
+    {
+        "content"   : ["comments"],
+        "photos"    : ["comments"],
+        "videos"    : ["comments"]
+    },
+    
     "google"    :
     
     {

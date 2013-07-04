@@ -28,6 +28,16 @@
     dojo.require("dojox.image.ThumbnailPicker");
     
     dojo.require("dojo.data.ItemFileReadStore");
+    dojo.require("dijit.form.DateTextBox");
+    dojo.require("dijit.form.TimeTextBox");
+    dojo.require("dijit.form.Select");
+    dojo.require("dijit.form.MultiSelect");
+    dojo.require("dojox.form.DropDownSelect");
+    dojo.require("dijit.form.DropDownButton");
+    dojo.require("dijit.TooltipDialog");
+    dojo.require("dijit.form.TextBox");
+    dojo.require("dijit.form.Button");
+    dojo.require("dijit.Menu");
 
     var Path    = window.location.pathname;
     var Query   = window.location.search;

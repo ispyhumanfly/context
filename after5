@@ -1103,10 +1103,23 @@ get '/editor' => sub {
 
     $self->{'CONTENT'} = $content;
 
+    
     # Prepare Metadata
     my $content_md5 = Mojo::Util::md5_sum($content->id);
     prepare_metadata($content_md5);
     
+    for (split /\s+/, $content->photos) {
+    
+        my $photo_md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+	prepare_metadata($photo_md5);
+    }
+    
+    for (split /\s+/, $content->videos) {
+    
+        my $video_md5 = $1 if $_ =~ m/\/videos\/(.*?).img$/g;
+	prepare_metadata($video_md5);
+    }
+
     # Recent Updates
     my @recent_updates =
       $MODEL->resultset('Content')
@@ -1569,6 +1582,36 @@ post '/api/newsletter/message' => sub {
     return $self->redirect_to('newsletter');
 };
 
+post '/api/metadata/update' => sub {
+
+    my $self = shift;
+
+    return $self->redirect_to('home') unless $self->session('admin');
+
+    my $photo_madness =
+      $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->single;
+
+    my @photos = split /\s+/, $photo_madness->photos;
+
+    my $path = $self->param('photo');
+
+    for (my $i = 0; $i < scalar @photos; $i++) {
+
+        if ($photos[$i] =~ m/^$path/x) {
+
+            undef $photos[$i] and unlink "public/$path";
+        }
+    }
+
+    $MODEL->resultset('Content')->search({id => $self->param('id')})
+      ->update({photos => "@photos"})
+      if scalar @photos >= 1;
+
+};
+
+## After 5 Meta Data Update
+
 post '/api/photo/remove' => sub {
 
     my $self = shift;
@@ -1877,9 +1920,9 @@ sub prepare_metadata {
     my $md5 = shift;
     my $json = Mojo::JSON->new;
 
-    unless (-e "public/metadata/$md5.json") {
+    unless (-e "metadata/$md5.json") {
         
-        open my $metadata, ">public/metadata/$md5.json";
+        open my $metadata, ">metadata/$md5.json";
         binmode $metadata, ':utf8';
         
         my $line = $json->encode({status => 'ok'});
