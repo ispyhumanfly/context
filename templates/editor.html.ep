@@ -161,9 +161,7 @@
 		    
 		    <span><%= ucfirst($data) %></span>
 		    
-		    <div dojoType="dijit.form.TextBox" name="<%= lcfirst($data) %>"></div>
-		    
-		    <br />
+		    <div dojoType="dijit.form.TextBox" name="<%= lcfirst($data) %>" style="padding: 10px;"></div>
 		    
 		    % }
 		    

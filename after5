@@ -1103,23 +1103,11 @@ get '/editor' => sub {
 
     $self->{'CONTENT'} = $content;
     
-    # Prepare Metadata
+    # Metadata
     if ($content) {
         
         my $content_md5 = Mojo::Util::md5_sum($content->id);
-        prepare_metadata($content_md5);
-        
-        for (split /\s+/, $content->photos) {
-        
-            my $photo_md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
-            prepare_metadata($photo_md5);   
-        }
-        
-        for (split /\s+/, $content->videos) {
-        
-            my $video_md5 = $1 if $_ =~ m/\/videos\/(.*?).img$/g;
-            prepare_metadata($video_md5);
-        }    
+        prepare_metadata($content_md5);        
     }
     
     # Recent Updates
@@ -1301,6 +1289,13 @@ post '/api/content/create' => sub {
     }
 
     my $id = $new_content->id;
+
+    # Metadata
+    if ($id) {
+        
+        my $content_md5 = Mojo::Util::md5_sum($id);
+        prepare_metadata($content_md5);        
+    }
 
     my $text =
 
@@ -1927,9 +1922,9 @@ sub prepare_metadata {
         open my $metadata, ">metadata/$md5.json";
         binmode $metadata, ':utf8';
         
-        my $line = $json->encode({status => 'ok'});
+        my $schema = $json->encode(app->config->{metadata});
         
-        print $metadata $line;
+        print $metadata $schema;
         close $metadata;
     }
     
