@@ -4,7 +4,7 @@
 
 =head1 NAME
 
-After 5
+After 6 - Digital Publisher
 
 =head1 SYNOPSIS
 
