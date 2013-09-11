@@ -113,10 +113,11 @@
 		
 		<div id="thoughtpivot" style="text-wrap: none;">
 		    
-		    <span style="font-family: scotosaurus; font-size: 18pt; color: black;">Just another</span> <span style="font-family: neuropolitical ; font-size: 20pt;">
+		    <span style="font-family: scotosaurus; font-size: 18pt; color: black;">A </span>
+		    <span style="font-family: neuropolitical ; font-size: 20pt;">
 			    <a id="thoughtpivot" href="http://thoughtpivot.com" target="_blank" style="color: black;">Thoughtpivot</a>
 		    </span>
-		    
+		    <span style="font-family: scotosaurus; font-size: 18pt; color: black;"> Movement.</span>
 		</div>
 	    </div>
 	    
