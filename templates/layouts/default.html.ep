@@ -45,12 +45,7 @@
 	    <div id="header_container" onClick="javascript:window.location='/';">
 		
 		<h1><%= app->config->{title} %></h1>
-		
-		%### This is only temporary. 
-		% unless ($self->{CONTENT}) {
-		<h2><%= title %></h2>
-		% }
-    
+		<h2>A YFX Physical Theatre Publication</h2>    
 	    </div>
     
 	    <div id="navigation_container">
