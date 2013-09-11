@@ -1,14 +1,15 @@
 { 
-    "title"     : "After 5",
-    "domain"    : "after5detroit.com",
+    "title"     : "Bennu Magazine",
+    "domain"    : "bennumagazine.com",
     "temp"      : "/tmp",
+    "encoding"  : "ISO-8859-1",
     "subtract_day_range" : 190,
     "add_day_range" : 90,
     
-    "persona"    :
+    "taxonomy"    :
     
     {
-        "pages"     : ["articles", "events", "networking", "photos", "home","live", "work", "about", "dashboard", "search", "permalink", "newsletter", "contact", "style"],
+        "pages"     : ["home", "articles", "events", "photos", "about", "contact", "search"],
         
         "types"     : ["article", "career", "event", "gallery", "newsletter", "ad_header", "ad_block"],
         
@@ -16,7 +17,7 @@
                        "professional_group", "networking", "social", "cultural", "board_openings", "volunteer",
                        "job_listings", "resources", "career_tips", "blog", "after5_press", "after5_staff"],
         
-        "cities"    : ["detroit", "ferndale", "birmingham", "royal_oak"],
+        "cities"    : ["detroit", "flint", "saginaw"],
 
         "interests" : ["dining", "nightlife", "activities", "concerts",
                        "networking", "sports", "fundraisers", "culture", "living"]

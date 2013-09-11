@@ -1,0 +1,355 @@
+% title 'Home';
+% layout 'default';
+%
+% my $upcoming_events_length = 2;
+% my $galleries_length = 3;
+
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div class="content_left">
+
+    % my $article_column_position = 1;
+    % my @column_numbers = qw/zero one two three/;
+    
+    % my $article_counter;
+    
+    <% for my $article (@{$self->{ARTICLES}}) { %>
+        
+	% $article_counter++;
+	
+	% $article->update({views => $article->views + 1});
+	
+	<% if ($article_counter == 1) { %>
+	    
+	    <% for ( split /\s+/, $article->photos ) { %>
+    
+	    <a title="<%= $article->title %>" href="/<%= $article->id %>">
+		<img class="para_image_left" src="<%= $_ %>" />
+	    </a>
+    
+	    <% last; %>
+    
+	    <% } %>
+    
+	    <div class="h1_spacer">
+		
+		<a href="/articles">
+		    <h1>Articles</h1>
+		</a>
+	    </div>
+    
+	    <h2>
+		<a href="/<%= $article->id %>"><%= $article->title %></a>
+	    </h2>
+    
+	    <div id="content_body" class="right">
+		%== substr( HTML::FormatText->format_string($article->body), 0, 250 );
+	    </div>
+	    
+	    <div class="read_more_left" style="margin-left: 387px;">
+		
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/<%= $article->id %>">Read More</a>
+		|
+		<a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $article->id %>">Read More</a>
+		
+		<% } %>
+		
+	    </div>
+
+	    <div id="content_container" class="content_gap"></div>
+	
+	<% } elsif ($article_counter >= 2) { %>
+
+	    <div id="content_column_<%= $column_numbers[$article_column_position] %>">
+	    	    
+		<% for ( split /\s+/, $article->photos ) { %>
+	
+		<a title="<%= $article->title %>" href="/<%= $article->id %>">
+		    <img class="content_column_image" src="<%= $_ %>" />
+		</a>
+	
+		<% last; %>
+	
+		<% } %>
+    
+		<h2>
+		    <a href="/<%= $article->id %>"><%= $article->title %></a>
+		</h2>
+	    
+		<div class="content_column_text">
+		    %== substr( HTML::FormatText->format_string($article->body), 0, 100 );
+		</div>
+	    
+		<div class="read_more_left">
+    
+		    <% if ( $self->session('admin') ) { %>
+	
+		    <a href="/<%= $article->id %>">Read More</a>
+		    |
+		    <a href="/editor?mode=update&id=<%= $article->id %>">Edit</a>        
+		
+		    <% } else { %>
+		
+		    <a href="/<%= $article->id %>">Read More</a>
+		    
+		    <% } %>
+    
+		</div>
+		
+	    </div>
+
+	    % $article_column_position++;
+	
+	<% } %>
+	
+	% last if $article_counter == 4;
+	
+    <% } %>
+
+    <h3>
+	<a href="/search?types=article">More Articles &rarr;</a>
+    </h3>
+
+    <a href="/events">
+	<h1>Events</h1>
+    </a>
+    
+    <div class="upcoming_events_box">
+	    
+	%= include 'modules/events_calendar', mode => 'home'    
+	
+	<div style="float: right; margin-left: 320px; margin-top: -189px;">
+	
+	    % my $upcoming_events_counter;
+	    
+	    <% for my $upcoming_event (@{$self->{EVENTS}}) { %>
+
+		% $upcoming_events_counter++;
+		
+		% $upcoming_event->update({views => $upcoming_event->views + 1});
+		
+		<% if ($upcoming_events_counter > 1) { %>
+	    
+		<hr />
+	    
+		<% } %>
+    
+		<% for ( split /\s+/, $upcoming_event->photos ) { %>
+		
+		<a title="<%= $upcoming_event->title %>" href="/<%= $upcoming_event->id %>">
+		    <img class="upcoming_events_thumb" src="<%= $_ %>"/>
+		</a>
+		
+		<% last; %>
+		
+		<% } %>
+		
+		<div class="upcoming_events_title">
+		    <a href="/<%= $upcoming_event->id %>"><%= $upcoming_event->title %></a>
+		</div>
+		
+		<div class="upcoming_events_text">
+		    %== substr( HTML::FormatText->format_string($upcoming_event->body), 0, 75 );
+		</div>
+		
+		% my $start_date = $upcoming_event->start_datetime;
+		
+		<div class="upcoming_events_date">
+		    <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
+		</div>
+		
+		<div class="read_more_left">
+
+		    <% if ( $self->session('admin') ) { %>
+	
+		    <a href="/<%= $upcoming_event->id %>">Read More</a>
+		    |
+		    <a href="/editor?mode=update&id=<%= $upcoming_event->id %>">Edit</a>        
+		
+		    <% } else { %>
+		
+		    <a href="/<%= $upcoming_event->id %>">Read More</a>
+		    
+		    <% } %>
+
+		</div>
+		
+		<% last if $upcoming_events_counter == $upcoming_events_length; %>
+
+	    <% } %>
+	
+	
+	</div>
+	
+	<div style="clear: both;"></div>
+    	
+    </div>
+
+    <div class="content_gap"></div>
+    
+    % my $event_column_position = 1;
+    % my @event_column_numbers = qw/zero one two three/;
+
+    % my $event_counter;
+
+    <% for my $event (@{$self->{EVENTS}}) { %>
+    
+	% $event_counter++;
+    	
+	% next unless $event_counter >= $upcoming_events_length + 1;
+	
+	% $event->update({views => $event->views + 1});
+    
+	<div id="content_column_<%= $event_column_numbers[$event_column_position] %>">
+		
+	    <% for ( split /\s+/, $event->photos ) { %>
+    
+	    <a title="<%= $event->title %>" href="/<%= $event->id %>">
+		<img class="content_column_image" src="<%= $_ %>" />
+	    </a>
+    
+	    <% last; %>
+    
+	    <% } %>
+
+	    <h2><a href="/<%= $event->id %>"><%= $event->title %></a></h2>
+	
+	    <div class="content_column_text">
+		
+		<%== substr( HTML::FormatText->format_string($event->body), 0, 100 ); %>
+		
+	    </div>
+
+	    <div style="float: left; width: 160px;">
+	
+	    %= include 'modules/content_details', content => $event, size => 'small', show => 'few'
+	
+	    </div>
+	    
+	    <br />
+	    
+	    <div class="read_more_right" style="float: left;">
+
+		<% if ( $self->session('admin') ) { %>
+    
+		<a href="/<%= $event->id %>">Read More</a>
+		|
+		<a href="/editor?mode=update&id=<%= $event->id %>">Edit</a>        
+	    
+		<% } else { %>
+	    
+		<a href="/<%= $event->id %>">Read More</a>
+		
+		<% } %>
+
+	    </div>
+	    
+	</div>
+
+	% $event_column_position++;
+	% last if $event_counter == 5;
+	
+    <% } %>
+    
+    <div class="content_gap"></div>
+
+    <h3><a href="/search?types=event">More Events &rarr;</a></h3>
+
+</div>
+
+<div class="content_right">
+
+    <a href="/photos">
+	<h1>Photos</h1>
+    </a>
+
+    <div class="content_right_padding">
+        
+        <% my $galleries_counter; %>
+        
+        <% for my $galleries (@{$self->{GALLERIES}}) { %>
+        
+            % $galleries_counter++;
+        
+            % next if $galleries->types =~ m/ad/i;
+	    % $galleries->update({views => $galleries->views + 1});
+    
+            <% for ( split /\s+/, $galleries->photos ) { %>
+            
+            <a title="<%= $galleries->title %>" href="/photos?id=<%= $galleries->id %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            <% last; %>
+            
+            <% } %>
+            
+	    <% if ($galleries->title ne '') { %>
+	    
+	    <div class="block_title">
+		<a href="/photos?id=<%= $galleries->id %>"><%= $galleries->title %></a>
+	    </div>
+	    
+	    <% } %>
+	    
+	    <div class="block_text">
+		
+	    <% if ($galleries->body ne '') { %>
+	    
+            %== substr( HTML::FormatText->format_string($galleries->body), 0, 75 );
+            
+	    <% } %>
+	    
+	    </div>
+	    
+            <div class="read_more_left">
+
+                <% if ( $self->session('admin') ) { %>
+    
+                <a href="/photos?id=<%= $galleries->id %>">Read More</a>
+		|
+                <a href="/editor?mode=update&id=<%= $galleries->id %>">Edit</a>        
+            
+                <% } else { %>
+            
+                <a href="/photos?id=<%= $galleries->id %>">Read More</a>
+                
+                <% } %>
+
+            </div>
+            
+	    % last if $galleries_counter == $galleries_length;
+	    
+            <hr />
+        
+        <% } %>
+
+	<div class="content_spacer"></div>
+	
+	%= include 'modules/block_photos', more_galleries => $self->{GALLERIES}
+	
+    </div>
+
+    %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
+
+    <h1>Trending</h1>
+    
+    %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'mixed', length => 5
+
+    <h1>Search Bennu</h1>
+
+    %= include 'modules/block_search'
+
+    <h1>Connect</h1>
+    
+    %= include 'modules/social_media', mode => 'block', content => 'none'
+
+</div>

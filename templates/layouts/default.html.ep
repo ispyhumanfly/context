@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#" lang="en-US">
+<!DOCTYPE html>
+<html xmlns:fb="http://ogp.me/ns/fb#" lang="en-US">
 
     <head>
 	
@@ -44,6 +44,8 @@
 		
 	    <div id="header_container" onClick="javascript:window.location='/';">
 		
+		<h1><%= app->config->{title} %></h1>
+		
 		%### This is only temporary. 
 		% unless ($self->{CONTENT}) {
 		<h2><%= title %></h2>
@@ -54,22 +56,20 @@
 	    <div id="navigation_container">
     
 		<ul>
-		    <li><a href="/events">Events</a></li>
-		    <li><a href="/photos">Photos</a></li>
-		    <li><a href="/articles">Articles</a></li>
-		    <li><a href="/style">Style</a></li>
-		    <li><a href="/work">Jobs</a></li>
-		    <li><a href="/about">About</a></li>
-    
-		    % if ($self->session('admin')) {
-		    <li><a href="/dashboard">Dashboard</a></li>
+		    
+		    % for (@{ app->config->{taxonomy}->{pages} }) {
+		    
+		    <li>
+			<a href="/<%= lc($_) %>"><%= ucfirst($_) %></a>
+		    </li>
+		    
 		    % }
     
 		</ul>
 
 		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search" method="get">
     
-		    <input type="text" class="search_input_text" name="string" placeholder="Search After 5"></input>
+		    <input type="text" class="search_input_text" name="string" placeholder="Search <%= app->config->{title} %>"></input>
     
 		</div>
     
@@ -115,83 +115,14 @@
 	    </div>
     	    
 	    <div id="footer_container">
-
-		<div style="margin-left: 25px;">
+		
+		<div id="thoughtpivot" style="text-wrap: none;">
 		    
-		    <ul>
-			
-			% my $city_counter = 0;
-			
-			<% for my $city (@{ $self->app->config->{persona}->{cities} }) { %>
-
-			    % my $city_url = lc($city); $city_url =~ s/ /_/g; $city_url = '/live/' . $city_url;
-			    % my $city_title = ucfirst($city); $city_title =~ s/_/ /g; $city_title =~ s/(\w+)/\u\L$1/g;
-			    
-			    % $city_counter++;
-			
-			    <% if ($city_counter == 1) { %>
-			    
-			    <li><a href="<%= $city_url %>" style="font-weight: bold; font-size: large;">Live</a></li>
-			    
-			    <% } %>
-			    
-			    <li style="white-space: nowrap;">
-				
-				<a href="<%= $city_url %>">
-				    
-				    %= $city_title;
-				    
-				</a>
-			    </li>
-			
-			<% } %>
-    
-		    </ul>
+		    <span style="font-family: scotosaurus; font-size: 18pt; color: black;">Just another</span> <span style="font-family: neuropolitical ; font-size: 20pt;">
+			    <a id="thoughtpivot" href="http://thoughtpivot.com" target="_blank" style="color: black;">Thoughtpivot</a>
+		    </span>
 		    
 		</div>
-
-		<div>
-		    <ul>
-			<li><a href="/work" style="font-weight: bold; font-size: large;">Work</a></li>
-			<li style="white-space: nowrap;"><a href="/work?tags=job_listings">Job Listings</a></li>
-			<li style="white-space: nowrap;"><a href="/work?tags=career_tips">Career Tips</a></li>
-			<li style="white-space: nowrap;"><a href="/networking">Networking</a></li>
-			<li style="white-space: nowrap;"><a href="/work?tags=volunteer">Volunteer</a></li>
-		    </ul>
-		</div>
-
-		<div>
-		    <ul>
-			<li><a href="/" style="font-weight: bold; font-size: large;">Play</a></li>
-			<li><a href="/events">Events</a></li>
-			<li><a href="/photos">Photos</a></li>
-			<li><a href="/articles">Articles</a></li>
-			<li><a href="/style">Style</a></li>
-		    </ul>
-		</div>
-            
-		<div>
-		    <ul>
-			<li><a href="/about" style="font-weight: bold; font-size: large;">About</a></li>
-			<li><a href="/contact">Contact</a></li>
-			<li><a href="/newsletter">Newsletter</a></li>
-			<li><a href="<%= app->config->{facebook}->{link} %>" target="_blank">Facebook</a></li>
-			<li><a href="<%= app->config->{twitter}->{link} %>" target="_blank">Twitter</a></li>
-		    </ul>
-		</div>
-		
-		<% if ( $self->session('admin') ) { %>
-    
-		<div>
-		    <ul>
-			<li><a href="/dashboard" style="font-weight: bold; font-size: large;">Dashboard</a></li>
-			<li><a href="/editor?mode=create">Editor</a></li>
-			<li><a href="/logout">Logout</a></li>
-		    </ul>
-		</div>
-		
-		<% } %>
-		
 	    </div>
 	    
 	    % if ($self->param('message')) {

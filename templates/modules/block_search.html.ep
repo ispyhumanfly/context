@@ -10,7 +10,7 @@
         
         <select name="cities" style="width: 200px; margin-right: 5px; padding: 0px;">
             
-            <% for my $search_city (@{ $self->app->config->{persona}->{cities} }) { %>
+            <% for my $search_city (@{ $self->app->config->{taxonomy}->{cities} }) { %>
              
             <option value="<%= $search_city %>">    
                 <%= ucfirst($search_city) %>
@@ -26,7 +26,7 @@
         
         <select name="interests" style="width: 200px; margin-right: 5px; padding: 0px;">
             
-            <% for my $search_interest (@{ $self->app->config->{persona}->{interests} }) { %>
+            <% for my $search_interest (@{ $self->app->config->{taxonomy}->{interests} }) { %>
             
             <option value="<%= $search_interest %>">    
                 <%= ucfirst($search_interest) %>    

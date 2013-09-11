@@ -12,10 +12,7 @@
 
 <div class="content_left">
 
-    <% for (@{ app->config->{persona}->{pages} } ) { %>
-
-    %### Page Exclusions
-    % next if $_ =~ m/\bnewsletter|about|dashboard|editor|contact|search|permalink|live\b/g;
+    <% for (@{ app->config->{taxonomy}->{pages} } ) { %>
     
     <h1><%= ucfirst($_) %></h1>
 
@@ -229,17 +226,25 @@
 <div id="dashboard_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
 
     <div dojoType="dijit.MenuItem" onClick="window.location='/dashboard';">
-        After 5 Dashboard
+        Dashboard
     </div>
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
-        After 5 Editor
+        Content
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
+        Pages
+    </div>
+
+    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
+        Layouts
     </div>
 
     <div data-dojo-type="dijit.MenuSeparator"></div>
 
     <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
-        Logout of After 5
+        Logout
     </div>
 
 </div>
