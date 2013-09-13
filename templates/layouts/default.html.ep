@@ -5,32 +5,16 @@
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/> 
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
-	<meta name="google-site-verification" content="<%= app->config->{google}->{site_verification} %>" />
-
+    
 	<title><%= app->config->{title} %> :: <%= title %></title>
 
 	<link rel="stylesheet" type="text/css" href="/default.css">
 	
+	%= include 'modules/google_analytics'
+
 	%= include 'modules/dojo_toolkit'
 	
 	%= include 'modules/social_media', mode => 'head', content => 'none'
-	
-	<!-- Google Analytics -->
-	
-	<script type="text/javascript">//<![CDATA[
-	
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', '<%= app->config->{google}->{account} %>']);
-	  _gaq.push(['_setDomainName', '<%= app->config->{google}->{domain} %>']);
-	  _gaq.push(['_trackPageview']);
-	
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	
-	//]]></script>
 	
     </head>
 
@@ -45,14 +29,15 @@
 	    <div id="header_container" onClick="javascript:window.location='/';">
 		
 		<h1><%= app->config->{title} %></h1>
-		<h2>A YFX Physical Theatre Publication</h2>    
+		<h2><%= app->config->{description} %></h2>
+		
 	    </div>
     
 	    <div id="navigation_container">
     
 		<ul>
 		    
-		    % for (@{ app->config->{taxonomy}->{pages} }) {
+		    % for (@{app->config->{taxonomy}->{pages}}) {
 		    
 		    <li>
 			<a href="/<%= lc($_) %>"><%= ucfirst($_) %></a>
@@ -76,8 +61,8 @@
 		
 		<div class="ad_space_header">
 
-		<% if (exists $self->{ADS}) { %>
-
+		    % if (exists $self->{ADS}) {
+    
 		    <script type="text/javascript">//<![CDATA[
 		    
 			var header_ads = new Array();
@@ -98,8 +83,8 @@
 			document.write(header_ads[random]);
 			
 		    //]]></script>
-
-		<% } %>
+    
+		    % }
 
 		</div>
 		
@@ -113,7 +98,7 @@
 		
 		<div id="thoughtpivot" style="text-wrap: none;">
 		    
-		    <span style="font-family: scotosaurus; font-size: 18pt; color: black;">A </span>
+		    <span style="font-family: scotosaurus; font-size: 18pt; color: black;">Another </span>
 		    <span style="font-family: neuropolitical ; font-size: 20pt;">
 			    <a id="thoughtpivot" href="http://thoughtpivot.com" target="_blank" style="color: black;">Thoughtpivot</a>
 		    </span>

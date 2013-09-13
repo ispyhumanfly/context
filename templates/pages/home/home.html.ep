@@ -136,11 +136,11 @@
 		
 		% $upcoming_event->update({views => $upcoming_event->views + 1});
 		
-		<% if ($upcoming_events_counter > 1) { %>
+		% if ($upcoming_events_counter > 1) {
 	    
 		<hr />
 	    
-		<% } %>
+		% }
     
 		<% for ( split /\s+/, $upcoming_event->photos ) { %>
 		
@@ -163,26 +163,26 @@
 		% my $start_date = $upcoming_event->start_datetime;
 		
 		<div class="upcoming_events_date">
-		    <%= $start_date->day_name %>, <%= $start_date->month_name %> <%= $start_date->day %>
+		    <%= $start_date->day_name %>, <%= $start_date->month_name %>, <%= $start_date->day %>
 		</div>
 		
 		<div class="read_more_left">
 
-		    <% if ( $self->session('admin') ) { %>
+		    % if ( $self->session('admin') ) {
 	
 		    <a href="/<%= $upcoming_event->id %>">Read More</a>
 		    |
 		    <a href="/editor?mode=update&id=<%= $upcoming_event->id %>">Edit</a>        
 		
-		    <% } else { %>
+		    % } else {
 		
 		    <a href="/<%= $upcoming_event->id %>">Read More</a>
 		    
-		    <% } %>
+		    % }
 
 		</div>
 		
-		<% last if $upcoming_events_counter == $upcoming_events_length; %>
+		% last if $upcoming_events_counter == $upcoming_events_length;
 
 	    <% } %>
 	
@@ -344,7 +344,7 @@
     
     %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'mixed', length => 5
 
-    <h1>Search Bennu</h1>
+    <h1>Search <%= app->config->{title} %></h1>
 
     %= include 'modules/block_search'
 

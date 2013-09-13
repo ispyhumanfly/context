@@ -1,5 +1,6 @@
 { 
-    "title"     : "Bennu Magazine",
+    "title"     : "Bennu",
+    "description" : "The Performing Arts Magazine",
     "domain"    : "bennumagazine.com",
     "temp"      : "/tmp",
     "encoding"  : "ISO-8859-1",
