@@ -24,22 +24,9 @@
 	    <div id="content_loader_inner"></div>
 	</div>
 
-	<div id="main_container">
-		
-	    <div id="header_container">
-		
-		<h1 onclick="javascript:window.location='/';"><%= app->config->{title} %></h1>
-		<h2><%= app->config->{description} %></h2>
-			
-		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search" method="get">
-    
-		    <input type="text" class="search_input_text" name="string" placeholder="Discover <%= app->config->{title} %>"></input>
-    
-		</div>
+	<div id="navigation_container">
 	    
-	    </div>
-    
-	    <div id="navigation_container">
+		<h1><%= app->config->{title} %></h1>
     
 		<ul>
 		    
@@ -53,8 +40,10 @@
     
 		</ul>
     
-	    </div>
-	    
+	</div>
+	
+	<div id="main_container">
+		
 	    <div id="content_container">
     		
 		% unless ($self->req->url->path->contains('/gallery')) {
