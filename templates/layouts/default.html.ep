@@ -26,11 +26,17 @@
 
 	<div id="main_container">
 		
-	    <div id="header_container" onClick="javascript:window.location='/';">
+	    <div id="header_container">
 		
-		<h1><%= app->config->{title} %></h1>
+		<h1 onclick="javascript:window.location='/';"><%= app->config->{title} %></h1>
 		<h2><%= app->config->{description} %></h2>
-		
+			
+		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search" method="get">
+    
+		    <input type="text" class="search_input_text" name="string" placeholder="Discover <%= app->config->{title} %>"></input>
+    
+		</div>
+	    
 	    </div>
     
 	    <div id="navigation_container">
@@ -46,12 +52,6 @@
 		    % }
     
 		</ul>
-
-		<div dojoType="dijit.form.Form" class="search_form" encType="multipart/form-data" action="/search" method="get">
-    
-		    <input type="text" class="search_input_text" name="string" placeholder="Search <%= app->config->{title} %>"></input>
-    
-		</div>
     
 	    </div>
 	    

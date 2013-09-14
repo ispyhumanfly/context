@@ -69,7 +69,7 @@ p {
 */    background-repeat: no-repeat;
     text-align: left;
     cursor: pointer;
-    height: 60px;
+    height: 75px;
     border-radius: 5px 5px 0 0;
     -moz-border-radius: 5px 5px 0 0;
     -webkit-border-radius: 5px 5px 0 0;
@@ -79,8 +79,10 @@ p {
 #header_container h1 {
     float: left;
     font-family: 'Nothing You Could Do', cursive;
-    font-size: 25px;
-    margin-left: 10px;
+    font-size: 60px;
+    margin-left: 15px;
+    margin-top: -5px;
+    
 }
 
 #header_container h2 {
@@ -88,9 +90,9 @@ p {
     float: right;
     font-family: 'Gruppo', cursive;
     color: grey;
-    font-size: 15px;
-    font-weight: lighter;
-    padding-right: 15px;
+    font-size: 20px;
+    margin-right: 5px;
+    margin-top: 2px;    
 
 }
 
@@ -98,33 +100,28 @@ p {
 
 /*    background-image: url('/NavigationBground.png');
 */
+
+    white-space:nowrap;
     background-color: black;
     font-family: 'Gruppo', cursive;
-    text-align: left;
     height: 36px;
-    font-family: Verdana;
-    font-weight: bold;
     border-bottom: 10px solid white;
 }
 
 #navigation_container ul {
-font-family: 'Gruppo', cursive;
-    list-style: none;
-    margin-left: 15px;
-
+    position: absolute;
+    text-decoration: none;
+    margin-top: 0px;
 }
 
 #navigation_container li {
-font-family: 'Gruppo', cursive;
-    float: left;
-    position: relative;
+
     font-size: 1em;
     text-decoration: none;
-
+    display: inline-block;
 }
 
 #navigation_container a {
-font-family: 'Gruppo', cursive;
     display: block;
     padding: 8px 25px 0 25px;
     color: #ffffff;
@@ -132,7 +129,6 @@ font-family: 'Gruppo', cursive;
 }
 
 #navigation_container a:hover {
-font-family: 'Gruppo', cursive;
     display: block;
     padding: 8px 25px 0 25px;
     margin: 0px;
@@ -143,7 +139,6 @@ font-family: 'Gruppo', cursive;
 }
 
 #navigation_container a:visited {
-font-family: 'Gruppo', cursive;
     display: block;
     color: white;
     text-decoration: none;
@@ -151,14 +146,20 @@ font-family: 'Gruppo', cursive;
 
 /* search form */
 
-#navigation_container .search_form {
+#header_container .search_form {
 font-family: 'Gruppo', cursive;
     text-align: right;
     padding-top: 6.2px;
-
+    position: absolute;
+    margin-top: 20px;
+    margin-left: 849px;
+}
+#header_container input {
+    height: 35px;
+    width: 900px;
 }
 
-#navigation_container .search_input_text {
+#header_container .search_input_text {
 font-family: 'Gruppo', cursive;
     verticle-align: middle;
     color: white;
