@@ -17,9 +17,9 @@ body {
 
 img {
     
-    -webkit-box-shadow: #222 0 0 0.3em;  
-    -moz-box-shadow: #222 0 0 0.3em;  
-    box-shadow: #222 0 0 0.3em;
+    -webkit-box-shadow: grey 0 0 0.3em;  
+    -moz-box-shadow: grey 0 0 0.3em;  
+    box-shadow: grey 0 0 0.3em;
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -27,6 +27,17 @@ img {
 p {
     font-family: 'Cousine', sans-serif;
 }
+
+input {
+    height: 35px;
+    width: 900px;
+}
+
+select {
+    height: 35px;
+    width: 900px;
+}
+
 #share_twitter {
     
     background-image: url('/share/Twitter.png');
@@ -58,6 +69,8 @@ p {
     border-radius: 5px 5px 5px 5px;
     -moz-border-radius: 5px 5px 5px 5px;
     -webkit-border-radius: 5px 5px 5px 5px;
+    box-shadow: 1px 1px 50px 2px orange;
+
     
     
 }
@@ -130,6 +143,8 @@ p {
     font-size: 30px;
     margin-left: 10px;
     margin-top: 5px;
+        text-shadow: 1px 1px 3px grey;
+
     
 }
 
@@ -140,6 +155,7 @@ p {
 }
 
 #navigation_container li {
+        text-shadow: 1px 1px 3px black;
 
     font-size: 1em;
     text-decoration: none;
@@ -158,11 +174,11 @@ p {
     padding: 8px 25px 0 25px;
     margin: 0px;
     color: white;
-    height: 50px;
+    height: 45px;
     text-shadow: 1px 1px 1px black;
     background-color: grey;
     text-decoration: none;
-    box-shadow: 1px 1px 15px black;
+    box-shadow: 1px 1px 10px black;
         border-radius: 0 0 5px 5px;
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
@@ -232,7 +248,7 @@ font-family: 'Gruppo', cursive;
 
 #content_container h1 {
 
-font-family: 'Gruppo', cursive;
+    font-family: 'Nothing You Could Do', cursive;
 
 /*    background-image: url('/HeadlineSplatter.png');
 */    /*background-repeat: no-repeat;*/
@@ -251,6 +267,9 @@ font-family: 'Gruppo', cursive;
     border-radius: 0 25px 25px 0;
     -moz-border-radius: 0 25px 25px 0;
     -webkit-border-radius: 0 25px 25px 0;
+     box-shadow: 1px 1px 5px 1px grey;
+         text-shadow: 1px 1px 1px black;
+
 
 }
 
@@ -264,7 +283,7 @@ font-family: 'Gruppo', cursive;
     color: black;
 font-family: 'Gruppo', cursive;
 font-size: larger;
-    font-weight: bold;
+    font-weight: bolder;
     margin-top: 0px;
     margin-bottom: 5px;
 }
@@ -276,16 +295,20 @@ font-family: 'Gruppo', cursive;
     width: 98%;
     height: 18px;
     border-top: 1px solid black;
-    background-color: #e6e2e3;
-    color: black;
+    background-color: grey;
+    color: white;
     padding: 10px;
     font-size: 1em;
     font-weight: bold;
     clear: both;
-    list-style-type: square;
-     border-radius: 0 0 3px 3px;
+/*    list-style-type: square;
+*/     border-radius: 0 0 3px 3px;
     -moz-border-radius: 0 0 3px 3px;
     -webkit-border-radius: 0 0 3px 3px;
+     box-shadow: 1px 1px 5px grey;
+     text-shadow: 1px 1px 5px black;
+
+     
 }
 
 #content_container h4 {
