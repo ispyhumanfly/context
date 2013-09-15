@@ -115,7 +115,7 @@
     <% } %>
 
     <h3>
-	<a href="/search?types=article">More Articles &rarr;</a>
+	<a href="/search?types=article">More Articles</a>
     </h3>
 
     <a href="/events">
@@ -261,7 +261,7 @@
     
     <div class="content_gap"></div>
 
-    <h3><a href="/search?types=event">More Events &rarr;</a></h3>
+    <h3><a href="/search?types=event">More Events</a></h3>
 
 </div>
 
