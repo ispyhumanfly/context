@@ -163,7 +163,7 @@
     <% } %>
     
     <h3>
-	<a href="/search?types=gallery&trending=true">More Trending &rarr;</a>
+	<a href="/search?types=gallery&trending=true">More Trending</a>
     </h3>
 </div>
 
@@ -193,17 +193,17 @@
             
             <% } %>
     
-            % $more_photos->update({views => $more_photos->views + 1});
+            % $more_photos->update({views => $more_photos->views + 1})
 
-            <% for ( split /\s+/, $more_photos->photos ) { %>
+            % for ( split /\s+/, $more_photos->photos ) { %>
             
             <a title="<%= $more_photos->title %>" href="/photos?id=<%= $more_photos->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>
             </a>
             
-            <% last; #JUST SHOW ONE %>
-            
-            <% } %>
+            % last;
+
+            % }
             
             <div class="block_title"><a href="/photos?id=<%= $more_photos->id %>"><%= $more_photos->title %></a></div>
             

@@ -3,6 +3,9 @@
 @import url(http://fonts.googleapis.com/css?family=Cousine:400,700,400italic,700italic);
 @import url(http://fonts.googleapis.com/css?family=Prosto+One);
 
+/* YFX */
+@import url(http://fonts.googleapis.com/css?family=Architects+Daughter);
+
 body {
 
     font-family: 'Cousine', sans-serif;
@@ -738,7 +741,6 @@ font-family: 'Prosto One', cursive;
     font-size: 10px;
     padding-top: 6px;
     padding-bottom: 6px;
-   
 }
 
 #content_container .upcoming_events_date {
@@ -1323,51 +1325,64 @@ margin-top: -10px;
 #footer_container {
 
     clear: both;
-/*    background-image: url('/FooterBground.png');
-    background-repeat: no-repeat;
-*/    height: 200px;
     border-radius: 0 0 5px 5px;
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
-
+    padding: 100px 15px 75px 15px;
 }
 
-#footer_container div {
-
-    float: left;
-    margin-top: 62px;
-    padding-left: 50px;
-    width: 100px;
-    color: #ffffff;
-    font-size: small;
-
+#yfx {
+font-family: 'Architects Daughter', cursive;
+color: black;
+text-wrap: none;
+padding: 10px;
+float: left;
+font-size: 18px;
 }
 
-#footer_container ul {
-    list-style: none;
+#yfx a{
+color: black;
+text-decoration: none;
+font-weight: bold;
+font-size: 22px;
 }
 
-#footer_container a {
 
-    display: block;
-    padding: 0px 145px 0px 0px;
+#yfx a:hover{
+text-decoration: none;
+text-shadow: 1px 1px 2px silver;
+}
 
-    color: #ffffff;
+#thoughtpivot {
+
+    color: black;
+    padding: 10px;
+    float: right;
+}
+
+#thoughtpivot .text {
+    
+    font-family: scotosaurus;
+    font-size: 18pt;
+    color: black;
+}
+
+#thoughtpivot .logo {
+    
+    font-family: neuropolitical ;
+    font-size: 20pt;
+}
+
+#thoughtpivot a{
+
+    color: black;
     text-decoration: none;
 }
 
-#footer_container a:hover {
 
-    display: block;
-    padding: 0px 145px 0px 0px;
-    color: white;
-    background-color: #FD7221;
-}
-
-#footer_container a:visited {
-
-    color: white;
-    text-decoration: none;
+#thoughtpivot a:hover{
+text-decoration: none;
+text-shadow: 1px 1px 2px #66BBEE;
 }
 
 #content_message {
@@ -1834,22 +1849,4 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
 @font-face {
 	font-family: scotosaurus ;
 	src: url('http://thoughtpivot.com/fonts/scotosaurus.ttf');
-}
-
-#thoughtpivot {
-color: black;
-text-wrap: none;
-text-align: right;
-padding: 10px;
-}
-
-#thoughtpivot a{
-color: black;
-text-decoration: none;
-}
-
-
-#thoughtpivot a:hover{
-text-decoration: none;
-color: #66bbee;
 }

@@ -85,14 +85,22 @@
     	    
 	    <div id="footer_container">
 		
-		<div id="thoughtpivot" style="text-wrap: none;">
+		<div id="yfx">
 		    
-		    <span style="font-family: scotosaurus; font-size: 18pt; color: black;">Another </span>
-		    <span style="font-family: neuropolitical ; font-size: 20pt;">
-			    <a id="thoughtpivot" href="http://thoughtpivot.com" target="_blank" style="color: black;">Thoughtpivot</a>
-		    </span>
-		    <span style="font-family: scotosaurus; font-size: 18pt; color: black;"> Movement.</span>
+		    <span>A</span>
+		    <a href="http://yfx.com" target="_blank">YFX Physical Theatre</a>
+		    <span>Publication.</span>
 		</div>
+		
+		<div id="thoughtpivot">
+		    
+		    <span class=text>Another</span>
+		    <span class=logo>
+			<a href="http://thoughtpivot.com" target="_blank">Thoughtpivot</a>
+		    </span>
+		    <span class=text>Design.</span>
+		</div>
+		
 	    </div>
 	    
 	    % if ($self->param('message')) {

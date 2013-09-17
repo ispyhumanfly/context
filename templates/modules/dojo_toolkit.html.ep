@@ -50,7 +50,7 @@
       var loader  = dojo.byId("content_loader");
 
       dojo.fadeOut({
-        node: loader, duration: 250, onEnd: function() {
+        node: loader, duration: 500, onEnd: function() {
           loader.style.display = "none";
         }
       }).play(100);
