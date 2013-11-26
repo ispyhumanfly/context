@@ -2,8 +2,8 @@
 
 BEGIN {
 
-    system 'sqlite3 after5.db < after5.sql'
-      unless -e 'after5.db';
+    system 'sqlite3 context.db < context.sql'
+      unless -e 'context.db';
 }
 
 use Modern::Perl;
@@ -21,9 +21,9 @@ use IO::Dir;
 use Encode;
 
 use lib 'lib';
-use After5::Model;
+use Context::Model;
 
-our $MODEL = After5::Model->connect('dbi:SQLite:after5.db');
+our $MODEL = Context::Model->connect('dbi:SQLite:context.db');
 
 use Mojolicious::Lite;
 use Mojo::Util;
@@ -642,7 +642,7 @@ post '/api/photo/remove' => sub {
 
 };
 
-## After 5 Content Trending
+## Context Content Trending
 
 post '/trending/:type' => [type => qr/\w+/] => sub {
 
@@ -656,9 +656,9 @@ post '/trending/:type' => [type => qr/\w+/] => sub {
 
         given ($self->param('type')) {
 
-            when ('views') {
+            when ('impressions') {
 
-                $content->update({views => $content->views + 1});
+                $content->update({impressions => $content->impressions + 1});
             }
 
             when ('clicks') {
@@ -676,7 +676,7 @@ post '/trending/:type' => [type => qr/\w+/] => sub {
     return;
 };
 
-## After 5 Dojo JSON Data Stores
+## Context Dojo JSON Data Stores
 
 get '/dojox/image/data.json' => sub {
 
@@ -711,7 +711,7 @@ get '/dojox/image/data.json' => sub {
 
 };
 
-### After 5 REST API
+### Context REST API
 
 get '/api/rest/get/:amount/:sort/:results' =>
   [amount => qr/\w+/, sort => qr/\w+/, results => qr/\w+\.json/] => sub {
@@ -837,7 +837,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
             lng               => $_->lng,
             position          => $_->position,
             link              => $_->link,
-            views             => $_->views,
+            impressions             => $_->impressions,
             clicks            => $_->clicks,
 
             permalink => 'http://' . app->config->{domain} . '/' . $_->id,
@@ -863,7 +863,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
 
   };
 
-### After 5 Tools
+### Context Tools
 
 sub process_photo {
 
@@ -988,9 +988,9 @@ sub order_by_trending {
 
     for (@query) {
 
-        if (defined $_->views and defined $_->clicks) {
+        if (defined $_->impressions and defined $_->clicks) {
 
-            my $score = $_->clicks / $_->views;
+            my $score = $_->clicks / $_->impressions;
             $working{$score} = $_;
         }
     }
@@ -1002,7 +1002,7 @@ sub order_by_trending {
     return \@results;
 }
 
-### After 5 Mojolicious Configuration
+### Context Mojolicious Configuration
 
 app->log->path(app->config->{hypnotoad}->{log_file})
   if app->mode('production');

@@ -1,11 +1,12 @@
 { 
-    "title"     : "Bennu Magazine",
-    "description" : "Performing Arts in Detroit",
-    "domain"    : "bennumagazine.com",
+    "title"     : "Context",
+    "description" : "A Modern Web CMS",
+    "domain"    : "context.thoughtpivot.com",
     "temp"      : "/tmp",
     "encoding"  : "ISO-8859-1",
     "subtract_day_range" : 190,
     "add_day_range" : 90,
+    "ad_content" : "off",
     
     "taxonomy"    :
     
@@ -58,17 +59,11 @@
     "hypnotoad" :
     
     {
-        "listen"    : ["http://*:3000", "https://*:8443"],
-        "pid_file"  : "after5.pid",
-        "lock_file" : "after5.lock",
-        "log_file"  : "after5.log",
+        "listen"    : ["http://*:3233", "https://*:3244"],
+        "pid_file"  : "context.pid",
+        "lock_file" : "context.lock",
+        "log_file"  : "context.log",
         "workers"   : "25",
         "proxy"     : 1
-    },
-    
-    "morbo" :
-    
-    {
-        "listen"    : ["http://*:3000"]
     }
 }

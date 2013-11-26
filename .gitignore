@@ -12,9 +12,8 @@ MANIFEST*
 pm_to_blib
 *.bak
 hypnotoad*
-after5.db
-after5.pem
-after5.log
-after5.lock*
-after5.pid
+context.db
+context.log
+context.lock*
+context.pid
 .DS_Store

@@ -46,52 +46,52 @@
 		
 	    <div id="content_container">
     		
-		% unless ($self->req->url->path->contains('/gallery')) {
-		
 		<div class="ad_space_header">
 
-		    % if (exists $self->{ADS}) {
-    
-		    <script type="text/javascript">//<![CDATA[
-		    
-			var header_ads = new Array();
+		    % if (app->config->{ad_content} eq 'on') {
 			
-			//<% for my $ad (@{$self->{ADS}}) { %>
+			% if (exists $self->{ADS}) {
 	
-			    //<% for (split /\s+/, $ad->photos) { %>
-	
-			    header_ads.push("<a href='<%= $ad->link %>' onclick='ad_click(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
+			<script type="text/javascript">//<![CDATA[
+			
+			    var header_ads = new Array();
 			    
-			    //<% last; %>
-			    
+			    //<% for my $ad (@{$self->{ADS}}) { %>
+	    
+				//<% for (split /\s+/, $ad->photos) { %>
+	    
+				header_ads.push("<a href='<%= $ad->link %>' onclick='ad_click(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
+				
+				//<% last; %>
+				
+				//<% } %>
+	    
 			    //<% } %>
-	
-			//<% } %>
+				
+			    var random = Math.floor(Math.random() * header_ads.length);
+			    document.write(header_ads[random]);
 			    
-			var random = Math.floor(Math.random() * header_ads.length);
-			document.write(header_ads[random]);
+			//]]></script>
+	
+			% }
 			
-		    //]]></script>
-    
 		    % }
 
 		</div>
-		
-		% }
-	            
+
 		%= content
     
 	    </div>
     	    
 	    <div id="footer_container">
 		
-		<div id="yfx">
+<!--		<div id="yfx">
 		    
 		    <span>A</span>
 		    <a href="http://yfx.com" target="_blank">YFX Physical Theatre</a>
 		    <span>Publication.</span>
 		</div>
-		
+-->		
 		<div id="thoughtpivot">
 		    
 		    <span class=text>Another</span>

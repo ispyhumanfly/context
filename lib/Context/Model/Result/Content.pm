@@ -1,4 +1,4 @@
-package After5::Model::Result::Content;
+package Context::Model::Result::Content;
 use DBIx::Class::Candy -components => ['InflateColumn::DateTime'];
 
 table 'content';
@@ -150,7 +150,7 @@ column link => {
     is_nullable => 1,
 };
 
-column views => {
+column impressions => {
 
     data_type => 'int',
     size => 1000000000000,

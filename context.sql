@@ -25,7 +25,7 @@ CREATE TABLE content (
   lng float(50),
   position int(10),
   link varchar(1000),
-  views int(1000000000000),
+  impressions int(1000000000000),
   clicks int(1000000000000)
 );
 
