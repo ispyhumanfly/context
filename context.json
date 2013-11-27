@@ -11,7 +11,7 @@
     "taxonomy"    :
     
     {
-        "pages"     : ["home", "articles", "search"],
+        "pages"     : ["home", "articles", "events", "photos", "about", "contact", "search"],
         
         "types"     : ["article", "career", "event", "gallery", "newsletter", "ad_header", "ad_block"],
         
