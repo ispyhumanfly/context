@@ -10,11 +10,11 @@
 
     <div class="text">
 	
-	% my $views = 0;
+	% my $impressions = 0;
 	
-	<% if (defined $content->views) { %>
+	<% if (defined $content->impressions) { %>
 	
-	<% $views = int($content->views); %>
+	<% $impressions = int($content->impressions); %>
 	
 	<% } %>
 
@@ -28,7 +28,7 @@
 	
 	% my $score = 0;
 	
-	<%= $views; %> Views
+	<%= $impressions; %> Impressions
 
 	& <%= $clicks; %> Clicks
 	
@@ -36,7 +36,7 @@
 	
 	% eval {
 	
-	Score <%= sprintf '%.3f', $clicks / $views; %>
+	Score <%= sprintf '%.3f', $clicks / $impressions; %>
 	
 	% };
 	

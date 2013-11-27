@@ -1,5 +1,7 @@
 % my $trending_length = $length;
 
+<h1>Trending</h1>
+
 <div class="content_right_padding">
 
     % my $trending_counter;
@@ -14,7 +16,7 @@
         
         % $trending_counter++;
 
-        % $trending->update({views => $trending->views + 1});
+        % $trending->update({impressions => $trending->impressions + 1});
         
         <% if ($trending_counter > 1) { %>
     

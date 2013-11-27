@@ -34,12 +34,45 @@ p {
 
 input {
     height: 35px;
-    width: 900px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border: 0;
+
+    -webkit-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.3),
+            0 0 16px rgba(0,0,0,0.3); 
+    -moz-box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.3),
+            0 0 16px rgba(0,0,0,0.3); 
+    box-shadow: 
+      inset 0 0 8px  rgba(0,0,0,0.3),
+            0 0 16px rgba(0,0,0,0.3);
+            
+    background-color: silver;
+    margin-bottom: 5px;
 }
 
 select {
-    height: 35px;
-    width: 900px;
+    background-color: white;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border: 0;
+    margin-bottom: 3px;
+}
+
+button {
+    
+    height: auto;
+    font-family: 'Prosto One', cursive;
+    font-size: 15px;
+    background-color: white;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 0;
+    
 }
 
 #share_twitter {
@@ -101,7 +134,7 @@ select {
 #header_container h1 {
     float: left;
     font-family: 'Nothing You Could Do', cursive;
-    font-size: 60px;
+    font-size: 35px;
     margin-left: 15px;
     margin-top: -5px;
     
@@ -112,7 +145,7 @@ select {
     float: right;
     font-family: 'Prosto One', cursive;
     color: grey;
-    font-size: 20px;
+    font-size: 35px;
     margin-right: 5px;
     margin-top: 2px;    
 
@@ -270,9 +303,9 @@ font-family: 'Prosto One', cursive;
     padding-top: 0.4em;
     padding-right: 30px;
     background-color: black;
-    border-radius: 0 25px 25px 0;
-    -moz-border-radius: 0 25px 25px 0;
-    -webkit-border-radius: 0 25px 25px 0;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
      box-shadow: 1px 1px 5px 1px grey;
          text-shadow: 1px 1px 1px silver;
 
@@ -1049,6 +1082,14 @@ font-family: 'Cousine', sans-serif;
     border-left: 25px solid white;
     min-height: 500px;
 
+}
+
+#content_container .content_left input {
+    width: 90%;
+}
+
+#content_container .content_left select {
+    width: 90%;
 }
 
 #content_container .content_wide {
@@ -1841,6 +1882,16 @@ div.dojoxCalendar tr.dojoxCal-MY-G-Template td.dijitCalendarSelectedDate {
     margin-left: 15px;
     margin-right: 15px;
     
+}
+
+#editor_taxonomy {
+    float: left;
+}
+
+#editor_taxonomy select {
+    
+    height: 100px;
+    width: 50px;
 }
 
 @font-face {

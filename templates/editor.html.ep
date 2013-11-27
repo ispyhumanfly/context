@@ -1,11 +1,11 @@
 % title 'Editor';
 % layout 'default';
 %
-% my $recent_update_length = 10;
-
-<script type="text/javascript" src="/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script>
+% my $recent_updates_length = 10;
 
 <script type="text/javascript">//<![CDATA[
+
+    require(["dojo/parser", "dijit/form/DateTextBox"]);
     
     function submit_content () {
     	
@@ -28,25 +28,7 @@
 	dojo.xhrPost({ url: '/api/content/update', postData: 'id=' + id + '&default_photo=' + photo + '' })
 	dojo.byId(photo).innerHTML = "";
     }
-
-    tinyMCE.init({
-	
-	content_css : "tinymce.css",
-	mode : "textareas",
-	theme : "advanced",
-	
-	dialog_type : "modal",
-	
-	skin : "o2k7",
-	skin_variant : "silver",
-	
-	theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",
-	theme_advanced_path : true,
-	theme_advanced_statusbar_location : "bottom"
-	
-    });
-  
+    
 //]]></script>
 
 <% if ( $self->session('admin') ) { %>
@@ -77,15 +59,17 @@
     
 	<% } %>
 	
+	<div class="content_spacer"></div>
+	
 	<h4>Author</h4>
     
 	<% if ( $self->param('mode') eq 'create' ) { %>
 		
-	<div dojoType="dijit.form.TextBox" name="author" value=""></div>
+	<input type="text" name="author" value="" />
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
 
-	<div dojoType="dijit.form.TextBox" name="author" value="<%= $self->{CONTENT}->author %>"></div>
+	<input type="text" name="author" value="<%= $self->{CONTENT}->author %>" />
 
 	<% } %>
 
@@ -93,11 +77,11 @@
 
 	<% if ( $self->param('mode') eq 'create' ) { %>
 
-	<div dojoType="dijit.form.TextBox" name="title" value=""></div>
+	<input type="text" name="title" value="" />
 
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
 
-	<div dojoType="dijit.form.TextBox" name="title" value="<%= $self->{CONTENT}->title %>"></div>
+	<input type="text" name="title" value="<%= $self->{CONTENT}->title %>" />
 
 	<% } %>
 
@@ -129,7 +113,7 @@
 
 	<h4>Default Photo</h4>
 
-	<div dojoType="dojox.form.DropDownSelect" name="default_photo" size="10">
+	<select name="default_photo" size="10">
 
 	    <% for ( split /\s+/, $self->{CONTENT}->photos ) { %>
 
@@ -139,7 +123,7 @@
 	    	    
 	    <% } %>
 
-	</div>
+	</select>
 
 	<h4>All Photos</h4>
 	
@@ -149,11 +133,11 @@
     	
 	    <img src="<%= $_ %>" style="width: 100px; height: auto;"/>
 	    
-	    <div dojoType="dijit.form.DropDownButton" style="margin-left: -35px; margin-top: 10px;">
+	    <div style="margin-left: -35px; margin-top: 10px;">
 		
 		<span>More</span>
 		
-		<div dojoType="dijit.TooltipDialog">
+		<div>
 		
 		    % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
 		    
@@ -161,11 +145,11 @@
 		    
 		    <span><%= ucfirst($data) %></span>
 		    
-		    <div dojoType="dijit.form.TextBox" name="<%= lcfirst($data) %>" style="padding: 10px;"></div>
+		    <input type="text" name="<%= lcfirst($data) %>" style="padding: 10px;" />
 		    
 		    % }
 		    
-		    <button dojoType="dijit.form.Button" onclick="remove_photo(<%= $self->{CONTENT}->id %>, '<%= $_ %>')" type="submit">
+		    <button onclick="remove_photo(<%= $self->{CONTENT}->id %>, '<%= $_ %>')" type="submit">
 			Remove Photo
 		    </button>	
 	
@@ -194,13 +178,13 @@
     
 	<h4>Link</h4>
 	
-	<div dojoType="dijit.form.TextBox" name="link" value=""></div>
+	<input type="text" name="link" value="" />
     
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
     
 	<h4>Link</h4>
     
-	<div dojoType="dijit.form.TextBox" name="link" value="<%= $self->{CONTENT}->link %>"></div>
+	<input type="text" name="link" value="<%= $self->{CONTENT}->link %>" />
     
 	<% } %>
     
@@ -208,13 +192,13 @@
     
 	<h4>Venue</h4>
 	
-	<div dojoType="dijit.form.TextBox" name="venue" value=""></div>
+	<input type="text" name="venue" value="" />
     
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
     
 	<h4>Venue</h4>
     
-	<div dojoType="dijit.form.TextBox" name="venue" value="<%= $self->{CONTENT}->venue %>"></div>
+	<input name="venue" value="<%= $self->{CONTENT}->venue %>" />
     
 	<% } %>
     
@@ -222,13 +206,13 @@
     
 	<h4>Address</h4>
 	
-	<div dojoType="dijit.form.TextBox" name="address" value=""></div>
+	<input type="text" name="address" value="" />
     
 	<% } elsif ( $self->param('mode') eq 'update' ) { %>
     
 	<h4>Address</h4>
     
-	<div dojoType="dijit.form.TextBox" name="address" value="<%= $self->{CONTENT}->address %>"></div>
+	<input type="text" name="address" value="<%= $self->{CONTENT}->address %>" />
     
 	<% } %>
     
@@ -240,19 +224,19 @@
 	
 	    <h4>Start Date</h4>
 	    
-	    <input dojoType="dijit.form.DateTextBox" name="start_date" value="" />
+	    <input data-dojo-type="dijit/form/DateTextBox" id="start_date" name="start_date" value="" required="true" />
     
 	    <h4>Start Time</h4>
 	
-	    <input dojoType="dijit.form.TimeTextBox" name="start_time" value="" />
+	    <input data-dojo-type="dijit/form/DateTextBox" id="start_time" name="start_time" value="" required="true" />
 	
 	    <h4>Stop Date</h4>
 	
-	    <input dojoType="dijit.form.DateTextBox" name="stop_date" value="" />
+	    <input data-dojo-type="dijit/form/DateTextBox" name="stop_date" value="" required="true" />
 	    
 	    <h4>Stop Time</h4>
 	
-	    <input dojoType="dijit.form.TimeTextBox" name="stop_time" value="" />
+	    <input data-dojo-type="dijit/form/DateTextBox" name="stop_time" value="" required="true" />
 	
 	
 	    <% } elsif ( $self->param('mode') eq 'update' ) { %>
@@ -261,21 +245,21 @@
 	    
 		<h4>Start Date</h4>
 	    
-		<input dojoType="dijit.form.DateTextBox" name="start_date" value="<%= $self->{CONTENT}->start_datetime->ymd %>"/>
+		<input data-dojo-type="dijit/form/DateTextBox" name="start_date" value="<%= $self->{CONTENT}->start_datetime->ymd %>"/>
     
 		<h4>Start Time</h4>
 	
-		<input dojoType="dijit.form.TimeTextBox" name="start_time" value="T<%= $self->{CONTENT}->start_datetime->hms %>"/>
+		<input data-dojo-type="dijit/form/DateTextBox" name="start_time" value="T<%= $self->{CONTENT}->start_datetime->hms %>"/>
 		
 		<% } else { %>
 		
 		<h4>Start Date</h4>
 		
-		<input dojoType="dijit.form.DateTextBox" name="start_date" value=""/>
+		<input data-dojo-type="dijit/form/DateTextBox" name="start_date" value=""/>
 		
 		<h4>Start Time</h4>
 	
-		<input dojoType="dijit.form.TimeTextBox" name="start_time" value=""/>
+		<input data-dojo-type="dijit/form/DateTextBox" name="start_time" value=""/>
 		
 		<% } %>
 		
@@ -283,21 +267,21 @@
 		
 		<h4>Stop Date</h4>
 		
-		<input dojoType="dijit.form.DateTextBox" name="stop_date" value="<%= $self->{CONTENT}->stop_datetime->ymd %>"/>
+		<input data-dojo-type="dijit/form/DateTextBox" name="stop_date" value="<%= $self->{CONTENT}->stop_datetime->ymd %>"/>
     
 		<h4>Stop Time</h4>
 	
-		<input dojoType="dijit.form.TimeTextBox" name="stop_time" value="T<%= $self->{CONTENT}->stop_datetime->hms %>"/>
+		<input data-dojo-type="dijit/form/DateTextBox" name="stop_time" value="T<%= $self->{CONTENT}->stop_datetime->hms %>"/>
 		
 		<% } else { %>
     
 		<h4>Stop Date</h4>
 		
-		<input dojoType="dijit.form.DateTextBox" name="stop_date" value="" />
+		<input data-dojo-type="dijit/form/DateTextBox" name="stop_date" value="" />
     
 		<h4>Stop Time</h4>
 	
-		<input dojoType="dijit.form.TimeTextBox" name="stop_time" value="" />
+		<input data-dojo-type="dijit/form/DateTextBox" name="stop_time" value="" />
 		
 		<% } %>
 	   
@@ -311,13 +295,13 @@
 
 	<h1>Taxonomy</h1>
 
-	<div style="float: left;">
+	<div id="editor_taxonomy">
 
 	    <% if ( $self->param('mode') eq 'create' ) { %>
 	
 	    <h4>Pages</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="pages" size="10">
+	    <select multiple="true" name="pages">
 	
 		<option value="none" selected>
 		    none
@@ -339,7 +323,7 @@
 	
 	    <h4>Pages</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="pages" size="10">
+	    <select multiple="true" name="pages">
 	
 		<option value="none" <%= 'selected' if $self->{CONTENT}->pages =~ m/none/i %>>
 		    none
@@ -361,13 +345,13 @@
 	    
 	</div>
 	
-	<div style="float: left;">
+	<div id="editor_taxonomy">
     
 	    <% if ( $self->param('mode') eq 'create' ) { %>
 	
 	    <h4>Types</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="types" size="10">
+	    <select multiple="true" name="types" size="10">
 	
 		<option value="none" selected>
 		    none
@@ -389,7 +373,7 @@
 	
 	    <h4>Types</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="types" size="10">
+	    <select multiple="true" name="types" size="10">
 	
 		<option value="none" <%= 'selected' if $self->{CONTENT}->types =~ m/none/i %>>
 		    none
@@ -411,13 +395,13 @@
 	
 	</div>
 	
-	<div style="float: left;">
+	<div id=editor_taxonomy>
 	    
 	    <% if ( $self->param('mode') eq 'create' ) { %>
 	
 	    <h4>Tags</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="tags" size="10">
+	    <select multiple="true" name="tags">
 	
 		<option value="none" selected>
 		    none
@@ -439,7 +423,7 @@
 	
 	    <h4>Tags</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="tags" size="10">
+	    <select multiple="true" name="tags">
 	
 		<option value="none" <%= 'selected' if $self->{CONTENT}->tags =~ m/none/i %>>
 		    none
@@ -461,13 +445,13 @@
 	
 	</div>
 	
-	<div style="float: left;">
+	<div id=editor_taxonomy>
 		
 	    <% if ( $self->param('mode') eq 'create' ) { %>
 	
 	    <h4>Cities</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="cities" size="10">
+	    <select multiple="true" name="cities">
 	
 		<option value="none" selected>
 		    none
@@ -489,7 +473,7 @@
 	
 	    <h4>Cities</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="cities" size="10">
+	    <select multiple="true" name="cities">
 	
 		<option value="none" <%= 'selected' if $self->{CONTENT}->cities =~ m/none/i %>>
 		    none
@@ -511,13 +495,13 @@
     
 	</div>
 	
-	<div style="float: left;">
+	<div id=editor_taxonomy>
 
 	    <% if ( $self->param('mode') eq 'create' ) { %>
 	
 	    <h4>Interests</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="interests" size="10">
+	    <select multiple="true" name="interests">
 	
 		<option value="none" selected>
 		    none
@@ -539,7 +523,7 @@
 	
 	    <h4>Interests</h4>
 	
-	    <select dojoType="dijit.form.MultiSelect" multiple="true" name="interests" size="10">
+	    <select multiple="true" name="interests">
 	
 		<option value="none" <%= 'selected' if $self->{CONTENT}->interests =~ m/none/i %>>
 		    none
@@ -561,13 +545,13 @@
 
 	</div>
 	
-	<div style="float: none;">
+	<div id=editor_taxonomy>
 		
 	    <% if ( $self->param('mode') eq 'create' ) { %>
 	
 	    <h4>Position</h4>
 	
-	    <select dojoType="dijit.form.Select" name="position" size="10">
+	    <select name="position">
 	
 		<option value="0" selected>
 		    none
@@ -599,7 +583,7 @@
 	
 	    <h4>Position</h4>
 	
-	    <select dojoType="dijit.form.Select" name="position" size="10">
+	    <select multiple="true" name="position">
 	
 		<option value="none" <%== 'selected="selected"' if $self->{CONTENT}->position =~ m/0/i %>>
 		    none
@@ -665,7 +649,7 @@
         
             <% $recent_updates_counter++; %>
             
-            <% next if $recent_updates_counter > $recent_update_length; %>
+            <% next if $recent_updates_counter > $recent_updates_length; %>
         
             <% for ( split /\s+/, $recent_updates->photos ) { %>
             
@@ -703,56 +687,15 @@
     
             </div>
     
-            <% if ($recent_updates_counter < $recent_update_length) { %>
-            
+            % last if $recent_updates_counter == $recent_updates_length;
+	    
             <hr />
             
             <% } %>
+	    
         
         <% } %>
 
     </div>
     
 </div>
-
-<!-- Editor Menu -->
-
-<div id="dashboard_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
-
-    <div dojoType="dijit.MenuItem" onClick="window.location='/dashboard';">
-        After 5 Dashboard
-    </div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
-        After 5 Editor
-    </div>
-
-    <% if ($self->param('mode') eq 'update') { %>
-    
-    <div data-dojo-type="dijit.MenuSeparator"></div>
-
-    <div dojoType="dijit.MenuItem" onClick="submit_content();">
-        Update Content
-    </div>
-
-    <% } %>
-
-    <% if ($self->param('mode') eq 'create') { %>
-    
-    <div data-dojo-type="dijit.MenuSeparator"></div>
-
-    <div dojoType="dijit.MenuItem" onClick="submit_content();">
-        Create Content
-    </div>
-
-    <% } %>
-
-    <div data-dojo-type="dijit.MenuSeparator"></div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
-        Logout of After 5
-    </div>
-    
-</div>
-
-<% } %>

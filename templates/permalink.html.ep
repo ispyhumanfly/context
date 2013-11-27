@@ -65,8 +65,6 @@
 </div>
 
 <div class="content_right">
-
-    <h1>Search After 5</h1>
     
     %= include 'modules/block_search', mode => 'header_search_bar'
 

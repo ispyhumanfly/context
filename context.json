@@ -1,9 +1,9 @@
 { 
     "title"     : "Context",
-    "description" : "A Modern Web CMS",
+    "description" : "A Modern Content Management System",
     "domain"    : "context.thoughtpivot.com",
     "temp"      : "/tmp",
-    "encoding"  : "ISO-8859-1",
+    "encoding"  : "UTF-8",
     "subtract_day_range" : 190,
     "add_day_range" : 90,
     "ad_content" : "off",

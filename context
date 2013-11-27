@@ -23,7 +23,7 @@ use Encode;
 use lib 'lib';
 use Context::Model;
 
-our $MODEL = Context::Model->connect('dbi:SQLite:context.db');
+our $MODEL = Context::Model->connect('dbi:SQLite:context.db', {sqlite_unicode => 1});
 
 use Mojolicious::Lite;
 use Mojo::Util;
@@ -247,13 +247,6 @@ get '/editor' => sub {
 
     $self->{'CONTENT'} = $content;
     
-    # Metadata
-    if ($content) {
-        
-        my $content_md5 = Mojo::Util::md5_sum($content->id);
-        prepare_metadata($content_md5);        
-    }
-    
     # Recent Updates
     my @recent_updates =
       $MODEL->resultset('Content')
@@ -433,13 +426,6 @@ post '/api/content/create' => sub {
     }
 
     my $id = $new_content->id;
-
-    # Metadata
-    if ($id) {
-        
-        my $content_md5 = Mojo::Util::md5_sum($id);
-        prepare_metadata($content_md5);        
-    }
 
     my $text =
 
@@ -917,25 +903,6 @@ sub process_photo {
     return;
 }
 
-sub prepare_metadata {
-
-    my $md5 = shift;
-    my $json = Mojo::JSON->new;
-
-    unless (-e "metadata/$md5.json") {
-        
-        open my $metadata, ">metadata/$md5.json";
-        binmode $metadata, ':utf8';
-        
-        my $schema = $json->encode(app->config->{metadata});
-        
-        print $metadata $schema;
-        close $metadata;
-    }
-    
-    return;
-}
-
 sub google_local {
 
     REST::Google::Search->service(LOCAL);
@@ -1001,8 +968,6 @@ sub order_by_trending {
 
     return \@results;
 }
-
-### Context Mojolicious Configuration
 
 app->log->path(app->config->{hypnotoad}->{log_file})
   if app->mode('production');

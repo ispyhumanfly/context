@@ -77,7 +77,7 @@
 		    
 		    <% } elsif (not $self->param('id')) { %>
 		
-		    <% $next_photo = @{$self->{GALLERIES}}->[+1]; %>
+		    % $next_photo = @{$self->{GALLERIES}}->[+1];
 		    
 		    <% } %>
 		    
@@ -109,7 +109,7 @@
     	
 	% next unless $event_counter > $max_trending;
 	
-	% $event->update({views => $event->views + 1});
+	% $event->update({impressions => $event->impressions + 1});
     
 	<div id="content_column_<%= $event_column_numbers[$event_column_position] %>">
 		
@@ -193,9 +193,9 @@
             
             <% } %>
     
-            % $more_photos->update({views => $more_photos->views + 1})
+            % $more_photos->update({impressions => $more_photos->impressions + 1});
 
-            % for ( split /\s+/, $more_photos->photos ) { %>
+            % for ( split '/\s+/', $more_photos->photos ) {
             
             <a title="<%= $more_photos->title %>" href="/photos?id=<%= $more_photos->id %>">
                 <img class="block_thumbnails_right" src="<%= $_ %>"/>

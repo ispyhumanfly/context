@@ -12,7 +12,7 @@
 
 <div class="content_left">
 
-    <% for (@{ app->config->{taxonomy}->{pages} } ) { %>
+    % for (@{ app->config->{taxonomy}->{pages} } ) {
     
     <h1><%= ucfirst($_) %></h1>
 
@@ -25,8 +25,8 @@
     
         % my $page = lcfirst($_);
         
-        % next unless $content->pages =~ m/$page/i;
-        % next if $content->types =~ m/ad_header|ad_block/g;
+        %# next unless $content->pages =~ m/$page/i;
+        %# next if $content->types =~ m/ad_header|ad_block/g;
         
 	% $content_counter++;
     	
@@ -85,10 +85,10 @@
 	% $content_column_position++;
 	% last if $content_counter == 6;
 	
-    <% } %>
-    
+    % }
+
     <h3>
-	<a href="/search?pages=<%= lcfirst($_) %>">More <%= ucfirst($_) %> &rarr;</a>
+	<a href="/search?pages=<%= lcfirst($_) %>">More <%= ucfirst($_) %></a>
     </h3>
 
     <% } %>

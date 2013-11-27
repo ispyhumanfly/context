@@ -56,7 +56,7 @@
 	    
 	    <% } else { %>
 
-	    % $article->update({views => $article->views + 1});
+	    % $article->update({impressions => $article->impressions + 1});
 
 	    <a title="<%= $article->title %>" href="/articles?create_datetime=<%= $article->create_datetime->epoch %>&id=<%= $article->id %>">
 		<img class="position_image_left" src="<%= $_ %>" />
@@ -168,17 +168,11 @@
 
 <div class="content_right">
 
-    <h1>Trending</h1>
-    
     %= include 'modules/block_trending', content => $self->{TRENDING}, mode => 'article', length => 5
         
     %= include 'modules/block_ads', ads_block => $self->{ADS_BLOCK}
-    
-    <h1>Search After 5</h1>
 	
     %= include 'modules/block_search'
-
-    <h1>Connect</h1>
     
     %= include 'modules/social_media', mode => 'block', content => 'none'
 

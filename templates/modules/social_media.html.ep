@@ -40,6 +40,8 @@
 
 <% if ($mode eq 'block') { %>
   
+      <h1>Connect</h1>
+
         <div style="padding: 0 10px 15px 10px;">
     
             <div id="share_twitter"></div>

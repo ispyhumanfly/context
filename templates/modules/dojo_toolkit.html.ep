@@ -1,49 +1,16 @@
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dijit/themes/nihilo/nihilo.css">
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/image/resources/Lightbox.css">
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojox/image/resources/image.css">
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script>
 
-<script
-        type="text/javascript"
-        src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js"
-        djConfig="parseOnLoad:true">
-</script>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dijit/themes/nihilo/nihilo.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/image/resources/Lightbox.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/image/resources/image.css">
 
 <script type="text/javascript">//<![CDATA[
-
-    dojo.require("dijit.form.Form");
-    dojo.require("dijit.form.TextBox");
-    dojo.require("dijit.form.Button");
-    dojo.require("dijit.form.Select");
-    dojo.require("dojox.form.DropDownSelect");
-
-    dojo.require("dijit.Menu");
-    dojo.require("dijit.Dialog");
-    
-    dojo.require("dijit.layout.StackContainer");
-    dojo.require("dijit.layout.ContentPane");
-
-    dojo.require('dojox.image.Gallery');
-    dojo.require("dojox.image.SlideShow");    
-    dojo.require("dojox.image.Lightbox");
-    dojo.require("dojox.image.ThumbnailPicker");
-    
-    dojo.require("dojo.data.ItemFileReadStore");
-    dojo.require("dijit.form.DateTextBox");
-    dojo.require("dijit.form.TimeTextBox");
-    dojo.require("dijit.form.Select");
-    dojo.require("dijit.form.MultiSelect");
-    dojo.require("dojox.form.DropDownSelect");
-    dojo.require("dijit.form.DropDownButton");
-    dojo.require("dijit.TooltipDialog");
-    dojo.require("dijit.form.TextBox");
-    dojo.require("dijit.form.Button");
-    dojo.require("dijit.Menu");
 
     var Path    = window.location.pathname;
     var Query   = window.location.search;
 
-    var Views 	= new Array();
-    var Clicks 	= new Array();
+    var Impressions = new Array();
+    var Clicks 	    = new Array();
 
     function _initLoader() {
 
@@ -55,50 +22,15 @@
         }
       }).play(100);
     }
-    
-    function _initThumbNails () {
-        
-        dijit.byId('thumbPicker2').setDataStore(imageItemStore,{ count:20 },
-        {
-            imageThumbAttr: "thumb",
-            imageLargeAttr: "large"
-        });
-        
-        var lightbox;
-        
-        function lightboxShow(packet){
-
-            lightbox.show({
-                
-                href: packet.largeUrl,
-                title: '',
-                group: packet.group
-            });
-                
-        };
-
-        lightbox = new dojox.image.LightboxDialog().startup();		
-        dojo.subscribe(dijit.byId('thumbPicker2').getClickTopicName(), lightboxShow);
-    }
-
-    function _initSlideShow(){
-            
-        dijit.byId('gallery').setDataStore(imageItemStore,{ count:10 },
-        {
-            imageThumbAttr: "thumb",
-            imageLargeAttr: "large",
-            titleAttr: "blank"
-        });
-    }
 
     function _initTrending() {
 
-        if (Views.length > 0) {
+        if (Impressions.length > 0) {
 
-            for (var index = 0; index < Views.length ; index++) {
+            for (var index = 0; index < Impressions.length ; index++) {
                 
-                var id = Views[index];
-                dojo.xhrPost({ url: '/trending/views', postData: 'id=' + id + '' });    
+                var id = Impressions[index];
+                dojo.xhrPost({ url: '/trending/impressions', postData: 'id=' + id + '' });    
             }
         }
 
@@ -126,22 +58,12 @@
     }
 
     dojo.addOnLoad(_initLoader);
-
+    
     if (Query.match(/message/g)) {
     
         dojo.addOnLoad(_initMessage);
     }
-        
-    if (Path.match(/photos/g)) {
-                
-        dojo.addOnLoad(_initSlideShow);
-    } 
     
-    if (Path.match(/people|articles|events|places|live|\d/g)) {
-
-        dojo.addOnLoad(_initThumbNails);    
-    }
-
     setTimeout("dojo.addOnLoad(_initTrending)", 5000);
     
     function ad_click(id) {
