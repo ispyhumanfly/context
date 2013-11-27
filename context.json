@@ -38,22 +38,22 @@
     {
         "account"           : "UA-31343777-1",
         "site_verification" : "Csn_aTdWY2uKRtR93wT3GpRbT1AMQ0PtUNl_0XNFEfM",
-        "domain"            : "after5detroit.com"
+        "domain"            : "thoughtpivot.com"
     },
     
     "facebook"  :
     
     {
         "appid"     : "111526485542517",
-        "domain"    : "after5detroit.com",
-        "link"      : "https://www.facebook.com/pages/After-5-Detroit/46857148306?ref=ts"
+        "domain"    : "thoughtpivot.com",
+        "link"      : "https://www.facebook.com/thoughtpivot"
     },
     
     "twitter"   :
     
     {
-        "domain"    : "after5detroit.com",
-        "link"      : "https://twitter.com/after5detroit"
+        "domain"    : "thoughtpivot.com",
+        "link"      : "https://twitter.com/thoughtpivot"
     },
     
     "hypnotoad" :

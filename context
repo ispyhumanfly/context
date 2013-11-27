@@ -130,24 +130,16 @@ get '/login' => sub {
 
     my $self = shift;
 
+    my $google_domain = app->config->{google}->{domain};
     my $domain = app->config->{domain};
-
-    ## TODO: This doesn't actually work :(
-
-    if (not app->mode('production')) {
-        $self->session(admin => 'development');
-    }
-    else {
-        $self->session(admin => 'development');
-    }
-
+    
     return $self->redirect_to('dashboard') if $self->session('admin');
 
-    my $claimed = $domain;
+    my $claimed = $google_domain;
 
     my $google = Net::Google::FederatedLogin->new(
         claimed_id => $claimed,
-        return_to  => "https://$domain/api/login"
+        return_to  => "http://$domain/api/login"
     );
     my $auth_url = $google->get_auth_url();
 
@@ -269,7 +261,7 @@ any '/api/login' => sub {
 
     my $google = Net::Google::FederatedLogin->new(
         cgi_params => $self->req->params->to_hash,
-        return_to  => "https://$domain/api/login"
+        return_to  => "http://$domain/api/login"
     );
 
     my $id = $google->verify_auth();
@@ -660,41 +652,6 @@ post '/trending/:type' => [type => qr/\w+/] => sub {
     }
 
     return;
-};
-
-## Context Dojo JSON Data Stores
-
-get '/dojox/image/data.json' => sub {
-
-    my $self = shift;
-
-    my $json = Mojo::JSON->new;
-
-    if ($self->param('id')) {
-
-        my $gallery =
-          $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->single;
-
-        my @gallery;
-
-        for (split /\s+/, $gallery->photos) {
-
-            my %items = (
-
-                'thumb' => "$_",
-                'large' => "$_",
-                'title' => $gallery->title,
-                'link'  => ''                # I've disabled this temporarily.
-            );
-
-            push @gallery, \%items;
-        }
-
-        my $string = $json->encode({items => \@gallery});
-        return $self->render(text => $string);
-    }
-
 };
 
 ### Context REST API

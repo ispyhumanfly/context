@@ -3,7 +3,7 @@
 
     <head>
 	
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/> 
+	<meta http-equiv="Content-Type" content="text/html; charset=<%= app->config->{encoding} %>"/> 
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
     
 	<title><%= app->config->{title} %> :: <%= title %></title>
@@ -18,13 +18,13 @@
 	
     </head>
 
-    <body class="nihilo">
+    <body class=nihilo>
 
-	<div id="content_loader">
-	    <div id="content_loader_inner"></div>
+	<div id=content_loader>
+	    <div id=content_loader_inner></div>
 	</div>
 
-	<div id="navigation_container">
+	<div id=navigation_container>
 	    
 		<h1><%= app->config->{title} %></h1>
     
@@ -42,57 +42,54 @@
     
 	</div>
 	
-	<div id="main_container">
+	<div id=main_container>
 		
-	    <div id="content_container">
+	    <div id=content_container>
     		
+		% if (app->config->{ad_content} eq 'on') {
+		
 		<div class="ad_space_header">
-
-		    % if (app->config->{ad_content} eq 'on') {
+    
+		    % if (exists $self->{ADS}) {
+    
+		    <script type="text/javascript">//<![CDATA[
+		    
+			var header_ads = new Array();
 			
-			% if (exists $self->{ADS}) {
+			//<% for my $ad (@{$self->{ADS}}) { %>
 	
-			<script type="text/javascript">//<![CDATA[
-			
-			    var header_ads = new Array();
+			    //<% for (split /\s+/, $ad->photos) { %>
+	
+			    header_ads.push("<a href='<%= $ad->link %>' onclick='ad_click(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
 			    
-			    //<% for my $ad (@{$self->{ADS}}) { %>
-	    
-				//<% for (split /\s+/, $ad->photos) { %>
-	    
-				header_ads.push("<a href='<%= $ad->link %>' onclick='ad_click(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
-				
-				//<% last; %>
-				
-				//<% } %>
-	    
+			    //<% last; %>
+			    
 			    //<% } %>
-				
-			    var random = Math.floor(Math.random() * header_ads.length);
-			    document.write(header_ads[random]);
-			    
-			//]]></script>
 	
-			% }
+			//<% } %>
+			    
+			var random = Math.floor(Math.random() * header_ads.length);
+			document.write(header_ads[random]);
 			
+		    //]]></script>
+    
 		    % }
-
+		    
 		</div>
+		    
+		% } else {
+		
+		<br />
+		
+		% }
 
 		%= content
     
 	    </div>
     	    
-	    <div id="footer_container">
+	    <div id=footer_container>
 		
-<!--		<div id="yfx">
-		    
-		    <span>A</span>
-		    <a href="http://yfx.com" target="_blank">YFX Physical Theatre</a>
-		    <span>Publication.</span>
-		</div>
--->		
-		<div id="thoughtpivot">
+		<div id=thoughtpivot>
 		    
 		    <span class=text>Another</span>
 		    <span class=logo>
