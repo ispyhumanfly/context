@@ -1,0 +1,23 @@
+<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+
+<script type="text/javascript">//<![CDATA[
+
+    tinyMCE.init({
+	
+	content_css : "tinymce.css",
+	mode : "textareas",
+	theme : "advanced",
+	
+	dialog_type : "modal",
+	
+	skin : "o2k7",
+	skin_variant : "silver",
+	
+	theme_advanced_toolbar_location : "top",
+	theme_advanced_toolbar_align : "left",
+	theme_advanced_path : true,
+	theme_advanced_statusbar_location : "bottom"
+	
+    });
+
+//]]></script>

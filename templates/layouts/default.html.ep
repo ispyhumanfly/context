@@ -16,6 +16,8 @@
 	
 	%= include 'modules/social_media', mode => 'head', content => 'none'
 	
+	%= include 'modules/tinymce'
+	
     </head>
 
     <body class=nihilo>
