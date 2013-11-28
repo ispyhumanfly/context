@@ -1,5 +1,5 @@
 % title 'Articles';
-% layout 'default';
+% layout 'context';
 %
 % my $article_length = 10;
 % my $last_create_datetime;

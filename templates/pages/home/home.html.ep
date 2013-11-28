@@ -1,5 +1,5 @@
 % title 'Home';
-% layout 'default';
+% layout 'context';
 %
 % my $upcoming_events_length = 2;
 % my $galleries_length = 3;

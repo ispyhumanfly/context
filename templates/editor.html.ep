@@ -1,5 +1,5 @@
 % title 'Editor';
-% layout 'default';
+% layout 'context';
 %
 % my $recent_updates_length = 10;
 
