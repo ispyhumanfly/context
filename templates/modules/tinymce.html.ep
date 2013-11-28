@@ -2,6 +2,6 @@
 
 <script type="text/javascript">//<![CDATA[
 	
-    tinymce.init({cselector: "textarea"});	
+    tinymce.init({selector: "textarea", theme : 'modern'});	
 
 //]]></script>
