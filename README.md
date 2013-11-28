@@ -1,6 +1,8 @@
 
 #Context
 
+A Modern CMS
+
 ## SYNOPSIS
 
 for development...
@@ -10,10 +12,6 @@ for development...
 or for production...
 
     hypnotoad context
-
-## DESCRIPTION
-
-A Modern CMS
 
 ## CPAN Modules
 

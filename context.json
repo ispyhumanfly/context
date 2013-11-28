@@ -1,6 +1,6 @@
 { 
     "title"     : "Context",
-    "description" : "A Modern CMS Framework",
+    "description" : "A Modern CMS",
     "domain"    : "context.thoughtpivot.com",
     "temp"      : "/tmp",
     "encoding"  : "UTF-8",
