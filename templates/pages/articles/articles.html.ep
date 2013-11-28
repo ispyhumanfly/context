@@ -90,7 +90,13 @@
 	
 	    %= include 'modules/content_details', content => $article, size => 'large', show => 'all'
 	    
-	    %= include 'modules/social_media', mode => 'share_this', content => $article
+	    %= include 'modules/share_this', mode => 'share_this', content => $article
+
+	    %= include 'modules/facebook', mode => 'content'
+
+	    %= include 'modules/twitter', mode => 'content'
+	    
+	    %= include 'modules/disqus'
 
 	    <h3>
 		
@@ -174,8 +180,7 @@
 	
     %= include 'modules/block_search'
     
-    %= include 'modules/social_media', mode => 'block', content => 'none'
-
+    %= include 'modules/block_connect'
 
 </div>
 

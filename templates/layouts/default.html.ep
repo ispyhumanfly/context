@@ -14,7 +14,7 @@
 
 	%= include 'modules/dojo_toolkit'
 	
-	%= include 'modules/social_media', mode => 'head', content => 'none'
+	%= include 'modules/facebook', mode => 'head'
 	
 	%= include 'modules/tinymce'
 	

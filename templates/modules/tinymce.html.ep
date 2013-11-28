@@ -1,7 +1,11 @@
+% if (app->config->{modules}->{tinymce}->{enabled} eq 'true') {
+
 <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
 
 <script type="text/javascript">//<![CDATA[
-	
+        
     tinymce.init({selector: "textarea", theme : 'modern'});	
 
 //]]></script>
+
+% }

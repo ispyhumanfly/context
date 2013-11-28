@@ -1,6 +1,6 @@
 { 
     "title"     : "Context",
-    "description" : "A Modern Content Management System",
+    "description" : "A Modern CMS Framework",
     "domain"    : "context.thoughtpivot.com",
     "temp"      : "/tmp",
     "encoding"  : "UTF-8",
@@ -25,35 +25,91 @@
                        "networking", "sports", "fundraisers", "culture", "living"]
     },
     
-    "metadata"  :
-    
+    "modules"  :
+
     {
-        "content"   : ["comments"],
-        "photos"    : ["comments"],
-        "videos"    : ["comments"]
-    },
-    
-    "google"    :
-    
-    {
-        "account"           : "UA-31343777-1",
-        "site_verification" : "Csn_aTdWY2uKRtR93wT3GpRbT1AMQ0PtUNl_0XNFEfM",
-        "domain"            : "thoughtpivot.com"
-    },
-    
-    "facebook"  :
-    
-    {
-        "appid"     : "111526485542517",
-        "domain"    : "thoughtpivot.com",
-        "link"      : "https://www.facebook.com/thoughtpivot"
-    },
-    
-    "twitter"   :
-    
-    {
-        "domain"    : "thoughtpivot.com",
-        "link"      : "https://twitter.com/thoughtpivot"
+        "content_details" :
+        
+        {
+            "enabled"   : "true"
+        },
+        "content_gallery" :
+        
+        {
+            "enabled"   : "true"
+        },
+        "content_message" :
+        
+        {
+            "enabled"   : "true"
+        },
+        "block_ads" :
+        
+        {
+            "enabled"   : "true"
+        },
+        "block_photos" :
+        
+        {
+            "enabled"   : "true"
+        },
+        "block_search" :
+        
+        {
+            "enabled"   : "true"
+        },
+        "block_trending" :
+        
+        {
+            "enabled"   : "true"
+        },
+        "block_connect" :
+        
+        {
+            "enabled"   : "true"
+        },
+        "google_analytics" :
+        
+        {
+            "enabled"   : "true",
+            "account"   : "UA-31343777-1",
+            "domain"    : "thoughtpivot.com"
+        },
+        "facebook"  :
+        
+        {
+            "enabled"   : "true",
+            "appid"     : "111526485542517",
+            "domain"    : "thoughtpivot.com",
+            "link"      : "https://www.facebook.com/thoughtpivot"
+        },
+        "twitter"   :
+        
+        {
+            "enabled"   : "true",
+            "domain"    : "thoughtpivot.com",
+            "link"      : "https://twitter.com/thoughtpivot"
+        },
+        "share_this" :
+        {
+            "enabled"   : "true",
+            "publisher" : "094f9b3e-6c2e-4a55-9656-27e04d5b7cc7"
+        },
+        "disqus" :
+        {
+            "enabled"   : "true",
+            "shortname" : "bennumagazine"
+        },
+        "tinymce" :
+        {
+            "enabled"   : "true",
+            "theme"     : "modern"
+        },
+        "dojo_toolkit" :
+        {
+            "enabled"   : "true",
+            "null"      : "none"
+        }
     },
     
     "hypnotoad" :

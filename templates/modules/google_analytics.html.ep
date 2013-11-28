@@ -1,10 +1,12 @@
+% if (app->config->{modules}->{google_analytics}->{enabled} eq 'true') {
+
 <meta name="google-site-verification" content="<%= app->config->{google}->{site_verification} %>" />
 
 <script type="text/javascript">//<![CDATA[
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', '<%= app->config->{google}->{account} %>']);
-  _gaq.push(['_setDomainName', '<%= app->config->{google}->{domain} %>']);
+  _gaq.push(['_setAccount', '<%= app->config->{modules}->{google_analytics}->{account} %>']);
+  _gaq.push(['_setDomainName', '<%= app->config->{modules}->{google_analytics}->{domain} %>']);
   _gaq.push(['_trackPageview']);
 
   (function() {
@@ -14,3 +16,5 @@
   })();
 
 //]]></script>
+
+% }

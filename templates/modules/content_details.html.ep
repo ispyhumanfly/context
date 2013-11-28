@@ -1,3 +1,6 @@
+
+% if (app->config->{modules}->{content_details}->{enabled} eq 'true') {
+
 <script type="text/javascript">//<![CDATA[
 
 //]]></script>
@@ -113,3 +116,5 @@
     <% } %>
         
 </div>
+
+% }

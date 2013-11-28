@@ -1,25 +1,29 @@
-% my $gallery_index;
-% my $gallery_index_max = 4;
-
-% if (scalar(split /\s+/, $content->photos) > 1) { 
-
-<div style="clear: both; margin-right: 5px; padding: 5px; max-width: 375px; text-align: right; float: right;"> 
-
-    % for (split /\s+/, $content->photos) {
-        
-        % $gallery_index++;
-        % next if $gallery_index == 1;
-        
-        % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
-        
-        <a href="/<%= $md5 %>.img">
-            <img class="photo_gallery_micro" src="<%= $_ %>" />
-        </a>
-        
-        % last if $gallery_index == $gallery_index_max;
-
+% if (app->config->{modules}->{content_gallery}->{enabled} eq 'true') {
+    
+    % my $gallery_index;
+    % my $gallery_index_max = 4;
+    
+    % if (scalar(split /\s+/, $content->photos) > 1) { 
+    
+    <div style="clear: both; margin-right: 5px; padding: 5px; max-width: 375px; text-align: right; float: right;"> 
+    
+        % for (split /\s+/, $content->photos) {
+            
+            % $gallery_index++;
+            % next if $gallery_index == 1;
+            
+            % my $md5 = $1 if $_ =~ m/\/photos\/(.*?).img$/g;
+            
+            <a href="/<%= $md5 %>.img">
+                <img class="photo_gallery_micro" src="<%= $_ %>" />
+            </a>
+            
+            % last if $gallery_index == $gallery_index_max;
+    
+        % }
+    
+    </div>
+    
     % }
-
-</div>
 
 % }
