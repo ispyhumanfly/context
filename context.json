@@ -7,6 +7,7 @@
     "subtract_day_range" : 190,
     "add_day_range" : 90,
     "ad_content" : "off",
+    "stylesheet" : "context.css",
     
     "taxonomy"    :
     
