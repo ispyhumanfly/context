@@ -1,5 +1,5 @@
 % title 'Dashboard';
-% layout 'default';
+% layout 'context';
 %
 % my $new_content_length = 10;
 % my $max_content = 3;

@@ -9,6 +9,23 @@
     "ad_content" : "off",
     "stylesheet" : "context.css",
     
+    "authorization" :
+    
+    {
+        "google_apps" :
+        
+        {
+            "enabled" : "false",
+            "domain" : "thoughtpivot.com"
+        },
+        "local_mode" :
+        
+        {
+            "enabled" : "true",
+            "domain" : "thoughtpivot.com"
+        }     
+    },
+    
     "taxonomy"    :
     
     {

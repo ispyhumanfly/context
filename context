@@ -130,29 +130,59 @@ get '/login' => sub {
 
     my $self = shift;
 
-    my $google_domain = app->config->{google}->{domain};
-    my $domain = app->config->{domain};
-    
     return $self->redirect_to('dashboard') if $self->session('admin');
 
-    my $claimed = $google_domain;
+    if (app->config->{authorization}->{google_apps}->{enabled} eq 'true') {
 
-    my $google = Net::Google::FederatedLogin->new(
-        claimed_id => $claimed,
-        return_to  => "http://$domain/api/login"
-    );
-    my $auth_url = $google->get_auth_url();
-
-    return $self->redirect_to($auth_url);
-
+        my $domain = app->config->{authorization}->{google_apps}->{domain};
+    
+        my $claimed = $domain;
+    
+        my $google = Net::Google::FederatedLogin->new(
+            claimed_id => $claimed,
+            return_to  => "http://$domain/authorization"
+        );
+        my $auth_url = $google->get_auth_url();
+    
+        return $self->redirect_to($auth_url);
+    }
+    elsif (app->config->{authorization}->{local_mode}->{enabled} eq 'true') {    
+        $self->redirect_to('/authorization');
+    }
+    
 } => 'login';
+
+any '/authorization' => sub {
+
+    my $self = shift;
+
+    if (app->config->{authorization}->{google_apps}->{enabled} eq 'true') {
+    
+        my $domain = app->config->{domain};
+    
+        my $google = Net::Google::FederatedLogin->new(
+            cgi_params => $self->req->params->to_hash,
+            return_to  => "http://$domain/authorization"
+        );
+    
+        my $id = $google->verify_auth();
+    
+        $self->session(admin => $id) if $id;
+    }
+    elsif (app->config->{authorization}->{local_mode}->{enabled} eq 'true') {
+        $self->session(admin => "Developer");
+    }
+    
+    $self->redirect_to('dashboard');
+
+};
 
 get '/logout' => sub {
 
     my $self = shift;
 
     $self->session(expires => 1)
-      and return $self->redirect_to('home');
+      and return $self->redirect_to('/');
 
 } => 'logout';
 
@@ -252,34 +282,6 @@ get '/editor' => sub {
 } => 'editor';
 
 ### Form API
-
-any '/api/login' => sub {
-
-    my $self = shift;
-
-    my $domain = app->config->{domain};
-
-    my $google = Net::Google::FederatedLogin->new(
-        cgi_params => $self->req->params->to_hash,
-        return_to  => "http://$domain/api/login"
-    );
-
-    my $id = $google->verify_auth();
-
-    $self->session(admin => $id) if $id;
-
-    $self->redirect_to('dashboard');
-
-};
-
-post '/api/logout' => sub {
-
-    my $self = shift;
-
-    $self->session(expires => 1)
-      and return $self->redirect_to('home');
-
-};
 
 post '/api/content/create' => sub {
 

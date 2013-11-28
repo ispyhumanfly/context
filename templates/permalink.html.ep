@@ -1,7 +1,7 @@
 % my $content = $self->{CONTENT};
 %
 % title $content->title;
-% layout 'default'; 
+% layout 'context'; 
 
 <script type="text/javascript">//<![CDATA[
 
