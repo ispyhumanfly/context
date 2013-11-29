@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:fb="http://ogp.me/ns/fb#" lang="en-US">
+<html <%== "xmlns:fb'http://ogp.me/ns/fb#'" if app->config->{modules}->{facebook}->{enabled} eq "true" %> lang="en-US">
 
     <head>
 	

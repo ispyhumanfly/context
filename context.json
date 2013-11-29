@@ -1,36 +1,33 @@
 { 
-    "title"     : "Context",
-    "description" : "A Modern CMS",
-    "domain"    : "context.thoughtpivot.com",
-    "temp"      : "/tmp",
-    "encoding"  : "UTF-8",
-    "subtract_day_range" : 190,
-    "add_day_range" : 90,
-    "ad_content" : "off",
-    "stylesheet" : "context.css",
+    "title"                 : "Context",
+    "description"           : "A Modern CMS",
+    "domain"                : "context.thoughtpivot.com",
+    "temp"                  : "/tmp",
+    "photos"                : "/tmp",
+    "videos"                : "/tmp",
+    "encoding"              : "UTF-8",
+    "subtract_day_range"    : 190,
+    "add_day_range"         : 90,
+    "ad_content"            : "off",
+    "stylesheet"            : "context.css",
     
     "authorization" :
-    
     {
         "google_apps" :
         
         {
-            "enabled" : "false",
-            "domain" : "thoughtpivot.com"
+            "enabled"   : "false",
+            "domain"    : "thoughtpivot.com"
         },
         "local_mode" :
         
         {
-            "enabled" : "true",
-            "domain" : "thoughtpivot.com"
+            "enabled"   : "true"
         }     
     },
     
-    "taxonomy"    :
-    
-    {
-        "pages"     : ["home", "articles", "events", "photos", "about", "contact", "search"],
-        
+    "taxonomy" :
+    {        
         "types"     : ["article", "career", "event", "gallery", "newsletter", "ad_header", "ad_block"],
         
         "tags"      : ["place", "people", "neighbor", "city_life", "lifestyle", "general", "style", "event", "place",
@@ -40,12 +37,44 @@
         "cities"    : ["detroit", "flint", "saginaw"],
 
         "interests" : ["dining", "nightlife", "activities", "concerts",
-                       "networking", "sports", "fundraisers", "culture", "living"]
+                       "networking", "sports", "fundraisers", "culture", "living"],
+        
+        "pages"     : ["home", "articles", "events", "photos", "about", "contact", "search"]
     },
     
-    "modules"  :
-
+    "mapping" :
     {
+        "enabled"   : "true",
+        
+        "routes" :
+        
+        {
+            "articles" :            
+            {
+                "types" : ["articles"],
+                "tags" : ["people"],
+                "cities" : [],
+                "interests" : [],
+                "pages" : ["articles"],
+                
+                "redirect" : "/articles"
+            },
+            "events" :            
+            {
+                "types" : ["events", "gallery"],
+                "tags" : ["article"],
+                "redirect" : "/events"
+            }
+        }
+    },
+    
+    "modules" :
+    {
+        "content_ads" :
+        
+        {
+            "enabled"   : "false"
+        },
         "content_details" :
         
         {
@@ -131,7 +160,6 @@
     },
     
     "hypnotoad" :
-    
     {
         "listen"    : ["http://*:3233", "https://*:3244"],
         "pid_file"  : "context.pid",

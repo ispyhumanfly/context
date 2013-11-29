@@ -48,7 +48,7 @@ for (@{ app->config->{taxonomy}->{pages} }) {
     }
 }
 
-### Core Functionality
+### Mapping
 
 get '/:id' => [id => qr/\d+/] => sub {
 
@@ -57,74 +57,64 @@ get '/:id' => [id => qr/\d+/] => sub {
     my $dtf      = $MODEL->storage->datetime_parser;
     my $dt_local = DateTime->now;
 
-    my $content =
-      $MODEL->resultset('Content')->search({id => $self->param('id')})
-      ->single;
-
-    if ($content->create_datetime->epoch > $dt_local->subtract(days => app->config->{subtract_day_range})->epoch) {
-
-        # Neighbors
-        if ($content->tags =~ m/\bneighbor/g) {
-            $self->render('permalink');
-        }
     
-        # Articles
-        elsif ($content->types =~ m/article/g) {
+    my $content = '';
     
-            return $self->redirect_to('/style?create_datetime='
-                  . $content->create_datetime->epoch . '&id='
-                  . $content->id)
-              if $content->tags =~ m/\bstyle\b/g;
+    eval {
+        $content = $MODEL->resultset('Content')->search({id => $self->param('id')})->single;   
+    };
     
-            return $self->redirect_to('/articles?create_datetime='
-                  . $content->create_datetime->epoch . '&id='
-                  . $content->id)
-              if $content->tags =~ m/\bpeople|place|article|general\b/g;
-        }
-    
-        # Events
-        elsif ($content->types =~ m/event/g) {
-    
-            return $self->redirect_to('/networking?start_datetime='
-                  . $content->start_datetime->epoch . '&id='
-                  . $content->id)
-              if $content->tags =~ m/\bnetworking\b/g;
-    
-            return $self->redirect_to('/events?start_datetime='
-                  . $content->start_datetime->epoch . '&id='
-                  . $content->id);
-        }
-    
-        # Photo Galleries
-        elsif ($content->types =~ m/\bgallery/g) {
-    
-            return $self->redirect_to('/photos?id=' . $content->id);
-        }
-
-        
+    if ($@) {
+        $self->redirect_to('/');
     }
     
-    # Ads
-    my @ads = $MODEL->resultset('Content')->search(
-        {pages => {like => '%permalink%'}, types => {like => '%ad_header%'}},
-        {order_by => 'id DESC'}
-    )->all;
+    if (app->config->{mapping}->{enabled} eq 'true') {
+        
+        for my $route (keys %{ app->config->{mapping}->{routes}}) {
+            
+            my $match = 0;
+            
+            for my $type (@{ app->config->{mapping}->{routes}->{$route}->{types}}) {
+                
+                $match = 0 unless $content->types =~ m/$type/g;
+                $match = 1 if $content->types =~ m/$type/g;
+            }
+            
+            for my $tag (@{ app->config->{mapping}->{routes}->{$route}->{tags}}) {
+                
+                $match = 0 unless $content->tags =~ m/$tag/g;
+                $match = 1 if $content->tags =~ m/$tag/g;
+            }
 
-    $self->{'ADS'} = \@ads;
+            for my $city (@{ app->config->{mapping}->{routes}->{$route}->{cities}}) {
+                
+                $match = 0 unless $content->cities =~ m/$city/g;
+                $match = 1 if $content->cities =~ m/$city/g;
+            }
 
-    # Ads Block
-    my @ads_block =
-      $MODEL->resultset('Content')
-      ->search(
-        {pages => {like => '%permalink%'}, types => {like => '%ad_block%'}})
-      ->all;
+            for my $interest (@{ app->config->{mapping}->{routes}->{$route}->{interests}}) {
+                
+                $match = 0 unless $content->interests =~ m/$interest/g;
+                $match = 1 if $content->interests =~ m/$interest/g;
+            }
 
-    $self->{'ADS_BLOCK'} = \@ads_block;
+            for my $page (@{ app->config->{mapping}->{routes}->{$route}->{pages}}) {
+                
+                $match = 0 unless $content->pages =~ m/$page/g;
+                $match = 1 if $content->pages =~ m/$page/g;
+            }
+            
+            my $redirect = app->config->{mapping}->{routes}->{$route}->{redirect};
+            
+            if ($match) {
+                $self->redirect_to($redirect . '?id=' . $content->id);   
+            }   
+        }
+    }
 
-    $self->{'CONTENT'} = $content;
-    return $self->render('permalink');
+} => 'mapping';
 
-} => 'permalink';
+### Authorization
 
 get '/login' => sub {
 
@@ -185,6 +175,8 @@ get '/logout' => sub {
       and return $self->redirect_to('/');
 
 } => 'logout';
+
+### Management
 
 get '/dashboard' => sub {
 
@@ -281,9 +273,9 @@ get '/editor' => sub {
 
 } => 'editor';
 
-### Form API
+### Forms
 
-post '/api/content/create' => sub {
+post '/form/content/create' => sub {
 
     my $self = shift;
 
@@ -424,12 +416,12 @@ post '/api/content/create' => sub {
     my $text =
 
       'Content successfully created.'
-      . "<a href='/$id'>Click here to view the Permalink page.</a>";
+      . "<a href='/$id'>Click here to view the Content page.</a>";
 
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 };
 
-post '/api/content/update' => sub {
+post '/form/content/update' => sub {
 
     my $self = shift;
 
@@ -567,13 +559,13 @@ post '/api/content/update' => sub {
     my $text =
 
       'Content updated. '
-      . "<a href='/$id'>You can click here to view the Permalink page.</a>";
+      . "<a href='/$id'>You can click here to view the Content page.</a>";
 
     return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
 
 };
 
-any '/api/content/remove' => sub {
+any '/form/content/remove' => sub {
 
     my $self = shift;
 
@@ -594,7 +586,7 @@ any '/api/content/remove' => sub {
 
 };
 
-post '/api/photo/remove' => sub {
+post '/form/photo/remove' => sub {
 
     my $self = shift;
 
@@ -785,7 +777,7 @@ get '/api/rest/get/:amount/:sort/:results' =>
             impressions             => $_->impressions,
             clicks            => $_->clicks,
 
-            permalink => 'http://' . app->config->{domain} . '/' . $_->id,
+            content => 'http://' . app->config->{domain} . '/' . $_->id,
 
             gallery => 'http://'
               . app->config->{domain} . '/'

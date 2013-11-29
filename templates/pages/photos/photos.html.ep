@@ -1,5 +1,5 @@
 % title 'Photos';
-% layout 'default';
+% layout 'context';
 %
 % my $more_photos_length = 5;
 
@@ -232,7 +232,7 @@
     
             </div>
             
-            <% last if $more_photos_counter == $more_photos_length; %>
+            % last if $more_photos_counter == $more_photos_length;
         
         <% } %>
 
