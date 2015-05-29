@@ -246,10 +246,10 @@ get '/dashboard' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to('login') unless $self->session('admin');
+    #return $self->redirect_to('login') unless $self->session('admin');
 
-    return $self->redirect_to('/editor?mode=create')
-      unless $self->param('mode');
+    #return $self->redirect_to('/editor?mode=create')
+    #  unless $self->param('mode');
 
     # Content
     my $content =
