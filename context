@@ -32,13 +32,6 @@ use Mojo::JSON;
 
 plugin 'JSONConfig';
 
-## Adding Template Directories
-#
-#my $renderer = Mojolicious::Renderer->new;
-#
-#push @{$renderer->paths}, 'templates/context';
-#push @{$renderer->paths}, 'templates/dirtybarfly';
-
 any '/' => sub {
 
     my $self = shift;
@@ -239,36 +232,6 @@ get '/logout' => sub {
       and return $self->redirect_to('/');
 
 } => 'logout';
-
-### Dashboard
-
-get '/dashboard' => sub {
-
-    my $self = shift;
-
-    #return $self->redirect_to('login') unless $self->session('admin');
-
-    #return $self->redirect_to('/editor?mode=create')
-    #  unless $self->param('mode');
-
-    # Content
-    my $content =
-      $MODEL->resultset('Content')->search({id => $self->param('id')})
-      ->single;
-
-    $self->{'CONTENT'} = $content;
-
-    # Recent Updates
-    my @recent_updates =
-      $MODEL->resultset('Content')
-      ->search(undef,
-        {page => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
-
-    $self->{'RECENT_UPDATES'} = \@recent_updates;
-
-    return $self->render('dashboard');
-
-} => 'dashboard';
 
 ### Forms
 
@@ -544,40 +507,6 @@ post '/form/photo/remove' => sub {
       ->update({photos => "@photos"})
       if scalar @photos >= 1;
 
-};
-
-## Context Content Trending
-
-post '/trending/:type' => [type => qr/\w+/] => sub {
-
-    my $self = shift;
-
-    if ($self->param('id')) {
-
-        my $content =
-          $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->single;
-
-        given ($self->param('type')) {
-
-            when ('impressions') {
-
-                $content->update({impressions => $content->impressions + 1});
-            }
-
-            when ('clicks') {
-
-                $content->update({clicks => $content->clicks + 1});
-            }
-
-            default {
-
-                $content->close;
-            }
-        }
-    }
-
-    return;
 };
 
 ### Context Tools
