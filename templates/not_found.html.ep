@@ -1,19 +1,13 @@
-% title 'Error';
-% layout 'context';
+<script type="text/javascript">//<![CDATA[
+    
+//]]></script>
 
-<div class="content_wide">
-    
-    <div class="content_none">
+<div dojoType='dijit.layout.ContentPane' region='center'>
+
+    <div dojoType="dijit.TitlePane" title="<%= $self->req->url->path || '/' %>" style="margin-bottom: 15px;">
         
-        <p style="font-size: larger; font-weight: bold;">The page was not found!</p>
-        <p style="font-size: large;">We can&apos;t find the page you&apos;re looking for. Please go back to the previous page while we see what&apos;s going on.<p>
-    
+        <p>The page you requested could not be found.</p>
+        
     </div>
 
 </div>
-
-<script type="text/javascript">//<![CDATA[
-
-    setTimeout("history.go(-1)", 5000);
-    
-//]]></script>

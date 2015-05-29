@@ -4,87 +4,48 @@
     <head>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=<%= app->config->{encoding} %>"/> 
-	<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     
 	<title><%= app->config->{title} %> :: <%= title %></title>
 
-	<link rel="stylesheet" type="text/css" href="/<%= app->config->{stylesheet} %> ">
+	% my $layout = @{app->config->{content}->{layouts}->{enabled}}[0];
+	
+	% if (exists app->config->{content}->{layouts}->{$layout}) {		
+	    <link rel="stylesheet" type="text/css" href="<%= app->config->{content}->{layouts}->{$layout}->{stylesheet} %> ">
+	% }
 	
 	%= include 'modules/google_analytics'
 
-	%= include 'modules/dojo_toolkit'
-	
-	%= include 'modules/facebook', mode => 'head'
-	
-	%= include 'modules/tinymce'
+        %= include 'modules/dojo_toolkit'
+        
+        %= include 'modules/facebook', mode => 'head'
+        
+        %= include 'modules/tinymce'
 	
     </head>
 
     <body class=nihilo>
 
-	<div id=content_loader>
-	    <div id=content_loader_inner></div>
-	</div>
-
+	%= include "modules/loader"
+	
 	<div id=navigation_container>
 	    
-		<h1><%= app->config->{title} %></h1>
-    
-		<ul>
-		    
-		    % for (@{app->config->{taxonomy}->{pages}}) {
-		    
-		    <li>
-			<a href="/<%= lc($_) %>"><%= ucfirst($_) %></a>
-		    </li>
-		    
-		    % }
-    
-		</ul>
-    
+	    <h1><%= app->config->{title} %></h1>
+
+	    %= include 'modules/view_list'
+	     
 	</div>
 	
 	<div id=main_container>
+	    
+	    <div id=header_container>
 		
+		%= include "modules/ads"
+		
+	    </div>
+	    
 	    <div id=content_container>
-    		
-		% if (app->config->{ad_content} eq 'on') {
 		
-		<div class="ad_space_header">
-    
-		    % if (exists $self->{ADS}) {
-    
-		    <script type="text/javascript">//<![CDATA[
-		    
-			var header_ads = new Array();
-			
-			//<% for my $ad (@{$self->{ADS}}) { %>
-	
-			    //<% for (split /\s+/, $ad->photos) { %>
-	
-			    header_ads.push("<a href='<%= $ad->link %>' onclick='ad_click(<%= $ad->id %>)' target='_blank'><img onload='Views.push(<%= $ad->id %>)' src='<%= $_ %>' style='width: 728px; height: 90px; text-decoration: none; border: 0px;' /></a>");
-			    
-			    //<% last; %>
-			    
-			    //<% } %>
-	
-			//<% } %>
-			    
-			var random = Math.floor(Math.random() * header_ads.length);
-			document.write(header_ads[random]);
-			
-		    //]]></script>
-    
-		    % }
-		    
-		</div>
-		    
-		% } else {
-		
-		<br />
-		
-		% }
-
 		%= content
     
 	    </div>

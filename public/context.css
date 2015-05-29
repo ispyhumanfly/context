@@ -75,92 +75,14 @@ button {
     
 }
 
-#share_twitter {
-    
-    background-image: url('/share/Twitter.png');
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-size: 50px;
-    
-    width: 50px;
-    height: 50px;
-}
-
-#share_facebook {
-    
-    background-image: url('/share/Facebook.png');
-    background-color: transparent;
-    background-repeat: no-repeat;
-    background-size: 50px;
-    
-    width: 50px;
-    height: 50px;
-}
-
-
-#main_container {
-    
-    background-color: white;
-    margin-top: 50px;
-    padding-top: 5px;
-    border-radius: 5px 5px 5px 5px;
-    -moz-border-radius: 5px 5px 5px 5px;
-    -webkit-border-radius: 5px 5px 5px 5px;
-    box-shadow: 1px 1px 50px 5px #66BBEE;
-
-    
-    
-}
-
-
-#header_container {
-
-    /*background-image: url('/HeaderBground.png');
-    */background-color: #FFFFFF;
-/*    background-image: url('http://fc04.deviantart.net/fs36/i/2008/285/e/3/Water_Mountains_by_UltimateAlexDancer.png');
-*/    background-repeat: no-repeat;
-    text-align: left;
-    cursor: pointer;
-    height: 75px;
-    width: 100%;
-    border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
-    position: fixed;
-    z-index: auto !important;
-
-}
-
-#header_container h1 {
-    float: left;
-    font-family: 'Nothing You Could Do', cursive;
-    font-size: 35px;
-    margin-left: 15px;
-    margin-top: -5px;
-    
-}
-
-#header_container h2 {
-
-    float: right;
-    font-family: 'Prosto One', cursive;
-    color: grey;
-    font-size: 35px;
-    margin-right: 5px;
-    margin-top: 2px;    
-
-}
-
 #navigation_container {
 
-/*    background-image: url('/NavigationBground.png');
-*/
-
+    float: left;
+    text-align: left;
     white-space:nowrap;
     font-family: 'Prosto One', cursive;
     height: 50px;
-/*    border-bottom: 5px solid white;
-*/    position: fixed;
+    position: fixed;
     width: 1080px;
     top: 0px;
     background: -moz-linear-gradient(top,  rgba(0,0,0,0.99) 0%, rgba(0,0,0,0) 100%);
@@ -170,23 +92,23 @@ button {
     background: -ms-linear-gradient(top,  rgba(0,0,0,0.99) 0%,rgba(0,0,0,0) 100%);
     background: linear-gradient(to bottom,  rgba(0,0,0,0.99) 0%,rgba(0,0,0,0) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 );
-
 }
 
 #navigation_container h1 {
+
     float: left;
     color: white;
     font-family: 'Nothing You Could Do', cursive;
     font-size: 30px;
     margin-left: 10px;
     margin-top: 5px;
-        text-shadow: 1px 1px 3px #66BBEE;
-
-    
+    margin-right: 15px;
+    text-shadow: 1px 1px 3px #66BBEE;
+    z-index: 99999;
 }
 
 #navigation_container ul {
-    position: relative;
+    
     text-decoration: none;
     margin-top: 0px;
 }
@@ -228,47 +150,18 @@ button {
     text-decoration: none;
 }
 
-/* search form */
+#main_container {
+    
+    background-color: white;
+    margin-top: 50px;
+    padding-top: 5px;
+    border-radius: 5px 15px 5px 5px;
+    -moz-border-radius: 5px 15px 5px 5px;
+    -webkit-border-radius: 5px 15px 5px 5px;
+    box-shadow: 1px 1px 50px 5px #66BBEE;
 
-#header_container .search_form {
-font-family: 'Prosto One', cursive;
-    text-align: right;
-    padding-top: 6.2px;
-    position: absolute;
-    margin-top: 20px;
-    margin-left: 849px;
-}
-#header_container input {
-    height: 35px;
-    width: 900px;
-}
-
-#header_container .search_input_text {
-font-family: 'Prosto One', cursive;
-    verticle-align: middle;
-    color: white;
-    border: none;
-    width: 225px;
-    padding: 3px;
-    margin-right: 0px;
-    font-color: #f2ffda;
-    font-size: 0.75em;
-    font-weight: lighter;
-    background-color: grey;
-    border-radius: 2px 0 0 2px;
-    -moz-border-radius: 2px 0 0 2px;
-    -webkit-border-radius: 2px 0 0 2px;
-
-}
-
-::-webkit-input-placeholder {
-   
-   color: white;
-}
-
-::-moz-placeholder {
-   
-   color: white;
+    
+    
 }
 
 #content_container {

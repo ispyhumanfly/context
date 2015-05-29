@@ -9,19 +9,6 @@ column id => {
     is_auto_increment => 1,
 };
 
-column create_datetime => {
-
-    data_type => 'datetime',
-    size => 50,
-};
-
-column modified_datetime => {
-
-    data_type => 'datetime',
-    size => 50,
-    is_nullable => 1,
-};
-
 column author => {
 
     data_type => 'varchar',
@@ -37,59 +24,51 @@ column title => {
 
 };
 
-column types => {
+column body => {
 
     data_type => 'varchar',
-    size => 100,
+    size => 10000,
     is_nullable => 1,
 };
 
 column tags => {
 
     data_type => 'varchar',
-    size => 100,
-    is_nullable => 1,
-};
-
-column cities => {
-
-    data_type => 'varchar',
-    size => 100,
-    is_nullable => 1,
-};
-
-column interests => {
-
-    data_type => 'varchar',
-    size => 100,
-    is_nullable => 1,
-};
-
-column pages => {
-
-    data_type => 'varchar',
-    size => 50,
+    size => 10000,
     is_nullable => 1,
 };
 
 column photos => {
 
     data_type => 'varchar',
-    size => 10000,
+    size => 1000000,
     is_nullable => 1,
 };
 
 column videos => {
 
     data_type => 'varchar',
-    size => 10000,
+    size => 1000000,
     is_nullable => 1,
 };
 
-column body => {
+column files => {
 
     data_type => 'varchar',
-    size => 5000,
+    size => 1000000,
+    is_nullable => 1,
+};
+
+column create_datetime => {
+
+    data_type => 'datetime',
+    size => 50,
+};
+
+column modified_datetime => {
+
+    data_type => 'datetime',
+    size => 50,
     is_nullable => 1,
 };
 
@@ -133,13 +112,6 @@ column lng => {
 
     data_type => 'float',
     size => 50,
-    is_nullable => 1,
-};
-
-column position => {
-
-    data_type => 'int',
-    size => 10,
     is_nullable => 1,
 };
 

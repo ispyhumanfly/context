@@ -8,7 +8,7 @@ BEGIN {
 
 use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
-use Net::Google::FederatedLogin;
+#use Net::Google::FederatedLogin;
 use DateTime::Format::SQLite;
 use DateTime::Format::ISO8601;
 use HTML::FormatText;
@@ -23,7 +23,8 @@ use Encode;
 use lib 'lib';
 use Context::Model;
 
-our $MODEL = Context::Model->connect('dbi:SQLite:context.db', {sqlite_unicode => 1});
+our $MODEL =
+  Context::Model->connect('dbi:SQLite:context.db', {sqlite_unicode => 1});
 
 use Mojolicious::Lite;
 use Mojo::Util;
@@ -31,88 +32,151 @@ use Mojo::JSON;
 
 plugin 'JSONConfig';
 
+## Adding Template Directories
+#
+#my $renderer = Mojolicious::Renderer->new;
+#
+#push @{$renderer->paths}, 'templates/context';
+#push @{$renderer->paths}, 'templates/dirtybarfly';
+
 any '/' => sub {
 
     my $self = shift;
-    return $self->redirect_to(app->config->{taxonomy}->{pages}[0]);
+    
+    my $redirect = app->config->{content}->{views}->{app->config->{content}->{views}->{enabled}[0]}->{url};
+    return $self->redirect_to($redirect);
 };
 
-### Pages
+### Content
 
-for (@{ app->config->{taxonomy}->{pages} }) {
-    
-    if (-e "templates/pages/$_") {
+for my $view (@{app->config->{content}->{views}->{enabled}}) {
+    if (exists app->config->{content}->{views}->{$view}) {
+
+        ## Views
         
-        require "templates/pages/$_/$_.pl"
-            if -e "templates/pages/$_/$_.pl";
+        get app->config->{content}->{views}->{$view}->{url} => sub {
+
+            my $self = shift;
+
+            my $tags = join ',',
+              @{app->config->{content}->{views}->{$view}->{tags}};
+
+            my @content = $MODEL->resultset('Content')->search(
+                {tags => {like => '%$tags%'}},
+                {   order_by =>
+                      app->config->{content}->{views}->{$view}->{order_by}
+                }
+            )->all;
+
+            $self->{'CONTENT'} = \@content;
+            $self->{VIEW} = $view;
+            
+            $self->render('content');
+        };
+
+        post app->config->{content}->{views}->{$view}->{url} => sub {
+            my $self = shift;
+        };
+
+        put app->config->{content}->{views}->{$view}->{url} => sub {
+            my $self = shift;
+        };
+
+        del app->config->{content}->{views}->{$view}->{url} => sub {
+            my $self = shift;
+        };
     }
 }
 
-### Mapping
+### Extensions
+
+for my $extension (@{app->config->{extensions}->{enabled}}) {
+    if (exists app->config->{extensions}->{$extension}) {
+        
+        ## Extension
+
+        if (-e "templates/extensions/$extension") {
+
+            require "templates/extensions/$extension/$extension.pl"
+              if -e "templates/extensions/$extension/$extension.pl";
+        }
+    }
+}
+
+### Permalink
 
 get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    my $dtf      = $MODEL->storage->datetime_parser;
-    my $dt_local = DateTime->now;
-
-    
     my $content = '';
-    
+
     eval {
-        $content = $MODEL->resultset('Content')->search({id => $self->param('id')})->single;   
+        $content =
+          $MODEL->resultset('Content')->search({id => $self->param('id')})
+          ->single;
     };
-    
+
     if ($@) {
         $self->redirect_to('/');
     }
-    
-    if (app->config->{mapping}->{enabled} eq 'true') {
-        
-        for my $route (keys %{ app->config->{mapping}->{routes}}) {
-            
+
+    if (app->config->{permalink}->{enabled} eq 'true') {
+
+        for my $route (keys %{app->config->{permalink}->{routes}}) {
+
             my $match = 0;
-            
-            for my $type (@{ app->config->{mapping}->{routes}->{$route}->{types}}) {
-                
+
+            for my $type (
+                @{app->config->{permalink}->{routes}->{$route}->{types}})
+            {
+
                 $match = 0 unless $content->types =~ m/$type/g;
                 $match = 1 if $content->types =~ m/$type/g;
             }
-            
-            for my $tag (@{ app->config->{mapping}->{routes}->{$route}->{tags}}) {
-                
+
+            for my $tag (
+                @{app->config->{permalink}->{routes}->{$route}->{tags}})
+            {
+
                 $match = 0 unless $content->tags =~ m/$tag/g;
                 $match = 1 if $content->tags =~ m/$tag/g;
             }
 
-            for my $city (@{ app->config->{mapping}->{routes}->{$route}->{cities}}) {
-                
+            for my $city (
+                @{app->config->{permalink}->{routes}->{$route}->{cities}})
+            {
+
                 $match = 0 unless $content->cities =~ m/$city/g;
                 $match = 1 if $content->cities =~ m/$city/g;
             }
 
-            for my $interest (@{ app->config->{mapping}->{routes}->{$route}->{interests}}) {
-                
+            for my $interest (
+                @{app->config->{permalink}->{routes}->{$route}->{interests}})
+            {
+
                 $match = 0 unless $content->interests =~ m/$interest/g;
                 $match = 1 if $content->interests =~ m/$interest/g;
             }
 
-            for my $page (@{ app->config->{mapping}->{routes}->{$route}->{pages}}) {
-                
-                $match = 0 unless $content->pages =~ m/$page/g;
-                $match = 1 if $content->pages =~ m/$page/g;
+            for my $view (
+                @{app->config->{permalink}->{routes}->{$route}->{views}})
+            {
+
+                $match = 0 unless $content->views =~ m/$view/g;
+                $match = 1 if $content->views =~ m/$view/g;
             }
-            
-            my $redirect = app->config->{mapping}->{routes}->{$route}->{redirect};
-            
+
+            my $redirect =
+              app->config->{permalink}->{routes}->{$route}->{redirect};
+
             if ($match) {
-                $self->redirect_to($redirect . '?id=' . $content->id);   
-            }   
+                $self->redirect_to($redirect . '?id=' . $content->id);
+            }
         }
     }
 
-} => 'mapping';
+} => 'permalink';
 
 ### Authorization
 
@@ -122,47 +186,47 @@ get '/login' => sub {
 
     return $self->redirect_to('dashboard') if $self->session('admin');
 
-    if (app->config->{authorization}->{google_apps}->{enabled} eq 'true') {
+    if (app->config->{authorization}->{enabled}[0] eq 'google_apps') {
 
         my $domain = app->config->{authorization}->{google_apps}->{domain};
-    
+
         my $claimed = $domain;
-    
+
         my $google = Net::Google::FederatedLogin->new(
             claimed_id => $claimed,
             return_to  => "http://$domain/authorization"
         );
         my $auth_url = $google->get_auth_url();
-    
+
         return $self->redirect_to($auth_url);
     }
-    elsif (app->config->{authorization}->{local_mode}->{enabled} eq 'true') {    
+    elsif (app->config->{authorization}->{enabled}[0] eq 'local_mode') {
         $self->redirect_to('/authorization');
     }
-    
+
 } => 'login';
 
 any '/authorization' => sub {
 
     my $self = shift;
 
-    if (app->config->{authorization}->{google_apps}->{enabled} eq 'true') {
-    
+    if (app->config->{authorization}->{google_apps}->{enabled}[0] eq 'google_apps') {
+
         my $domain = app->config->{domain};
-    
+
         my $google = Net::Google::FederatedLogin->new(
             cgi_params => $self->req->params->to_hash,
             return_to  => "http://$domain/authorization"
         );
-    
+
         my $id = $google->verify_auth();
-    
+
         $self->session(admin => $id) if $id;
     }
-    elsif (app->config->{authorization}->{local_mode}->{enabled} eq 'true') {
+    elsif (app->config->{authorization}->{local_mode}->{enabled}[0] eq 'local_mode') {
         $self->session(admin => "Developer");
     }
-    
+
     $self->redirect_to('dashboard');
 
 };
@@ -176,7 +240,7 @@ get '/logout' => sub {
 
 } => 'logout';
 
-### Management
+### Dashboard
 
 get '/dashboard' => sub {
 
@@ -184,73 +248,6 @@ get '/dashboard' => sub {
 
     return $self->redirect_to('login') unless $self->session('admin');
 
-    my $dtf      = $MODEL->storage->datetime_parser;
-    my $dt_local = DateTime->now;
-
-    # Content
-    my @content = $MODEL->resultset('Content')->search(
-        {   create_datetime => {
-                -between => [
-                    $dtf->format_datetime(
-                        DateTime->now->subtract(days => 90)
-                    ),
-                    $dtf->format_datetime(DateTime->now)
-                ]
-            }
-        },
-        {order_by => 'create_datetime DESC'}
-    )->all;
-
-    $self->{'CONTENT'} = \@content;
-
-    # New Content
-    my @new_content = $MODEL->resultset('Content')->search(
-        {   create_datetime => {
-                -between => [
-                    $dtf->format_datetime(
-                        DateTime->now->subtract(days => 60)
-                    ),
-                    $dtf->format_datetime(DateTime->now)
-                ]
-            }
-        },
-        {order_by => 'create_datetime DESC'}
-    )->all;
-
-    $self->{'NEW_CONTENT'} = \@new_content;
-
-    # Ads
-
-    my (@ads, @ads_header, @ads_block);
-
-    @ads_header = $MODEL->resultset('Content')
-      ->search({types => {like => '%ad_header%'}})->all;
-    @ads_block =
-      $MODEL->resultset('Content')->search({types => {like => '%ad_block%'}})
-      ->all;
-
-    push @ads, (@ads_header, @ads_block);
-
-    $self->{'ADS_DASHBOARD'} = order_by_trending($self, @ads);
-
-    # Newsletter
-    my @newsletter = $MODEL->resultset('Content')->search(
-        {types    => {like => '%newsletter%'}},
-        {order_by => 'create_datetime DESC'}
-    )->all;
-
-    $self->{'NEWSLETTER'} = \@newsletter;
-
-    return $self->render('dashboard');
-
-} => 'dashboard';
-
-get '/editor' => sub {
-
-    my $self = shift;
-
-    return $self->redirect_to('login') unless $self->session('admin');
-    
     return $self->redirect_to('/editor?mode=create')
       unless $self->param('mode');
 
@@ -260,7 +257,7 @@ get '/editor' => sub {
       ->single;
 
     $self->{'CONTENT'} = $content;
-    
+
     # Recent Updates
     my @recent_updates =
       $MODEL->resultset('Content')
@@ -269,9 +266,9 @@ get '/editor' => sub {
 
     $self->{'RECENT_UPDATES'} = \@recent_updates;
 
-    return $self->render('editor');
+    return $self->render('dashboard');
 
-} => 'editor';
+} => 'dashboard';
 
 ### Forms
 
@@ -281,31 +278,11 @@ post '/form/content/create' => sub {
 
     return $self->redirect_to('home') unless $self->session('admin');
 
-    my (@tags, @cities, @types, @interests, @pages, @photos);
+    my (@tags, @cities, @types, @interests, @views, @photos);
 
     my $new_content =
       $MODEL->resultset('Content')
       ->create({create_datetime => DateTime->now});
-
-    if (($self->param('start_date')) and ($self->param('start_time'))) {
-
-        my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
-            $self->param('start_date') . $self->param('start_time'));
-
-        $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({start_datetime => $start_datetime});
-
-    }
-
-    if (($self->param('stop_date')) and ($self->param('stop_time'))) {
-
-        my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
-            $self->param('stop_date') . $self->param('stop_time'));
-
-        $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({stop_datetime => $stop_datetime});
-
-    }
 
     if ($self->param('author')) {
 
@@ -325,30 +302,6 @@ post '/form/content/create' => sub {
           ->update({body => encode_string($self->param('body'))});
     }
 
-    if ($self->param('interests')) {
-
-        push @interests, $_ for $self->param('interests');
-
-        $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({interests => "@interests"});
-    }
-
-    if ($self->param('pages')) {
-
-        push @pages, $_ for $self->param('pages');
-
-        $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({pages => "@pages"});
-    }
-
-    if ($self->param('types')) {
-
-        push @types, $_ for $self->param('types');
-
-        $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({types => "@types"});
-    }
-
     if ($self->param('tags')) {
 
         push @tags, $_ for $self->param('tags');
@@ -363,14 +316,6 @@ post '/form/content/create' => sub {
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
           ->update({cities => "@cities"});
-    }
-
-    if ($self->param('position')) {
-
-        my $position = int($self->param('position'));
-
-        $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({position => $position});
     }
 
     if ($self->param('link')) {
@@ -411,6 +356,27 @@ post '/form/content/create' => sub {
           if scalar @photos >= 1;
     }
 
+
+    if (($self->param('start_date')) and ($self->param('start_time'))) {
+
+        my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
+            $self->param('start_date') . $self->param('start_time'));
+
+        $MODEL->resultset('Content')->search({id => $new_content->id})
+          ->update({start_datetime => $start_datetime});
+
+    }
+
+    if (($self->param('stop_date')) and ($self->param('stop_time'))) {
+
+        my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
+            $self->param('stop_date') . $self->param('stop_time'));
+
+        $MODEL->resultset('Content')->search({id => $new_content->id})
+          ->update({stop_datetime => $stop_datetime});
+
+    }
+
     my $id = $new_content->id;
 
     my $text =
@@ -427,27 +393,11 @@ post '/form/content/update' => sub {
 
     return $self->redirect_to('home') unless $self->session('admin');
 
-    my (@tags, @cities, @types, @interests, @pages, @photos);
+    my (@tags, @photos);
 
     my $id = $self->param('id');
 
     my $content = $MODEL->resultset('Content')->search({id => $id})->single;
-
-    if (($self->param('start_date')) and ($self->param('start_time'))) {
-
-        my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
-            $self->param('start_date') . $self->param('start_time'));
-
-        $content->update({start_datetime => $start_datetime});
-    }
-
-    if (($self->param('stop_date')) and ($self->param('stop_time'))) {
-
-        my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
-            $self->param('stop_date') . $self->param('stop_time'));
-
-        $content->update({stop_datetime => $stop_datetime});
-    }
 
     if ($self->param('author')) {
 
@@ -464,44 +414,10 @@ post '/form/content/update' => sub {
         $content->update({body => encode_string($self->param('body'))});
     }
 
-    if ($self->param('interests')) {
-
-        push @interests, $_ for $self->param('interests');
-        $content->update({interests => "@interests"});
-    }
-
-    if ($self->param('pages')) {
-
-        push @pages, $_ for $self->param('pages');
-        $content->update({pages => "@pages"});
-    }
-
-    if ($self->param('types')) {
-
-        push @types, $_ for $self->param('types');
-        $content->update({types => "@types"});
-    }
-
     if ($self->param('tags')) {
 
         push @tags, $_ for $self->param('tags');
         $content->update({tags => "@tags"});
-    }
-
-    if ($self->param('cities')) {
-
-        push @cities, $_ for $self->param('cities');
-
-        $MODEL->resultset('Content')->search({id => $id})
-          ->update({cities => "@cities"});
-    }
-
-    if ($self->param('position')) {
-
-        my $position = int($self->param('position'));
-
-        $MODEL->resultset('Content')->search({id => $id})
-          ->update({position => $position});
     }
 
     if ($self->param('link')) {
@@ -555,6 +471,22 @@ post '/form/content/update' => sub {
     }
 
     $content->update({modified_datetime => DateTime->now});
+
+    if (($self->param('start_date')) and ($self->param('start_time'))) {
+
+        my $start_datetime = DateTime::Format::ISO8601->parse_datetime(
+            $self->param('start_date') . $self->param('start_time'));
+
+        $content->update({start_datetime => $start_datetime});
+    }
+
+    if (($self->param('stop_date')) and ($self->param('stop_time'))) {
+
+        my $stop_datetime = DateTime::Format::ISO8601->parse_datetime(
+            $self->param('stop_date') . $self->param('stop_time'));
+
+        $content->update({stop_datetime => $stop_datetime});
+    }
 
     my $text =
 
@@ -648,158 +580,6 @@ post '/trending/:type' => [type => qr/\w+/] => sub {
     return;
 };
 
-### Context REST API
-
-get '/api/rest/get/:amount/:sort/:results' =>
-  [amount => qr/\w+/, sort => qr/\w+/, results => qr/\w+\.json/] => sub {
-
-    my $self = shift;
-
-    my $json = Mojo::JSON->new;
-
-    my $dtf = $MODEL->storage->datetime_parser;
-    my $dt_local;
-
-    my ($types, $pages, $rows, @content, @results);
-
-    $rows = $self->param('amount');
-
-    if ($self->param('results')) {
-
-        my $results = $self->param('results');
-
-        if ($results =~ m/events.json/i) {
-
-            $types = '%event%';
-            $pages = '%events%';
-        }
-        elsif ($results =~ m/photos.json/i) {
-
-            $types = 'gallery';
-            $pages = '%photos%';
-        }
-        elsif ($results =~ m/articles.json/i) {
-
-            $types = '%article%';
-            $pages = '%articles%';
-        }
-        elsif ($results =~ m/style.json/i) {
-
-            $types = '%article%';
-            $pages = '%style%';
-        }
-        elsif ($results =~ m/jobs.json/i) {
-
-            $types = '%career%';
-            $pages = '%work%';
-        }
-    }
-
-    given ($self->param('sort')) {
-
-        when ('recent') {
-
-            @content = $MODEL->resultset('Content')->search(
-                {   types           => {like => '%article%'},
-                    create_datetime => {
-                        -between => [
-                            $dtf->format_datetime(
-                                DateTime->now->subtract(days => 30)
-                            ),
-                            $dtf->format_datetime(DateTime->now)
-                        ]
-                    }
-                },
-                {   page     => 1,
-                    rows     => $rows,
-                    order_by => 'create_datetime DESC'
-                }
-            )->all;
-        }
-
-        when ('trending') {
-
-            @content = $MODEL->resultset('Content')->search(
-                {   types => {like => "$types"},
-                    pages => {like => "$pages"}
-                },
-                {page => 1, rows => $rows, order_by => 'id DESC'}
-            )->all;
-
-            order_by_trending(@content);
-        }
-    }
-
-    for (@content) {
-
-        my ($body_format, @prepared_photos);
-
-        if ((   $self->param('strip_html')
-                and ($self->param('strip_html') eq 'true')
-            )
-          )
-        {
-            $body_format = HTML::FormatText->format_string($_->body);
-        }
-        else {
-            $body_format = Mojo::Util::html_escape($_->body);
-        }
-
-        for (split /\s+/, $_->photos) {
-
-            push @prepared_photos,
-              'http://' . app->config->{domain} . '' . $_;
-        }
-
-        my %items = (
-
-            id                => $_->id,
-            create_datetime   => $_->create_datetime,
-            modified_datetime => $_->modified_datetime,
-            author            => $_->author,
-            title             => $_->title,
-            types             => $_->types,
-            tags              => $_->tags,
-            cities            => $_->cities,
-            interests         => $_->interests,
-            pages             => $_->pages,
-            photos            => @prepared_photos,
-            videos            => $_->videos,
-            body              => $body_format,
-            start_datetime    => $_->start_datetime,
-            stop_datetime     => $_->stop_datetime,
-            venue             => $_->venue,
-            address           => $_->address,
-            lat               => $_->lat,
-            lng               => $_->lng,
-            position          => $_->position,
-            link              => $_->link,
-            impressions             => $_->impressions,
-            clicks            => $_->clicks,
-
-            content => 'http://' . app->config->{domain} . '/' . $_->id,
-
-            gallery => 'http://'
-              . app->config->{domain} . '/'
-              . $_->id . '/1',
-        );
-        push @results, \%items;
-    }
-
-    if ((   $self->param('status_check')
-            and ($self->param('status_check') eq 'true')
-        )
-      )
-    {
-        return $self->render(
-            text => $json->encode({status => 'ok', results => \@results}));
-    }
-    else {
-        return $self->render(text => $json->encode({results => \@results}));
-    }
-
-  };
-
 ### Context Tools
 
 sub process_photo {
@@ -874,31 +654,6 @@ sub encode_string {
     return Encode::encode(app->config->{encoding}, shift);
 }
 
-sub stock_photo {
-
-    my $self = shift;
-
-    my $photos = IO::Dir->new('public/stock/');
-
-    my @random_stock;
-
-    if (defined $photos) {
-
-        while (defined($_ = $photos->read)) {
-
-            push @random_stock, $_
-              unless -d $_ or $_ =~ m/^\./g;
-        }
-
-        undef $photos;
-    }
-
-    my $stock_photo =
-      '/stock/' . $random_stock[int(rand(scalar @random_stock))];
-
-    return $stock_photo;
-}
-
 sub order_by_trending {
 
     my ($self, @query) = @_;
@@ -923,5 +678,5 @@ sub order_by_trending {
 app->log->path(app->config->{hypnotoad}->{log_file})
   if app->mode('production');
 
-app->secret('Something sticky in the basement.');
+#app->secret('Something sticky in the basement.');
 app->start();

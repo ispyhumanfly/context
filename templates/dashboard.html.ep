@@ -1,252 +1,58 @@
-% title 'Dashboard';
-% layout 'context';
-%
-% my $new_content_length = 10;
-% my $max_content = 3;
-
 <script type="text/javascript">//<![CDATA[
 
 //]]></script>
 
-<% if ( $self->session('admin') ) { %>
+<div dojoType="dijit.layout.ContentPane" id="dashboard_content" region="center">
 
-<div class="content_left">
-
-    % for (@{ app->config->{taxonomy}->{pages} } ) {
+    <div dojoType="dijit.layout.TabContainer" tabPosition="bottom">
     
-    <h1><%= ucfirst($_) %></h1>
-
-    % my $content_column_position = 1;
-    % my @content_column_numbers = qw/zero one two three/;
-
-    % my $content_counter;
-
-    <% for my $content (@{$self->{CONTENT}}) { %>
-    
-        % my $page = lcfirst($_);
-        
-        %# next unless $content->pages =~ m/$page/i;
-        %# next if $content->types =~ m/ad_header|ad_block/g;
-        
-	% $content_counter++;
-    	
-	% next unless $content_counter > $max_content;
+	<div dojoType="dijit.layout.ContentPane" title="your stuff">
 	
-	<div id="content_column_<%= $content_column_numbers[$content_column_position] %>">
-		
-	    <% for ( split /\s+/, $content->photos ) { %>
-    
-	    <a title="<%= $content->title %>" href="/<%= $content->id %>">
-		<img class="content_column_image" src="<%= $_ %>" />
-	    </a>
-    
-	    <% last; %>
-    
-	    <% } %>
-
-	    <h2><a href="/<%= $content->id %>"><%= $content->title %></a></h2>
-	
-	    <div class="content_column_text">
-		
-                <% eval { %>
-                
-		<%== substr( HTML::FormatText->format_string($content->body), 0, 100 ); %>
-		
-                <% }; %>
-                
-	    </div>
-
-	    <div style="float: left; width: 160px;">
-	
-	    %= include 'modules/content_details', content => $content, size => 'small', show => 'few'
-	
-	    </div>
-	    
-	    <br />
-	    
-	    <div class="read_more_right" style="float: left;">
-
-		<% if ( $self->session('admin') ) { %>
-    
-		<a href="/<%= $content->id %>">Read More</a>
-		|
-		<a href="/editor?mode=update&id=<%= $content->id %>">Edit</a>        
-	    
-		<% } else { %>
-	    
-		<a href="/<%= $content->id %>">Read More</a>
-		
-		<% } %>
-
-	    </div>
+	    %= include 'tracking'
 	    
 	</div>
 
-	% $content_column_position++;
-	% last if $content_counter == 6;
+	<div dojoType="dijit.layout.ContentPane" title="discussions" selected="true">
+	    
+	    %= include 'discussions'
+    
+	</div>
+
+	<div dojoType="dijit.layout.ContentPane" title="events">
 	
-    % }
-
-    <h3>
-	<a href="/search?pages=<%= lcfirst($_) %>">More <%= ucfirst($_) %></a>
-    </h3>
-
-    <% } %>
-
-</div>
-
-<div class="content_right">
-
-    <h1>New Content</h1>
-
-    <div class="content_right_padding">
-        
-        <% my $new_content_counter; %>
-        
-        <% for my $new_content (@{$self->{NEW_CONTENT}}) { %>
-        
-            <% $new_content_counter++; %>
-            
-            <% next if $new_content_counter > $new_content_length; %>
-        
-            <% for ( split /\s+/, $new_content->photos ) { %>
-            
-            <a title="<%= $new_content->title %>" href="/<%= $new_content->id %>">
-                <img class="block_thumbnails_right" src="<%= $_ %>"/>
-            </a>
-            
-            <% last; #JUST SHOW ONE %>
-            
-            <% } %>
-            
-            <div class="block_title">
-		
-		<a href="/<%= $new_content->id %>">
-
-		    <%= $new_content->title %>
-                
-		</a>
-	    </div>
-            
-            <div class="block_text">
-            
-            <% if ($new_content->body ne '') { %>
-
-            <%== substr( HTML::FormatText->format_string($new_content->body), 0, 100 ) %>  
-        
-            <% } %>
+	    %= include 'events'
+	    
+	</div>
     
-            </div>
-        
-            <div class="read_more_left">
+	<div dojoType="dijit.layout.ContentPane" title="places">
+	
+	    %= include 'places'
+	    
+	</div>
+
+	<div dojoType="dijit.layout.ContentPane" title="classifieds">
+	
+	    %= include 'classifieds'
+	    
+	</div>
+	
+	<div dojoType="dijit.layout.ContentPane" title="chat">
+	
+	    	    %= include 'chat'
+
+	    
+	</div>
     
-                <a href="/<%= $new_content->id %>">Read More |</a>
-                <a href="/editor?mode=update&id=<%= $new_content->id %>">Edit</a>        
+	<div dojoType="dijit.layout.ContentPane" title="downloads">
+	
+	    
+	</div>
     
-            </div>
+	<div dojoType="dijit.layout.ContentPane" title="map">
+	
+	    
+	</div>
     
-            <% if ($new_content_counter < $new_content_length) { %>
-            
-            <hr />
-            
-            <% } %>
-        
-        <% } %>
-
-    </div>
-
-    <h1>Ads</h1>
-
-    <div class="content_right_padding">
-        
-        <% my $new_content_counter; %>
-        
-        <% for my $new_content (@{$self->{ADS_DASHBOARD}}) { %>
-        
-            <% $new_content_counter++; %>
-            
-            <% next if $new_content_counter > $new_content_length; %>
-        
-            <% for ( split /\s+/, $new_content->photos ) { %>
-            
-            <a title="<%= $new_content->title %>" href="/<%= $new_content->id %>">
-                <img class="block_thumbnails_right" src="<%= $_ %>"/>
-            </a>
-            
-            <% last; #JUST SHOW ONE %>
-            
-            <% } %>
-            
-            <div class="block_title">
-		
-		<a href="/<%= $new_content->id %>">
-
-		    <%= $new_content->title %>
-                
-		</a>
-	    </div>
-            
-            <div class="block_text">
-            
-            <% if ($new_content->body ne '') { %>
-
-            <%== substr( HTML::FormatText->format_string($new_content->body), 0, 100 ) %>  
-        
-            <% } %>
-            
-            <div style="font-size: small;">
-            
-            %= include 'modules/content_details', content => $new_content, size => 'small', show => 'few'
-        
-            </div>
-            
-            </div>
-        
-            <div class="read_more_left">
-    
-                <a href="/<%= $new_content->id %>">Read More |</a>
-                <a href="/editor?mode=update&id=<%= $new_content->id %>">Edit</a>        
-    
-            </div>
-    
-            <% if ($new_content_counter < $new_content_length) { %>
-            
-            <hr />
-            
-            <% } %>
-        
-        <% } %>
-
-    </div>
-    
-</div>
-
-<!-- Dashboard Menu -->
-
-<div id="dashboard_menu" dojoType="dijit.Menu" contextMenuForWindow="true" style="display: none;">
-
-    <div dojoType="dijit.MenuItem" onClick="window.location='/dashboard';">
-        Dashboard
-    </div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
-        Content
-    </div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
-        Pages
-    </div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/editor?mode=create';">
-        Layouts
-    </div>
-
-    <div data-dojo-type="dijit.MenuSeparator"></div>
-
-    <div dojoType="dijit.MenuItem" onClick="javascript:window.location='/logout';">
-        Logout
     </div>
 
 </div>
-
-<% } %>

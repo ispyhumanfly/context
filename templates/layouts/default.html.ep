@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+	
+	<title>dirtybarfly :: the geographical discussion platform for party goers.</title>
+	
+	<!-- Stylesheet -->
+	
+	<link rel="stylesheet" type="text/css" href="/default.css">
+    
+	<!-- Dojo 1.6.1 JavaScript Framework -->
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/dojo.xd.js" data-dojo-config="parseOnLoad: true"></script>
+        
+        <script type="text/javascript">//<![CDATA[
+            	    
+            dojo.require("dijit.layout.BorderContainer");
+            dojo.require("dijit.layout.ContentPane");
+	    dojo.require("dojox.layout.ExpandoPane");
+	    dojo.require("dijit.layout.AccordionContainer");
+	    dojo.require('dijit.layout.TabContainer');
+	    dojo.require("dijit.TitlePane");
+	    dojo.require("dijit.Dialog");
+	    dojo.require("dijit.Tooltip");
+	    dojo.require("dijit.Editor");
+	    dojo.require("dijit.form.Form");
+	    dojo.require("dijit.form.TextBox");
+	    dojo.require("dijit.form.Button");
+	    dojo.require("dijit.form.ToggleButton");
+	    dojo.require("dijit.form.FilteringSelect");
+	    dojo.require("dijit.form.DateTextBox");
+	    dojo.require("dijit.form.TimeTextBox");
+	    dojo.require("dijit.form.CheckBox");
+	    dojo.require("dijit.form.Textarea");
+	    dojo.require("dijit.form.Slider");
+	    dojo.require("dojox.fx");
+	    dojo.require("dojox.socket");
+
+	    function _initLoader() {
+
+		var loader = dojo.byId("loader");
+	   	   
+		dojo.fadeOut({
+		    
+		    node: loader,
+		    duration: 3000,
+		    onEnd: function() {
+			
+			loader.style.display = "none";
+		    }
+		}).play(2000);
+	    }
+        
+	    dojo.addOnLoad(_initLoader);
+	    
+        //]]></script>
+	
+	%### Random backgrounds.
+	% my @backgrounds;
+
+	% push @backgrounds, "background-image: url('http://fc01.deviantart.net/fs70/f/2011/153/e/3/motel_bar_by_m_wojtala-d3hujaz.jpg');";
+	% push @backgrounds, "background-image: url('http://fc02.deviantart.net/fs70/i/2011/120/c/7/derelict_cafe_by_kingcloud-d3f5xto.png');";
+	% push @backgrounds, "background-image: url('http://th09.deviantart.net/fs71/PRE/i/2011/140/b/e/the_reception_by_kingcloud-d3gqylf.jpg');";
+	% push @backgrounds, "background-image: url('http://th06.deviantart.net/fs71/PRE/f/2010/214/2/9/Bar_Scene_by_narbytrout.jpg');";
+
+	<style type="text/css">
+	
+	    body {
+		
+		%== $backgrounds[rand(scalar @backgrounds)];
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: 100% 100%;
+	    }
+		
+	</style>
+	
+    </head>
+    
+    <body class='claro'>
+	
+	<!-- Page Loader -->
+	    
+	<div id="loader"><!--<div id="loaderInner" style="font-family: 'Ubuntu', arial, serif;">Loading...</div>--></div>
+	
+	<!-- Page Header -->
+	
+	% if ( $self->session('person_id') ) {
+	 
+	 <div  style="float: left; position: absolute; margin-top: 0;">
+
+	    <img onclick="dijit.byId('dialog_profile').show();" style="cursor: pointer; border: 1px solid; width: 55px; height: 55px;" src="<%= $self->{'person'}->avatar %>"></img>
+
+	    <div id="tooltip_status">
+    
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/status" method="POST">
+    
+		    <div dojoType="dijit.form.TextBox" style="margin-left: 60px; margin-top: -115px; width: 250px;" name="status" placeHolder="<%= $self->session('status') ? $self->session('status') : 'Status: just signed in.' %>"></div>
+		
+		</div>
+	    </div>
+	    
+	    <div dojoType="dijit.Tooltip" connectId="tooltip_status" position="below">
+	
+		<p>give us an update!</p>
+	
+	    </div>
+    	    
+	    <div id="tooltip_location">
+    
+		<div dojoType="dijit.form.Form" encType="multipart/form-data" action="/location" method="POST">
+    
+		    <div dojoType="dijit.form.TextBox" style=" margin-left: 60px; margin-top: -90px; width: 250px;" name="location" placeHolder="Location: <%= $self->session('city') %>, <%= $self->session('region') %>"></div>
+			
+		</div>
+	    </div>
+	    
+	    <div dojoType="dijit.Tooltip" connectId="tooltip_location" position="below">
+	
+		<p>tell us generally where you're located!</p>
+	
+	    </div>
+	</div>
+	
+	% }
+	
+	<div id="title_font">dirty.bar.fly</div>
+
+	<!-- Page Content -->
+	
+	<div style="height:78%; width: 100%;"><%= content %></div>
+    
+	<!-- Page Footer -->
+	    
+	% if ( $self->session('person_id') ) {
+	    
+	    %= include 'controls'
+
+	    <div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left; /*margin-left: 70px;*/ color: #ffffff; font-size: larger; font-weight: bold;">
+		
+		<ul style="list-style-type: square;">
+		    
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_submit').show();">submit</li>
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_profile').show();">profile</li>
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="window.location='/signout';">sign out</li>
+		</ul>
+		
+	    </div>
+	    
+	% } else {
+
+	    %= include 'controls'
+
+	    <div style="font-family: 'Prosto One', cursive; vertical-align: middle; float: left;/* margin-left: 70px;*/ color: #ffffff; font-size: larger; font-weight: bold;">
+		
+		<ul style="list-style-type: square;">
+		    
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_signin').show();">sign in</li>
+		    <li style="display: inline; cursor: pointer; margin-right: 50px;" onclick="dijit.byId('dialog_signup').show();">sign up</li>
+		</ul>
+		
+	    </div>
+		
+		
+	% }
+		
+	<div style="vertical-align: middle; float: right; color: #ffffff; font-size: medium; font-family: 'Ubuntu', arial, serif;">
+	    
+	    <p>
+		a Thoughtpivot joint
+	    
+		<a id="follow-blogger" href="http://purethoughtpivot.com/" title="Thoughtpivot on Blogger">
+		    <span>Blogger</span>
+		</a> 
+		
+		<a id="follow-twitter" href="http://twitter.com/#!/thoughtpivot" title="Thoughtpivot on Twitter">
+		    <span>Twitter</span>
+		</a>
+		
+	    </p>
+	</div>
+    
+	%### Only load the soundcloud player if we're sitting on mojodojo...
+	% if (-e '/etc/apache2/sites-available/dirtybarfly.com') {
+	
+	<div id="player" style="display: none;">
+	    <iframe width="1024" height="60" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Fplaylists%2F2910194&amp;color=66bbee&amp;auto_play=true&amp;show_artwork=false"></iframe>
+	</div>
+	
+	% }
+    
+    </body>
+</html>

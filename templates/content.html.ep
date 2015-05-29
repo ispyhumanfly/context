@@ -1,0 +1,27 @@
+% title app->config->{content}->{views}->{$self->{VIEW}}->{title};
+% layout app->config->{content}->{layouts}->{enabled}[0];
+% my @content = $self->{CONTENT};
+
+<div id=content_container class=content_left>
+
+% for (@content) {
+
+<p>
+    %= eval{ $_->title };
+</p>
+
+% }
+
+</div>
+
+<div id=content_container class=content_right>
+
+% for (@content) {
+
+<p>
+    %= eval{ $_->title };
+</p>
+
+% }
+    
+</div>

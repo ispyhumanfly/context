@@ -10,110 +10,110 @@
     "add_day_range"         : 90,
     "ad_content"            : "off",
     "stylesheet"            : "context.css",
+
+    "hypnotoad" :
+    {
+        "listen"    : ["http://*:3233", "https://*:3244"],
+        "pid_file"  : "/tmp/context.pid",
+        "lock_file" : "/tmp/context.lock",
+        "log_file"  : "/tmp/context.log",
+        "workers"   : "25",
+        "proxy"     : 1
+    },
     
     "authorization" :
     {
+
+        "enabled" : ["local_mode"],
+
         "google_apps" :
         
         {
-            "enabled"   : "false",
             "domain"    : "thoughtpivot.com"
         },
         "local_mode" :
-        
         {
-            "enabled"   : "true"
-        }     
+            "domain"    : "localhost"
+        } 
     },
-    
-    "taxonomy" :
-    {        
-        "types"     : ["article", "career", "event", "gallery", "newsletter", "ad_header", "ad_block"],
-        
-        "tags"      : ["place", "people", "neighbor", "city_life", "lifestyle", "general", "style", "event", "place",
-                       "professional_group", "networking", "social", "cultural", "board_openings", "volunteer",
-                       "job_listings", "resources", "career_tips", "blog", "after5_press", "after5_staff"],
-        
-        "cities"    : ["detroit", "flint", "saginaw"],
 
-        "interests" : ["dining", "nightlife", "activities", "concerts",
-                       "networking", "sports", "fundraisers", "culture", "living"],
+    "content" :
+    {
+        "layouts" :
+        {
+            "enabled" : ["context"],
+            
+            "context" :
+            {
+                "title"         : "context",
+                "stylesheet"    : "/context.css"
+            }
+        },
         
-        "pages"     : ["home", "articles", "events", "photos", "about", "contact", "search"]
+        "views" :            
+        {
+            
+            "enabled" : ["articles", "files", "photos", "videos"],
+            
+            "articles" :
+            {   
+                "title" : "Articles",
+                "url"   : "/articles",
+                "tags"  : ["article", "key=value"],
+                "order_by"  : "create_datetime ASC",
+                "template" : "content"
+            },
+            "files" :
+            {   
+                "title" : "Files",
+                "url"   : "/files",
+                "tags"  : ["file", "key=value"],
+                "order_by"  : "create_datetime ASC",
+                "template" : "content"
+            },
+            "photos" :
+            {   
+                "title" : "Photos",
+                "url"   : "/photos",
+                "tags"  : ["photo", "key=value"],
+                "order_by"  : "create_datetime ASC",
+                "template" : "content"
+            },
+            "videos" :
+            {   
+                "title" : "Videos",
+                "url"   : "/videos",
+                "tags"  : ["video", "key=value"],
+                "order_by"  : "create_datetime ASC",
+                "template" : "content"
+            }
+        }
     },
     
     "mapping" :
     {
-        "enabled"   : "true",
+        "enabled" : ["articles", "events"],
         
-        "routes" :
-        
+        "articles" :            
         {
-            "articles" :            
-            {
-                "types" : ["articles"],
-                "tags" : ["people"],
-                "cities" : [],
-                "interests" : [],
-                "pages" : ["articles"],
-                
-                "redirect" : "/articles"
-            },
-            "events" :            
-            {
-                "types" : ["events", "gallery"],
-                "tags" : ["article"],
-                "redirect" : "/events"
-            }
+            "tags"  : ["people"],
+            "url"   : "/articles"
+        },
+        "events" :            
+        {
+            "tags"  : ["people"],
+            "url"   : "/events"
         }
     },
     
     "modules" :
     {
-        "content_ads" :
         
+        "enabled" : ["ads", "events"],
+
+        "ads" :
         {
             "enabled"   : "false"
-        },
-        "content_details" :
-        
-        {
-            "enabled"   : "true"
-        },
-        "content_gallery" :
-        
-        {
-            "enabled"   : "true"
-        },
-        "content_message" :
-        
-        {
-            "enabled"   : "true"
-        },
-        "block_ads" :
-        
-        {
-            "enabled"   : "true"
-        },
-        "block_photos" :
-        
-        {
-            "enabled"   : "true"
-        },
-        "block_search" :
-        
-        {
-            "enabled"   : "true"
-        },
-        "block_trending" :
-        
-        {
-            "enabled"   : "true"
-        },
-        "block_connect" :
-        
-        {
-            "enabled"   : "true"
         },
         "google_analytics" :
         
@@ -158,14 +158,14 @@
             "null"      : "none"
         }
     },
-    
-    "hypnotoad" :
+
+    "extensions" :
     {
-        "listen"    : ["http://*:3233", "https://*:3244"],
-        "pid_file"  : "context.pid",
-        "lock_file" : "context.lock",
-        "log_file"  : "context.log",
-        "workers"   : "25",
-        "proxy"     : 1
+        "enabled" : ["example"],
+        
+        "example" :            
+        {
+            "key" : "value"
+        }
     }
 }
