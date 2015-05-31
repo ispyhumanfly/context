@@ -1,14 +1,12 @@
 { 
     "title"                 : "Context",
-    "description"           : "A Modern CMS",
+    "description"           : "A content management development framework.",
     "domain"                : "context.thoughtpivot.com",
     "temp"                  : "/tmp",
     "photos"                : "/tmp",
     "videos"                : "/tmp",
     "encoding"              : "UTF-8",
     "subtract_day_range"    : 190,
-    "add_day_range"         : 90,
-    "ad_content"            : "off",
     "stylesheet"            : "context.css",
 
     "hypnotoad" :
@@ -92,14 +90,14 @@
     
     "mapping" :
     {
-        "enabled" : ["articles", "events"],
+        "enabled" : ["articles", "files"],
         
         "articles" :            
         {
             "tags"  : ["people"],
             "url"   : "/articles"
         },
-        "events" :            
+        "files" :            
         {
             "tags"  : ["people"],
             "url"   : "/events"
@@ -109,53 +107,30 @@
     "modules" :
     {
         
-        "enabled" : ["ads", "events"],
+        "enabled" : ["dojo_toolkit", "loader", "tinymce", "view_list"],
 
-        "ads" :
+        "dojo_toolkit" :
         {
-            "enabled"   : "false"
+            "null"      : "none"
         },
-        "google_analytics" :
         
+        "tinymce" :
         {
-            "enabled"   : "true",
-            "account"   : "UA-31343777-1",
-            "domain"    : "thoughtpivot.com"
+            "theme"     : "modern"
         },
-        "facebook"  :
         
+        "loader" :
         {
-            "enabled"   : "true",
-            "appid"     : "111526485542517",
-            "domain"    : "thoughtpivot.com",
-            "link"      : "https://www.facebook.com/thoughtpivot"
-        },
-        "twitter"   :
-        
-        {
-            "enabled"   : "true",
-            "domain"    : "thoughtpivot.com",
-            "link"      : "https://twitter.com/thoughtpivot"
-        },
-        "share_this" :
-        {
-            "enabled"   : "true",
-            "publisher" : "094f9b3e-6c2e-4a55-9656-27e04d5b7cc7"
+            "speed"     : 400
         },
         "disqus" :
         {
-            "enabled"   : "true",
-            "shortname" : "bennumagazine"
+            "shortname" : "thoughtpivot"
         },
-        "tinymce" :
+        
+        "view_list" :
         {
-            "enabled"   : "true",
-            "theme"     : "modern"
-        },
-        "dojo_toolkit" :
-        {
-            "enabled"   : "true",
-            "null"      : "none"
+            "navigation" : "normal"
         }
     },
 

@@ -1,7 +1,7 @@
 
 #Context
 
-A Modern CMS
+A content management development framework.
 
 ## SYNOPSIS
 

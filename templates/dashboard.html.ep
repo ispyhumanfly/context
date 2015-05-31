@@ -1,0 +1,80 @@
+% title 'Dashboard';
+% layout 'context';
+%
+% my $new_content_length = 10;
+% my $max_content = 3;
+
+<script type="text/javascript">//<![CDATA[
+
+//]]></script>
+
+<div class=content_left>
+
+    % for (@{ app->config->{views}->{enabled} } ) {
+    
+	<h1><%= app->config->{views}->{$_}->{title} %></h1>
+	
+	% }
+
+</div>
+
+<div class=content_right>
+
+    <h1>New Content</h1>
+
+    <div class=content_right_padding>
+        
+        % my $new_content_counter;
+        
+        % for my $new_content (@{$self->{NEW_CONTENT}}) {
+        
+            % $new_content_counter++;
+            
+            % next if $new_content_counter > $new_content_length;
+        
+            % for ( split /\s+/, $new_content->photos ) {
+            
+            <a title="<%= $new_content->title %>" href="/<%= $new_content->id %>">
+                <img class="block_thumbnails_right" src="<%= $_ %>"/>
+            </a>
+            
+            % last;
+            
+        % }
+            
+		<div class="block_title">
+		
+		<a href="/<%= $new_content->id %>">
+		    <%= $new_content->title %>        
+		</a>
+		
+		</div>
+            
+		<div class="block_text">
+            
+			% if ($new_content->body ne '') {
+
+			%== substr( HTML::FormatText->format_string($new_content->body), 0, 100 )
+        
+			% }
+    
+		</div>
+        
+    <div class="read_more_left">
+    
+        <a href="/<%= $new_content->id %>">Read More |</a>
+        <a href="/editor?mode=update&id=<%= $new_content->id %>">Edit</a>        
+    
+    </div>
+    
+    % if ($new_content_counter < $new_content_length) {
+            
+    <hr />
+            
+    % }
+	
+	% }
+
+    </div>
+</div>
+

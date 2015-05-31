@@ -1,4 +1,4 @@
-% if (app->config->{modules}->{dojo_toolkit}->{enabled} eq 'true') {
+% ### Dojo Toolkit Module
 
 <script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script>
 
@@ -74,5 +74,3 @@
     }
     
 //]]></script>
-
-%}

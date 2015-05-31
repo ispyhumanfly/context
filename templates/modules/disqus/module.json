@@ -1,0 +1,10 @@
+{
+    "name"          : "Disqus",
+    "description"   : "The Disqus Module for Context",
+    
+    "config" : {
+        
+        "shortname" : "thoughtpivot",
+        "alignment" : "somewhere"
+    }
+}

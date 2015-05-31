@@ -1,0 +1,12 @@
+% ### Context Module Runtime
+
+% for (@{app->config->{modules}->{enabled}}) {    
+    % if (exists app->config->{modules}->{$module}) {
+        
+        % if ($_ eq $module) {
+        
+        %= include "modules/$module/module"
+        
+        % }
+    % }
+% }
