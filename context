@@ -40,7 +40,7 @@ any '/' => sub {
     return $self->redirect_to($redirect);
 };
 
-### Views
+### Content Views
 
 for my $view (@{app->config->{content}->{views}->{enabled}}) {
     if (exists app->config->{content}->{views}->{$view}) {
@@ -54,17 +54,12 @@ for my $view (@{app->config->{content}->{views}->{enabled}}) {
             my $tags = join ',',
               @{app->config->{content}->{views}->{$view}->{tags}};
 
-            my @content = $MODEL->resultset('Content')->search(
-                {tags => {like => '%$tags%'}},
-                {   order_by =>
-                      app->config->{content}->{views}->{$view}->{order_by}
-                }
-            )->all;
+            my @content = $MODEL->resultset('Content')->search(undef)->all;
 
             $self->{'CONTENT'} = \@content;
-            $self->{VIEW} = $view;
+            $self->{'VIEW'} = $view;
             
-            $self->render('content');
+            $self->render(app->config->{content}->{views}->{$self->{VIEW}}->{template});
         };
 
         post app->config->{content}->{views}->{$view}->{url} => sub {
@@ -150,28 +145,13 @@ get '/editor' => sub {
     my @recent_updates =
       $MODEL->resultset('Content')
       ->search(undef,
-        {page => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
+        {view => 1, rows => 25, order_by => 'modified_datetime DESC'})->all;
 
     $self->{'RECENT_UPDATES'} = \@recent_updates;
 
     return $self->render('editor');
 
 } => 'editor';
-
-### Extensions
-
-for my $extension (@{app->config->{extensions}->{enabled}}) {
-    if (exists app->config->{extensions}->{$extension}) {
-        
-        ## Extension
-
-        if (-e "templates/extensions/$extension") {
-
-            require "templates/extensions/$extension/$extension.pl"
-              if -e "templates/extensions/$extension/$extension.pl";
-        }
-    }
-}
 
 ### Permalink
 
@@ -318,7 +298,7 @@ post '/form/content/create' => sub {
 
     return $self->redirect_to('home') unless $self->session('admin');
 
-    my (@tags, @cities, @types, @interests, @views, @photos);
+    my (@tags, @cities, @types, @interests, @views, @objects);
 
     my $new_content =
       $MODEL->resultset('Content')
@@ -327,19 +307,19 @@ post '/form/content/create' => sub {
     if ($self->param('author')) {
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({author => encode_string($self->param('author'))});
+          ->update({author => process_text($self->param('author'))});
     }
 
     if ($self->param('title')) {
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({title => encode_string($self->param('title'))});
+          ->update({title => process_text($self->param('title'))});
     }
 
     if ($self->param('body')) {
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({body => encode_string($self->param('body'))});
+          ->update({body => process_text($self->param('body'))});
     }
 
     if ($self->param('tags')) {
@@ -350,18 +330,20 @@ post '/form/content/create' => sub {
           ->update({tags => "@tags"});
     }
 
-    if ($self->param('cities')) {
+    if ($self->req->upload('objects')) {
 
-        push @cities, $_ for $self->param('cities');
+        push @objects,
+          process_photo($self->req->upload('objects'), $new_content->id);
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({cities => "@cities"});
+          ->update({objects => "@objects"})
+          if scalar @objects >= 1;
     }
 
-    if ($self->param('link')) {
+    if ($self->param('venue')) {
 
         $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({link => $self->param('link')});
+          ->update({venue => process_text($self->param('venue'))});
     }
 
     if ($self->param('address')) {
@@ -379,23 +361,6 @@ post '/form/content/create' => sub {
               );
         }
     }
-
-    if ($self->param('venue')) {
-
-        $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({venue => encode_string($self->param('venue'))});
-    }
-
-    if ($self->req->upload('photos')) {
-
-        push @photos,
-          process_photo($self->req->upload('photos'), $new_content->id);
-
-        $MODEL->resultset('Content')->search({id => $new_content->id})
-          ->update({photos => "@photos"})
-          if scalar @photos >= 1;
-    }
-
 
     if (($self->param('start_date')) and ($self->param('start_time'))) {
 
@@ -418,13 +383,7 @@ post '/form/content/create' => sub {
     }
 
     my $id = $new_content->id;
-
-    my $text =
-
-      'Content successfully created.'
-      . "<a href='/$id'>Click here to view the Content page.</a>";
-
-    return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
+    return $self->redirect_to("/editor?mode=update&id=$id");
 };
 
 post '/form/content/update' => sub {
@@ -433,7 +392,7 @@ post '/form/content/update' => sub {
 
     return $self->redirect_to('home') unless $self->session('admin');
 
-    my (@tags, @photos);
+    my (@tags, @objects);
 
     my $id = $self->param('id');
 
@@ -441,29 +400,23 @@ post '/form/content/update' => sub {
 
     if ($self->param('author')) {
 
-        $content->update({author => encode_string($self->param('author'))});
+        $content->update({author => process_text($self->param('author'))});
     }
 
     if ($self->param('title')) {
 
-        $content->update({title => encode_string($self->param('title'))});
+        $content->update({title => process_text($self->param('title'))});
     }
 
     if ($self->param('body')) {
 
-        $content->update({body => encode_string($self->param('body'))});
+        $content->update({body => process_text($self->param('body'))});
     }
 
     if ($self->param('tags')) {
 
         push @tags, $_ for $self->param('tags');
         $content->update({tags => "@tags"});
-    }
-
-    if ($self->param('link')) {
-
-        $MODEL->resultset('Content')->search({id => $id})
-          ->update({link => $self->param('link')});
     }
 
     if ($self->param('address')) {
@@ -481,33 +434,28 @@ post '/form/content/update' => sub {
         }
     }
 
-    if ($self->param('venue')) {
+    if ($self->param('default_object')) {
 
-        $content->update({venue => encode_string($self->param('venue'))});
-    }
-
-    if ($self->param('default_photo')) {
-
-        @photos = split /\s+/, $content->photos;
+        @objects = split /\s+/, $content->objects;
 
         my $default = $self->param('default_photo');
 
-        for (my $i = 0; $i <= scalar @photos; $i++) {
+        for (my $i = 0; $i <= scalar @objects; $i++) {
 
-            undef $photos[$i] if $photos[$i] =~ m/^$default/i;
+            undef $objects[$i] if $objects[$i] =~ m/^$default/i;
         }
 
-        unshift @photos, $default;
+        unshift @objects, $default;
 
-        $content->update({photos => "@photos"});
+        $content->update({objects => "@objects"});
     }
 
-    if ($self->req->upload('photos')) {
+    if ($self->req->upload('objects')) {
 
-        push @photos, process_photo($self->req->upload('photos'), $id);
+        push @objects, process_photo($self->req->upload('objects'), $id);
 
-        $content->update({photos => "@photos"})
-          if scalar @photos >= 1;
+        $content->update({objects => "@objects"})
+          if scalar @objects >= 1;
     }
 
     $content->update({modified_datetime => DateTime->now});
@@ -528,12 +476,7 @@ post '/form/content/update' => sub {
         $content->update({stop_datetime => $stop_datetime});
     }
 
-    my $text =
-
-      'Content updated. '
-      . "<a href='/$id'>You can click here to view the Content page.</a>";
-
-    return $self->redirect_to("/editor?mode=update&id=$id&message=$text");
+    return $self->redirect_to("/editor?mode=update&id=$id");
 
 };
 
@@ -547,9 +490,9 @@ any '/form/content/remove' => sub {
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
 
-    my @content_photos = split /\s+/, $content->photos;
+    my @content_objects = split /\s+/, $content->objects;
 
-    unlink "public/$_" for @content_photos;
+    unlink "public/$_" for @content_objects;
 
     $content->delete;
 
@@ -558,41 +501,41 @@ any '/form/content/remove' => sub {
 
 };
 
-post '/form/photo/remove' => sub {
+post '/form/object/remove' => sub {
 
     my $self = shift;
 
-    return $self->redirect_to('home') unless $self->session('admin');
+    return $self->redirect_to('/') unless $self->session('admin');
 
-    my $photo_madness =
+    my $madness =
       $MODEL->resultset('Content')->search({id => $self->param('id')})
       ->single;
 
-    my @photos = split /\s+/, $photo_madness->photos;
+    my @objects = split /\s+/, $madness->objects;
 
     my $path = $self->param('photo');
 
-    for (my $i = 0; $i < scalar @photos; $i++) {
+    for (my $i = 0; $i < scalar @objects; $i++) {
 
-        if ($photos[$i] =~ m/^$path/x) {
+        if ($objects[$i] =~ m/^$path/x) {
 
-            undef $photos[$i] and unlink "public/$path";
+            undef $objects[$i] and unlink "public/$path";
         }
     }
 
     $MODEL->resultset('Content')->search({id => $self->param('id')})
-      ->update({photos => "@photos"})
-      if scalar @photos >= 1;
+      ->update({objects => "@objects"})
+      if scalar @objects >= 1;
 
 };
 
-### Context Tools
+### Context Functions
 
-sub process_photo {
+sub process_object {
 
     my ($upload, $id) = @_;
 
-    my (@new_photos, @existing_photos);
+    my (@new_objects, @existing_objects);
 
     if ($upload->filename =~ m/zip$/i) {
 
@@ -611,70 +554,35 @@ sub process_photo {
 
                 unless (-d "$temp/$_") {
 
-                    if ($_ =~ m/jpg|png|gif$/i) {
+                    if ($_ =~ m/jpg|png|gif|mp4|mp3|ogg|webm|json|xml|yaml$/i) {
 
                         my $checksum = Mojo::Util::md5_sum($_);
-                        my $path     = "/photos/$checksum.img";
+                        my $path     = "/objects/$checksum.object";
 
-                        move "$temp/$_", "public/$path"
-                          and push @new_photos, $path;
-
+                        move "$temp/$_", "public" .$path
+                          and push @new_objects, $path;
                     }
                 }
             }
 
-            return @new_photos;
+            return @new_objects;
         }
     }
-    elsif ($upload->filename =~ m/jpg|png|gif$/i) {
+    elsif ($upload->filename =~ m/jpg|png|gif|mp4|mp3|ogg|webm|json|xml|yaml$/i) {
 
         my $checksum = Mojo::Util::md5_sum($upload->filename);
-        my $path     = "/photos/$checksum.img";
+        my $path     = "/objects/$checksum.img";
 
         $upload->move_to('public' . $path);
 
-        push @new_photos, $path;
-        return @new_photos;
+        push @new_objects, $path;
+        return @new_objects;
     }
 
     return;
 }
 
-sub prepare_metadata {
-
-    my $md5 = shift;
-    my $json = Mojo::JSON->new;
-
-    unless (-e "metadata/$md5.json") {
-        
-        open my $metadata, ">metadata/$md5.json";
-        binmode $metadata, ':utf8';
-        
-        my $schema = $json->encode(app->config->{metadata});
-        
-        print $metadata $schema;
-        close $metadata;
-    }
-    
-    return;
-}
-
-sub google_local {
-
-    REST::Google::Search->service(LOCAL);
-
-    my $response = REST::Google::Search->new(q => shift);
-
-    if ($response->responseStatus == 200) {
-
-        my $data = $response->responseData;
-        return $data->results;
-    }
-
-    return;
-}
-
-sub encode_string {
+sub process_text {
 
     return Encode::encode(app->config->{encoding}, shift);
 }
@@ -700,8 +608,23 @@ sub order_by_trending {
     return \@results;
 }
 
+sub google_local {
+
+    REST::Google::Search->service(LOCAL);
+
+    my $response = REST::Google::Search->new(q => shift);
+
+    if ($response->responseStatus == 200) {
+
+        my $data = $response->responseData;
+        return $data->results;
+    }
+
+    return;
+}
+
+### Context HTTP Server
+
 app->log->path(app->config->{hypnotoad}->{log_file})
   if app->mode('production');
-
-#app->secret('Something sticky in the basement.');
 app->start();

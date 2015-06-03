@@ -1,0 +1,43 @@
+% title app->config->{content}->{views}->{$self->{VIEW}}->{title};
+% layout app->config->{content}->{layouts}->{enabled}[0];
+% my $text = HTML::FormatText->new();
+
+<div class=content_left>
+
+    <h1><%= app->config->{content}->{views}->{$self->{VIEW}}->{title} %></h1>
+
+    % for (@{$self->{CONTENT}}) {
+
+        % my $view = lcfirst(app->config->{content}->{views}->{$self->{VIEW}}->{title});
+        
+        % my $tags = app->config->{content}->{views}->{$view}->{tags}[0];
+        
+        % next unless $_->tags =~ m/$tags/g;
+        
+        <h2><%= $_->title %></h2>
+    
+        <p>
+            %== substr( $text->format_string($_->body), 0, 250 )
+            ...
+		</p>
+        
+        % if ($self->session('admin')) {
+        
+        <div class=read_more_left>
+			<a href="/editor?mode=update&id=<%== $_->id %>">Edit</a>        
+		</div>
+        
+        % }
+    % }
+
+</div>
+
+<div class=content_right>
+
+    <h1>Trending <%= app->config->{content}->{views}->{$self->{VIEW}}->{title} %></h1>
+
+    <div class=content_right_padding>
+
+    
+    </div>
+</div>

@@ -1,23 +1,12 @@
 { 
     "title"                 : "Context",
-    "description"           : "A content management development framework.",
+    "description"           : "A content management application framework.",
     "domain"                : "context.thoughtpivot.com",
     "temp"                  : "/tmp",
-    "photos"                : "/tmp",
-    "videos"                : "/tmp",
+    "objects"               : "/tmp",
     "encoding"              : "UTF-8",
     "subtract_day_range"    : 190,
     "stylesheet"            : "context.css",
-
-    "hypnotoad" :
-    {
-        "listen"    : ["http://*:3233", "https://*:3244"],
-        "pid_file"  : "/tmp/context.pid",
-        "lock_file" : "/tmp/context.lock",
-        "log_file"  : "/tmp/context.log",
-        "workers"   : "25",
-        "proxy"     : 1
-    },
     
     "authorization" :
     {
@@ -51,67 +40,65 @@
         "views" :            
         {
             
-            "enabled" : ["articles", "files", "photos", "videos"],
+            "enabled" : ["articles", "photos", "videos", "shop"],
             
             "articles" :
             {   
                 "title" : "Articles",
                 "url"   : "/articles",
-                "tags"  : ["article", "key=value"],
+                "tags"  : ["view=articles", "key=value"],
                 "order_by"  : "create_datetime ASC",
-                "template" : "content"
-            },
-            "files" :
-            {   
-                "title" : "Files",
-                "url"   : "/files",
-                "tags"  : ["file", "key=value"],
-                "order_by"  : "create_datetime ASC",
-                "template" : "content"
+                "template" : "views"
             },
             "photos" :
             {   
                 "title" : "Photos",
                 "url"   : "/photos",
-                "tags"  : ["photo", "key=value"],
+                "tags"  : ["view=photos", "key=value"],
                 "order_by"  : "create_datetime ASC",
-                "template" : "content"
+                "template" : "views"
             },
             "videos" :
             {   
                 "title" : "Videos",
                 "url"   : "/videos",
-                "tags"  : ["video", "key=value"],
+                "tags"  : ["view=videos", "key=value"],
                 "order_by"  : "create_datetime ASC",
-                "template" : "content"
+                "template" : "views"
+            },
+            "shop" :
+            {   
+                "title" : "Shop",
+                "url"   : "/shop",
+                "tags"  : ["view=shop", "key=value"],
+                "order_by"  : "create_datetime ASC",
+                "template" : "views"
             }
         }
     },
     
     "mapping" :
     {
-        "enabled" : ["articles", "files"],
+        "enabled" : ["articles"],
         
         "articles" :            
         {
-            "tags"  : ["people"],
+            "tags"  : ["view=articles"],
             "url"   : "/articles"
-        },
-        "files" :            
-        {
-            "tags"  : ["people"],
-            "url"   : "/events"
         }
     },
     
     "modules" :
     {
         
-        "enabled" : ["dojo_toolkit", "loader", "tinymce", "view_list"],
+        "enabled" : ["mojodojo", "loader", "tinymce", "menu"],
 
-        "dojo_toolkit" :
+        "mojodojo" :
+        
         {
-            "null"      : "none"
+            "dojo_toolkit"  : {
+                "version" : "1.9.1"
+            }
         },
         
         "tinymce" :
@@ -128,19 +115,19 @@
             "shortname" : "thoughtpivot"
         },
         
-        "view_list" :
+        "menu" :
         {
             "navigation" : "normal"
         }
     },
 
-    "extensions" :
+    "hypnotoad" :
     {
-        "enabled" : ["example"],
-        
-        "example" :            
-        {
-            "key" : "value"
-        }
+        "listen"    : ["http://*:3233", "https://*:3244"],
+        "pid_file"  : "/tmp/context.pid",
+        "lock_file" : "/tmp/context.lock",
+        "log_file"  : "/tmp/context.log",
+        "workers"   : "25",
+        "proxy"     : 1
     }
 }

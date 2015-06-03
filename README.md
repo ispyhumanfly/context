@@ -1,7 +1,7 @@
 
 #Context
 
-A content management development framework.
+A content management application framework.
 
 ## SYNOPSIS
 
@@ -20,6 +20,10 @@ DateTime::Format::SQLite DateTime::Format::ISO8601 HTML::FormatText
 REST::Google::Search Net::Google::FederatedLogin Mail::Sendmail
 Try::Tiny Archive::Extract Archive::Zip
 
+## JavaScript Libraries
+
+    tinmyce, dojo toolkit
+
 ## BUGS
 
 http://github.com/thoughtpivot/context/issues
@@ -30,4 +34,4 @@ http://github.com/thoughtpivot/context/wiki
 
 ## COPYRIGHT
 
-Context (c) 2013-2014 Thoughtpivot, LLC.
+Context (c) 2011-2015 Thoughtpivot, LLC.

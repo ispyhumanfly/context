@@ -154,14 +154,11 @@ button {
     
     background-color: white;
     margin-top: 50px;
-    padding-top: 5px;
+    padding-top: 25px;
     border-radius: 5px 15px 5px 5px;
     -moz-border-radius: 5px 15px 5px 5px;
     -webkit-border-radius: 5px 15px 5px 5px;
-    box-shadow: 1px 1px 50px 5px #66BBEE;
-
-    
-    
+    box-shadow: 1px 1px 50px 5px #66BBEE;    
 }
 
 #content_container {
@@ -1026,7 +1023,6 @@ font-family: 'Cousine', sans-serif;
     border-radius: 7px 25px 7px 7px;
     -moz-border-radius:7px 25px 7px 7px;
     -webkit-border-radius: 7px 25px 7px 7px;
-
 }
 
 #content_container .content_right .content_right_padding {

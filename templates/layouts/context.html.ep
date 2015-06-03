@@ -12,7 +12,7 @@
 		
 		<link rel="stylesheet" type="text/css" href="<%= app->config->{content}->{layouts}->{$layout}->{stylesheet} if exists app->config->{content}->{layouts}->{$layout} %> ">
 		
-		%= include "modules/runtime", module => 'dojo_toolkit'
+		%= include "modules/runtime", module => 'mojodojo'
 		
     </head>
 
@@ -24,7 +24,7 @@
 			
 			<h1><%= app->config->{title} %></h1>
 		
-			%= include "modules/runtime", module => 'view_list'
+			%= include "modules/runtime", module => 'menu'
 		
 		</div>
 	
@@ -48,7 +48,7 @@
 					<span class=logo>
 					<a href="http://thoughtpivot.com" target="_blank">Thoughtpivot</a>
 					</span>
-					<span class=text>Design.</span>
+					<span class=text>Inception.</span>
 				</div>
 			
 			</div>

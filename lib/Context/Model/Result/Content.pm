@@ -27,35 +27,42 @@ column title => {
 column body => {
 
     data_type => 'varchar',
-    size => 10000,
+    size => 100000,
     is_nullable => 1,
 };
 
 column tags => {
 
     data_type => 'varchar',
-    size => 10000,
+    size => 100000,
     is_nullable => 1,
 };
 
-column photos => {
+column objects => {
 
     data_type => 'varchar',
+    size => 1000000000000,
+    is_nullable => 1,
+};
+
+column sku => {
+
+    data_type => 'varchar',
+    size => 100,
+    is_nullable => 1,
+};
+
+column stock => {
+
+    data_type => 'int',
     size => 1000000,
     is_nullable => 1,
 };
 
-column videos => {
+column price => {
 
     data_type => 'varchar',
-    size => 1000000,
-    is_nullable => 1,
-};
-
-column files => {
-
-    data_type => 'varchar',
-    size => 1000000,
+    size => 50,
     is_nullable => 1,
 };
 
@@ -89,9 +96,8 @@ column stop_datetime => {
 column venue => {
 
     data_type => 'varchar',
-    size => 200,
+    size => 50,
     is_nullable => 1,
-
 };
 
 column address => {
@@ -112,13 +118,6 @@ column lng => {
 
     data_type => 'float',
     size => 50,
-    is_nullable => 1,
-};
-
-column link => {
-
-    data_type => 'varchar',
-    size => 1000,
     is_nullable => 1,
 };
 

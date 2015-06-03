@@ -1,10 +1,10 @@
-% ### Dojo Toolkit Module
+% ### Mojodojo User Interface Library
 
-<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojo/dojo.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/dojo/<%= app->config->{modules}->{mojodojo}->{dojo_toolkit}->{version} %>/dojo/dojo.js"></script>
 
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dijit/themes/nihilo/nihilo.css">
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/image/resources/Lightbox.css">
-<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.9.1/dojox/image/resources/image.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/<%= app->config->{modules}->{mojodojo}->{dojo_toolkit}->{version} %>/dijit/themes/nihilo/nihilo.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/<%= app->config->{modules}->{mojodojo}->{dojo_toolkit}->{version} %>/dojox/image/resources/Lightbox.css">
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/<%= app->config->{modules}->{mojodojo}->{dojo_toolkit}->{version} %>/dojox/image/resources/image.css">
 
 <script type="text/javascript">//<![CDATA[
 
@@ -72,5 +72,24 @@
     
         dojo.xhrPost({ url: '/api/analytics/clicks', postData: 'id=' + id + '' });    
     }
+
+    // Editor stuff...
     
+    function create_content () {
+    	
+		document.getElementById('content_form').submit();
+    }
+    
+    function remove_object (id, object) {
+	
+		dojo.xhrPost({ url: '/form/object/remove', postData: 'id=' + id + '&object=' + object + '' })
+		dojo.byId(object).innerHTML = "";
+    }
+    
+    function default_object (id, object) {
+	
+		dojo.xhrPost({ url: '/form/content/update', postData: 'id=' + id + '&default_object=' + object + '' })
+		dojo.byId(object).innerHTML = "";
+    }
+
 //]]></script>
