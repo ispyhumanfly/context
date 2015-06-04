@@ -29,7 +29,9 @@
 			
 				% next unless $_->tags =~ m/$tags/g;
 				
-				<h4><%== $_->title %></h4>
+				<h4>
+					<a href="/<%= $_->id %>"><%== $_->title %></a>
+				</h4>
 				
 				<p>
 					%== substr( $text->format_string($_->body), 0, 250 )
@@ -38,7 +40,7 @@
 				<div class=read_more_left>
 					<a href="/editor?mode=update&id=<%== $_->id %>">Edit</a>        
 				</div>
-			% }
+			% }	
 		% }
 	% }
 	
@@ -52,7 +54,9 @@
 	
 		% for (@{$self->{NEW_CONTENT}}) {
 			
-			<h4><%== $_->title %></h4>
+			<h4>
+				<a href="/<%= $_->id %>"><%== $_->title %></a>
+			</h4>
 			
 			<p>
 				%== substr( $text->format_string($_->body), 0, 150 )	

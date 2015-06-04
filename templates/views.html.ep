@@ -14,7 +14,9 @@
         
         % next unless $_->tags =~ m/$tags/g;
         
-        <h2><%= $_->title %></h2>
+        <h2>
+			<a href="/<%= $_->id %>"><%= $_->title %></a>
+		</h2>
     
         <p>
             %== substr( $text->format_string($_->body), 0, 250 )
@@ -34,7 +36,7 @@
 
 <div class=content_right>
 
-    <h1>Trending <%= app->config->{content}->{views}->{$self->{VIEW}}->{title} %></h1>
+    <h1>Trending Content</h1>
 
     <div class=content_right_padding>
 

@@ -24,19 +24,7 @@
     <form encType="multipart/form-data" action="/form/content/update?id=<%= $self->{CONTENT}->id %>" method="post" id="content_form">
 
     % }
-		
-		% if ( $self->param('mode') eq 'update' ) {
-	
-			% for ( split /\s+/, $self->{CONTENT}->objects ) {
-		
-			<img src="<%= $_ %>" class="para_image_left" />
-		
-			% last;
-			
-			% }
-		
-		% }
-		
+
 		<h2>Author</h2>
 		
 		% if ( $self->param('mode') eq 'create' ) {
@@ -65,11 +53,11 @@
 	
 		% if ( $self->param('mode') eq 'create' ) {
 		
-		<textarea id="content_editor" name="body"></textarea>
+		<textarea name=body></textarea>
 	
 		% } elsif ( $self->param('mode') eq 'update' ) {
 	
-		<textarea id="content_editor" name="body"><%= $self->{CONTENT}->body %></textarea>
+		<textarea name=body><%= $self->{CONTENT}->body %></textarea>
 		
 		% }
 		
@@ -95,7 +83,7 @@
 		
 			% } elsif ( $self->param('mode') eq 'update' ) {
 			
-			<a href="javascript:create_content()">Update |</a>
+			<a href="javascript:update_content()">Update |</a>
 			<a href="/form/content/remove?id=<%= $self->{CONTENT}->id %>">Remove |</a>
 			<a href="/<%= $self->{CONTENT}->id %>">Permalink Page</a>
 			

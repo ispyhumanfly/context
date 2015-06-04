@@ -153,16 +153,14 @@ get '/editor' => sub {
 
 } => 'editor';
 
-### Permalink
+### Context Permalink
 
 get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    my $content = '';
-
     eval {
-        $content =
+        $self->{CONTENT} =
           $MODEL->resultset('Content')->search({id => $self->param('id')})
           ->single;
     };
@@ -170,65 +168,12 @@ get '/:id' => [id => qr/\d+/] => sub {
     if ($@) {
         $self->redirect_to('/');
     }
+    
+    $self->render('permalink');
 
-    if (app->config->{permalink}->{enabled} eq 'true') {
+} => 'permalink';
 
-        for my $route (keys %{app->config->{permalink}->{routes}}) {
-
-            my $match = 0;
-
-            for my $type (
-                @{app->config->{permalink}->{routes}->{$route}->{types}})
-            {
-
-                $match = 0 unless $content->types =~ m/$type/g;
-                $match = 1 if $content->types =~ m/$type/g;
-            }
-
-            for my $tag (
-                @{app->config->{permalink}->{routes}->{$route}->{tags}})
-            {
-
-                $match = 0 unless $content->tags =~ m/$tag/g;
-                $match = 1 if $content->tags =~ m/$tag/g;
-            }
-
-            for my $city (
-                @{app->config->{permalink}->{routes}->{$route}->{cities}})
-            {
-
-                $match = 0 unless $content->cities =~ m/$city/g;
-                $match = 1 if $content->cities =~ m/$city/g;
-            }
-
-            for my $interest (
-                @{app->config->{permalink}->{routes}->{$route}->{interests}})
-            {
-
-                $match = 0 unless $content->interests =~ m/$interest/g;
-                $match = 1 if $content->interests =~ m/$interest/g;
-            }
-
-            for my $view (
-                @{app->config->{permalink}->{routes}->{$route}->{views}})
-            {
-
-                $match = 0 unless $content->views =~ m/$view/g;
-                $match = 1 if $content->views =~ m/$view/g;
-            }
-
-            my $redirect =
-              app->config->{permalink}->{routes}->{$route}->{redirect};
-
-            if ($match) {
-                $self->redirect_to($redirect . '?id=' . $content->id);
-            }
-        }
-    }
-
-} => 'content';
-
-### Authorization
+### Context Authorization
 
 get '/login' => sub {
 
@@ -290,7 +235,7 @@ get '/logout' => sub {
 
 } => 'logout';
 
-### Forms
+### Context Forms
 
 post '/form/content/create' => sub {
 

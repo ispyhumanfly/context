@@ -79,6 +79,11 @@
     	
 		document.getElementById('content_form').submit();
     }
+
+    function update_content () {
+    	
+		document.getElementById('content_form').submit();
+    }
     
     function remove_object (id, object) {
 	

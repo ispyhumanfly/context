@@ -1,12 +1,8 @@
 { 
     "title"                 : "Context",
     "description"           : "A content management application framework.",
-    "domain"                : "context.thoughtpivot.com",
-    "temp"                  : "/tmp",
-    "objects"               : "/tmp",
+    "address"               : "context.thoughtpivot.com",
     "encoding"              : "UTF-8",
-    "subtract_day_range"    : 190,
-    "stylesheet"            : "context.css",
     
     "authorization" :
     {
@@ -48,6 +44,7 @@
                 "url"   : "/articles",
                 "tags"  : ["view=articles", "key=value"],
                 "order_by"  : "create_datetime ASC",
+                "subtract_day_range"    : 190,
                 "template" : "views"
             },
             "photos" :
@@ -56,6 +53,7 @@
                 "url"   : "/photos",
                 "tags"  : ["view=photos", "key=value"],
                 "order_by"  : "create_datetime ASC",
+                "subtract_day_range"    : 190,
                 "template" : "views"
             },
             "videos" :
@@ -64,6 +62,7 @@
                 "url"   : "/videos",
                 "tags"  : ["view=videos", "key=value"],
                 "order_by"  : "create_datetime ASC",
+                "subtract_day_range"    : 190,
                 "template" : "views"
             },
             "shop" :
@@ -72,19 +71,9 @@
                 "url"   : "/shop",
                 "tags"  : ["view=shop", "key=value"],
                 "order_by"  : "create_datetime ASC",
+                "subtract_day_range"    : 190,
                 "template" : "views"
             }
-        }
-    },
-    
-    "mapping" :
-    {
-        "enabled" : ["articles"],
-        
-        "articles" :            
-        {
-            "tags"  : ["view=articles"],
-            "url"   : "/articles"
         }
     },
     
