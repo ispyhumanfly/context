@@ -113,9 +113,9 @@
     "hypnotoad" :
     {
         "listen"    : ["http://*:3233", "https://*:3244"],
-        "pid_file"  : "/tmp/context.pid",
-        "lock_file" : "/tmp/context.lock",
-        "log_file"  : "/tmp/context.log",
+        "pid_file"  : "context.pid",
+        "lock_file" : "context.lock",
+        "log_file"  : "context.log",
         "workers"   : "25",
         "proxy"     : 1
     }

@@ -2,6 +2,8 @@
 !.gitignore
 !.perltidyrc
 *~
+man
+inc
 log
 blib
 Makefile*
@@ -16,4 +18,5 @@ context.db
 context.log
 context.lock*
 context.pid
+.context.setup
 .DS_Store

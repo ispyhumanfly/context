@@ -1,12 +1,14 @@
 #!/usr/bin/env perl
 
+use lib 'lib/';
+use local::lib 'lib/perl5';
+
 BEGIN {
 
     system 'sqlite3 context.db < context.sql'
       unless -e 'context.db';
 }
 
-use Modern::Perl;
 use REST::Google::Search qw/ LOCAL /;
 use Net::Google::FederatedLogin;
 use DateTime::Format::SQLite;
@@ -19,12 +21,10 @@ use File::Basename;
 use Try::Tiny;
 use IO::Dir;
 use Encode;
-
-use lib 'lib';
-use Context::Model;
+use Context;
 
 our $MODEL =
-  Context::Model->connect('dbi:SQLite:context.db', {sqlite_unicode => 1});
+  Context->connect('dbi:SQLite:context.db', {sqlite_unicode => 1});
 
 use Mojolicious::Lite;
 use Mojo::Util;

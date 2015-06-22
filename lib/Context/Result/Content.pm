@@ -1,4 +1,6 @@
-package Context::Model::Result::Content;
+use local::lib 'lib/perl5';
+
+package Context::Result::Content;
 use DBIx::Class::Candy -components => ['InflateColumn::DateTime'];
 
 table 'content';

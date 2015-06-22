@@ -15,12 +15,12 @@ or for production...
 
 ## CPAN Modules
 
-Modern::Perl Mojolicious::Lite DBIx::Class::Candy SQL::Translator 
+Modern::Perl Module::Install Mojolicious::Lite DBIx::Class::Candy SQL::Translator 
 DateTime::Format::SQLite DateTime::Format::ISO8601 HTML::FormatText
 REST::Google::Search Net::Google::FederatedLogin Mail::Sendmail
 Try::Tiny Archive::Extract Archive::Zip
 
-## JavaScript Libraries
+## JavaScript Libraries 
 
     tinmyce, dojo toolkit
 
