@@ -10,7 +10,7 @@ BEGIN {
 }
 
 use REST::Google::Search qw/ LOCAL /;
-use Net::Google::FederatedLogin;
+#use Net::Google::FederatedLogin;
 use DateTime::Format::SQLite;
 use DateTime::Format::ISO8601;
 use HTML::FormatText;
