@@ -72,47 +72,14 @@
                 "tags"  : ["view=shop", "key=value"],
                 "order_by"  : "create_datetime ASC",
                 "subtract_day_range"    : 190,
-                "template" : "views"
+                "template" : "views/view"
             }
-        }
-    },
-    
-    "modules" :
-    {
-        
-        "enabled" : ["mojodojo", "loader", "tinymce", "menu"],
-
-        "mojodojo" :
-        
-        {
-            "dojo_toolkit"  : {
-                "version" : "1.9.1"
-            }
-        },
-        
-        "tinymce" :
-        {
-            "theme"     : "modern"
-        },
-        
-        "loader" :
-        {
-            "speed"     : 400
-        },
-        "disqus" :
-        {
-            "shortname" : "thoughtpivot"
-        },
-        
-        "menu" :
-        {
-            "navigation" : "normal"
         }
     },
 
     "hypnotoad" :
     {
-        "listen"    : ["http://*:3233", "https://*:3244"],
+        "listen"    : ["http://*:8080"],
         "pid_file"  : "context.pid",
         "lock_file" : "context.lock",
         "log_file"  : "context.log",

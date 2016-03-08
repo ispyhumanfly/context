@@ -9,7 +9,7 @@ use warnings;
 ### Ubuntu
 if (-e '/etc/os-release') {
 
-    system 'sudo apt-get install sqlite3 libxml2 libssl-dev libgmp-dev make automake gcc';
+    system 'sudo apt-get install sqlite3 libxml2 libssl-dev libgmp-dev make automake gcc liblocal-lib-perl';
 }
 
 ## Download CPAN Minus

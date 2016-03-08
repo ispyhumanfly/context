@@ -1,9 +1,0 @@
-{
-    "version"       : "0.0.1",
-    "name"          : "Mojodojo",
-    "description"   : "The Mojodojo JavaScript Engine for Context",
-    
-    "config"  : {
-        "key"   : "value"
-    }
-}
