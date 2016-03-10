@@ -9,19 +9,19 @@ use warnings;
 ### Ubuntu
 if (-e '/etc/os-release') {
 
-    system 'sudo apt-get install sqlite3 libxml2 libssl-dev libgmp-dev make automake gcc liblocal-lib-perl';
+    system 'sudo apt-get install redis-server redis-tools libxml2 libssl-dev libgmp-dev make automake gcc liblocal-lib-perl';
 }
 
 ## Download CPAN Minus
 
-system 'mkdir .context.setup ; cd .context.setup ; curl -L https://cpanmin.us/ -o cpanm ; chmod +x cpanm ; cd ..';
+system 'mkdir .context.install ; cd .context.install ; curl -L https://cpanmin.us/ -o cpanm ; chmod +x cpanm ; cd ..';
     
 ## Perl Modules
 
 my @modules =
 
     qw/
-    Modern::Perl DBIx::Class DBIx::Class::Candy DBIx::Class::TimeStamp REST::Google::Search
+    Modern::Perl Mojolicious::Plugin::Redis Redis Mojolicious::Plugin::ToolkitRenderer REST::Google::Search
     Net::Google::FederatedLogin DateTime::Format::SQLite DateTime::Format::ISO8601
     HTML::FormatText Archive::Extract Mail::Sendmail File::Copy File::Basename
     Try::Tiny IO::Dir Encode Mojolicious Mojolicious::Plugin::RenderFile
@@ -29,5 +29,5 @@ my @modules =
     Net::SSH::Perl Perl::Tidy Perl::Critic
     /;
 
-system "mkdir -p lib/perl5 ; .context.setup/cpanm --force -L lib/perl5 $_ ; sleep 1" for @modules;    
-system 'rm -rf .context.setup/' and exit(0);
+system "mkdir -p lib/perl5 ; .context.install/cpanm --force -L lib/perl5 $_ ; sleep 1" for @modules;    
+system 'rm -rf .context.install/' and exit(0);

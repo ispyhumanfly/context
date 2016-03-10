@@ -5,12 +5,11 @@ use local::lib 'lib/perl5';
 
 BEGIN {
 
-    system 'sqlite3 context.db < context.sql'
-      unless -e 'context.db';
+    
 }
 
 use REST::Google::Search qw/ LOCAL /;
-#use Net::Google::FederatedLogin;
+use Net::Google::FederatedLogin;
 use DateTime::Format::SQLite;
 use DateTime::Format::ISO8601;
 use HTML::FormatText;
@@ -21,12 +20,13 @@ use File::Basename;
 use Try::Tiny;
 use IO::Dir;
 use Encode;
-use Context;
+use Redis;
 
-our $MODEL =
-  Context->connect('dbi:SQLite:context.db', {sqlite_unicode => 1});
+#our $MODEL =
+#  Context->connect('dbi:SQLite:context.db', {sqlite_unicode => 1});
 
 use Mojolicious::Lite;
+use Mojolicious::Plugin::Redis;
 use Mojo::Util;
 use Mojo::JSON;
 
@@ -51,15 +51,15 @@ for my $view (@{app->config->{content}->{views}->{enabled}}) {
 
             my $self = shift;
 
-            my $tags = join ',',
-              @{app->config->{content}->{views}->{$view}->{tags}};
+            #my $tags = join ',',
+            #  @{app->config->{content}->{views}->{$view}->{tags}};
 
-            my @content = $MODEL->resultset('Content')->search(undef)->all;
+            #my @content = $MODEL->resultset('Content')->search(undef)->all;
 
-            $self->{'CONTENT'} = \@content;
-            $self->{'VIEW'} = $view;
+            #$self->{'CONTENT'} = \@content;
+            #$self->{'VIEW'} = $view;
             
-            $self->render(app->config->{content}->{views}->{$self->{VIEW}}->{template});
+            #$self->render(app->config->{content}->{views}->{$self->{VIEW}}->{template});
         };
 
         post app->config->{content}->{views}->{$view}->{url} => sub {
@@ -82,15 +82,15 @@ get '/:id' => [id => qr/\d+/] => sub {
 
     my $self = shift;
 
-    eval {
-        $self->{CONTENT} =
-          $MODEL->resultset('Content')->search({id => $self->param('id')})
-          ->single;
-    };
-
-    if ($@) {
-        $self->redirect_to('/');
-    }
+    #eval {
+    #    $self->{CONTENT} =
+    #      $MODEL->resultset('Content')->search({id => $self->param('id')})
+    #      ->single;
+    #};
+    #
+    #if ($@) {
+    #    $self->redirect_to('/');
+    #}
     
     $self->render('permalink');
 
