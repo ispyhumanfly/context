@@ -5,6 +5,7 @@
 *~
 man
 inc
+bin
 log
 blib
 Makefile*
