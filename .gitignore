@@ -1,3 +1,4 @@
+.c9
 .*
 !.gitignore
 !.perltidyrc
@@ -20,3 +21,6 @@ context.lock*
 context.pid
 .context.setup
 .DS_Store
+lib/perl5
+lib/perl6
+

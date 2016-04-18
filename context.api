@@ -1,0 +1,76 @@
+#!/usr/bin/env perl
+
+BEGIN {
+
+    system 'sqlite3 context.db < context.sql'
+      unless -e 'context.db';
+}
+
+use lib 'lib/';
+use local::lib 'lib/perl5';
+
+use Mojolicious::Lite;
+use Mojo::Util;
+use Mojo::JSON;
+
+plugin 'JSONConfig' => {file => 'context.config'};
+
+any '/' => sub {
+
+    my $self = shift;
+    
+    my $redirect = app->config->{content}->{views}->{app->config->{content}->{views}->{enabled}[0]}->{url};
+    return $self->redirect_to($redirect);
+};
+
+### Context Views
+
+my $index = 0;
+
+for my $view (@{app->config->{content}->{views}->{enabled}}) {
+    if (exists app->config->{content}->{views}->{$view}) {
+
+        ## Views
+        
+        get app->config->{content}->{views}->{$view}->{url} => sub {
+            my $self = shift;
+            
+            #$self->db->SELECT($index);
+            #$self->db->PING();
+            #$self->render( json => {} );
+        };
+
+        post app->config->{content}->{views}->{$view}->{url} => sub {
+            my $self = shift;
+
+            #$self->db->SELECT($index);
+            #$self->db->PING();
+        };
+
+        put app->config->{content}->{views}->{$view}->{url} => sub {
+            my $self = shift;
+
+            #$self->db->SELECT($index);
+            #$self->db->PING();
+        };
+
+        del app->config->{content}->{views}->{$view}->{url} => sub {
+            my $self = shift;
+
+            #$self->db->SELECT($index);
+            #$self->db->PING();
+        };
+        
+    $index++;
+    
+    }
+}
+
+### Context Start
+
+sub startup {
+  
+  my $self = shift;
+}
+
+app->start();

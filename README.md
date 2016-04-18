@@ -34,4 +34,4 @@ http://github.com/thoughtpivot/context/wiki
 
 ## COPYRIGHT
 
-Context (c) 2011-2015 Thoughtpivot, LLC.
+Context (c) Thoughtpivot, LLC.
