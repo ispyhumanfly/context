@@ -1,7 +1,7 @@
 
-#Context
+# Context
 
-A content management application framework.
+Cloud application framework.
 
 ## SYNOPSIS
 

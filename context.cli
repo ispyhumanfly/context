@@ -28,10 +28,8 @@ sub run {
     
     my $self = shift;
     
-    #my $context = Context->new;
-
     # views
-    system "perl context.api routes | egrep " . $.view  . "" if $.view;
+    system "perl context.server routes | egrep " . $.view  . "" if $.view;
 
 }
 
