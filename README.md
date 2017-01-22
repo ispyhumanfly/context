@@ -1,7 +1,7 @@
 
 # Context
 
-Cloud application framework.
+A non-blocking, language agnostic, view engine for modern web applications.
 
 ## SYNOPSIS
 
