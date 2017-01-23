@@ -1,7 +1,7 @@
 
 # Context
 
-A non-blocking, language agnostic, view engine for modern web applications.
+A language agnostic view engine for modern web and mobile applications. 
 
 ## SYNOPSIS
 
