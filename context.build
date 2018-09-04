@@ -78,13 +78,10 @@ my @modules =
         Data::Dumper
         Try::Tiny
         IO::Socket::SSL
-        Rex::Task
         Perl6::Attributes
         namespace::clean
         Moo
         MooX::Options
-        Perl::Critic
-        Perl::Tidy
         DBIx::Class
         DBIx::Class::Candy
         DateTime
