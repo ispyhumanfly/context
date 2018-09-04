@@ -1,7 +1,7 @@
 
 # Context
 
-A language agnostic view engine for modern web and mobile applications. 
+A blazing fast content platform for modern applications.
 
 ## SYNOPSIS
 
@@ -12,18 +12,6 @@ for development...
 or for production...
 
     hypnotoad context
-
-## CPAN Modules
-
-Modern::Perl Module::Install Mojolicious::Lite DBIx::Class::Candy SQL::Translator 
-DateTime::Format::SQLite DateTime::Format::ISO8601 HTML::FormatText
-REST::Google::Search Net::Google::FederatedLogin Mail::Sendmail
-Try::Tiny Archive::Extract Archive::Zip
-
-## JavaScript Libraries 
-
-    tinmyce, dojo toolkit
-
 ## BUGS
 
 http://github.com/thoughtpivot/context/issues

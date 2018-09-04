@@ -2,12 +2,18 @@
 
 BEGIN {
 
-    system 'sqlite3 context.db < context.sql'
-      unless -e 'context.db';
-}
+    die 'You must set the CONTEXT_ROOT variable before starting Context.'
+      and exit 1 unless exists $ENV{CONTEXT_ROOT};
+};
 
-use lib 'lib/';
-use local::lib 'lib/perl5';
+use 5.018_000;
+use strict;
+use warnings;
+
+our $ROOT = $ENV{CONTEXT_ROOT};
+chdir $ROOT;
+
+use local::lib $ENV{CONTEXT_ROOT};
 
 use Mojolicious::Lite;
 use Mojo::Util;

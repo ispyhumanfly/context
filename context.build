@@ -1,24 +1,48 @@
 #!/usr/bin/env perl
 
+BEGIN {
+
+    die  'You must set the CONTEXT_ROOT variable before starting Context.'
+      and exit 1 unless exists $ENV{CONTEXT_ROOT};
+};
+
 use 5.018_000;
 use strict;
 use warnings;
 
-BEGIN {
-
-    die "You must set the CONTEXT_ROOT variable before instantiating Context.pm"
-      unless exists $ENV{CONTEXT_ROOT};
-}
-
 our $ROOT = $ENV{CONTEXT_ROOT};
 chdir $ROOT;
 
+use local::lib $ENV{CONTEXT_ROOT};
+
 # Build Context
 
-## Linux Packages
+## macOS Packages
+
+if (`uname` =~ m/Darwin/g) {
+
+    say "\nInstalling macOS Packages...";
+    
+    my @bottles = 
+    qw/
+        make
+        automake
+        gcc
+        cpanminus
+        openssl
+        unzip
+        git
+        sqlite3 
+    /;
+
+    system "brew install @bottles";
+    system "brew link @bottles";
+}
+
+## Ubuntu Linux Packages
 if (-e '/etc/os-release') {
 
-    say "\nInstalling Linux Packages...\n";
+    say "\nInstalling Ubuntu Linux Packages...\n";
 
     my @packages =
         
@@ -69,17 +93,6 @@ my @modules =
     /;
 
 system "cd $ROOT ; cpanm --force -L . $_" for @modules;
-
-## Perl 6
-
-say "\nBuilding Perl 6...\n";
-
-system "cd /tmp ; wget http://rakudo.org/downloads/star/rakudo-star-2015.09.tar.gz";
-system "cd $ROOT/lib/ ; tar -xvf /tmp/rakudo-star-2015.09.tar.gz ; mv rakudo-star-2015.09 perl6/";
-system "cd $ROOT/lib/perl6/ ; perl Configure.pl --backends=moar --gen-moar ; make ; make install";
-
-symlink "$ROOT/lib/perl6/perl6","$ROOT/bin/perl6";
-symlink "$ROOT/lib/perl6/modules/panda/bin/panda","$ROOT/bin/panda";
 
 say "\nContext is now ready for use!\n";
 
