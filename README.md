@@ -1,7 +1,7 @@
 
 # Context
 
-A blazing fast content platform for modern applications.
+A blazing fast content publishing platform for modern magazines.
 
 ## SYNOPSIS
 
@@ -14,12 +14,12 @@ or for production...
     hypnotoad context
 ## BUGS
 
-http://github.com/thoughtpivot/context/issues
+http://github.com/ispyhumanfly/context/issues
 
 ## SEE ALSO
 
-http://github.com/thoughtpivot/context/wiki
+http://github.com/ispyhumanfly/context/wiki
 
-## COPYRIGHT
+## LICENSE
 
-Context (c) Thoughtpivot, LLC.
+MIT
